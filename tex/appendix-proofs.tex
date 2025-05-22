@@ -85,9 +85,10 @@ $f_{a}(y|a_{0})>0$ and
 \end{proof}
 
 The lemma implies that the family of canonical contracts that satisfy (\ref{LIC_relaxed}) is a one-dimensional family indexed by $\lambda$. Define
-\[
+\begin{equation}
+    \label{eq:tildeV-definition}
     \tilde V (y | \lambda) := V(y | \lambda, \tilde \mu(\lambda))
-\]
+\end{equation}
 
 Define the \textbf{relaxed Pareto problem} as finding $v$ in $\mathcal C$ to
 \begin{align}
@@ -154,21 +155,21 @@ Let $\bar U _ L : = \tilde U (0)$ and $\bar U _ R := \lim _ {\lambda \rightarrow
 
 \textbf{Part 1.}
 
-$\bar{U}_R$ equals $u(\infty) - c(a_0)$, so the relaxed problem is not feasible for $\bar{U} \geq \bar{U}_R$, as desired.
+The definition of $\bar U _ R$ implies that the relaxed problem is not feasible for $\bar{U} \geq \bar{U}_R$, as desired.
 
 \textbf{Part 2.}
 
 Let $\lambda ^*(\bar U)$ be $0$ if $\bar U \leq \bar U _L$ and be the inverse of $\tilde U$ for $\bar U _L < \bar U < \bar U _R$. Lemma \ref{u-tilde-increasing} implies that $\lambda^*$ is well defined and that $\lambda^*(\bar U) \geq 0$.
 
-Let $\mu ^* (\lambda) := \tilde \mu (\lambda ^* (\bar U))$. Lemma \ref{lem:mu-tilde} implies that $\mu^*(\bar U) > 0$. Let $v^*(y | \bar U) := \tilde V (y | \lambda ^* (\bar U))$. Note that this coincides with the definition of $v^*$ in the proposition statement.
+Let $\mu ^* (\bar U) := \tilde \mu (\lambda ^* (\bar U))$. Lemma \ref{lem:mu-tilde} implies that $\mu^*(\bar U) > 0$. Let $v^*(y | \bar U) := \tilde V (y | \lambda ^* (\bar U))$. Note that this coincides with the definition of $v^*$ in the proposition statement.
 
-Lemma \ref{lem:pareto-problem} implies that $v^*(y | \bar U)$ solves the Pareto problem given $\lambda^*(\bar U)$. This implies that $v^*(y | \bar U)$ also solves the relaxed cost minimization problem. Likewise, \ref{lem:pareto-problem} implies that the solution is unique almost everywhere.
+Lemma \ref{lem:pareto-problem} implies that $v^*(y | \bar U)$ solves the Pareto problem given $\lambda^*(\bar U)$. This implies that $v^*(y | \bar U)$ also solves the relaxed cost minimization problem given $\bar U$. Likewise, \ref{lem:pareto-problem} implies that the solution is unique almost everywhere.
 
-\textbf{Part 3.}
+\textbf{Part 3, nonbinding individual rationality case.}
 
 This follows from the definition of $\lambda^*(\bar U)$ which equals $0$ in this range.
 
-\textbf{Part 4.}
+\textbf{Part 3, binding individual rationality case.}
 $\lambda ^*$ strictly increasing follows from lemma $\ref{u-tilde-increasing}$ and the strict convexity of $\omega$ follows from $v^*(\cdot | \lambda)$ being different for each value of $\lambda$ and from $k$ being strictly convex.
     
 \end{proof}
@@ -176,9 +177,9 @@ $\lambda ^*$ strictly increasing follows from lemma $\ref{u-tilde-increasing}$ a
  \subsection{Proof of Proposition \ref{prop:concave}}
  \label{subsec:proof-derivs}  
 
- This section demonstrates that the second derivative of agent's utility is negative for sufficiently high reservation utility. The bulk of the section is spent demonstrating the same result for $\lambda$ sufficiently high, and the main result follows as an immediate corollary. Throughout this section, we use the $\tilde V (y | \lambda)$ notation because we are focused on the agent's problem as $\lambda$ becomes large. Although $\mu$ is a function of $\lambda$ (Lemma \ref{lem:mu-tilde}) we abuse notation by omitting $\mu$'s dependence on $\lambda$ and using $\tilde{\mu}$ to denote $\tilde{\mu}(\lambda)$. 
+ This section demonstrates that the second derivative of agent's utility is negative for sufficiently high reservation utility. The bulk of the section is spent demonstrating the same result for $\lambda$ sufficiently high, and the main result follows as an immediate corollary. Throughout this section, we use the $\tilde V (y | \lambda)$ notation defined in equation (\ref{eq:tildeV-definition}) because we are focused on the agent's problem as $\lambda$ becomes large. Although $\tilde \mu(\lambda)$ is a function of $\lambda$ (Lemma \ref{lem:mu-tilde}) we abuse notation by omitting dependence on $\lambda$ and writing $\tilde{\mu}$ to denote $\tilde{\mu}(\lambda)$. 
 
- The section proceeds as follows. Lemmas \ref{lem:v_derivs} and \ref{lem:second-derivative} derive a convenient formula for the second derivative of agent's utility with respect to effort. Lemma \ref{lem:threshold-outcome} shows that the agent's probability of receiving payment approaches 1 as $\lambda$ approaches infinity. Lemma \ref{lem:inf_lambda_second_deriv} shows that the second derivative of agent's utility is negative for $\lambda$ sufficiently high. We then use these lemmas to prove the main result. Finally, we prove a few minor lemmas which we used in the proofs of the major lemmas. 
+ The section proceeds as follows. Lemmas \ref{lem:v_derivs} and \ref{lem:second-derivative} derive a convenient formula for the second derivative of agent's utility with respect to effort. Lemma \ref{lem:threshold-outcome} shows that the agent's probability of receiving payment approaches 1 as $\lambda$ approaches infinity. Lemma \ref{lem:inf_lambda_second_deriv} shows that the second derivative of agent's utility is negative for $\lambda$ sufficiently high. We then use these lemmas to prove the main result.
 
 We begin with an equation for the general form of agent's utility and its derivatives for an arbitrary contract. 
 \begin{lemma} 
@@ -192,7 +193,7 @@ We begin with an equation for the general form of agent's utility and its deriva
 \end{lemma} 
 
 \begin{proof}
-The expression for $U(v,a)$ is just the definition. 
+The expression for $U(v,a)$ is the definition. 
 Differentiating $U(v,a)$ with respect to $a$ yields 
 \[
 U_a(v,a) = \int v f_a(v|a) \, dv - c'(a).
@@ -251,7 +252,13 @@ We now demonstrate that for $\lambda$ sufficiently large the agent receives a st
 \begin{definition}
     \label{def:threshold-score}
      The \textbf{threshold score}, $\ubar{S}(\lambda)$, is the maximum score such that the agent receives no payment. It is the score that solves 
-    $$ \ubar{S}(\lambda) = \frac{1}{\tilde{\mu} u'(0)} - \frac{\lambda}{\tilde{\mu}} \text{.} $$  
+    \[
+    \lambda + \tilde \mu \ubar{S}(\lambda) = \frac{1}{u'(0)} \text{,}
+    \]
+    or, equivalently,
+    \[
+    \ubar{S}(\lambda) := \frac{1}{\tilde{\mu} u'(0)} - \frac{\lambda}{\tilde{\mu}} \text{.}
+    \]  
     The threshold score is well defined because $\tilde{\mu} > 0$ by Lemma \ref{lem:mu-tilde}.
 \end{definition}
 
@@ -397,6 +404,3 @@ By Lemma \ref{lem:second-derivative},
 \begin{proof}
     Lemma \ref{lem:threshold-outcome} and assumption \ref{assump:regularity_S}.3 imply that $\ubar S (\lambda) \rightarrow -\infty$. The result follows from the definition of $\ubar S (\lambda)$.  
 \end{proof}
-
-\subsection{Proof of Theorem \ref{thm:main}}
-Parts (1) and (2) follow from Proposition \ref{prop:relaxed-optimal-contract}. Part (3) follows from Proposition \ref{prop:concave}. For any $\bar U \geq U ^*$ we have that $v^*(\bar U)$ is concave, and thus is a solution to the cost minimization problem. Any other solution also solves the relaxed cost minimization problem, so equals $v^*(\bar U)$ almost everywhere.
