@@ -1,22 +1,29 @@
 {
-  "latex-workshop.latex.outDir": "./pdf/",
+  "latex-workshop.latex.outDir": "./pdf",
   "latex-workshop.latex.tools": [
     {
-      "name": "xelatex",
-      "command": "xelatex",
+      "name": "latexmk",
+      "command": "latexmk",
       "args": [
+        "-pdf",
         "-synctex=1",
         "-interaction=nonstopmode",
         "-file-line-error",
-        "-output-directory=./pdf",
-        "%DOCFILE%"
+        "-output-directory=pdf",
+        "%DOC%"
       ]
     }
   ],
   "latex-workshop.latex.recipes": [
     {
-      "name": "xelatex",
-      "tools": ["xelatex"]
+      "name": "latexmk (to pdf/)",
+      "tools": ["latexmk"]
     }
+  ],
+  "latex-workshop.view.pdf.viewer": "tab",
+  "latex-workshop.latex.autoBuild.run": "onSave",
+  "latex-workshop.latex.clean.fileTypes": [
+    "*.aux", "*.bbl", "*.bcf", "*.blg", "*.fdb_latexmk", "*.fls",
+    "*.log", "*.out", "*.run.xml", "*.synctex.gz", "*.toc"
   ]
 }
