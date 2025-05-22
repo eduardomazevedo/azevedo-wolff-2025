@@ -1,0 +1,399 @@
+\subsection{Solution of the Relaxed Problem} 
+
+Throughout this subsection, fix a reservation utility $\bar U$ and regular intended action $a_0$. The relaxed problem only has a solution if $U(v, a)$ can be differentiated under the integral sign, so we begin by showing that differentiation under the integral at any action is possible for any feasible contract.
+
+\begin{remark} 
+    \label{rem:leibniz}
+    Let $v$ be a feasible contract. Then, for all $a$ in $\mathbb{R}_{+}$, $U_{a}(v,a)$ exists, is finite, and
+    \[
+        U_{a}(v,a)=\int v(y)f_{a}(y|a)\,dy\text{.}
+    \]
+\end{remark} 
+
+\begin{proof}
+    The conditions for Leibniz's rule to hold are in Assumption \ref{assump:leibniz}.2.    
+\end{proof} 
+
+ We now derive some intermediate results to establish proposition \ref{prop:relaxed-optimal-contract}. Recall the definition of the Lagrangian from equation (\ref{eq:lagrangian}) and definition \ref{def:canonical-contract} of a canonical contract.
+
+Note that canonical contracts uniquely minimize the Lagrangian:
+\begin{lemma}
+    \label{lem:lagrangian}
+    Given $\lambda$ and $\mu$ in $\mathbb R$, there exists $v$ that minimizes the Lagrangian $\mathcal{L}(v, \lambda, \mu)$ among all feasible contracts. $v$ is $f(\cdot | a_0)$ almost everywhere equal to the canonical contract $V(y, \lambda, \mu)$.
+\end{lemma}
+
+\begin{proof}
+The Lagrangian in equation (\ref{eq:lagrangian}) can be written as
+\[
+    \mathcal{L}(v, \lambda, \mu)
+    =
+    \int [k(v(y)) - \lambda v(y) - \mu v(y)S(y|a_0)]f(y|a_0)\, dy + \bar U
+    \text{.}
+\]
+
+Differentiating the integrand with respect to $v(y)$ yields
+\[
+[k'(v(y)) - \lambda - \mu S(y|a_0)]f(y|a_0)
+\]
+
+and this is strictly convex in $v(y)$. Therefore, the integrand is minimized pointwise in $v(y)$ at $v(y) = V(y | \lambda, \mu)$. Hence, the infimum is attained, and any minimizer satisfies the desired formula $f(y | a_0)$ almost everywhere.
+
+It only remains to show that $V(y | \lambda, \mu)$ is feasible. This follows from assumption \ref{assump:leibniz} Part 4.
+\end{proof}
+
+We now note that, given $\lambda$ there is a unique value of $\mu$ that solves the local IC constraint.
+
+\begin{lemma}
+    \label{lem:mu-tilde}
+    Given $\lambda$ in $\mathbb R$, there exists a unique $\tilde \mu(\lambda)$ such that the canonical contract $V(y|\lambda, \tilde \mu(\lambda))$ satisfies the local IC constraint (\ref{LIC_relaxed}). Moreover, $\tilde \mu(\lambda) > 0$.
+\end{lemma}
+
+\begin{proof}
+We have
+\[
+U_{a}(v)=\int v(y)f_{a}(y|a_{0})\,dy\text{.}
+\]
+If $\mu=0$, then $v(y)$ is constant, so
+\[
+    U_{a}(V(\cdot|\lambda,0,a_{0}))-c'(a_{0})<0\text{.}
+\]
+
+As $\mu\rightarrow\infty$, $V(y|\lambda,\mu,a_{0})$ converges pointwise to $u(\infty)$ if $S(y|a_0) > 0$ and to $u(0)$ if $S(y|a_0) < 0)$. Hence, because $a_0$ is regular, for large enough $\mu$,
+\[
+    U_{a}(V(\cdot|\lambda,\mu,a_{0}))-c'(a_{0})>0\text{.}
+\]
+
+Therefore, there exists at least one $\mu_{1}>0$ such that
+\[
+    U_{a}(V(\cdot|\lambda,\mu_{1},a_{0}))-c'(a_{0})=0\text{.}
+\]
+
+It only remains to prove that this solution $\mu_{1}$ is unique. To see this, note
+that
+\[
+    U_{a}(V(\cdot|\lambda,\mu_{1},a_{0}))
+\]
+is weakly increasing in $\mu$. And, moreover, it is strictly increasing
+at any solution $\mu_{1}$ because $c'(a_0) > 0$ implies that there is a positive measure of $y$ such that
+$f_{a}(y|a_{0})>0$ and
+\[
+\lambda+\mu_{1}\frac{f_{a}(y|a_{0})}{f(y|a_{0})}>\frac{1}{u'(0)}\text{.}
+    \]
+\end{proof}
+
+The lemma implies that the family of canonical contracts that satisfy (\ref{LIC_relaxed}) is a one-dimensional family indexed by $\lambda$. Define
+\[
+    \tilde V (y | \lambda) := V(y | \lambda, \tilde \mu(\lambda))
+\]
+
+Define the \textbf{relaxed Pareto problem} as finding $v$ in $\mathcal C$ to
+\begin{align}
+    \text{minimize} \quad & W(v) - \lambda U(v) \nonumber \\
+    \text{subject to} \quad & \partial _a U(v, a_0) = 0 \tag{LIC}
+\end{align}
+
+The next lemma shows that the contracts $\tilde V (y|\lambda)$ span the solutions to the Pareto problem:
+
+\begin{lemma}
+    \label{lem:pareto-problem}
+    Given $\lambda$ in $\mathbb R$, the relaxed Pareto problem has a solution, and any solution is $f(y|a_0)$ almost everywhere equal to $\tilde V (y | \lambda)$.
+\end{lemma}
+\begin{proof}
+For any $v$ satisfying (\ref{LIC_relaxed}),
+\[
+W(v) - \lambda U(v)
+=
+\mathcal{L}(v, \lambda, \tilde \mu(\lambda)) - \lambda \bar U
+\text{.}
+\]
+
+Lemma \ref{lem:lagrangian} then implies that $W(v) - \lambda(v)$ is minimized over $\mathcal C$ by $\tilde V (y | \lambda)$, and that this solution is almost-everywhere unique. This contract satisfies (\ref{LIC_relaxed}) by the definition of $\tilde \mu(\lambda)$.
+\end{proof}
+
+Define the expected wage and utility attained by these contracts as
+\[
+\begin{array}{rcl}
+\tilde U (\lambda) & := & U(\tilde V(\cdot | \lambda), a_0) \text{,} \\
+\tilde W (\lambda) & := & W(\tilde V(\cdot | \lambda), a_0) \text{.}
+\end{array}
+\]
+
+\begin{lemma}
+    \label{u-tilde-increasing}
+    $\tilde U (\lambda)$ is strictly increasing.
+\end{lemma}
+
+\begin{proof}
+Consider $\lambda _1 < \lambda _2$ with optima $v_1 := \tilde V (\cdot | \lambda_1)$ and $v_2 := \tilde V (\cdot | \lambda_2)$. By optimality,
+\[
+W(v_1) - \lambda_1 U(v_1) \leq W(v_2) - \lambda_1 U(v_2)
+\text{,}
+\]
+and
+\[
+W(v_2) - \lambda_2 U(v_2) \leq W(v_1) - \lambda_2 U(v_1)
+\text{.}
+\]
+
+Adding the inequalities,
+\[
+(\lambda_2 - \lambda_1) \cdot \left(\tilde U (\lambda _2) - \tilde U (\lambda _ 1) \right) \geq 0
+\text{.}
+\]
+
+Therefore, $\tilde U$ is non-decreasing. It only remains to show that $\tilde U$ is strictly increasing. To reach a contradiction, assume that $\tilde U(\lambda _ 2) = \tilde U (\lambda _ 1)$. Optimality implies that $\tilde W (\lambda _1) = \tilde W (\lambda _2)$.  Let $\bar \lambda = (\lambda_1 + \lambda_2) / 2$. We have $\tilde U (\bar \lambda) = \tilde U(\lambda _ 1)$. By our assumptions on the score, $v_1$ and $v_2$ differ in a set of positive measure. By strict convexity of $k$, it follows that $\tilde W (\bar \lambda) < \tilde W (\lambda _ 1)$. This contradicts the optimality of $v_1$.
+\end{proof}
+
+The proof of proposition \ref{prop:relaxed-optimal-contract} follows from collecting these results.
+
+\begin{proof}[Proof of Proposition \ref{prop:relaxed-optimal-contract}]
+Let $\bar U _ L : = \tilde U (0)$ and $\bar U _ R := \lim _ {\lambda \rightarrow \infty} \tilde U (\lambda)$.
+
+\textbf{Part 1.}
+
+$\bar{U}_R$ equals $u(\infty) - c(a_0)$, so the relaxed problem is not feasible for $\bar{U} \geq \bar{U}_R$, as desired.
+
+\textbf{Part 2.}
+
+Let $\lambda ^*(\bar U)$ be $0$ if $\bar U \leq \bar U _L$ and be the inverse of $\tilde U$ for $\bar U _L < \bar U < \bar U _R$. Lemma \ref{u-tilde-increasing} implies that $\lambda^*$ is well defined and that $\lambda^*(\bar U) \geq 0$.
+
+Let $\mu ^* (\lambda) := \tilde \mu (\lambda ^* (\bar U))$. Lemma \ref{lem:mu-tilde} implies that $\mu^*(\bar U) > 0$. Let $v^*(y | \bar U) := \tilde V (y | \lambda ^* (\bar U))$. Note that this coincides with the definition of $v^*$ in the proposition statement.
+
+Lemma \ref{lem:pareto-problem} implies that $v^*(y | \bar U)$ solves the Pareto problem given $\lambda^*(\bar U)$. This implies that $v^*(y | \bar U)$ also solves the relaxed cost minimization problem. Likewise, \ref{lem:pareto-problem} implies that the solution is unique almost everywhere.
+
+\textbf{Part 3.}
+
+This follows from the definition of $\lambda^*(\bar U)$ which equals $0$ in this range.
+
+\textbf{Part 4.}
+$\lambda ^*$ strictly increasing follows from lemma $\ref{u-tilde-increasing}$ and the strict convexity of $\omega$ follows from $v^*(\cdot | \lambda)$ being different for each value of $\lambda$ and from $k$ being strictly convex.
+    
+\end{proof}
+
+ \subsection{Proof of Proposition \ref{prop:concave}}
+ \label{subsec:proof-derivs}  
+
+ This section demonstrates that the second derivative of agent's utility is negative for sufficiently high reservation utility. The bulk of the section is spent demonstrating the same result for $\lambda$ sufficiently high, and the main result follows as an immediate corollary. Throughout this section, we use the $\tilde V (y | \lambda)$ notation because we are focused on the agent's problem as $\lambda$ becomes large. Although $\mu$ is a function of $\lambda$ (Lemma \ref{lem:mu-tilde}) we abuse notation by omitting $\mu$'s dependence on $\lambda$ and using $\tilde{\mu}$ to denote $\tilde{\mu}(\lambda)$. 
+
+ The section proceeds as follows. Lemmas \ref{lem:v_derivs} and \ref{lem:second-derivative} derive a convenient formula for the second derivative of agent's utility with respect to effort. Lemma \ref{lem:threshold-outcome} shows that the agent's probability of receiving payment approaches 1 as $\lambda$ approaches infinity. Lemma \ref{lem:inf_lambda_second_deriv} shows that the second derivative of agent's utility is negative for $\lambda$ sufficiently high. We then use these lemmas to prove the main result. Finally, we prove a few minor lemmas which we used in the proofs of the major lemmas. 
+
+We begin with an equation for the general form of agent's utility and its derivatives for an arbitrary contract. 
+\begin{lemma} 
+\label{lem:v_derivs}
+    Given a contract, $v$, $U$ and its derivatives evaluated at $a$ equal
+    \begin{align*}
+    U(v,a) &= \int v \cdot f(v|a) \, dy - c(a), \\
+    U_{a}(v,a) &= \int v \cdot S(y|a) f(y | a) \, dy - c'(a), \\
+    U_{aa}(v,a) &= \int v \cdot \left( S^2(y|a) + S_{a}(y|a) \right) f(v|a) \, dy - c''(a).
+    \end{align*}
+\end{lemma} 
+
+\begin{proof}
+The expression for $U(v,a)$ is just the definition. 
+Differentiating $U(v,a)$ with respect to $a$ yields 
+\[
+U_a(v,a) = \int v f_a(v|a) \, dv - c'(a).
+\]
+The formula for $U_a$ follows from the fact that $f_a(v|a) = f(v|a) S(v|a)$.
+Differentiating $U_a(v,a)$ with respect to $a$ gives
+\begin{align*}
+U_{aa}(v,a) &= \int v \frac{\partial}{\partial a} \left[ f(v|a) S(v|a) \right] dv - c'(a) \\
+&= \int v \left[ f_a(v|a) S(v|a) + f(v|a) S_a(v|a) \right] dv - c''(a) \\
+&= \int v \left[ f(v|a) S(v|a) S(v|a) + f(v|a) S_a(v|a) \right] dv - c''(a) \\
+&= \int v \left[ S^2(v|a) + S_a(v|a) \right] f(v|a) \, dv - c''(a) .
+\end{align*} 
+\end{proof}
+
+\noindent We now use Lemma \ref{lem:v_derivs} to derive the following equations for the agent's utility and its derivatives.  
+\begin{lemma}
+\label{lem:second-derivative}
+    Given a canonical contract, $v(y) := \tilde V (y | \lambda)$, the agent's utility and its derivatives evaluated at $a$ are  
+    \[
+    \begin{aligned}
+        U \left( v, a \right) 
+        &= g(\lambda) + \tilde{\mu} \int \Delta g(y | \lambda) \cdot S(y|a_0) f(y | a) \, dy - c(a), \\
+        U_a \left( v, a \right) 
+        &= \tilde{\mu} \int \Delta g(y | \lambda) \cdot S(y|a) \cdot S(y|a_0) f(y | a) \, dy - c'(a), \\
+        U_{aa}\left( v, a \right) 
+        &= \tilde{\mu} \int \Delta g(y | \lambda) \left( S^2(y|a) + S_a(y|a) \right) \cdot S(y|a_0) f(y | a) \, dy - c''(a),
+    \end{aligned}
+    \]
+    where 
+    \[
+    \Delta g(y | \lambda) = \frac{g(\lambda + \tilde{\mu} S(y |  a_0)) - g(\lambda)}{\tilde{\mu} S(y |  a_0)}.
+    \]
+\end{lemma}
+
+\begin{proof}
+    The utility function, \( U \), evaluated at the canonical contract, $
+    \tilde{V}(y|\lambda)$, and action, $a$, is
+    \[
+    U \left( \tilde{V}(y|\lambda), a \right) = \int \tilde{V}(y|\lambda) f(y|a) \, dy.
+    \]
+    Recall that $\tilde{V}(y|\lambda) = g\left( \lambda + \tilde{\mu} S(y|a_0) \right)$. Substituting in yields 
+    \[
+    U \left( \tilde{V}(y|\lambda), a \right) = \int g\left( \lambda + \tilde{\mu} S(y|a_0) \right) f(y|a) \, dy.
+    \]
+    Adding and subtracting \( g(\lambda) \), we rewrite the integral:
+    \[
+     U \left( \tilde{V}(y|\lambda), a \right) = g(\lambda) + \int \left[ g\left( \lambda + \tilde{\mu} S(y|a_0) \right) - g(\lambda) \right] f(y|a) \, dy.
+    \]
+    Using the definition $ \Delta g(y | \lambda) = \frac{g(\lambda + \tilde{\mu} S(y |  a_0)) - g(\lambda)}{\tilde{\mu} S(y |  a_0)} $ and multiplying by $\frac{\tilde{\mu} S(y|a_0)}{\tilde{\mu} S(y|a_0)}$ yields 
+     $$ U \left( \tilde{V}(y|\lambda), a \right) = g(\lambda) + \tilde{\mu} \int \Delta g(y | \lambda) \cdot S(y|a_0) f(y | a) \, dy - c(a) .$$
+     The lemma follows from \ref{lem:v_derivs}'s formula for the derivatives applied to  $v(y) = \Delta g(y | \lambda) \cdot S(y|a_0)$. 
+\end{proof} 
+
+We now demonstrate that for $\lambda$ sufficiently large the agent receives a strictly positive payment for an arbitrarily large portion of the support of $f(y|a)$ for any $a > 0$. We begin by defining some additional notation. 
+
+\begin{definition}
+    \label{def:threshold-score}
+     The \textbf{threshold score}, $\ubar{S}(\lambda)$, is the maximum score such that the agent receives no payment. It is the score that solves 
+    $$ \ubar{S}(\lambda) = \frac{1}{\tilde{\mu} u'(0)} - \frac{\lambda}{\tilde{\mu}} \text{.} $$  
+    The threshold score is well defined because $\tilde{\mu} > 0$ by Lemma \ref{lem:mu-tilde}.
+\end{definition}
+
+\begin{definition}
+    \label{def:threshold-outcome}
+    The \textbf{threshold outcome}, $\ubar{y}(\lambda)$, is the outcome which induces the threshold score, $\ubar{S}(\lambda)$:
+    $$ \ubar{y}(\lambda) = S^{-1}(\ubar{S}(\lambda, \tilde{\mu}) |  a_0) .$$ 
+    A score that satisfies the equation exists by Assumption \ref{assump:regularity_S}.3, which states that the score's image is $\mathbb{R}$. 
+\end{definition} 
+    
+\begin{lemma} 
+    \label{lem:threshold-outcome}
+    The threshold outcome approaches negative infinity as $\lambda$ approaches infinity: 
+    $$ \lim _ {\lambda \rightarrow \infty} \ubar{y}(\lambda) = -\infty . $$ 
+\end{lemma}
+
+\begin{proof}
+    Lemma \ref{lem:second-derivative}'s result for $U_a$ evaluated at $a_0$ yields
+    $$ U_a  \left( \tilde{V}(y|\lambda), a_0 \right) = \tilde{\mu} \int  \Delta g(y | \lambda) \cdot S(y|a_0)^2 f(y|a_0) - c'(a_0). $$
+    The local incentive compatibility constraint requires that $U_a  \left( \tilde{V}(y|\lambda), a_0 \right)=0$. It follows that    
+    $$  \tilde{\mu} \int  \Delta g(y | \lambda) \cdot S(y|a_0)^2 f(y|a_0) = c'(a_0). $$ 
+    Observe that the term inside the expectation is weakly positive because $\Delta g(y | \lambda) \geq 0 $ by the monotonicity of $g$ and $S(y|a_0)^2 \geq 0$. 
+    Therefore, 
+    $$
+    c'(a_0) \geq
+    \tilde{\mu} \int _{S(y|a_0) \leq \ubar S(\lambda)} \Delta g(y | \lambda) \cdot S^2(y|a_0) f(y|a_0) \, dy \text{.}
+    $$
+    By definition, for all $y$ in the domain of integration, $g(y)=u(0)$. Substituting in to $\Delta g(y | \lambda)$ yields
+    $$
+    c'(a_0) \geq
+    \tilde{\mu} \int _{S(y|a_0) \leq \ubar S(\lambda)} \frac{(u(0) - g(\lambda))}{\tilde{\mu} S(y|a_0)} \cdot S^2(y|a_0) f(y|a_0) \, dy \text{.}
+    $$
+    We simplify and use the fact that $f_a(y|a_0) = f(y|a_0) S(y|a_0)$ 
+    $$ c'(a_0)
+    \geq (u(0) - g(\lambda)) \cdot \int_{S(y|a_0) \leq \ubar S(\lambda)} f_a(y|a_0) \, dy .$$ 
+    Integrating yields: 
+    $$ c'(a_0)
+    \geq (u(0) - g(\lambda)) \cdot F_a(\ubar y (\lambda) | a_0) .$$ 
+    Observe that $u(0) - g(\lambda) \rightarrow -\infty$, and $ F_a(\ubar y (\lambda) | a_0) < 0 $ by Assumption \ref{assump:regularity_S}.2. Suppose $F_a(\ubar y (\lambda) | a_0)$ does not approach $0$. Then we have $c'(a_0) \geq \infty$. By contradiction, $F_a(\ubar y (\lambda) | a_0) \rightarrow 0$. 
+
+    The threshold outcome, $\ubar y (\lambda)$, cannot converge to infinity because $\ubar S(\lambda)$ is negative for $\lambda$ sufficiently large because $S(\infty | a_0) = \infty$ by Assumption \ref{assump:regularity_S}.3, and $\infty > \ubar S(\lambda)$. If $\ubar S (\lambda)$ does not converge to negative infinity, then there is a subsequence that converges to a finite number. However, $F_a(c | a_0) < 0$ for any $c$ by Assumption \ref{assump:regularity_S}.2. The proposition is proven by contradiction. 
+\end{proof}    
+
+\begin{lemma}
+    \label{lem:inf_lambda_second_deriv}
+    As $\lambda$ approaches infinity, the limit of the supremum of the second derivative of agent's utility at any action $a > 0$  is strictly negative: 
+    $$
+    \limsup_{\lambda \to \infty}
+    \,
+    U_{aa}\left( \tilde{V}\left( y |  \lambda \right), a \right) < 0\text{.}
+    $$
+\end{lemma} 
+
+\begin{proof}
+By Lemma \ref{lem:second-derivative}, 
+    $$ U_{aa}\left( \tilde{V} \left( y |  \lambda \right), a \right) = g(\lambda) + \tilde{\mu} \int \Delta g(y | \lambda) \cdot S(y|a_0) f(y | a) \, dy - c(a) $$ 
+    Lemma \ref{lem:y_0} states that there exists a $y_0$ such that the integrand is negative for all $y < y_0$. It follows that 
+    $$
+    U_{aa}\left( \tilde{V} \left( y |  \lambda \right), a \right) \leq
+    \tilde{\mu} \int_{y_0}^{\infty} 
+    \Delta g(y | \lambda)
+    \left( S^2(y|a) + S_a(y|a) \right) \cdot S(y|a_0)
+    \cdot f(y | \hat a) \, dy - c''(a) \text{.}
+    $$ 
+    Let $Y_+$ be the set of $y \geq y_0$ where this integrand is positive. Then 
+    $$
+    U_{aa}\left( \tilde{V} \left( y |  \lambda \right), a \right) \leq
+    \tilde{\mu} \int_{Y_+}
+    \Delta g(y | \lambda)
+    \left( S^2(y|a) + S_a(y|a) \right) \cdot S(y|a_0)
+    \cdot f(y | \hat a) \, dy - c''(a) \text{.}
+    $$
+     Lemma \ref{lem:threshold-outcome} implies that for $\lambda$ sufficiently large, $\ubar y (\lambda, a_0) \leq y_0$. Recall that for $y>\ubar y$, $g(y) = k'^{-1}(\lambda + \mu S(y|a_0))$. The concavity of $k'^{-1}$ (Assumption \ref{assump:concavity_inverse_marginal_utility}) implies that $\Delta g$ is decreasing for $y$ in $Y_+$. Therefore,
+    $$
+    U_{aa}\left( \tilde{V} \left( y |  \lambda \right), a \right) \leq
+    \tilde{\mu} 
+    \Delta g(y_0 | \lambda)
+    \int_{Y_+}
+    \left( S^2(y|a) + S_a(y |a) \right) \cdot S(y_0|a_0)
+    \cdot f(y | \hat a) \, dy - c''(a) \text{.}
+    $$
+    Because $g(y)$ is concave for $y > \ubar y$ and $y_0 > \ubar y$
+    \begin{align*}
+    \tilde{\mu} \Delta g(y_0 | \lambda)
+    &\leq \tilde{\mu} g'(\lambda + \tilde{\mu} S(y|a_0)) \\
+    &= \frac{\tilde{\mu}}{\lambda + \tilde{\mu} S(y|a_0)} \cdot (\lambda + \tilde{\mu} S(y|a_0)) g'(\lambda + \tilde{\mu} S(y|a_0)). 
+    \end{align*}
+    Lemma \ref{lem:mu_lambda} states that $\frac{\tilde{\mu}}{\lambda} \rightarrow 0$ as $\lambda \rightarrow \infty $, and Assumption \ref{assump:concavity_inverse_marginal_utility} implies that $(\lambda + \tilde{\mu} S(y_0|a_0)) g'(\lambda + \tilde{\mu} S(y_0|a_0))$ has a finite limit. It follows that 
+    $$ U_{aa}\left( \tilde{V} \left( y |  \lambda \right), a \right) \leq - c''(a) < 0 $$ 
+    with the last inequality implied by the strict convexity of the cost function (Assumption \ref{assump:utility_cost}). 
+\end{proof} 
+
+\noindent We now prove Proposition \ref{prop:concave}. 
+\begin{proof}
+    We first prove that there exists $\lambda_0$ such that, for all $\lambda \geq \lambda _0$ and $a$ in $\mathcal A$,
+    \[
+        U_{aa}(\tilde V(y | \lambda), a) \leq 0\text{.}
+    \]
+    
+    To reach a contradiction, assume that this is not the case. Then there exists a sequence of $\lambda_n \rightarrow \infty$ and $a_k$ such that
+    \[
+        U_{aa}(\tilde V(y | \lambda_n), _n) > 0\text{.}
+    \]
+    
+    Because $\mathcal A$ is compact, we can take a convergent subsequence where $a_k \rightarrow a_1$. Therefore,
+    \[
+        \limsup _ {\lambda \rightarrow \infty}
+        U_{aa}(\tilde V(y | \lambda), a_1) > 0\text{.}
+    \]
+    This contradicts Lemma \ref{lem:inf_lambda_second_deriv}.
+    
+    For any $\lambda \geq \lambda_0$, we thus have that $U(\tilde V (y | \lambda), a)$ is concave in $a$. The proposition is proven by letting $U^*$ be the solution to $\lambda^*(U^*) = \lambda_0$. The agent's problem is concave in $a$ for $\bar{U} \in [U^*, U_{R}]$ because $\lambda^*(\bar{U})$ is monotonic by Proposition \ref{prop:relaxed-optimal-contract}.4 
+\end{proof}
+
+\noindent We conclude the section by proving two minor lemmas that we used in the above proofs. 
+
+\begin{lemma}
+    \label{lem:y_0} 
+    There exists $y_0$ such that for all $y < y_0$, 
+     $$ \Delta g(y | \lambda) \left( S^2(y|a) + S_a(y|a) \right) \cdot S(Y|a_0) \leq 0 .$$
+\end{lemma} 
+
+\begin{proof} 
+    The lemma follows from these 3 facts. 
+    \begin{enumerate}
+        \item $\Delta g(y | \lambda) \geq 0$ 
+        \item There exists $y_0$ such that  $S(Y|a_0) < 0$ for $y<y_0$
+        \item There exists $y_0$ such that  $\left( S^2(y|a) + S_a(y|a) \right) > 0$ for $y \leq y_0$. 
+    \end{enumerate} 
+    The monotonicity of $g$ implies the first fact. The second fact follows from Assumption \ref{assump:regularity_S}.3. Assumption \ref{assump:regularity_S}.4 and the following algebra implies the final fact. 
+    $$  S^2(y | \hat a) + S_a(y|a)
+        = S^2(y | \hat a) + \frac{d}{da}\frac{f_a(y|a)}{f(y|a)}
+        = S^2(y | \hat a) + \frac{f_{aa}(y|a)}{f(y|a)} - \frac{f_a(y|a)^2}{f(y|a)^2}
+        = \frac{f_{aa}(y|a)\text{.}}{f(y|a)}. $$  
+    The density is always positive, so the final expression is positive whenever $f_{aa}(y|a)$ is positive. 
+\end{proof}
+
+\begin{lemma}
+    \label{lem:mu_lambda} 
+    As $\lambda \rightarrow \infty$, $\frac{\tilde{\mu}}{\lambda} \rightarrow 0$. 
+\end{lemma} 
+
+\begin{proof}
+    Lemma \ref{lem:threshold-outcome} and assumption \ref{assump:regularity_S}.3 imply that $\ubar S (\lambda) \rightarrow -\infty$. The result follows from the definition of $\ubar S (\lambda)$.  
+\end{proof}
+
+\subsection{Proof of Theorem \ref{thm:main}}
+Parts (1) and (2) follow from Proposition \ref{prop:relaxed-optimal-contract}. Part (3) follows from Proposition \ref{prop:concave}. For any $\bar U \geq U ^*$ we have that $v^*(\bar U)$ is concave, and thus is a solution to the cost minimization problem. Any other solution also solves the relaxed cost minimization problem, so equals $v^*(\bar U)$ almost everywhere.

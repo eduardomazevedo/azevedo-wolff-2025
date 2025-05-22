@@ -1,0 +1,200 @@
+\documentclass[12pt]{article}
+\usepackage{custom}
+
+% Data reading
+\newcommand{\data}[1]{\input{../output/constants/#1.txt}\unskip}
+
+% External references for any separately compiled online appendix.
+\usepackage{xr}
+\externaldocument{"manuscript"}
+
+\begin{document}  
+
+\title{Online Appendix for ``Broad Validity of the First-Order Approach in Moral Hazard''}
+\author{Eduardo M. Azevedo and Ilan Wolff}
+\date{\today}
+\maketitle
+
+This online appendix contains the derivation of particular functional forms from section \ref{sec:applications}.
+
+\section{Derivations of the Score Function for Particular Distributions}  
+
+\subsection{Normal}
+
+The PDF is $$f(y | a, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp \left( -\frac{(y-a)^2}{2\sigma^2} \right).$$ The derivative with respect to $a$ is $$f_a(y | a, \sigma^2) = f(y | a, \sigma^2) \frac{y - a}{\sigma^2} $$ The score is $$S(y | a) = \frac{f(y | a, \sigma^2) \frac{y - a}{\sigma^2}}{f(y | a, \sigma^2)} = \frac{y - a}{\sigma^2} .$$
+
+\subsection{Log Normal}
+
+The PDF is $$ f(y | a, \sigma^2) =\frac{1}{y \sqrt{2\pi\sigma^2}} \exp \left( -\frac{(\log(y)-a)^2}{2\sigma^2} \right). $$ The derivative with respect to $a$ is $$ f_a(y | a, \sigma^2) = f(y | a, \sigma^2) \frac{log(y) - a}{\sigma^2}.$$ 
+The score is $$ S(y|a) = \frac{f(y | a, \sigma^2) \frac{log(y) - a}{\sigma^2}}{f(y | a, \sigma^2)} = \frac{log(y) - a}{\sigma^2} .$$ 
+
+\subsection{Poisson} 
+
+The PMF is $$ P(y | a) = \frac{a^y e^{-a}}{y!}. $$ The derivative with respect to $a$ is $$ P_a(y | a) = \frac{ya^{y-1} e^{-a}}{y!} - \frac{a^y e^{-a}}{y!} .$$ Simplifying yields $$ P_a(y | a) = P(y | a)(\frac{y}{a} - 1) = f(a) \frac{y-a}{a} .$$ The score is $$ S(y|a) = \frac{f(a) \frac{y-a}{a}}{f(a)} = \frac{y-a}{a} .$$ 
+
+\subsection{Exponential} 
+
+The PDF is $$f(y|a) = \frac{1}{a} e^{-\frac{y}{a}}.$$ Observe that $\frac{\partial a}{\partial} \frac{1}{a} = -\frac{1}{a^2}$, and $\frac{\partial a}{\partial} e^{-\frac{y}{a}} = \frac{y}{a^2} e^{-\frac{y}{a}}$. Using the product rule, $$ f_a(y|a) = \frac{y}{a^3} e^{-\frac{y}{a}} -\frac{1}{a^2} e^{-\frac{y}{a}} .$$ 
+Simplifying yields 
+$$ f_a(y|a) = \frac{y-a}{a^2} f(y | a) .$$ 
+
+The score is 
+$$ S(y|a) = \frac{y-a}{a^2} . $$ 
+
+\subsection{Bernoulli} 
+
+The PMF is $$ P(y | a) = a^y (1 - a)^{1 - y}, \; \text{where} \, y \in \{0, 1\} .$$ 
+The derivative with respect to $a$ is 
+$$ P_a(y | a) = y a^{y-1}(1 - a)^{1 - y} - (1-y) a^y (1 - a)^{-y} .$$ 
+Simplifying yields 
+$$ P_a(y | a) = P(y | a) (\frac{y}{a} - \frac{1-y}{1-a}) = P (y | a) \frac{y-a}{a-a^2}  .$$  
+The score is $$  S(y|a) = \frac{P (y | a) \frac{y-a}{a-a^2}}{P (y | a)} = \frac{y-a}{a-a^2} .$$ 
+
+\subsection{Geometric} 
+
+The PMF is $$ P(y | a) = (1 - \frac{1}{a})^{y - 1} (\frac{1}{a}) .$$ 
+The derivative with respect to $a$ is 
+$$ P_a(y | a) = (y-1) (\frac{a-1}{a})^{y-2}(\frac{1}{a^3}) - (1 - \frac{1}{a})^{y - 1} (\frac{1}{a^2}) .$$ 
+Simplifying yields
+$$ P_a(y | a) = \frac{(y-1)a}{a-1} (\frac{a-1}{a})^{y-1} \frac{1}{a^3} - P (y | a) \frac{1}{a}. $$ 
+We simplify further 
+$$ P_a(y | a) = \frac{(y-1)}{(a-1)a} P (y|a) - P(y | a) \frac{1}{a}. $$ 
+We factor out $P(y|a)$
+$$ P_a(y | a) =  P(y|a) \frac{(y-a)}{(a^2-a)} . $$ 
+The score is 
+$$ S(y|a) = \frac{P(y|a) \frac{(y-a)}{(a^2-a)}}{P(y|a)} = \frac{y-a}{a^2-a} $$
+
+\subsection{Binomial} 
+
+The PMF is 
+$$ P(y | a, n) = \binom{n}{y} a^y (1 - a)^{n - y} .$$ 
+The derivative with respect to $a$ is 
+$$ P_a(y | a) = y \binom{n}{y} a^{y-1} (1 - a)^{n - y} - (n-y) \binom{n}{y} a^y (1-a)^{n-y-1} . $$ 
+Simplifying yields 
+$$ P_a(y | a) =  \frac{y}{a} P(y | a, n) - \frac{n-y}{1-a} P(y | a, n) . $$
+I factor out $P(y|a)$ and simplify further
+$$ P_a(y | a) = P(y | a, n) \frac{y-na}{a-a^2} . $$ 
+The score is 
+$$ S(y|a) = \frac{P(y|a) \frac{(y-na)}{(a-a^2)}}{P(y|a)} = \frac{y-na}{a-a^2} . $$
+
+\subsection{Gamma}
+
+The PDF is
+$$ f(y|n, a) = \frac{y^{n - 1} e^{-y/a}}{\Gamma(n) a^n} .$$ 
+The derivative with respect to $a$ is 
+$$ f_a(y|n, a) = \frac{y}{a^2}  f(y|n, a) - \frac{n}{a}  f(y|n, a) .$$
+I factor out $f(y|n, a)$ and simplify 
+$$ f_a(y|n, a) = f(y|n,a) \frac{y-na}{a^2} .$$
+The score is 
+$$ S(y|a) = \frac{f(y|n,a)\frac{y - n a}{a^2}}{f(y|n,a)} = \frac{y-na}{a^2} . $$
+
+\subsection{t} 
+
+The PDF is 
+$$ f(y | \nu, a, \sigma) = \frac{\Gamma\left(\frac{\nu + 1}{2}\right)}{\Gamma\left(\frac{\nu}{2}\right) \sqrt{\pi \nu} \sigma} \left(1 + \frac{1}{\nu} \frac{(y - a)^2}{\sigma^2}\right)^{-\frac{\nu + 1}{2}} $$ 
+The derivative with respect to $a$ is 
+$$ f_a(y | \nu, a, \sigma) = \frac{\Gamma\left(\frac{\nu + 1}{2}\right)}{\Gamma\left(\frac{\nu}{2}\right) \sqrt{\pi \nu} \sigma}\frac{\nu+1}{2}\left(1 + \frac{1}{\nu} \frac{(y - a)^2}{\sigma^2}\right)^{-\frac{\nu + 3}{2}} \frac{2(y-a)}{\nu \sigma^2} .$$ 
+Simplifying yields 
+$$ f_a(y | \nu, a, \sigma) = f(y | \nu, a, \sigma) \frac{(\nu+1)(y-a)}{\nu \sigma^2\left(1 + \frac{1}{\nu} \frac{(y - a)^2}{\sigma^2}\right)}  = f(y | \nu, a, \sigma) \frac{(\nu+1)(y-a)}{\nu \sigma^2 + (y-a)^2} .$$ 
+The score is 
+$$ S(y|a) = \frac{f(y|n,a)\frac{(\nu+1)(y-a)}{\nu \sigma^2 + (y-a)^2}}{f(y|n,a)} = \frac{(\nu+1)(y-a)}{\nu \sigma^2 + (y-a)^2} . $$  
+
+\subsection{Exponential Family}
+
+The  PDF is
+$$ f(y|a) = h(y) \exp\left( \eta(a) T(y) - A(a) \right), $$
+where \( h(y) \) is the base measure, \( \eta(a) \) is the natural parameter, \( T(y) \) is the sufficient statistic, and \( A(a) \) is the log-partition function.
+The derivative with respect to \( a \) is
+$$ f_a(y|a) = h(y) \exp\left( \eta(a) T(y) - A(a) \right) \left[ T(y) \frac{d\eta(a)}{da} - \frac{dA(a)}{da} \right]. $$
+Simplifying yields 
+$$ f_a(y|a) = f(y|a) \left[ T(y) \frac{d\eta(a)}{da} - \frac{dA(a)}{da} \right]. $$
+The score is
+$$ S(y|a) = \frac{f_a(y|a)}{f(y|a)} = T(y) \frac{d\eta(a)}{da} - \frac{dA(a)}{da}. $$ 
+
+\subsection{Additive} 
+
+Let $y = a + y$, where $y$ is a random variable with PDF $g(y)$. The PDF of y is 
+$$ f(y|a) = g(y-a) .$$
+The derivative with respect to $a$ is 
+$$ f_a(y|a) = - g'(y-a). $$
+The score is 
+$$ S(y|a) =  \frac{g'(y-a)}{g(y-a)}. $$ 
+
+\subsection{Multiplicative} 
+
+Let $y = ay$ where $y$ is a random variable with PDF $g(y)$. The PDF of y is 
+$$ f(y|a) = \frac{1}{a} g(\frac{y}{a}) .$$ 
+The derivative with respect to $a$ is 
+$$ -\frac{1}{a^2} g(\frac{y}{a}) - \frac{1}{a^3} g'(\frac{y}{a})y . $$
+The score is 
+$$ S(y|a) = -\frac{1}{a} - \frac{1}{a^2} \frac{g'(\frac{y}{a})}{g(\frac{y}{a})} y$$ 
+
+\section{Derivation of Link Functions for Particular Utility Functions} 
+
+\subsection{Log}  
+
+This section derives results for the utility function $$u(x) = log(w_0 + x).$$ 
+The derivative of utility with respect to consumption is 
+$$ u'(x) = \frac{1}{w_0 + x} $$ 
+The cost of utility is the inverse of the utility function 
+$$ u = log(w_0 + x) \rightarrow exp(u) = x \rightarrow k(u) = exp(u) - w_0 . $$
+The marginal cost of utility is 
+$$ \frac{1}{u'(k(u))} = \frac{1}{\frac{1}{exp(u)}} = exp(u). $$ 
+The inverse of the marginal cost of utility is 
+$$ x = exp(u) \rightarrow k'^{-1}(x) = log(x). $$ 
+The link function, $g(z)$, is 
+$$ g(z) = k'^{-1}\left(\max\left(\frac{1}{u'(w_0)}, z\right)\right) 
+= \log\left(\max(w_0, z)\right) .$$ 
+The canonical wage function given $z = \lambda + \mu S(y|a_0)$ is 
+\begin{align*}
+w(z) &= k(g(z)) \\
+     &= \exp\big(\log(max(w_0,z))\big) - w_0  \\
+     &= \left( z - w_0 \right)^+.
+\end{align*}
+
+\subsection{CRRA}  
+
+This section derives results for the utility function $$u(x) = \frac{(w_0+x)^{1-\gamma}}{1-\gamma} . $$ 
+The derivative of utility with respect to consumption is 
+$$ u'(x) = (w_0 + x)^{-\gamma}. $$
+The cost of utility is the inverse of the utility function 
+$$ u = \frac{(w_0+x)^{1-\gamma}}{1-\gamma} \rightarrow k(u) = ((1-\gamma)u)^{\frac{1}{1-\gamma}}-w_0. $$
+The marginal cost of utility is 
+$$ \frac{1}{u'(k(u))} = \frac{1}{((1-\gamma)u)^{\frac{-\gamma}{1-\gamma}}} = ((1-\gamma)u)^{\frac{\gamma}{1-\gamma}}. $$
+The inverse of the marginal cost of utility is 
+$$ x = ((1-\gamma)u)^{\frac{\gamma}{1-\gamma}} \rightarrow k'^{-1}(x) = \frac{x^{\frac{1-\gamma}{\gamma}}}{1-\gamma}. $$
+The link function, $g(z)$, is 
+$$ g(z) = k'^{-1}\left(\max\left(\frac{1}{u'(w_0)}, z\right)\right) 
+= \frac{\max\left(w_0^\gamma, z\right)^{\frac{1-\gamma}{\gamma}}}{1-\gamma}.$$ 
+The canonical wage function given $z = \lambda + \mu S(y|a_0)$ is 
+\begin{align*}
+w(z) &= k(g(z)) \\
+     &=  \left( \frac{1-\gamma}{1-\gamma} \cdot \max(w_0^\gamma, z)^{\frac{1-\gamma}{1-\gamma}} \right)^{\frac{1}{1-\gamma}} - w_0  \\
+     &=  max(w_0^\gamma,z)^{\frac{1}{\gamma}} - w_0 \\ 
+     &= \left( (z^+)^{\frac{1}{\gamma}} - w_0 \right)^+.
+\end{align*}
+
+\subsection{CARA}
+This section derives results for the utility function $$ u(x) = \frac{-\exp(-\alpha (x+w_0))}{\alpha}.$$ 
+The derivative of utility with respect to consumption is 
+$$ u'(x) = exp(-\alpha (x+w_0)) .$$
+The cost of utility is the inverse of the utility function 
+$$ u = \frac{-\exp(-\alpha (x+w_0))}{\alpha} \rightarrow -\alpha u = exp(-\alpha (x+w_0)) \rightarrow k(u) = -\frac{log(-\alpha u)}{\alpha} - w_0 .$$
+The marginal cost of utility is 
+$$ \frac{1}{u'(k(u))} = \frac{1}{exp(\alpha \frac{log(-\alpha u)}{\alpha}) } \rightarrow k'(u) = -\frac{1}{\alpha u} .$$ 
+The inverse of the marginal cost of utility is 
+$$ x = -\frac{1}{\alpha u} \rightarrow k'^{-1}(x) = -\frac{1}{\alpha x} .$$
+The link function, \( g(z) \), is 
+$$ g(z) = k'^{-1}\left(\max\left(\frac{1}{u'(w_0)}, z\right)\right) 
+= -\frac{1}{\alpha \max\left(\exp(\alpha w_0), z\right)}. $$
+The canonical wage function given $z = \lambda + \mu S(y|a_0)$ is 
+\begin{align*}
+w(z) &= k(g(z)) \\
+     &= k\left(-\frac{1}{\alpha \max\left(\exp(\alpha w_0), z\right)}\right) \\
+     &= -\frac{\log\left(-\alpha \cdot \left(-\frac{1}{\alpha \max\left(\exp(\alpha w_0), z\right)}\right)\right)}{\alpha} - w_0 \\ 
+     &= -\frac{(log(1) - \log\left(\max\left(\exp(\alpha w_0), z\right)\right))}{\alpha} - w_0 \\ 
+     &= \frac{\log\left(\max\left(\exp(\alpha w_0), z\right)\right)}{\alpha} - w_0 \\ 
+     &= \frac{(\log^+ z - \alpha w_0)^+}{\alpha}. 
+\end{align*}
+
+\end{document}

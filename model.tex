@@ -1,0 +1,98 @@
+\subsection{Model}
+
+A risk-neutral \textbf{principal} hires an \textbf{agent} with limited liability. The agent has utility $u(x)-c(a)$ of receiving a \textbf{payment} $x \in \mathbb{R}_{+}$ and taking \textbf{action} $a$ in $\mathcal A \subseteq \mathbb{R}_+$. Both $u$ and $c$ are strictly increasing. \textbf{Output} $y \in \mathbb{R}$ depends on the agent's action and is distributed according to the \textbf{output density} $f(y|a)$.
+
+A \textbf{contract} is a function $v:\mathbb{R} \rightarrow u(\mathbb{R}^+)$, which specifies the agent's utility $v(y)$ from the payment as a function of output $y$. Contracts are defined in terms of utility to simplify notation. To define the wage payments, let the \textbf{compensation cost function} $k$ be the inverse of $u$. A \textbf{wage function} is a function $w:\mathbb{R} \rightarrow \mathbb{R}^+$. The wage function associated with contract $v$ is $w(y) = k(v(y))$. Let $\mathcal C$ be the \textbf{set of feasible} contracts.
+
+The \textbf{agent's utility from a contract} \(v\) given action \(a\) is
+\[
+U(v, a) := \int v(y) f(y|a) \, dy - c(a) \text{.}
+\]
+
+The \textbf{expected wage} is
+\[
+W(v, a) := \int k(v(y)) f(y|a) \, dy \text{.}
+\]
+
+The \textbf{cost minimization problem} given an \textbf{intended action} $a_0 \in \mathcal{A}$ and \textbf{reservation utility} $\bar U$ is to choose a contract $v$ to minimize the expected wage subject to the individual rationality (\ref{IR}) and global incentive compatibility (\ref{GIC}) constraints. Individual rationality requires that the agent's expected utility is at least reservation utility, and global incentive compatibility requires that choosing $a_0$ is optimal for the agent. The cost minimization problem is to choose $v$ in $\mathcal C$ to
+\begin{align}
+    \text{minimize} \quad & W(v) \nonumber \\
+    \text{subject to} \quad &  U(v, a_0) \geq \bar{U} \tag{IR} \label{IR}, \\
+    & U(v, a_0) \geq U(v, \hat{a}) \quad \forall \hat{a} \in \mathcal{A} \tag{GIC} \label{GIC}.
+\end{align}
+
+The \textbf{relaxed cost minimization problem} replaces the global incentive compatibility constraint with the local incentive compatibility constraint (\ref{LIC_relaxed}):
+\begin{align}
+    \text{minimize} \quad & W(v) \nonumber \\
+    \text{subject to} \quad & U(v, a_0) \geq \bar{U} \tag{IR} \label{IR_relaxed}, \\
+    & \partial _a U(v, a_0) = 0 \tag{LIC} \label{LIC_relaxed}. 
+\end{align}
+
+
+\subsection{Assumptions and Notation}
+
+We state here the assumptions needed for our results. This section can be skimmed on a first reading.
+
+\begin{assumption}[Regularity of utility, cost and density]
+\label{assump:utility_cost}
+The set of feasible actions $\mathcal{A} \subseteq \mathbb{R}_+$ is a compact interval including $0$. The utility function $u$ is strictly concave and smooth, and has  $\lim_{x\rightarrow\infty}u'(x)=0$. The cost function $c$ is strictly convex and smooth, and $c'(0) = 0$. The output density $f(y | a)$ is smooth in the action, $a$, for all outputs, $y$.
+\end{assumption}
+
+We now make technical assumptions that allow us to use Leibniz's rule of differentiation under the integral sign. For this, we impose restrictions on $k$, $f$ and on the set of feasible contracts. At the same time, we require the set of feasible contracts to be rich enough so that relevant contracts are not ruled out by assumption.
+
+\begin{assumption}[Regularity of feasible contracts]
+\label{assump:leibniz}
+The output density function $f(y|a)$ satisfies:
+\begin{enumerate}
+    \item Every feasible contract is measurable.
+    \item Given any $a_1$ in $\mathcal{A}$ and a feasible contract $v$, there exists an integrable function $\theta(y)$ and a neighborhood of $a_1$ such that, for all $a$ in this neighborhood,
+    \[
+        \left|v \partial^n_a f(y|a)\right| \leq \theta(y)
+    \]
+    for $n = 0, 1, 2$ and for all $y$ in the support of $f(\cdot | a)$.
+    \item For all $a$ in $\mathcal{A}$ and canonical contract $v$ (as defined in definition \ref{def:canonical-contract}),
+    \[
+        \Pi(v, a) < \infty\text{.}
+    \]
+    \item The set of feasible contracts is convex and includes all canonical contracts.
+\end{enumerate}
+\end{assumption}
+
+We now consider substantive restrictions.
+
+\begin{assumption}[Assumptions on the distribution of output]
+    \label{assump:regularity_S}
+    The output density function $f(y|a)$ satisfies:
+    \begin{enumerate}
+        \item For all $a$, the support of $f(y|a)$ is $\mathbb R$.
+        \item $F_a(y|a) < 0$ for all $y$ and $a$.
+        \item For all $a$, the score $\partial_a \log f(y|a)$ is strictly increasing in $y$ and its image is $\mathbb R$ (this is known in the literature as the monotone likelihood ratio property or MLRP). 
+        \item There exists $y_0$ in $\mathbb R$ such that, for all $y \leq y_0$ and $a$,
+        $$
+        f_{aa}(y|a) > 0 \text{.}
+        $$
+    \end{enumerate}
+    
+    \end{assumption}
+
+Note that we assume that the support of $f$ is $\mathbb R$. The numerical examples, like the exponential distribution, suggest that this assumptions is not necessary. We hope to weaken the assumption in the next version of this paper.
+
+\begin{assumption}[Concavity and limit of inverse marginal utility]
+\label{assump:concavity_inverse_marginal_utility}
+The function ${k'}^{-1}$ is strictly concave and
+\[
+\lim _ {z \to \infty} z \frac{d}{dz} {k'}^{-1}(z)
+\]
+is finite.
+\end{assumption}
+
+The function $k'^{-1}$ is the same as \citeauthor{jewitt1988justifying}'s (\citeyear{jewitt1988justifying}) $\omega(z)$. So our assumption that $k'^{-1}$ is strictly concave corresponds to his assumption (2.12). The key difference is that \cite{jewitt1988justifying} does not have a limited liability constraint and requires that the first-order formula for an optimal contract holds globally. This requirement often implies that there is no solution to the principal's problem. For example in the Gaussian-log utility example there is no solution under Jewitt's assumptions (see derivation in Section \ref{sec:main-result-proof}).
+
+For some results, we restrict attention to intended actions where it is possible to satisfy the local incentive compatibility constraint.
+
+\begin{definition}
+    An intended action $a$ is regular if it is in the interior of $\mathcal{A}$ and there exist a feasible contract $v$ such that
+    \[
+        \partial _a U(v, a) \geq 0 \text{.}
+    \]
+\end{definition}

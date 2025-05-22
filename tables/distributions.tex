@@ -1,0 +1,93 @@
+\begin{table}[h!]
+    \centering
+    \caption{Error Distributions}
+    \label{tab:dists}
+    \renewcommand{\arraystretch}{1.5} % Reduce vertical spacing
+    \small % Reduce font size further
+    \setlength{\tabcolsep}{6pt} % Reduce column spacing for compactness
+    \resizebox{\textwidth}{!}{ % Ensures table fits within page width
+    \begin{tabular}{l p{5.5cm} p{3.8cm} p{3.8cm}} % Keep all columns aligned and tight
+        \toprule
+        \textbf{Distribution} & \textbf{Probability Density} & \textbf{Score Function \( S(y|a) \)} & \textbf{Mean} \\ 
+        \midrule
+        Gaussian
+        & \( \mathcal{N}(a, \sigma^2) \)
+        & \( \frac{y - a}{\sigma^2} \) 
+        & \( a \) 
+        \\ 
+
+        Log Normal
+        & \( \frac{1}{y \sqrt{2\pi\sigma^2}} \exp \!\Bigl( -\frac{(\log(y)-a)^2}{2\sigma^2} \Bigr) \) 
+        & \( \frac{\log(y) - a}{\sigma^2} \) 
+        & \( \exp\!\Bigl(a + \frac{\sigma^2}{2}\Bigr) \) 
+        \\ 
+
+        Poisson
+        & \( \frac{a^y e^{-a}}{y!} \) 
+        & \( \frac{y - a}{a} \) 
+        & \( a \) 
+        \\ 
+
+        Exponential 
+        & \( \frac{1}{a} e^{-\tfrac{y}{a}} \) 
+        & \( \frac{y-a}{a^2} \) 
+        & \( a \) 
+        \\ 
+
+        Bernoulli
+        & \( a^y (1 - a)^{1 - y} \), \( y \in \{0, 1\} \) 
+        & \( \frac{y-a}{a-a^2} \)
+        & \( a \) 
+        \\  
+
+        Geometric
+        & \( \Bigl(1 - \frac{1}{a}\Bigr)^{y - 1} \Bigl(\frac{1}{a}\Bigr) \), \( y \in \{1,2,\dots\} \) 
+        & \( \frac{y - a}{a^2 - a} \) 
+        & \( a \) 
+        \\ 
+
+        Binomial
+        & \( \binom{n}{y} a^y (1 - a)^{n - y} \), \( y \in \{0,\dots,n\} \) 
+        & \( \frac{y - na}{a - a^2} \) 
+        & \( n a \) 
+        \\ 
+
+        Gamma
+        & \( f(y \mid n, a) = \frac{y^{n - 1} e^{-\tfrac{y}{a}}}{\Gamma(n)\, a^n} \) 
+        & \( \frac{y - n a}{a^2} \) 
+        & \( n a \)
+        \\ 
+
+        Student's \(t\)
+        & \( 
+        \frac{\Gamma\!\bigl(\tfrac{\nu + 1}{2}\bigr)}{\Gamma\!\bigl(\tfrac{\nu}{2}\bigr)\,\sqrt{\pi\nu}\,\sigma}
+        \left(1 + \frac{1}{\nu} \,\frac{(y - a)^2}{\sigma^2}\right)^{-\tfrac{\nu + 1}{2}} 
+        \) 
+        & \( \frac{(\nu+1)(y-a)}{\nu\,\sigma^2 + (y-a)^2} \) 
+        & \( a \) 
+        \\ 
+
+        Exponential Family
+        & \( h(y)\,\exp\Bigl(\eta(a)\,T(y) - A(a)\Bigr) \) 
+        & \( T(y)\,\frac{d\eta(a)}{da} \;-\; \frac{dA(a)}{da} \) 
+        & \textit{(Not specified)} 
+        \\ 
+
+        \( y = a + X, X \sim h \)
+        & \( g(y - a) \) 
+        & \( -\frac{g'(y - a)}{h(y - a)} \) 
+        & \( a + \mathbb{E}[X] \) 
+        \\ 
+
+        \( y = a X, X \sim h \) 
+        & \( \bigl|\tfrac{1}{a}\bigr|\;h\!\Bigl(\tfrac{y}{a}\Bigr) \) 
+        & \( -\frac{1}{a} - \frac{y}{a^2} \frac{g'(\frac{y}{a})}{g(\frac{y}{a})} \) 
+        & \( a \,\mathbb{E}[X] \)
+        \\ 
+        \bottomrule
+    \end{tabular}
+    } % End resizebox
+    \captionsetup{font=footnotesize} % Match figure's note formatting
+    \caption*{\textit{Note:} This table presents probability the PDF, score function, and means of probability distributions as functions of the agent's chosen action, $a$.}
+\end{table}
+

@@ -1,0 +1,38 @@
+# Ignore LaTeX build output and auxiliary files
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.lof
+*.lot
+*.gz
+*.nav
+*.snm
+*.vrb
+*.xdv
+
+# Ignore PDF output and build folders
+pdf/
+
+# Ignore figures folder (PDF figures not committed)
+figures/
+
+# Ignore macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+
+# Ignore other temp files
+*~
+*.swp
+*.bak
+*.tmp

@@ -1,0 +1,80 @@
+\documentclass[12pt]{article}
+\usepackage{custom}
+
+% Data reading
+\newcommand{\data}[1]{\input{../output/constants/#1.txt}\unskip}
+
+% External references for any separately compiled online appendix.
+\usepackage{xr}
+\externaldocument{"si"}
+
+\begin{document}
+\title{Broad Validity of the First-Order Approach in Moral Hazard%
+\thanks{We are especially grateful to Lucas Maestri for originating key ideas in this paper. We also thank Humberto Moreira and Juuso Toikka for their valuable comments.}
+}
+
+\author{Eduardo M. Azevedo% 
+\thanks{Wharton: 3733 Spruce Street, Philadelphia, PA 19104: eazevedo@wharton.upenn.edu, \url{https://eduardomazevedo.github.io/.}}
+\and Ilan Wolff% 
+\thanks{Wharton: 3733 Spruce Street, Philadelphia, PA 19104. ijwolff@wharton.upenn.edu.}
+}
+
+\date{
+First version: March 7, 2025 \\
+This version: \today}
+
+\maketitle
+
+\begin{abstract}%
+The first-order approach (FOA) is the main tool in the study of the pure moral hazard principal-agent problem. Although many existing results rely on the FOA, its validity has been established only under relatively restrictive assumptions. We contribute three main findings.
+
+First, we demonstrate in a broad array of examples that the FOA frequently fails when the agent's reservation utility is low (such as in principal-optimal contracts). However, the FOA holds when the agent's reservation utility is at least moderately high (such as in competitive settings where agents receive high rents).
+
+Second, our main theorem shows that the FOA is valid in a standard limited liability model when the agent's reservation utility is sufficiently high. The theorem also establishes existence and uniqueness of the optimal contract.
+
+Third, we use the FOA to derive tractable optimal contracts across a broad array of settings. These contracts are both simple and intuitive. Under log utility, option contracts are optimal for numerous common output distributions (including Gaussian, exponential, binomial, Gamma, and Laplace).%
+\end{abstract}
+
+\newpage
+
+\section{Introduction}
+\label{sec:introduction}
+\input{introduction}
+
+\section{Examples and Literature Review}
+\label{sec:examples}
+\input{examples}
+
+\section{Model}
+\label{sec:model}
+\input{model}
+
+\section{Main Result}
+\label{sec:main-result}
+\input{main-result}
+
+\section{Proof of the Main Result}
+\label{sec:main-result-proof}
+\input{proof-main-result}
+
+\section{Applications and Extensions}
+\label{sec:applications}
+\input{calculus}
+
+\section{Conclusion}
+\label{sec:conclusion}
+\input{conclusion}
+
+\bibliographystyle{aer}
+\bibliography{bibliography}
+
+\appendix
+\newpage
+\begin{center}
+{\huge Appendix}{\huge\par}
+\par\end{center}
+
+\section{Proofs\label{sec:appendix-proofs}}
+\input{appendix-proofs}
+
+\end{document}

@@ -1,0 +1,21 @@
+We can now state our main result. We say that the first-order approach is valid for $(a_0, \bar U)$ if any solution to the relaxed cost minimization problem is a solution to the cost minimization problem.
+
+Our main result is to show that the first-order approach is valid for sufficiently high reservation utility:
+
+\begin{theorem}
+    \label{thm:main}[Validity of the first order approach with high reservation utility]
+    Given a regular intended action $a_0 > 0$, the first-order approach is valid for $(a_0, \bar U)$ for any sufficiently high $\bar U$.
+\end{theorem}
+
+The theorem formalizes the main point discussed in the introduction and examples. That the first order approach is valid under reasonable assumptions, as long as reservation utility is high.
+
+The theorem simplifies the moral hazard problem because the relaxed problem is considerably more tractable. Proposition \ref{prop:relaxed-optimal-contract} shows that the relaxed problem has an almost everywhere unique solution given by a tractable formula. Combining theorem \ref{thm:main} and proposition \ref{prop:relaxed-optimal-contract} we obtain the following.
+
+\begin{corollary}
+    \label{thm:main}[Solution of the moral hazard problem with high reservation utility]
+    Given a regular intended action $a_0 > 0$, there exist reservation utilities $U^*$ in $\mathbb R$ and $\bar U _R$ in $\mathbb R \cup \{\infty\}$ such that:
+    \begin{enumerate}
+        \item For $\bar U \geq \bar U _R$, neither the relaxed cost minimization problem nor the cost minimization problem are feasible.
+        \item For $U^* \leq \bar U < \bar U _ R$, the cost minimization problem has an almost everywhere unique solution given by proposition \ref{prop:relaxed-optimal-contract}.
+    \end{enumerate}
+\end{corollary} 
