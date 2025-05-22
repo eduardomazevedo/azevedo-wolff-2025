@@ -1,12 +1,15 @@
 \subsection{Solution of the Relaxed Problem} 
 
-Throughout this subsection, fix a reservation utility $\bar U$ and regular intended action $a_0$. The relaxed problem only has a solution if $U(v, a)$ can be differentiated under the integral sign, so we begin by showing that differentiation under the integral at any action is possible for any feasible contract.
+Throughout this subsection, fix a reservation utility $\bar U$ and regular intended action $a_0$. The local IC constraint is only defined if $U(v, a)$ can be differentiated under the integral sign, so we begin by showing that differentiation under the integral at any action is possible for any feasible contract.
 
 \begin{remark} 
     \label{rem:leibniz}
-    Let $v$ be a feasible contract. Then, for all $a$ in $\mathbb{R}_{+}$, $U_{a}(v,a)$ exists, is finite, and
+    Let $v$ be a feasible contract. Then, for all $a$ in $\mathbb{R}_{+}$, the first and second derivatives of $U(v,a)$ with respect to $a$ exist, are finite, and are given by
     \[
-        U_{a}(v,a)=\int v(y)f_{a}(y|a)\,dy\text{.}
+        U_{a}(v,a) = \int v(y) f_{a}(y|a)\,dy\text{,}
+    \]
+    \[
+        U_{aa}(v,a) = \int v(y) f_{aa}(y|a)\,dy\text{.}
     \]
 \end{remark} 
 

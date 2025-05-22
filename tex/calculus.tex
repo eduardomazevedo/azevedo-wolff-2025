@@ -7,7 +7,7 @@ Optimal contracts depend on effort cost, risk preferences (which determine the l
 
 \input{tables/distributions}
 
-\textbf{Linearity}
+\subsection{Linearity and Option Contracts}
 Linear contracts play a prominent role in contract theory. It has long been noted that linear contracts are common, but that they only arise under relatively special assumptions \citep{holmstrom1987aggregation,carroll2015robustness}.
 
 Our model yields piecewise linear contracts in a number of examples, as seen in the tables and in the Gaussian-log utility example. The key ingredients are log utility, which makes the wage function linear in the score, and a linear score function. This includes many distributions, because the score is linear for distributions in an exponential family with linear sufficient statistics. That is, when $f(y, a)$ is of the form
@@ -21,11 +21,13 @@ f(y | a)
 
 We note this as follows:
 
-\begin{remark}[Linear Contracts]
+\begin{remark}[Piecewise Linear Option Contracts]
     Assume that utility is log (as in $u(x) = \log(w_0 + x)$) and that the distribution of outcomes is in an exponential family with linear sufficient statistic (as in equation \ref{eq:linear-exponential-family}). Then the relaxed optimal contract wage function is piecewise linear. This includes the Gaussian, exponential, Poisson, and gamma distributions.\footnote{Note that the remark covers distributions with support different than $\mathbb R$, such as the exponential. These distributions do not satisfy Assumption (\ref{assump:regularity_S}). Nevertheless, the proof of proposition \ref{prop:relaxed-optimal-contract} does not use that the support is $\mathbb R$, so the remark holds. However, our proof that the relaxed optimal contract is optimal does use that the support is $\mathbb R$. Therefore, we do not know whether Theorem 1 can be extended to different supports, and thus whether the remark can be extended to optimal contracts in the case of sufficiently high reservation utility. We conjecture based on numerical results that this is true and hope to include these facts in our next revision.}
 \end{remark}
 
-\textbf{Concave and Convex Contracts} The optimal contract is always at least partially convex because the limited liability constraint requires that $w(y) = 0$ for all $y$ less than some threshold, $\ubar y$. The region where the limited liability constraint does not bind, however, can be convex or concave depending on the agent's risk aversion.
+Our piecewise linear contracts are option contracts. The value is constant for low outcomes, and increases linearly past a ``strike price''. Such contracts with a fixed payment plus options are widely used. Our results generalize the existing literature, where \cite{chaigneau2022should} showed that this option contract is optimal with a Gaussian distribution, and \cite{holmstrom1978incentives} showed this assuming the first-order approach.
+
+\subsection{Concave and Convex Contracts} The optimal contract is never globally concave because the limited liability constraint requires that $w(y) = 0$ for all $y$ less than some threshold, $\ubar y$. The region where the limited liability constraint does not bind, however, can be convex or concave depending on the agent's risk aversion.
 
 \begin{remark}
     \label{rem:convexandconcave}
@@ -36,14 +38,16 @@ We note this as follows:
     $$ w(y) =  \frac{\log( \lambda + k y )}{\alpha} - w_0 \text{ for } y > \ubar y .$$
 \end{remark}
 
-The remark shows that the shape of the optimal contract depends heavily on the agent's utility function, and a wide variety of contracts are potentially compatible with the theory. Our result is contrary to \cite{conlon2009two}'s view that convex contracts, like CEO compensation with stock options, are incompatible with the first-order approach. In fact, the optimal contract with CRRA utility and $\gamma < 1$ closely approximates a CEO compensation package of stock options with many strike prices. To see this, consider a CEO who receives $n_{i}$ options with strike price $s_i$ that expire at the end of the year. The CEO's wage is 
-$$ w(y) = \sum_i n_{i} (y - strike_i)^+, $$
-where $y$ is the stock's end of year price price. 
-The wage function's slope at $y$ is $\sum_{strike_i < y} n_{i}$; the wage is a piecewise-linear function where the slope increases as $y$ increases. The options package wage may be a discretization of the contract the model predicts for an agent with CRRA utility with $\gamma < 1$, and a linear score function. Its slope is also increasing on the outcome and equals $\frac{k}{\gamma}(\lambda + k y) ^\frac{1-\gamma}{\gamma}$ for some constant $k$. 
+The remark shows that the shape of the optimal contract depends on the agent's utility function, and a wide variety of contracts are potentially compatible with the theory. Interestingly, this shows that the first-order approach is valid even in settings with convex contracts, like stock options. This assuages the concerns raised by \cite{conlon2009two}. He makes the insightful point, that apparently the first-order approach should fail in the practically important case of convex contracts, ruling out common contracts like options. \cite{conlon2009two}'s point was based on the Jewitt conditions, which do require this.
 
-Remark \ref{rem:convexandconcave} affirms \citeauthor{holmstrom1987aggregation}'s (\citeyear{holmstrom1987aggregation}) view that the principle agent model does not robustly predict linear wages. The optimal wage is only linear if the agent's risk aversion parameter is precisely $\gamma=1$. However, if the agent's risk aversion is approximately one, the optimal contract will be approximately linear, and using a linear contract may be practical. 
+However, in the high reservation utility case, we see that many common convex contracts still work with the first-order approach. The optimal contract with CRRA utility and $\gamma < 1$ closely approximates a CEO compensation package of stock options with many strike prices. To see this, consider a CEO who receives $n_{i}$ options with strike price $s_i$ that expire at the end of the year. The CEO's wage is 
+$$ w(y) = \sum_i n_{i} (y - \text{strike}_i)^+, $$
+where $y$ is the stock's end of year price. 
+The wage function's slope at $y$ is $\sum_{\text{strike}_i < y} n_{i}$; the wage is a piecewise-linear function where the slope increases as $y$ increases. The options package wage may be a discretization of the contract the model predicts for an agent with CRRA utility with $\gamma < 1$, and a linear score function.
 
-\textbf{Limitations and numerical methods.}
+Remark \ref{rem:convexandconcave} affirms \citeauthor{holmstrom1987aggregation}'s (\citeyear{holmstrom1987aggregation}) view that the principal agent model does not robustly predict linear wages. The optimal wage is only (piecewise) linear if the agent's risk aversion parameter is precisely $\gamma=1$. However, if the agent's risk aversion is approximately one, the optimal contract will be approximately linear in certain cases.
+
+\subsection{Limitations and numerical methods.}
 The formulae have two main limitations. First, there is no general closed form solution for the Lagrange multipliers $\lambda$ and $\mu$. Thus, Theorem \ref{thm:main} guarantees that optimal contracts have the described functional form, but the Lagrange multipliers have to be calculated numerically. Second, as noted in Theorem \ref{thm:main}, these simple formulae do not hold for sufficiently low reservation utility.
 
-To address these limitations, we provide accompanying code to numerically solve for optimal contracts. The numerical methods solve both the relaxed problem, and also the full cost minimization problem, in the case where only a finite number of global constraints bind. This is the case in all the experiments that we conducted. Both are convex optimization problems, and can be solved at trivial computational cost in all our experiments. The code implements all the common specifications in tables \ref{tab:utility_functions} and \ref{tab:dists}.
+To address these limitations, we provide accompanying code at \url{https://github.com/eduardomazevedo/azevedo-wolff-replication} to numerically solve for optimal contracts. The numerical methods solve both the relaxed problem, and also the full cost minimization problem, in the case where only a finite number of global constraints bind. This is the case in all the experiments that we conducted. Both are convex optimization problems, and can be solved at trivial computational cost in all our experiments. The code implements all the specifications in tables \ref{tab:utility_functions} and \ref{tab:dists}.

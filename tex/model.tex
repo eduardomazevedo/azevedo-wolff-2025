@@ -31,7 +31,7 @@ The \textbf{relaxed cost minimization problem} replaces the global incentive com
 
 \subsection{Assumptions and Notation}
 
-We state here the assumptions needed for our results. This section can be skimmed on a first reading.
+We now state needed assumptions. This section can be skimmed on a first reading.
 
 \begin{assumption}[Regularity of utility, cost and density]
 \label{assump:utility_cost}
@@ -42,7 +42,6 @@ We now make technical assumptions that allow us to use Leibniz's rule of differe
 
 \begin{assumption}[Regularity of feasible contracts]
 \label{assump:leibniz}
-The output density function $f(y|a)$ satisfies:
 \begin{enumerate}
     \item Every feasible contract is measurable.
     \item Given any $a_1$ in $\mathcal{A}$ and a feasible contract $v$, there exists an integrable function $\theta(y)$ and a neighborhood of $a_1$ such that, for all $a$ in this neighborhood,
@@ -50,7 +49,7 @@ The output density function $f(y|a)$ satisfies:
         \left|v \partial^n_a f(y|a)\right| \leq \theta(y)
     \]
     for $n = 0, 1, 2$ and for all $y$ in the support of $f(\cdot | a)$.
-    \item For all $a$ in $\mathcal{A}$ and canonical contract $v$ (as defined in definition \ref{def:canonical-contract}),
+    \item For all $a$ in $\mathcal{A}$ and canonical contract $v$ (see definition \ref{def:canonical-contract} below),
     \[
         \Pi(v, a) < \infty\text{.}
     \]
@@ -64,7 +63,8 @@ We now consider substantive restrictions.
     \label{assump:regularity_S}
     The output density function $f(y|a)$ satisfies:
     \begin{enumerate}
-        \item For all $a$, the support of $f(y|a)$ is $\mathbb R$.
+        \item The support of $f(\cdot | a)$ is an interval and does not depend on $a$.%
+        \footnote{We allow the support to be $\mathbb R$ or an unbounded interval.}
         \item $F_a(y|a) < 0$ for all $y$ and $a$.
         \item For all $a$, the score $\partial_a \log f(y|a)$ is strictly increasing in $y$ and its image is $\mathbb R$ (this is known in the literature as the monotone likelihood ratio property or MLRP). 
         \item There exists $y_0$ in $\mathbb R$ such that, for all $y \leq y_0$ and $a$,
@@ -72,10 +72,7 @@ We now consider substantive restrictions.
         f_{aa}(y|a) > 0 \text{.}
         $$
     \end{enumerate}
-    
-    \end{assumption}
-
-Note that we assume that the support of $f$ is $\mathbb R$. The numerical examples, like the exponential distribution, suggest that this assumptions is not necessary. We hope to weaken the assumption in the next version of this paper.
+\end{assumption}
 
 \begin{assumption}[Concavity and limit of inverse marginal utility]
 \label{assump:concavity_inverse_marginal_utility}
