@@ -25,5 +25,10 @@
   "latex-workshop.latex.clean.fileTypes": [
     "*.aux", "*.bbl", "*.bcf", "*.blg", "*.fdb_latexmk", "*.fls",
     "*.log", "*.out", "*.run.xml", "*.synctex.gz", "*.toc"
-  ]
+  ],
+  // Python virtual environment settings
+  "python.defaultInterpreterPath": ".venv/bin/python",
+  "python.terminal.activateEnvironment": true,
+  "python.venvPath": "${workspaceFolder}",
+  "python.terminal.activateEnvInCurrentTerminal": true
 }

@@ -36,3 +36,6 @@ Icon?
 *.swp
 *.bak
 *.tmp
+
+# Ignore Python virtual environment
+.venv/
