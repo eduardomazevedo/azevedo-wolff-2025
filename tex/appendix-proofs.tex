@@ -174,133 +174,83 @@ $\lambda ^*$ strictly increasing follows from lemma $\ref{u-tilde-increasing}$ a
     
 \end{proof}
 
- \subsection{Proof of Proposition \ref{prop:concave}}
- \label{subsec:proof-derivs}  
+\subsection{Proof of Proposition \ref{prop:concave}}
+\label{subsec:proof-derivs}  
 
- This section demonstrates that the second derivative of agent's utility is negative for sufficiently high reservation utility. The bulk of the section is spent demonstrating the same result for $\lambda$ sufficiently high, and the main result follows as an immediate corollary. Throughout this section, we use the $\tilde V (y | \lambda)$ notation defined in equation (\ref{eq:tildeV-definition}) because we are focused on the agent's problem as $\lambda$ becomes large. Although $\tilde \mu(\lambda)$ is a function of $\lambda$ (Lemma \ref{lem:mu-tilde}) we abuse notation by omitting dependence on $\lambda$ and writing $\tilde{\mu}$ to denote $\tilde{\mu}(\lambda)$. 
-
- The section proceeds as follows. Lemmas \ref{lem:v_derivs} and \ref{lem:second-derivative} derive a convenient formula for the second derivative of agent's utility with respect to effort. Lemma \ref{lem:threshold-outcome} shows that the agent's probability of receiving payment approaches 1 as $\lambda$ approaches infinity. Lemma \ref{lem:inf_lambda_second_deriv} shows that the second derivative of agent's utility is negative for $\lambda$ sufficiently high. We then use these lemmas to prove the main result.
-
-We begin with an equation for the general form of agent's utility and its derivatives for an arbitrary contract. 
-\begin{lemma} 
-\label{lem:v_derivs}
-    Given a contract, $v$, $U$ and its derivatives evaluated at $a$ equal
-    \begin{align*}
-    U(v,a) &= \int v \cdot f(v|a) \, dy - c(a), \\
-    U_{a}(v,a) &= \int v \cdot S(y|a) f(y | a) \, dy - c'(a), \\
-    U_{aa}(v,a) &= \int v \cdot \left( S^2(y|a) + S_{a}(y|a) \right) f(v|a) \, dy - c''(a).
-    \end{align*}
-\end{lemma} 
-
-\begin{proof}
-The expression for $U(v,a)$ is the definition. 
-Differentiating $U(v,a)$ with respect to $a$ yields 
-\[
-U_a(v,a) = \int v f_a(v|a) \, dv - c'(a).
-\]
-The formula for $U_a$ follows from the fact that $f_a(v|a) = f(v|a) S(v|a)$.
-Differentiating $U_a(v,a)$ with respect to $a$ gives
-\begin{align*}
-U_{aa}(v,a) &= \int v \frac{\partial}{\partial a} \left[ f(v|a) S(v|a) \right] dv - c'(a) \\
-&= \int v \left[ f_a(v|a) S(v|a) + f(v|a) S_a(v|a) \right] dv - c''(a) \\
-&= \int v \left[ f(v|a) S(v|a) S(v|a) + f(v|a) S_a(v|a) \right] dv - c''(a) \\
-&= \int v \left[ S^2(v|a) + S_a(v|a) \right] f(v|a) \, dv - c''(a) .
-\end{align*} 
-\end{proof}
-
-\noindent We now use Lemma \ref{lem:v_derivs} to derive the following equations for the agent's utility and its derivatives.  
-\begin{lemma}
-\label{lem:second-derivative}
-    Given a canonical contract, $v(y) := \tilde V (y | \lambda)$, the agent's utility and its derivatives evaluated at $a$ are  
-    \[
-    \begin{aligned}
-        U \left( v, a \right) 
-        &= g(\lambda) + \tilde{\mu} \int \Delta g(y | \lambda) \cdot S(y|a_0) f(y | a) \, dy - c(a), \\
-        U_a \left( v, a \right) 
-        &= \tilde{\mu} \int \Delta g(y | \lambda) \cdot S(y|a) \cdot S(y|a_0) f(y | a) \, dy - c'(a), \\
-        U_{aa}\left( v, a \right) 
-        &= \tilde{\mu} \int \Delta g(y | \lambda) \left( S^2(y|a) + S_a(y|a) \right) \cdot S(y|a_0) f(y | a) \, dy - c''(a),
-    \end{aligned}
-    \]
-    where 
-    \[
-    \Delta g(y | \lambda) = \frac{g(\lambda + \tilde{\mu} S(y |  a_0)) - g(\lambda)}{\tilde{\mu} S(y |  a_0)}.
-    \]
-\end{lemma}
-
-\begin{proof}
-    The utility function, \( U \), evaluated at the canonical contract, $
-    \tilde{V}(y|\lambda)$, and action, $a$, is
-    \[
-    U \left( \tilde{V}(y|\lambda), a \right) = \int \tilde{V}(y|\lambda) f(y|a) \, dy.
-    \]
-    Recall that $\tilde{V}(y|\lambda) = g\left( \lambda + \tilde{\mu} S(y|a_0) \right)$. Substituting in yields 
-    \[
-    U \left( \tilde{V}(y|\lambda), a \right) = \int g\left( \lambda + \tilde{\mu} S(y|a_0) \right) f(y|a) \, dy.
-    \]
-    Adding and subtracting \( g(\lambda) \), we rewrite the integral:
-    \[
-     U \left( \tilde{V}(y|\lambda), a \right) = g(\lambda) + \int \left[ g\left( \lambda + \tilde{\mu} S(y|a_0) \right) - g(\lambda) \right] f(y|a) \, dy.
-    \]
-    Using the definition $ \Delta g(y | \lambda) = \frac{g(\lambda + \tilde{\mu} S(y |  a_0)) - g(\lambda)}{\tilde{\mu} S(y |  a_0)} $ and multiplying by $\frac{\tilde{\mu} S(y|a_0)}{\tilde{\mu} S(y|a_0)}$ yields 
-     $$ U \left( \tilde{V}(y|\lambda), a \right) = g(\lambda) + \tilde{\mu} \int \Delta g(y | \lambda) \cdot S(y|a_0) f(y | a) \, dy - c(a) .$$
-     The lemma follows from \ref{lem:v_derivs}'s formula for the derivatives applied to  $v(y) = \Delta g(y | \lambda) \cdot S(y|a_0)$. 
-\end{proof} 
-
-We now demonstrate that for $\lambda$ sufficiently large the agent receives a strictly positive payment for an arbitrarily large portion of the support of $f(y|a)$ for any $a > 0$. We begin by defining some additional notation. 
+This section demonstrates that the second derivative of agent's utility is negative for sufficiently high reservation utility. The bulk of the section is spent demonstrating the same result for $\lambda$ sufficiently high, and the main result follows as an immediate corollary. Throughout this section, we use the $\tilde V (y | \lambda)$ notation defined in equation (\ref{eq:tildeV-definition}) because we are focused on the agent's problem as $\lambda$ becomes large. Although $\tilde \mu(\lambda)$ is a function of $\lambda$ (Lemma \ref{lem:mu-tilde}) we abuse notation by omitting dependence on $\lambda$ and writing $\tilde{\mu}$ to denote $\tilde{\mu}(\lambda)$. 
 
 \begin{definition}
-    \label{def:threshold-score}
-     The \textbf{threshold score}, $\ubar{S}(\lambda)$, is the maximum score such that the agent receives no payment. It is the score that solves 
+    Let
     \[
-    \lambda + \tilde \mu \ubar{S}(\lambda) = \frac{1}{u'(0)} \text{,}
+        \Delta g (y | \lambda) :=
+        \tilde V(y| \lambda) - g(\lambda) =
+        g(\lambda + \tilde{\mu} S(y|a_0)) - g(\lambda)
+        \text{.}
     \]
-    or, equivalently,
-    \[
-    \ubar{S}(\lambda) := \frac{1}{\tilde{\mu} u'(0)} - \frac{\lambda}{\tilde{\mu}} \text{.}
-    \]  
-    The threshold score is well defined because $\tilde{\mu} > 0$ by Lemma \ref{lem:mu-tilde}.
 \end{definition}
 
+
+
+\begin{remark}
+\label{lem:second-derivative}
+Given a canonical contract, \( v(y) := \tilde V (y | \lambda) \), the agent's utility and its derivatives evaluated at \( a \) are:
+\begin{align*}
+    U(v, a)
+    &= g(\lambda) + \int \Delta g(y | \lambda) f(y | a) \, dy - c(a), \\
+    U_a(v, a)
+    &= \int \Delta g(y | \lambda) f_a(y | a) \, dy - c'(a), \\
+    U_{aa}(v, a)
+    &= \int \Delta g(y | \lambda) f_{aa}(y | a) \, dy - c''(a).
+\end{align*}
+\end{remark}
+
 \begin{definition}
-    \label{def:threshold-outcome}
-    The \textbf{threshold outcome}, $\ubar{y}(\lambda)$, is the outcome which induces the threshold score, $\ubar{S}(\lambda)$:
-    $$ \ubar{y}(\lambda) = S^{-1}(\ubar{S}(\lambda, \tilde{\mu}) |  a_0) .$$ 
-    A score that satisfies the equation exists by Assumption \ref{assump:regularity_S}.3, which states that the score's image is $\mathbb{R}$. 
+    \label{def:threshold-output}
+    The \textbf{threshold output}, $\ubar{y}(\lambda)$, is the lowest output where the agent receives positive payment. Formally,
+    \[
+        \ubar y (\lambda)
+        :=
+        \inf
+        \left\{ y \in \operatorname{support}(f) :
+        \tilde V(y | \lambda) > u(0)
+        \right\} \text{.}
+    \]
 \end{definition} 
+
+Note that $\ubar y$ is always well-defined and finite. If the support is unbounded below, then our assumptions imply that there is always a finite threshold output. If the support is bounded below, there are two cases. In the case where the agent is sometimes paid zero, the threshold output is interior. In the case where the agent is never paid zero, the threshold output is the infimum of the support. Note that there are no cases where the agent is always paid zero, as this would violate the local IC constraint.
     
 \begin{lemma} 
     \label{lem:threshold-outcome}
-    The threshold outcome approaches negative infinity as $\lambda$ approaches infinity: 
-    $$ \lim _ {\lambda \rightarrow \infty} \ubar{y}(\lambda) = -\infty . $$ 
+    As $\lambda$ approaches infinity, the threshold output approaches the infimum of the support of $f$:
+    \[
+        \lim_{\lambda \to \infty} \ubar y (\lambda) = \inf \operatorname{support}(f)\text{.}
+    \] 
 \end{lemma}
 
 \begin{proof}
-    Lemma \ref{lem:second-derivative}'s result for $U_a$ evaluated at $a_0$ yields
-    $$ U_a  \left( \tilde{V}(y|\lambda), a_0 \right) = \tilde{\mu} \int  \Delta g(y | \lambda) \cdot S(y|a_0)^2 f(y|a_0) - c'(a_0). $$
-    The local incentive compatibility constraint requires that $U_a  \left( \tilde{V}(y|\lambda), a_0 \right)=0$. It follows that    
-    $$  \tilde{\mu} \int  \Delta g(y | \lambda) \cdot S(y|a_0)^2 f(y|a_0) = c'(a_0). $$ 
-    Observe that the term inside the expectation is weakly positive because $\Delta g(y | \lambda) \geq 0 $ by the monotonicity of $g$ and $S(y|a_0)^2 \geq 0$. 
-    Therefore, 
-    $$
-    c'(a_0) \geq
-    \tilde{\mu} \int _{S(y|a_0) \leq \ubar S(\lambda)} \Delta g(y | \lambda) \cdot S^2(y|a_0) f(y|a_0) \, dy \text{.}
-    $$
-    By definition, for all $y$ in the domain of integration, $g(y)=u(0)$. Substituting in to $\Delta g(y | \lambda)$ yields
-    $$
-    c'(a_0) \geq
-    \tilde{\mu} \int _{S(y|a_0) \leq \ubar S(\lambda)} \frac{(u(0) - g(\lambda))}{\tilde{\mu} S(y|a_0)} \cdot S^2(y|a_0) f(y|a_0) \, dy \text{.}
-    $$
-    We simplify and use the fact that $f_a(y|a_0) = f(y|a_0) S(y|a_0)$ 
-    $$ c'(a_0)
-    \geq (u(0) - g(\lambda)) \cdot \int_{S(y|a_0) \leq \ubar S(\lambda)} f_a(y|a_0) \, dy .$$ 
-    Integrating yields: 
-    $$ c'(a_0)
-    \geq (u(0) - g(\lambda)) \cdot F_a(\ubar y (\lambda) | a_0) .$$ 
-    Observe that $u(0) - g(\lambda) \rightarrow -\infty$, and $ F_a(\ubar y (\lambda) | a_0) < 0 $ by Assumption \ref{assump:regularity_S}.2. Supp ose $F_a(\ubar y (\lambda) | a_0)$ does not approach $0$. Then we have $c'(a_0) \geq \infty$. By contradiction, $F_a(\ubar y (\lambda) | a_0) \rightarrow 0$. 
+    The local IC constraint is
+    \[
+        c'(a_0) = \int \Delta g(y | \lambda) f_a(y | a_0) \, dy
+        \text{.}
+    \]
+    $\Delta g(y | \lambda)$ has the same sign as $f_a(y | a_0)$. Therefore,
+    \begin{eqnarray*}
+        c'(a_0)
+        &\geq&
+        \int_{y \leq \ubar y(\lambda)} \Delta g(y | \lambda) f_a(y | a_0) \, dy \\
+        &=&
+        \int_{y \leq \ubar y(\lambda)} [u(0) - g(\lambda)] f_a(y | a_0) \, dy \\
+        &=&
+        [u(0) - g(\lambda)] \cdot F _ a (\ubar y(\lambda) | a_0) \text{.}
+    \end{eqnarray*}
 
-    The threshold outcome, $\ubar y (\lambda)$, cannot converge to positive infinity because $\ubar S(\lambda)$ is negative for $\lambda$ sufficiently large because $S(\infty | a_0) = \infty$ by Assumption \ref{assump:regularity_S}.3, and $\infty > \ubar S(\lambda)$. If $\ubar S (\lambda)$ does not converge to negative infinity, then there is a subsequence that converges to a finite number. However, $F_a(c | a_0) < 0$ for any $c$ by Assumption \ref{assump:regularity_S}.2. The proposition is proven by contradiction. 
-\end{proof}    
+TODO: details, and may add result about CDF to lemma if needed below.
+\end{proof}
+
+XXX SCRATCH HERE XXX
+
+
+XXX OLD STUFF BELOW XXX
 
 \begin{lemma}
     \label{lem:inf_lambda_second_deriv}
