@@ -1,6 +1,6 @@
 \subsection{Solution of the Relaxed Problem} 
 
-Throughout this subsection, fix a reservation utility $\bar U$ and regular intended action $a_0$. The local IC constraint is only defined if $U(v, a)$ can be differentiated under the integral sign, so we begin by showing that differentiation under the integral at any action is possible for any feasible contract.
+Throughout this subsection, fix a reservation utility $\bar U$ and intended action $a_0$. The local IC constraint is only defined if $U(v, a)$ can be differentiated under the integral sign, so we begin by showing that differentiation under the integral at any action is possible for any feasible contract.
 
 \begin{remark} 
     \label{rem:leibniz}
@@ -61,7 +61,7 @@ If $\mu=0$, then $v(y)$ is constant, so
     U_{a}(V(\cdot|\lambda,0,a_{0}))-c'(a_{0})<0\text{.}
 \]
 
-As $\mu\rightarrow\infty$, $V(y|\lambda,\mu,a_{0})$ converges pointwise to $u(\infty)$ if $S(y|a_0) > 0$ and to $u(0)$ if $S(y|a_0) < 0)$. Hence, because $a_0$ is regular, for large enough $\mu$,
+As $\mu\rightarrow\infty$, $V(y|\lambda,\mu,a_{0})$ converges pointwise to $u(\infty) = \infty$ if $S(y|a_0) > 0$ and to $u(0)$ if $S(y|a_0) < 0)$. Hence, for large enough $\mu$,
 \[
     U_{a}(V(\cdot|\lambda,\mu,a_{0}))-c'(a_{0})>0\text{.}
 \]
@@ -379,5 +379,5 @@ By Lemma \ref{lem:second-derivative},
     \]
     This contradicts Lemma \ref{lem:inf_lambda_second_deriv}.
     
-    For any $\lambda \geq \lambda_0$, we thus have that $U(\tilde V (y | \lambda), a)$ is concave in $a$. The proposition is proven by letting $U^*$ be the solution to $\lambda^*(U^*) = \lambda_0$. The agent's problem is concave in $a$ for $\bar{U} \in [U^*, U_{R}]$ because $\lambda^*(\bar{U})$ is monotonic by Proposition \ref{prop:relaxed-optimal-contract}.4 
+    For any $\lambda \geq \lambda_0$, we thus have that $U(\tilde V (y | \lambda), a)$ is concave in $a$. The proposition is proven by letting $U^*$ be the solution to $\lambda^*(U^*) = \lambda_0$. The agent's problem is concave in $a$ for $\bar{U} \geq U^*$ because $\lambda^*(\bar{U})$ is monotonic by Proposition \ref{prop:relaxed-optimal-contract}.
 \end{proof}

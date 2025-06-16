@@ -6,7 +6,7 @@ Throughout this section, fix a regular intended action $a_0$. To simplify notati
 
 \subsection{Solution to the Relaxed Problem}
 
-We first show that the relaxed cost minimization problem has an almost everywhere unique solution, and that this solution has a simple formula in terms of Lagrange multipliers. The solution is based on the first order condition, and is similar to standard formulas in the literature, such as in the case without limited liability.\footnote{%
+We first show that the relaxed cost minimization problem has an almost everywhere unique solution, and that this solution has a simple formula in terms of Lagrange multipliers. The solution is based on the first order condition, and is similar to standard formulas in the literature.\footnote{%
 This type of formula for the optimal contract is well-known and central in the literature that assumes the first-order approach. The seminal reference is \cite{holmstrom1978incentives}, and recent examples with limited liability include \cite{jewitt2008moral} and \cite{chaigneau2022should}. The survey \cite{georgiadis2022contracting} has an excellent explanation of the formula in its first paragraphs.}
 
 The relaxed cost minimization problem is convex. Define its Lagrangian as
@@ -60,24 +60,23 @@ The following proposition shows that the relaxed problem has a solution and char
 \begin{proposition}
     \label{prop:relaxed-optimal-contract}
     [Solution of the Relaxed Cost-Minimization Problem]
-    There exists $\bar U_L$ in $\mathbb R$ and $\bar U _ R$ in $\mathbb R \cup \{\infty\}$ such that:
+    There exists $\bar U_L$ in $\mathbb R$ such that:
     \begin{enumerate}
-        \item (infeasible region) For $\bar U \geq \bar U _ R$, the relaxed problem is not feasible.
-        \item (feasible region) For $\bar U < \bar U _R$, the relaxed problem has an almost everywhere unique solution $v^*(y|\bar U)$. There exist Lagrange multipliers $\lambda^*(\bar U) \geq 0$ and $\mu^*(\bar U) > 0$ such that the solution is almost everywhere equal to the canonical contract
+        \item (solution) The relaxed problem has an almost everywhere unique solution $v^*(y|\bar U)$. There exist Lagrange multipliers $\lambda^*(\bar U) \geq 0$ and $\mu^*(\bar U) > 0$ such that the solution is almost everywhere equal to the canonical contract
     \[
         \label{eq:relaxed-optimal-contract}
         v^*(y|\bar U) := V\left(y | \lambda^*(\bar U), \mu^*(\bar U)\right)
         \text{.}
     \]
-        \item (comparative statics) In the feasible region,
+        \item (comparative statics)
         \begin{itemize}
             \item For $\bar U \leq \bar U_L$, we have $\lambda^*(\bar U) = 0$. The relaxed optimal contract $v^*(\cdot , \bar U)$ and optimal expected wage $\omega(\bar U)$ do not vary with $\bar U$ in this range.
-            \item For $\bar U_L < \bar U < \bar U_R$, $\lambda^*(\bar U)$ is strictly increasing and $\lim_{\bar U \rightarrow \infty} \lambda^*(\bar U) = \infty$. The optimal expected wage $\omega(\bar U)$ is strictly increasing and strictly convex.
+            \item For $\bar U > \bar U_L$, $\lambda^*(\bar U)$ is strictly increasing and $\lim_{\bar U \rightarrow \infty} \lambda^*(\bar U) = \infty$. The optimal expected wage $\omega(\bar U)$ is strictly increasing and strictly convex.
         \end{itemize}
     \end{enumerate}
 \end{proposition}
 
-Part (1) covers the case when $\bar U$ is so high that the relaxed problem is not feasible. For example, if $u(\cdot)$ is bounded and $u(\infty) - c(a_0)$ is smaller than $\bar U$, the relaxed problem is not feasible. As we see below, in many examples, the relaxed problem is feasible for all $\bar U$ in $\mathbb R$, so that $\bar U _R = \infty$ and part (1) is vacuous. Part (2) is the core of the result. It says that, whenever the relaxed problem is feasible, the solution is a canonical contract. 
+The proposition shows that the solution to the relaxed cost minimization problem is unique and given by a canonical contract. Moreover, the Pareto frontier of profits and agent utility is convex.
 
 The Gaussian-log utility example illustrates proposition \ref{prop:relaxed-optimal-contract}. The score is $(y-a) / \sigma^2$ , the compensation cost function is $k(v)=\exp (v) - w_0$ , and the link function is $\log \max \{z, w_0\}$. This implies the wage function
 \[
@@ -85,9 +84,9 @@ The Gaussian-log utility example illustrates proposition \ref{prop:relaxed-optim
  =
  \left[\lambda^*(\bar U) + \mu^*(\bar U) \frac{y-a}{\sigma^2} - w_0 \right] ^ +\text{.}
 \]
-This is the piecewise linear solution that we saw numerically in figure \ref{fig:norm_log_con_opt}. The convex Pareto frontier is illustrated in figure \ref{fig:pf}. The relaxed problem is always feasible, so the infeasible region is empty ($\bar U_R = \infty$).
+This is the piecewise linear solution that we saw numerically in figure \ref{fig:norm_log_con_opt}. The convex Pareto frontier is illustrated in figure \ref{fig:pf}.
 
-The figure illustrate the comparative statics from part (3). For sufficiently low $\bar U$, the (\ref{IR}) constraint is not binding, and thus the solution does not depend on $\bar U$. In the region where the (\ref{IR}) constraint is binding, expected wages and the Lagrange multiplier $\lambda^*(\bar U)$ are strictly increasing in $\bar U$.
+The figure illustrates the comparative statics from part (3). For sufficiently low $\bar U$, the (\ref{IR}) constraint is not binding, and thus the solution does not depend on $\bar U$. In the region where the (\ref{IR}) constraint is binding, expected wages and the Lagrange multiplier $\lambda^*(\bar U)$ are strictly increasing in $\bar U$.
 
 \begin{figure}[htbp]
     \centering
@@ -108,17 +107,15 @@ We now demonstrate that, for sufficiently high reservation utility, the solution
 
 \begin{proposition} 
     \label{prop:concave} 
-    [Concavity of the Agent's Problem for High Reservation Utility] \\[5pt]
-    There exists $U^* < \bar{U}_R \in \mathbb{R}$ such that, for all $\bar U$ with $U^* < \bar{U} < \bar U _ R$, and all $a \in \mathcal{A}$,  
+    [Concavity of the Agent's Problem for High Reservation Utility]
+    There exists $U^*$ in $\mathbb{R}$ such that, for all $\bar U \geq U^*$ and all $a \in \mathcal{A}$,  
     $$ U_{aa}(v^* (y | \bar{U}), a) \leq 0 .$$ 
 \end{proposition}
 
-Theorem \ref{thm:main} follows from proposition \ref{prop:concave} and proposition \ref{prop:relaxed-optimal-contract}:
+Theorem \ref{thm:main} is a direct consequence of this fact:
 
 \begin{proof}[Proof of Theorem \ref{thm:main}]
-    Take $\bar U \geq U ^*$. Proposition \ref{prop:relaxed-optimal-contract} implies that there are two cases. If $\bar U \geq \bar U _R$, neither the relaxed cost minimzation problem nor the cost minimization problem are feasible.
-    
-    If $\bar U < \bar U _R$, then the relaxed cost minimization problem has a solution $v^*(y | \bar U)$. Proposition \ref{prop:concave} implies that the agent's expected utility $U(v^*,a)$ is concave in $a$. Therefore, the global incentive compatibility constraint is satisfied, and the solution to the relaxed cost minimization problem is also a solution to the cost minimization problem.
+    Take $\bar U \geq U ^*$. If the relaxed cost minimization problem has a solution $v^*(y | \bar U)$, Proposition \ref{prop:concave} implies that the agent's expected utility $U(v^*,a)$ is concave in $a$. Therefore, the global incentive compatibility constraint is satisfied, and the solution to the relaxed cost minimization problem is also a solution to the cost minimization problem.
 \end{proof} 
 
 Proposition \ref{prop:concave} shows that high reservation utility is crucial for the first order approach's validity. Figure (\ref{fig:norm_log}) helps illustrate this result by plotting the relaxed optimal contract and the agent's expected utility versus her effort under the relaxed-optimal contract in the Gaussian-log utility example. The charcoal line represents the expected utility function for the relaxed-optimal contract with the lowest reservation utility, $\bar U = u(0)$. When reservation utility is low, the agent's problem is not concave, and choosing an action very close to $0$ is a profitable global deviation for the agent. The limited liability constraint makes low effort appealing for the agent; it ensures that the agent can always achieve utility strictly greater than $u(0)$ by exerting no effort. If the (\ref{IR_relaxed}) constraint binds, as it does in many of our examples, then the agent's expected utility from choosing the intended action is $\bar U$, and the first order approach surely fails when $\bar U = u(0)$.  
@@ -143,9 +140,9 @@ Proposition \ref{prop:concave} shows that high reservation utility is crucial fo
     \label{fig:norm_log}
 \end{figure}
 
-Figure (\ref{fig:norm_log}) also illustrates how, as reservation utility increases, the first-order approach becomes valid. The (\ref{IR_relaxed}) constraint ensures that $U(v^*,a_0)$ must be greater than $\bar U$. The rightmost local maximum, $U(v^*,a_0)$, therefore, increases as $\bar U$ increases. The leftmost local maximum also rises, but much more slowly. In the example, the first-order approach becomes valid with a very small increase in $\bar U$ above $u(0)$, as the rightmost local maximum overtakes the leftmost local maximum. Concavity of $U(v^*,a)$ on the other hand, usually requires much larger increases to $\bar U$, so, there are many values of $\bar U$ where the first-order approach is valid, even though $U(v^*,a)$ is not concave in $a$. Thus, concavity of $U(v,a)$ is a sufficient, but not necessary condition for the first-order approach's validity. 
+Figure (\ref{fig:norm_log}) also illustrates how, as reservation utility increases, the first-order approach becomes valid. The (\ref{IR_relaxed}) constraint ensures that $U(v^*,a_0)$ must be greater than $\bar U$. The rightmost local maximum, $U(v^*,a_0)$, therefore, increases as $\bar U$ increases. The leftmost local maximum also rises, but much more slowly. In the example, the first-order approach becomes valid with a very small increase in $\bar U$ above $u(0)$, as the rightmost local maximum overtakes the leftmost local maximum. Concavity of $U(v^*,a)$ on the other hand, usually requires much larger increases to $\bar U$, so, there are many values of $\bar U$ where the first-order approach is valid, even though $U(v^*,a)$ is not concave in $a$.
 
-We now explain why the agent's problem is concave for high reservation utility, but not for low reservation utility. The relaxed optimal contract has two distinct regions. When the outcome, $y$, is below a threshold, the limited liability constraint binds, and the contract specifies a constant wage of $0$. When $y$ is above the threshold, the agent's payment is dictated by equation (\ref{eq:foc}). Figure \ref{fig:norm_log} illustrates how the threshold depends on the agent's reservation utility. As reservation utility increases, the threshold shifts to the left. 
+We now clarify the intuition of why the agent's problem is concave for high reservation utility, but not for low reservation utility. The relaxed optimal contract has two regions. When the outcome $y$ is below a threshold, the limited liability constraint binds, and the contract specifies a constant wage of $0$. When $y$ is above the threshold, the agent's payment is dictated by equation (\ref{eq:foc}). Figure \ref{fig:norm_log} illustrates how the threshold depends on the agent's reservation utility. As reservation utility increases, the threshold shifts to the left. 
 
 The region where the limited liability constraint binds introduces convexity to the agent's problem. When the limited liability constraint binds, the agent is paid $0$, and marginal increases to the agent's effort do not change her payment. The agent's returns to effort are therefore proportional to the probability the agent receives a positive payment. This probability is increasing on her effort, so the agent's expected wage is a convex function of the agent's effort. 
 
