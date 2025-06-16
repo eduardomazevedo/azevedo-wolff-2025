@@ -270,7 +270,7 @@ $\lambda ^*$ strictly increasing follows from lemma $\ref{u-tilde-increasing}$ a
     Integrating yields: 
     $$ c'(a_0)
     \geq (u(0) - g(\lambda)) \cdot F_a \left( \ubar y (\lambda) | a_0 \right) .$$ 
-    Observe that $u(0) - g(\lambda) \rightarrow -\infty$ by Assumption [TODO: utility unbounded], and $ F_a(\ubar y (\lambda) | a_0) < 0 $ by Assumption \ref{assump:regularity_S}.2. Suppose $F_a \left( \ubar y (\lambda) | a_0 \right)$ does not approach $0$. Then we have $c'(a_0) \geq \infty$. By contradiction, $F_a \left( \ubar y (\lambda) | a_0 \right) \rightarrow 0$.
+    Observe that $u(0) - g(\lambda) \rightarrow -\infty$ by Assumption \ref{assump:utility_cost}, and $ F_a(\ubar y (\lambda) | a_0) < 0 $ by Assumption \ref{assump:regularity_S}.2. Suppose $F_a \left( \ubar y (\lambda) | a_0 \right)$ does not approach $0$. Then we have $c'(a_0) \geq \infty$. By contradiction, $F_a \left( \ubar y (\lambda) | a_0 \right) \rightarrow 0$.
 
     The threshold outcome, $\ubar y (\lambda)$, cannot converge to positive infinity because it is bounded above by the solution to $S(y | a_0) = 0$. To reach a contradiction, assume that $\ubar y (\lambda)$ does not converge to negative infinity. Then there is a subsequence where $\ubar S (\lambda)$ converges to a finite value $y_0$. Then $F_a \left( \ubar y (\lambda) | a_0 \right)$ converges to  $F_a \left( y_0 | a_0 \right)$. Assumption \ref{assump:regularity_S}.2 implies that this is a strictly negative number, reaching a contradiction.
 \end{proof}  
@@ -304,7 +304,7 @@ By Lemma \ref{lem:second-derivative},
     \cdot S(y|a_0)
     \cdot f_{aa}(y | a) \, dy - c''(a)
     $$ 
-    Assumption TODO implies that there exists $y_0$ such that $f_{aa}(y | a) > 0$ for all $y \leq y_0$ and $a$. Because the score is monotone, we can take $y_0$ such that $S(y|a_0) < 0$ for all $y \leq y_0$. Therefore, the integrand is negative for all $y \leq y_0$ and $a$.    
+    Assumption \ref{assump:regularity_S} implies that there exists $y_0$ such that $f_{aa}(y | a) > 0$ for all $y \leq y_0$ and $a$. Because the score is monotone, we can take $y_0$ such that $S(y|a_0) < 0$ for all $y \leq y_0$. Therefore, the integrand is negative for all $y \leq y_0$ and $a$.    
     
     It follows that 
     $$
@@ -314,38 +314,62 @@ By Lemma \ref{lem:second-derivative},
     \cdot S(y|a_0)
     \cdot f_{aa}(y | \hat a) \, dy
     - c''(a) \text{.}
-    $$ 
-    
-    Lemma \ref{lem:threshold-outcome} implies that for $\lambda$ sufficiently large, $\ubar y (\lambda, a_0) \leq y_0$. Recall that for $y>\ubar y$, $g(y) = k'^{-1}(\lambda + \mu S(y|a_0))$. The concavity of $k'^{-1}$ (Assumption \ref{assump:concavity_inverse_marginal_utility}) implies that $\Delta g$ is decreasing for $y$ in $Y_+$. Therefore,
+    $$
+
+    Let $Y_+$ be the set of $y \geq y_0$ where this integrand is positive. Then 
     $$
     U_{aa}\left( \tilde{V} \left( y |  \lambda \right), a \right) \leq
-    \tilde{\mu} 
-    \Delta g(y_0 | \lambda)
-    \int_{Y_+}
-    \left( S^2(y|a) + S_a(y |a) \right) \cdot S(y_0|a_0)
-    \cdot f(y | \hat a) \, dy - c''(a) \text{.}
+    \tilde{\mu} \int_{Y_+} 
+    \Delta g(y | \lambda)
+    \cdot S(y|a_0)
+    \cdot f_{aa}(y | \hat a) \, dy
+    - c''(a) \text{.}
     $$
-    Because $g(y)$ is concave for $y > \ubar y$ and $y_0 > \ubar y$
+    
+     Lemma \ref{lem:threshold-outcome} implies that for $\lambda$ sufficiently large, $\ubar y (\lambda, a_0) \leq y_0$. The concavity of $k'^{-1}$ (Assumption \ref{assump:concavity_inverse_marginal_utility}) implies that $\Delta g$ is decreasing for $y$ in $Y_+$. Therefore,
+    $$
+    U_{aa}\left( \tilde{V} \left( y |  \lambda \right), a \right) \leq
+    \tilde{\mu} \int_{Y_+} 
+    \Delta g \left(y_0 | \lambda \right)
+    \cdot S(y|a_0)
+    \cdot f_{aa}(y | \hat a) \, dy
+    - c''(a) \text{.}
+    $$
+
+    $g(y | \lambda)$ is concave for $y > \ubar y$. Thus,
     \begin{align*}
     \tilde{\mu} \Delta g(y_0 | \lambda)
-    &\leq \tilde{\mu} g'(\lambda + \tilde{\mu} S(y|a_0)) \\
-    &= \frac{\tilde{\mu}}{\lambda + \tilde{\mu} S(y|a_0)} \cdot (\lambda + \tilde{\mu} S(y|a_0)) g'(\lambda + \tilde{\mu} S(y|a_0)). 
+    &\leq \tilde{\mu} g'(\lambda + \tilde{\mu} S(y_0|a_0)) \\
+    &=
+        \frac{\tilde{\mu}}{\lambda
+        + \tilde{\mu} S(y_0|a_0)}
+        \cdot
+        (\lambda + \tilde{\mu} S(y_0|a_0))
+        g'(\lambda + \tilde{\mu} S(y_0|a_0)). 
     \end{align*}
-    Lemma \ref{lem:mu_lambda} states that $\frac{\tilde{\mu}}{\lambda} \rightarrow 0$ as $\lambda \rightarrow \infty $, and Assumption \ref{assump:concavity_inverse_marginal_utility} implies that $(\lambda + \tilde{\mu} S(y_0|a_0)) g'(\lambda + \tilde{\mu} S(y_0|a_0))$ has a finite limit. It follows that 
-    $$ U_{aa}\left( \tilde{V} \left( y |  \lambda \right), a \right) \leq - c''(a) < 0 $$ 
+    Corollary \ref{cor:mu_lambda} states that $\tilde{\mu} / \lambda \rightarrow 0$ as $\lambda \rightarrow \infty $, and Assumption \ref{assump:concavity_inverse_marginal_utility} implies that $(\lambda + \tilde{\mu} S(y_0|a_0)) g'(\lambda + \tilde{\mu} S(y_0|a_0))$ has a finite limit. It follows that 
+    $$
+    \limsup_{\lambda \to \infty}
+    \,
+    U_{aa}\left( \tilde{V} \left( y |  \lambda \right), a \right) \leq - c''(a)
+    <
+    0
+    $$ 
     with the last inequality implied by the strict convexity of the cost function (Assumption \ref{assump:utility_cost}). 
 \end{proof} 
 
-\noindent We now prove Proposition \ref{prop:concave}. 
-\begin{proof}
+\textbf{Completing the proof of Proposition \ref{prop:concave}.}
+\begin{proof}[Proof of Proposition \ref{prop:concave}]
     We first prove that there exists $\lambda_0$ such that, for all $\lambda \geq \lambda _0$ and $a$ in $\mathcal A$,
     \[
-        U_{aa}(\tilde V(y | \lambda), a) \leq 0\text{.}
+        U_{aa} \left(\tilde V(y | \lambda), a \right)
+        \leq
+        0\text{.}
     \]
     
-    To reach a contradiction, assume that this is not the case. Then there exists a sequence of $\lambda_n \rightarrow \infty$ and $a_k$ such that
+    To reach a contradiction, assume that this is not the case. Then there exists a sequence of $\lambda_n \rightarrow \infty$ and $a_k$ in $\mathcal A$ such that
     \[
-        U_{aa}(\tilde V(y | \lambda_n), _n) > 0\text{.}
+        U_{aa} \left(\tilde V(y | \lambda_n), _n \right) > 0\text{.}
     \]
     
     Because $\mathcal A$ is compact, we can take a convergent subsequence where $a_k \rightarrow a_1$. Therefore,

@@ -35,7 +35,7 @@ We now state needed assumptions. This section can be skimmed on a first reading.
 
 \begin{assumption}[Regularity of utility, cost and density]
 \label{assump:utility_cost}
-The set of feasible actions $\mathcal{A} \subseteq \mathbb{R}_+$ is a compact interval including $0$. The utility function $u$ is strictly concave and smooth, and has  $\lim_{x\rightarrow\infty}u'(x)=0$. The cost function $c$ is strictly convex and smooth, and $c'(0) = 0$. The output density $f(y | a)$ is smooth in the action, $a$, for all outputs, $y$.
+The set of feasible actions $\mathcal{A} \subseteq \mathbb{R}_+$ is a compact interval including $0$. The utility function $u$ is strictly concave and smooth, has $\lim_{x\rightarrow\infty}u(x)=\infty$ and $\lim_{x\rightarrow\infty}u'(x)=0$. The cost function $c$ is strictly convex and smooth, and $c'(0) = 0$. The output density $f(y | a)$ is smooth in the action, $a$, for all outputs, $y$.
 \end{assumption}
 
 We now make technical assumptions that allow us to use Leibniz's rule of differentiation under the integral sign. For this, we impose restrictions on $k$, $f$ and on the set of feasible contracts. At the same time, we require the set of feasible contracts to be rich enough so that relevant contracts are not ruled out by assumption.
@@ -63,8 +63,7 @@ We now consider substantive restrictions.
     \label{assump:regularity_S}
     The output density function $f(y|a)$ satisfies:
     \begin{enumerate}
-        \item The support of $f(\cdot | a)$ is an interval and does not depend on $a$.%
-        \footnote{We allow the support to be $\mathbb R$ or an unbounded interval.}
+        \item The support of $f(\cdot | a)$ is the real line.%
         \item $F_a(y|a) < 0$ for all $y$ and $a$.
         \item For all $a$, the score $\partial_a \log f(y|a)$ is strictly increasing in $y$ and its image is $\mathbb R$ (this is known in the literature as the monotone likelihood ratio property or MLRP). 
         \item There exists $y_0$ in $\mathbb R$ such that, for all $y \leq y_0$ and $a$,
