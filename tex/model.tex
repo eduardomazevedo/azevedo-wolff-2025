@@ -42,6 +42,8 @@ We now make technical assumptions that allow us to use Leibniz's rule of differe
 
 \begin{assumption}[Regularity of feasible contracts]
 \label{assump:leibniz}
+{\ }
+\par
 \begin{enumerate}
     \item Every feasible contract is measurable.
     \item Given any $a_1$ in $\mathcal{A}$ and a feasible contract $v$, there exists an integrable function $\theta(y)$ and a neighborhood of $a_1$ such that, for all $a$ in this neighborhood,
@@ -57,11 +59,12 @@ We now make technical assumptions that allow us to use Leibniz's rule of differe
 \end{enumerate}
 \end{assumption}
 
-We now consider substantive restrictions.
+We now consider substantive restrictions on the distribution of output.
 
 \begin{assumption}[Assumptions on the distribution of output]
     \label{assump:regularity_S}
-    The output density function $f(y|a)$ satisfies:
+    {\ }
+    \par
     \begin{enumerate}
         \item The support of $f(\cdot | a)$ is the real line.%
         \item $F_a(y|a) < 0$ for all $y$ and $a$.
@@ -73,6 +76,8 @@ We now consider substantive restrictions.
     \end{enumerate}
 \end{assumption}
 
+Another substantial restriction is sufficient concavity of $k'^{-1}$.
+
 \begin{assumption}[Concavity and limit of inverse marginal utility]
 \label{assump:concavity_inverse_marginal_utility}
 The function ${k'}^{-1}$ is strictly concave and
@@ -82,4 +87,4 @@ The function ${k'}^{-1}$ is strictly concave and
 is finite.
 \end{assumption}
 
-The function $k'^{-1}$ is the same as \citeauthor{jewitt1988justifying}'s (\citeyear{jewitt1988justifying}) $\omega(z)$. So our assumption that $k'^{-1}$ is strictly concave corresponds to his assumption (2.12). The key difference is that \cite{jewitt1988justifying} does not have a limited liability constraint and requires that the first-order formula for an optimal contract holds globally. This requirement often implies that there is no solution to the principal's problem. For example in the Gaussian-log utility example there is no solution under Jewitt's assumptions (see derivation in Section \ref{sec:main-result-proof}).
+The function $k'^{-1}$ is the same as \citeauthor{jewitt1988justifying}'s (\citeyear{jewitt1988justifying}) $\omega(z)$. So our assumption that $k'^{-1}$ is strictly concave corresponds to his assumption (2.12). The key difference is that \cite{jewitt1988justifying} does not have a limited liability constraint and requires that the first-order formula for an optimal contract holds globally. This requirement often implies that there is no solution to the principal's problem. For example in the Gaussian-log utility example there is no solution under Jewitt's assumptions (see derivation in Section \ref{sec:main-result-proof}). \cite{jewitt1988justifying} also requires concavity of the score function, to guarantee that the optimal contract is concave in $y$. We do not require this.
