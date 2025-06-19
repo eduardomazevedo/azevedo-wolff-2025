@@ -92,7 +92,7 @@ The figure illustrates the comparative statics from part (2). For sufficiently l
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/norm_log_pf.pdf}
-    \caption{Pareto Frontier with Gaussian Distribution and Log Utility}
+    \caption{Pareto frontier in the Gaussian-log utility example}
     \label{fig:pf}
     \captionsetup{font=footnotesize} % Makes the note footnote-sized
     \caption*{\textit{Note:} This figure displays the relaxed problem's Pareto frontier. The agent's utility is $u(x) = log(\frac{x}{20K})$, the cost function is $c(a) = \theta a^2$, where $\theta = .01$, and the agent's starting wealth is $w_0 = 50K$. The output is $y \sim N(a,(20K^2))$, where $a$ is the agent's action. The intended action is $a_0 = 100K$.}
@@ -125,16 +125,16 @@ Proposition \ref{prop:concave} shows that high reservation utility is crucial fo
     \centering
     \begin{subfigure}[b]{0.45\textwidth}
         \includegraphics[width=\textwidth]{figures/norm_log_con.pdf}
-        \caption{Canonical Contracts}
+        \caption{Relaxed optimal contract}
         \label{fig:norm_log_con}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.45\textwidth}
         \includegraphics[width=\textwidth]{figures/norm_log_util.pdf}
-        \caption{Expected Utility}
+        \caption{Expected utility as a function of action}
         \label{fig:norm_log_util}
     \end{subfigure}
-    \caption{Relaxed Optimal Contracts with Gaussian Distribution and log Utility}
+    \caption{Cost minimizing relaxed optimal contracts in the Gaussian-log utility example}
     \label{fig:fig1}
     \captionsetup{font=footnotesize} % Makes the note footnote-sized
     \caption*{\textit{Note:} Panel a displays the wage function that solves the relaxed problem at different values of $\bar U$, and Panel b displays the agent's expected utility from a grid of possible actions given the corresponding wage functions from Panel a. The values of $\bar U$ are expressed in terms of certainty equivalents. The agent's utility is $u(x) = \log(\frac{x}{20K})$, the cost function is $c(a) = \theta a^2$, where $\theta = .01$, and the agent's starting wealth is $w_0 = 50K$. The output is $y \sim N(a,(20K^2))$, where $a$ is the agent's action. The intended action is $a_0 = 100K$.}
@@ -151,20 +151,20 @@ The key observation is that, as reservation utility increases, the kink tends to
     \centering
     \begin{subfigure}[b]{0.45\textwidth}
         \includegraphics[width=\textwidth]{figures/norm_log_probs.pdf}
-        \caption{Probability of Payment}
+        \caption{Probability of payment}
         \label{fig:norm_log_probs}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.45\textwidth}
         \includegraphics[width=\textwidth]{figures/norm_log_exp_wage.pdf}
-        \caption{Expected Wage}
+        \caption{Expected wage}
         \label{fig:norm_log_exp_wage}
     \end{subfigure}
-    \caption{Probability of Payment and Expected Wages in Gaussian-Log Utility Example}
+    \caption{Probability of payment and expected wages in the Gaussian-log utility example}
     \captionsetup{font=footnotesize} % Makes the note footnote-sized
     \caption*{\textit{Note:} Panel A plots the probability that the agent receives a strictly positive wage against the agent's action, under the relaxed optimal contract for different values of reservation utility. Panel B plots the expected wage against effort for the same contracts. The parameters of the problem are as in figure \ref{fig:fig1}.}
 \end{figure}
 
-Appendix \ref{sec:appendix-proofs} formalizes this argument in the proof of proposition \ref{prop:concave}. The proof has two key steps. First, it is shown that the probability that the agent receives zero payment converges to $0$. The intuition is that, when $\bar U$ is large, the typical payment received by the agent is large. So, if the agent could have a high impact on the probability of receiving a non-zero payment, she would have incentives to work harder than the intended effort level. This would violate the first-order condition, so the probability of receiving zero payment must converge to $0$ (lemma \ref{lem:threshold-outcome}).
+Appendix \ref{sec:appendix-proofs} formalizes this argument in the proof of proposition \ref{prop:concave}. The proof has two key steps. First, it is shown that the probability that the agent receives zero payment converges to zero. The intuition is that, when $\bar U$ is large, the typical payment received by the agent is large. So, if the agent could have a high impact on the probability of receiving a non-zero payment, she would have incentives to work harder than the intended effort level. This would violate the first-order condition, so the probability of receiving zero payment must converge to zero (lemma \ref{lem:threshold-outcome}).
 
 The second key step is to show that this implies that the agent's expected utility is concave in $a$. The intuition is that the kink is very far to the left. Moreover, most of the increase in utility going from a payment of zero to the typical payment happens close to the kink. The proof shows that, due to this, the curvature of expected utility is dominated by the curvature of the cost function (lemma \ref{lem:inf_lambda_second_deriv}).

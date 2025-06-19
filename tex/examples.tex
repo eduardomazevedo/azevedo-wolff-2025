@@ -11,17 +11,17 @@ Figure \ref{fig:norm_log_opt} plots optimal contracts for a range of reservation
     \centering
     \begin{subfigure}[b]{0.45\textwidth}
         \includegraphics[width=\textwidth]{figures/norm_log_con_opt_a.pdf}
-        \caption{Canonical Contracts}
+        \caption{Optimal contract}
         \label{fig:norm_log_con_opt}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.45\textwidth}
         \includegraphics[width=\textwidth]{figures/norm_log_util_opt_a.pdf}
-        \caption{Expected Utility}
+        \caption{Expected utility as a function of action}
         \label{fig:norm_log_util_opt}
     \end{subfigure}
     \vspace{0.5em}
-    \caption{Optimal Contracts with Gaussian Distribution and log Utility}
+    \caption{Optimal contracts in the Gaussian-log utility example}
     \label{fig:norm_log_opt}
     \captionsetup{font=footnotesize} % Makes the note footnote-sized
     \caption*{\textit{Note:} Panel a displays the wage function that solves the principal's profit maximization problem at different values of $\bar U$, and Panel b displays the agent's expected utility from a grid of possible actions given the corresponding wage functions from Panel a. The red line in Panel b plots the optimal action against optimal utility for the agent. The values of $\bar U$ are expressed in terms of certainty equivalents. The agent's utility is $u(x) = log(\frac{x}{20K})$, the cost function is $c(a) = \theta a^2$, where $\theta = .01$, and the agent's starting wealth is $w_0 = 50K$. The output is $y \sim N(a,(20K^2))$, where $a$ is the agent's action. Dotted lines indicate that the FOA is invalid. Our optimization routine has only one global IC constraint at $a=1e-3$. We conservatively say that the FOA is invalid if the Lagrange multiplier on the global IC constraint is greater than $1e-5$ or if deviating to an action between $0$ and $.1$ reduces the agent's utility by less than $1e-2$. }
@@ -39,7 +39,7 @@ Theorem \ref{thm:main} shows that this example is representative of a more gener
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/grid_con_opt_a.pdf}
-    \caption{Optimal Contracts under Different Distributions and Preferences}
+    \caption{Optimal contracts under different distributions and preferences}
     \label{fig:grid_contract_opt}
     \captionsetup{font=footnotesize} % Makes the note footnote-sized
     \caption*{\textit{Note:} This figure displays the wage function that solves the principal's profit maximization problem at different values of $\bar U$ for a grid of specifications. The log utility function is $u(x) = log(\frac{x}{20K})$. The CRRA utility function is $u(x) = \frac{1}{1-\gamma} \cdot \frac{x}{20K}^{1-\gamma}$, and $\gamma=2$. The CARA utility function is $\frac{1}{\alpha} \cdot -\exp(-\alpha \frac{x}{20K})$, and $\alpha=\frac{2}{5}$. The normal distribution is $y \sim N(a,(20K^2))$. The exponential distribution's rate parameter is $\frac{1}{a}$. The gamma distribution has shape parameter $n=2$, and scale parameter $a$. Formulas for all utility functions and output distributions are in the online appendix.  The cost function is always $c(a) = \theta a^2$, but $\theta = .01$ in the log utility examples, $\theta = .004$ in the CRRA examples and $\theta = .008$ in the CARA examples. Our optimization routine has only one global IC constraint at $a=1e-3$. We conservatively say that the FOA is invalid if the Lagrange multiplier on the global IC constraint is greater than $1e-5$ or if deviating to an action between $0$ and $.1$ reduces the agent's utility by less than $1e-2$.}
@@ -49,7 +49,7 @@ Theorem \ref{thm:main} shows that this example is representative of a more gener
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/grid_util_opt_a.pdf}
-    \caption{Agent Utility versus Action under Different Distributions and Preferences}
+    \caption{Expected utility as a function of action under different distributions and preferences}
     \label{fig:grid_util_opt}
     \captionsetup{font=footnotesize} % Makes the note footnote-sized
     \caption*{\textit{Note:} This figure displays the agent's expected utility from a grid of possible actions given the corresponding wage functions from figure \ref{fig:grid_contract_opt}. The specifications are the same as in figure \ref{fig:grid_contract_opt}.}
