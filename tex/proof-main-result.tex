@@ -7,7 +7,7 @@ Throughout this section, fix a regular intended action $a_0$. To simplify notati
 \subsection{Solution to the Relaxed Problem}
 
 We first show that the relaxed cost minimization problem has an almost everywhere unique solution, and that this solution has a simple formula in terms of Lagrange multipliers. The solution is based on the first-order condition and is similar to standard formulas in the literature.\footnote{%
-This type of formula for the optimal contract is well-known and central in the literature that assumes the first-order approach. The seminal reference is \cite{holmstrom1978incentives}, and recent examples with limited liability include \cite{jewitt2008moral} and \cite{chaigneau2022should}. The survey \cite{georgiadis202202contracting} has an excellent explanation of the formula in its first paragraphs.}
+This type of formula for the optimal contract is well-known and central in the literature that assumes the first-order approach. The seminal reference is \textcite{holmstrom1978incentives}, and recent examples with limited liability include \textcite{jewitt2008moral} and \textcite{chaigneau2022should}. The survey \textcite{georgiadis2022contracting} has an excellent explanation of the formula in its first paragraphs.}
 
 The relaxed cost minimization problem is convex. Define its Lagrangian as
 \begin{equation}
@@ -88,7 +88,8 @@ This is the piecewise linear solution that we saw numerically in figure \ref{fig
 
 The figure illustrates the comparative statics from part (2). For sufficiently low $\bar U$, the (\ref{IR}) constraint is not binding, and thus the solution does not depend on $\bar U$. In the region where the (\ref{IR}) constraint is binding, expected wages and the Lagrange multiplier $\lambda^*(\bar U)$ are strictly increasing in $\bar U$.
 
-\begin{figure}[htbp]
+% Pareto frontier figure
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/norm_log_pf.pdf}
     \caption{Pareto Frontier with Gaussian Distribution and Log Utility}
@@ -99,7 +100,7 @@ The figure illustrates the comparative statics from part (2). For sufficiently l
 
 The formula in proposition \ref{prop:relaxed-optimal-contract} is essentially the standard first-order approach's equation (\ref{eq:foc}), but properly accounts for limited liability. The intuition is the following: the principal would like to always pay the agent $g(\lambda ^* (\bar U))$, which is the utility level where the marginal cost of providing utility to the agent is $\lambda ^* (\bar U)$. However, incentive compatibility requires that payment depends on whether there is statistical evidence of high effort. The optimal contract pays more if the score is positive and less if the score is negative.
 
-Proposition \ref{prop:relaxed-optimal-contract} deviates substantially from the literature without limited liability. Our formula for the optimal contract is different because it gives the agent a constant payment of $0$ for sufficiently low outcomes, where the limited liability constraint binds (see the kink in the wage function in figure (\ref{fig:norm_log_con})). Proposition \ref{prop:relaxed-optimal-contract} guarantees existence of an optimum in the relaxed problem, whereas without limited liability the relaxed problem often has no solution. This stark difference can be seen in the Gaussian-log utility example. Without limited liability, any contract satisfying the first-order conditions would pay a {\em globally} linear wage. But this would imply negative consumption in some states, and thus $-\infty$ utility to the agent. Indeed, the Gaussian-log utility example illustrates \cite{mirrlees1999}'s classic point that optimal contracts may not exist without limited liability.
+Proposition \ref{prop:relaxed-optimal-contract} deviates substantially from the literature without limited liability. Our formula for the optimal contract is different because it gives the agent a constant payment of $0$ for sufficiently low outcomes, where the limited liability constraint binds (see the kink in the wage function in figure (\ref{fig:norm_log_con})). Proposition \ref{prop:relaxed-optimal-contract} guarantees existence of an optimum in the relaxed problem, whereas without limited liability the relaxed problem often has no solution. This stark difference can be seen in the Gaussian-log utility example. Without limited liability, any contract satisfying the first-order conditions would pay a {\em globally} linear wage. But this would imply negative consumption in some states, and thus $-\infty$ utility to the agent. Indeed, the Gaussian-log utility example illustrates \textcite{mirrlees1999}'s classic point that optimal contracts may not exist without limited liability.
 
 \subsection{High Reservation Utility} 
 
@@ -120,7 +121,7 @@ Theorem \ref{thm:main} is a direct consequence of this fact:
 
 Proposition \ref{prop:concave} shows that high reservation utility is crucial for the first-order approach's validity. Figure (\ref{fig:norm_log}) helps illustrate this result by plotting the relaxed optimal contract and the agent's expected utility versus her effort under the relaxed-optimal contract in the Gaussian-log utility example. The charcoal line represents the expected utility function for the relaxed-optimal contract with the lowest reservation utility, $\bar U = u(0)$. When reservation utility is low, the agent's problem is not concave, and choosing an action close to $0$ is a profitable global deviation for the agent. The limited liability constraint makes low effort appealing for the agent; it ensures that the agent can always achieve utility strictly greater than $u(0)$ by exerting no effort. If the (\ref{IR_relaxed}) constraint binds, as it does in many of our examples, then the agent's expected utility from choosing the intended action is $\bar U$, and the first-order approach surely fails when $\bar U = u(0)$.
 
-\begin{figure}[htbp]
+\begin{figure}[ht]
     \centering
     \begin{subfigure}[b]{0.45\textwidth}
         \includegraphics[width=\textwidth]{figures/norm_log_con.pdf}
@@ -146,7 +147,7 @@ We now clarify the intuition of why the agent's problem is concave for high rese
 
 The key observation is that, as reservation utility increases, the kink tends to move to the left, so that the agent is paid with high probability. This is illustrated in figure \ref{fig:norm_log_con}. Thus, as reservation utility increases, the kink becomes less relevant, and the agent's problem becomes more concave due to the curvature of the cost function.
 
-\begin{figure}[htbp]
+\begin{figure}[ht]
     \centering
     \begin{subfigure}[b]{0.45\textwidth}
         \includegraphics[width=\textwidth]{figures/norm_log_probs.pdf}

@@ -8,7 +8,7 @@ Optimal contracts depend on effort cost, risk preferences (which determine the l
 \input{tables/distributions}
 
 \subsection{Linearity and Option Contracts}
-Linear contracts play a prominent role in contract theory. It has long been noted that linear contracts are common, but that they only arise under relatively special assumptions \citep{holmstrom1987aggregation,carroll2015robustness}.
+Linear contracts play a prominent role in contract theory. It has long been noted that linear contracts are common, but that they only arise under relatively special assumptions \textcite{holmstrom1987aggregation,carroll2015robustness}.
 
 Our model yields piecewise linear contracts in a number of examples, as seen in the tables and in the Gaussian-log utility example. The key ingredients are log utility, which makes the wage function linear in the score, and a linear score function. This includes many distributions, because the score is linear for distributions in an exponential family with linear sufficient statistics. That is, when $f(y, a)$ is of the form
 \begin{equation}
@@ -25,7 +25,7 @@ We note this as follows:
     Assume that utility is log (as in $u(x) = \log(w_0 + x)$) and that the distribution of outcomes is in an exponential family with a linear sufficient statistic (as in equation \ref{eq:linear-exponential-family}). Then the canonical contract wage function is piecewise linear. This includes the Gaussian, exponential, Poisson, and gamma distributions.
 \end{remark}
 
-Our piecewise linear contracts are option contracts. The value is constant for low outcomes and increases linearly past a ``strike price.'' Such contracts, with a fixed payment plus options, are widely used. Our results generalize the existing literature, where \cite{chaigneau2022should} showed that this option contract is optimal with a Gaussian distribution, and \cite{holmstrom1978incentives} showed this assuming the first-order approach.
+Our piecewise linear contracts are option contracts. The value is constant for low outcomes and increases linearly past a ``strike price.'' Such contracts, with a fixed payment plus options, are widely used. Our results generalize the existing literature, where \textcite{chaigneau2022should} showed that this option contract is optimal with a Gaussian distribution, and \textcite{holmstrom1978incentives} showed this assuming the first-order approach.
 
 \subsection{Concave and Convex Contracts} The optimal contract is never globally concave because the limited liability constraint requires that $w(y) = 0$ for all $y$ less than some threshold, $\ubar y$. The region where the limited liability constraint does not bind, however, can be convex or concave depending on the agent's risk aversion.
 
@@ -38,7 +38,7 @@ Our piecewise linear contracts are option contracts. The value is constant for l
     $$ w(y) =  \frac{\log( \lambda + k y )}{\alpha} - w_0 \text{ for } y > \ubar y .$$
 \end{remark}
 
-The remark shows that the shape of the optimal contract depends on the agent's utility function. Interestingly, the first-order approach is valid even in settings with convex contracts, like stock option compensation. This assuages the concerns raised by \cite{conlon2009two}. He makes the insightful point that, apparently, the first-order approach should fail in the practically important case of convex contracts, ruling out common contracts like options. \cite{conlon2009two}'s point was based on the Jewitt conditions, which do require this.
+The remark shows that the shape of the optimal contract depends on the agent's utility function. Interestingly, the first-order approach is valid even in settings with convex contracts, like stock option compensation. This assuages the concerns raised by \textcite{conlon2009two}. He makes the insightful point that, apparently, the first-order approach should fail in the practically important case of convex contracts, ruling out common contracts like options. \textcite{conlon2009two}'s point was based on the Jewitt conditions, which do require this.
 
 However, in the high reservation utility case, we see that many common convex contracts still work with the first-order approach. The optimal contract with CRRA utility and $\gamma < 1$ closely approximates a CEO compensation package of stock options with many strike prices. To see this, consider a CEO who receives $n_{i}$ options with strike price $s_i$ that expire at the end of the year. The CEO's wage is 
 $$ w(y) = \sum_i n_{i} (y - \text{strike}_i)^+, $$

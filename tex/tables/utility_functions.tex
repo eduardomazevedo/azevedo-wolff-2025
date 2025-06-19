@@ -1,10 +1,10 @@
-\begin{table}[h!]
+\begin{table}[ht]
     \centering
     \caption{Utility Functions, Link Functions, and Wage Functions}
     \label{tab:utility_functions}
     \renewcommand{\arraystretch}{1.5} % Adjust row height for better spacing
     \setlength{\tabcolsep}{10pt} % Slightly reduced column spacing
-    \begin{tabular}{lccc}
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccc}
         \toprule
         & \multicolumn{1}{c}{Utility Function} & \multicolumn{1}{c}{Link Function} & \multicolumn{1}{c}{Wage Function} \\ 
         & \( u(x) \) & \( g(z) \) & \( w(z) \) \\ 
@@ -13,18 +13,7 @@
         CRRA & \multicolumn{1}{l}{\( \frac{(x + w_0)^{1-\gamma}}{1-\gamma} \)} & \multicolumn{1}{l}{\( \frac{\max(w_0^\gamma, z)^{\frac{1-\gamma}{\gamma}}}{1-\gamma} \)} & \multicolumn{1}{l}{\( \left( (z^+)^{\frac{1}{\gamma}} - w_0 \right)^+ \)} \\ 
         CARA & \multicolumn{1}{l}{\( \frac{-\exp(-\alpha (x + w_0))}{\alpha} \)} & \multicolumn{1}{l}{\( -\frac{1}{\alpha \max(\exp(\alpha w_0), z)} \)} & \multicolumn{1}{l}{\( \frac{(\log^+ z - \alpha w_0)^+}{\alpha} \)} \\ 
         \bottomrule
-    \end{tabular}
+    \end{tabular*}
     \captionsetup{font=footnotesize} % Match figure's note formatting
     \caption*{\textit{Note:} The utility function is the agent's utility from consumption given starting wealth $w_0$ and a transfer, $x$. The link and wage functions are in terms of $z$, which is a function of the outcome, $y$: \( z(y) = \lambda + \mu S(y|a_0) \).}
 \end{table}
-
-
-
-
-
-
-
-
-
-
-

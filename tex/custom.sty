@@ -12,8 +12,10 @@
 \RequirePackage{setspace}
 \onehalfspacing
 
-% Bibliography
-\RequirePackage{natbib}
+% Bibliography with Biber backend
+\RequirePackage[style=authoryear, maxnames=3, maxbibnames=5, backend=biber]{biblatex}
+\addbibresource{bibliography.bib}
+\renewcommand*{\nameyeardelim}{\addcomma\space}
 
 % Colors
 \RequirePackage{xcolor}
