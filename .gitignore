@@ -36,3 +36,5 @@ Icon?
 *.swp
 *.bak
 *.tmp
+
+__pycache__/

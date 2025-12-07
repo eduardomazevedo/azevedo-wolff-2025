@@ -17,14 +17,14 @@ The relaxed cost minimization problem is convex. Define its Lagrangian as
 
 Heuristically differentiating this Lagrangian with respect to $v(y)$ and setting the derivative to zero gives
 \[
-k'(v(y)) f(y | a) = \lambda f(y | a) + \mu f_{a}(y|a_{0})\text{.}
+    k'(v(y)) f(y | a) = \lambda f(y | a) + \mu f_{a}(y|a_{0})\text{.}
 \]
 
 Dividing by $f(y | a)$ gives
 \begin{equation}
 \label{eq:foc}
 \tag{FOC}
-k'(v(y)) = \lambda + \mu \frac{f_{a}(y|a_{0})}{f(y|a_{0})}\text{.}
+    k'(v(y)) = \lambda + \mu \frac{f_{a}(y|a_{0})}{f(y|a_{0})}\text{.}
 \end{equation}
 
 Equation (\ref{eq:foc}) is the key step in the standard first-order approach literature. Appendix \ref{sec:appendix-proofs} formally analyzes the convex program, demonstrates existence and uniqueness of the solution, and characterizes the optimal contract based on equation (\ref{eq:foc}).
@@ -91,11 +91,11 @@ The figure illustrates the comparative statics from part (2). For sufficiently l
 % Pareto frontier figure
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/norm_log_pf.pdf}
+    \includegraphics{figures/log-gaussian-sigma=50.0/pareto_frontier.pdf}
     \caption{Pareto frontier in the Gaussian-log utility example}
     \label{fig:pf}
     \captionsetup{font=footnotesize} % Makes the note footnote-sized
-    \caption*{\textit{Note:} This figure displays the relaxed problem's Pareto frontier. The agent's utility is $u(x) = log(\frac{x}{20K})$, the cost function is $c(a) = \theta a^2$, where $\theta = .01$, and the agent's starting wealth is $w_0 = 50K$. The output is $y \sim N(a,(20K^2))$, where $a$ is the agent's action. The intended action is $a_0 = 100K$.}
+    \caption*{\textit{Note:} This figure displays the Pareto frontier of the cost minimization problem and the relaxed cost minimization problem in the Gaussian-log utility example. Parameters are as in figure \ref{fig:gaussian-log-pp}.}
 \end{figure}
 
 The formula in proposition \ref{prop:relaxed-optimal-contract} is essentially the standard first-order approach's equation (\ref{eq:foc}), but properly accounts for limited liability. The intuition is the following: the principal would like to always pay the agent $g(\lambda ^* (\bar U))$, which is the utility level where the marginal cost of providing utility to the agent is $\lambda ^* (\bar U)$. However, incentive compatibility requires that payment depends on whether there is statistical evidence of high effort. The optimal contract pays more if the score is positive and less if the score is negative.
@@ -121,23 +121,13 @@ Theorem \ref{thm:main} is a direct consequence of this fact:
 
 Proposition \ref{prop:concave} shows that high reservation utility is crucial for the first-order approach's validity. Figure \ref{fig:norm_log} helps illustrate this result by plotting the relaxed optimal contract and the agent's expected utility versus her effort under the relaxed-optimal contract in the Gaussian-log utility example. The charcoal line represents the expected utility function for the relaxed-optimal contract with the lowest reservation utility, $\bar U = u(0)$. When reservation utility is low, the agent's problem is not concave, and choosing an action close to $0$ is a profitable global deviation for the agent. The limited liability constraint makes low effort appealing for the agent; it ensures that the agent can always achieve utility strictly greater than $u(0)$ by exerting no effort. If the (\ref{IR_relaxed}) constraint binds, as it does in many of our examples, then the agent's expected utility from choosing the intended action is $\bar U$, and the first-order approach surely fails when $\bar U = u(0)$.
 
-\begin{figure}[ht]
+\begin{figure}[p]
     \centering
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{figures/norm_log_con.pdf}
-        \caption{Relaxed optimal contract}
-        \label{fig:norm_log_con}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{figures/norm_log_util.pdf}
-        \caption{Expected utility as a function of action}
-        \label{fig:norm_log_util}
-    \end{subfigure}
-    \caption{Cost minimizing relaxed optimal contracts in the Gaussian-log utility example}
-    \label{fig:fig1}
+    \includegraphics{figures/log-gaussian-sigma=50.0/cm_stacked.pdf}
+    \caption{Optimal contracts for cost minimization problem with $a_0 = 100K$, Gaussian distribution, and log utility.}
+    \label{fig:gaussian-log-cm}
     \captionsetup{font=footnotesize} % Makes the note footnote-sized
-    \caption*{\textit{Note:} Panel a displays the wage function that solves the relaxed problem at different values of $\bar U$, and Panel b displays the agent's expected utility from a grid of possible actions given the corresponding wage functions from Panel a. The values of $\bar U$ are expressed in terms of certainty equivalents. The agent's utility is $u(x) = \log(\frac{x}{20K})$, the cost function is $c(a) = \theta a^2$, where $\theta = .01$, and the agent's starting wealth is $w_0 = 50K$. The output is $y \sim N(a,(20K^2))$, where $a$ is the agent's action. The intended action is $a_0 = 100K$.}
+    \caption*{\textit{Note:} Top panel: optimal wage function $w(y)$. Bottom panel: agent's expected utility $U(v^*, a)$ Colors represent reservation utility. Dashed lines indicate that the first-order approach is invalid at that reservation utility. Dots indicate the recommended action. The thin horizontal line indicates indifference between local maxima. Parameters are as in figure \ref{fig:gaussian-log-pp}.}
     \label{fig:norm_log}
 \end{figure}
 
@@ -150,13 +140,13 @@ The key observation is that, as reservation utility increases, the kink tends to
 \begin{figure}[ht]
     \centering
     \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{figures/norm_log_probs.pdf}
+        \texttt{FIGURE HERE: norm\_log\_probs.pdf}
         \caption{Probability of payment}
         \label{fig:norm_log_probs}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{figures/norm_log_exp_wage.pdf}
+        \texttt{FIGURE HERE: norm\_log\_exp\_wage.pdf}
         \caption{Expected wage}
         \label{fig:norm_log_exp_wage}
     \end{subfigure}
