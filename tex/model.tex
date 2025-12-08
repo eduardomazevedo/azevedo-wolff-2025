@@ -18,14 +18,14 @@ The \textbf{expected wage} is
 
 The \textbf{cost minimization problem}, given an \textbf{intended action} $a_0 \in \mathcal{A}$ and \textbf{reservation utility} $\bar U$, is to choose a contract $v$ to minimize the expected wage subject to the individual rationality (\ref{IR}) and global incentive compatibility (\ref{GIC}) constraints. Individual rationality requires that the agent's expected utility is at least the reservation utility, and global incentive compatibility requires that choosing $a_0$ is optimal for the agent. The cost minimization problem is to choose $v$ in $\mathcal C$ to
 \begin{align}
-    \text{minimize} \quad & W(v) \nonumber \\
+    \text{minimize} \quad & W(v, a_0) \nonumber \\
     \text{subject to} \quad &  U(v, a_0) \geq \bar{U} \tag{IR} \label{IR}, \\
     & U(v, a_0) \geq U(v, \hat{a}) \quad \forall \hat{a} \in \mathcal{A} \tag{GIC} \label{GIC}.
 \end{align}
 
 The \textbf{relaxed cost minimization problem} replaces the global incentive compatibility constraint with the local incentive compatibility constraint (\ref{LIC_relaxed}):
 \begin{align}
-    \text{minimize} \quad & W(v) \nonumber \\
+    \text{minimize} \quad & W(v, a_0) \nonumber \\
     \text{subject to} \quad & U(v, a_0) \geq \bar{U} \tag{IR} \label{IR_relaxed}, \\
     & \partial _a U(v, a_0) = 0 \tag{LIC} \label{LIC_relaxed}. 
 \end{align}
@@ -50,18 +50,19 @@ We now make technical assumptions that allow us to use Leibniz's rule of differe
     \item Every feasible contract is measurable.
     \item Given any $a_1$ in $\mathcal{A}$ and a feasible contract $v$, there exists an integrable function $\theta(y)$ and a neighborhood of $a_1$ such that, for all $a$ in this neighborhood,
     \[
-        \left|v \partial^n_a f(y|a)\right| \leq \theta(y)
+        \left|v(y) \partial^n_a f(y|a)\right| \leq \theta(y)
     \]
     for $n = 0, 1, 2$ and for all $y$ in the support of $f(\cdot | a)$.
     \item For all $a$ in $\mathcal{A}$ and canonical contract $v$ (see definition \ref{def:canonical-contract} below),
     \[
-        \Pi(v, a) < \infty\text{.}
+        W(v, a) < \infty\text{.}
     \]
     \item The set of feasible contracts is convex and includes all canonical contracts.
 \end{enumerate}
 \end{assumption}
 
-We now consider substantive restrictions on the distribution of output.
+We now consider substantive restrictions on the distribution of output.%
+\footnote{The most unusual assumption is the third one. It holds for example in Gaussian, logistic, Laplace, and Student-$t$ location families. Examples that do not satisfy the assumption can be constructed with families of distributions where this second derivative oscillates in the left tail.}
 
 \begin{assumption}[Assumptions on the distribution of output]
     \label{assump:regularity_S}
@@ -69,9 +70,8 @@ We now consider substantive restrictions on the distribution of output.
     \par
     \begin{enumerate}
         \item The support of $f(\cdot | a)$ is the real line.%
-        \item $F_a(y|a) < 0$ for all $y$ and $a$.
         \item For all $a$, the score $\partial_a \log f(y|a)$ is strictly increasing in $y$ and its image is $\mathbb R$ (this is known in the literature as the monotone likelihood ratio property or MLRP). 
-        \item There exists $y_0$ in $\mathbb R$ such that, for all $y \leq y_0$ and $a$,
+        \item There exists $y_0$ in $\mathbb R$ such that, for all $y \leq y_0$ and $a$ in $\mathcal{A}$,
         $$
         f_{aa}(y|a) > 0 \text{.}
         $$

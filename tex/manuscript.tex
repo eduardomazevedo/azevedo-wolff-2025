@@ -10,7 +10,7 @@
 
 \begin{document}
 \title{Broad Validity of the First-Order Approach in Moral Hazard%
-\thanks{We are especially grateful to Lucas Maestri for originating key ideas in this paper. We also thank Humberto Moreira, Marcus Opp, and Juuso Toikka for their valuable comments.}
+\thanks{We are especially grateful to Lucas Maestri for originating key ideas in this paper. We thank Humberto Moreira, Marcus Opp, and Juuso Toikka for valuable comments.}
 }
 
 \author{Eduardo M. Azevedo% 
@@ -26,10 +26,11 @@ This version: \today}
 \maketitle
 
 \begin{abstract}%
-The first-order approach (FOA) is the main tool for the moral hazard principal-agent problem. Although many existing results rely on the FOA, its validity has been established only under relatively restrictive assumptions.
-We demonstrate in examples that the FOA frequently fails when the agent's reservation utility is low (such as in principal-optimal contracts). However, the FOA broadly holds when the agent's reservation utility is at least moderately high (such as in competitive settings where agents receive high rents).
-Our main theorem formalizes this point. The theorem shows that the FOA is valid in a standard limited liability model when the agent's reservation utility is sufficiently high. The theorem also establishes existence and uniqueness of the optimal contract.
-We use the theorem to derive tractable optimal contracts across several settings. Under log utility, option contracts are optimal for numerous common output distributions (including Gaussian, exponential, binomial, Gamma, and Laplace).
+We consider the standard moral hazard problem with limited liability. The first-order approach (FOA) is the main tool for its solution, but existing sufficient conditions for its validity are restrictive and rule out basic examples.
+Our main result shows that the FOA is broadly valid, as long as the agent's reservation utility is sufficiently high.
+In basic examples, the FOA fails when reservation wages are sufficiently negative, but is valid when reservation wages are weakly positive.
+
+We establish existence and uniqueness of the optimal contract. We derive closed-form solutions with various functional forms. We show that optimal contracts are either linear or piecewise linear option contracts with log utility and output distributions in an exponential family with linear sufficient statistic (including Gaussian, exponential, binomial, Gamma, and Laplace). This is the first result broadly justifying linear contracts in the standard moral hazard model. We provide numerical methods for finding the optimal contracts both in the simpler case where the FOA is valid and in the more general case where it is not.
 %
 \end{abstract}
 
@@ -39,7 +40,7 @@ We use the theorem to derive tractable optimal contracts across several settings
 \label{sec:introduction}
 \input{introduction}
 
-\section{Examples and Literature Review}
+\section{Simple Examples}
 \label{sec:examples}
 \input{examples}
 
@@ -55,9 +56,14 @@ We use the theorem to derive tractable optimal contracts across several settings
 \label{sec:main-result-proof}
 \input{proof-main-result}
 
-\section{Applications and Extensions}
+\section{Applications, Discussions, and Limitations}
 \label{sec:applications}
 \input{calculus}
+\input{linear-contracts}
+\input{numerical-methods}
+\input{counter-examples}
+\input{literature-discussion}
+\input{existence}
 
 \section{Conclusion}
 \label{sec:conclusion}

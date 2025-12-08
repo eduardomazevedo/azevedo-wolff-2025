@@ -145,7 +145,7 @@ Adding the inequalities,
 \text{.}
 \]
 
-Therefore, $\tilde U$ is non-decreasing. It only remains to show that $\tilde U$ is strictly increasing. To reach a contradiction, assume that $\tilde U(\lambda _ 2) = \tilde U (\lambda _ 1)$. Optimality implies that $\tilde W (\lambda _1) = \tilde W (\lambda _2)$.  Let $\bar \lambda = (\lambda_1 + \lambda_2) / 2$. We have $\tilde U (\bar \lambda) = \tilde U(\lambda _ 1)$. By our assumptions on the score, $v_1$ and $v_2$ differ in a set of positive measure. By strict convexity of $k$, it follows that $\tilde W (\bar \lambda) < \tilde W (\lambda _ 1)$. This contradicts the optimality of $v_1$.
+Therefore, $\tilde U$ is non-decreasing. It only remains to show that $\tilde U$ is strictly increasing. To reach a contradiction, assume that $\tilde U(\lambda _ 2) = \tilde U (\lambda _ 1)$. Optimality implies that $\tilde W (\lambda _1) = \tilde W (\lambda _2)$.  Consider the contract $(v_1 + v_2)/2$. By our assumptions on the score, $v_1$ and $v_2$ differ in a set of positive measure. By strict convexity of $k$, it follows that $W((v_1 + v_2)/2) < W(v_1)$. This contradicts the optimality of $v_1$.
 \end{proof}
 
 The proof of proposition \ref{prop:relaxed-optimal-contract} follows from collecting these results.
@@ -238,7 +238,7 @@ $\lambda ^*$ strictly increasing follows from lemma $\ref{u-tilde-increasing}$ a
     \label{def:threshold-outcome}
     The \textbf{threshold outcome}, $\ubar{y}(\lambda)$, is the outcome which induces the threshold score, $\ubar{S}(\lambda)$:
     $$ \ubar{y}(\lambda) := S^{-1}(\ubar{S}(\lambda, \tilde{\mu}) |  a_0) .$$ 
-    A score that satisfies the equation exists by Assumption \ref{assump:regularity_S}.3, which states that the score's image is $\mathbb{R}$. 
+    A score that satisfies the equation exists by Assumption \ref{assump:regularity_S}.2, which states that the score's image is $\mathbb{R}$. 
 \end{definition} 
     
 \begin{lemma} 
@@ -269,9 +269,9 @@ $\lambda ^*$ strictly increasing follows from lemma $\ref{u-tilde-increasing}$ a
     Integrating yields: 
     $$ c'(a_0)
     \geq (u(0) - g(\lambda)) \cdot F_a \left( \ubar y (\lambda) | a_0 \right) .$$ 
-    Observe that $u(0) - g(\lambda) \rightarrow -\infty$ by Assumption \ref{assump:utility_cost}, and $ F_a(\ubar y (\lambda) | a_0) < 0 $ by Assumption \ref{assump:regularity_S}.2. Suppose $F_a \left( \ubar y (\lambda) | a_0 \right)$ does not approach $0$. Then we have $c'(a_0) \geq \infty$. By contradiction, $F_a \left( \ubar y (\lambda) | a_0 \right) \rightarrow 0$.
+    Observe that $u(0) - g(\lambda) \rightarrow -\infty$ by Assumption \ref{assump:utility_cost}, and $ F_a(\ubar y (\lambda) | a_0) < 0 $ by Assumption \ref{assump:regularity_S}.2 (because the monotone likelihood ratio property implies first order stochastic dominance). Suppose $F_a \left( \ubar y (\lambda) | a_0 \right)$ does not approach $0$. Then we have $c'(a_0) \geq \infty$. By contradiction, $F_a \left( \ubar y (\lambda) | a_0 \right) \rightarrow 0$.
 
-    The threshold outcome, $\ubar y (\lambda)$, cannot converge to positive infinity because it is bounded above by the solution to $S(y | a_0) = 0$. To reach a contradiction, assume that $\ubar y (\lambda)$ does not converge to negative infinity. Then there is a subsequence where $\ubar S (\lambda)$ converges to a finite value $y_0$. Then $F_a \left( \ubar y (\lambda) | a_0 \right)$ converges to  $F_a \left( y_0 | a_0 \right)$. Assumption \ref{assump:regularity_S}.2 implies that this is a strictly negative number, reaching a contradiction.
+    The threshold outcome, $\ubar y (\lambda)$, cannot converge to positive infinity because it is bounded above by the solution to $S(y | a_0) = 0$. To reach a contradiction, assume that $\ubar y (\lambda)$ does not converge to negative infinity. Then there is a subsequence where $\ubar S (\lambda)$ converges to a finite value $y_0$. Then $F_a \left( \ubar y (\lambda) | a_0 \right)$ converges to  $F_a \left( y_0 | a_0 \right)$. Assumption \ref{assump:regularity_S}.2 (because the monotone likelihood ratio property implies first order stochastic dominance) implies that this is a strictly negative number, reaching a contradiction.
 \end{proof}  
 
 \begin{corollary}
@@ -281,7 +281,7 @@ As \( \lambda \rightarrow \infty \), we have \( \tilde{\mu}(\lambda) / \lambda \
 
 
 \begin{proof}
-    Lemma \ref{lem:threshold-outcome} and assumption \ref{assump:regularity_S}.3 imply that $\ubar S (\lambda) \rightarrow -\infty$. The result follows from the definition of $\ubar S (\lambda)$.  
+    Lemma \ref{lem:threshold-outcome} and assumption \ref{assump:regularity_S}.2 imply that $\ubar S (\lambda) \rightarrow -\infty$. The result follows from the definition of $\ubar S (\lambda)$.  
 \end{proof}
 
 \begin{lemma}
@@ -303,7 +303,7 @@ By Lemma \ref{lem:second-derivative},
     \cdot S(y|a_0)
     \cdot f_{aa}(y | a) \, dy - c''(a)
     $$ 
-    Assumption \ref{assump:regularity_S} implies that there exists $y_0$ such that $f_{aa}(y | a) > 0$ for all $y \leq y_0$ and $a$. Because the score is monotone, we can take $y_0$ such that $S(y|a_0) < 0$ for all $y \leq y_0$. Therefore, the integrand is negative for all $y \leq y_0$ and $a$.    
+    Assumption \ref{assump:regularity_S}.3 implies that there exists $y_0$ such that $f_{aa}(y | a) > 0$ for all $y \leq y_0$ and $a$. Because the score is monotone, we can take $y_0$ such that $S(y|a_0) < 0$ for all $y \leq y_0$. Therefore, the integrand is negative for all $y \leq y_0$ and $a$.    
     
     It follows that 
     $$

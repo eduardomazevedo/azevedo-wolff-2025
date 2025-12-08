@@ -31,19 +31,14 @@ Our piecewise linear contracts are option contracts. The value is constant for l
 
 \begin{remark}
     \label{rem:convexandconcave}
-    Suppose the score function is linear, and let $\mu S(y | a_0) = k y$. Then, if the agent has CRRA utility, the increasing region of a canonical contract is convex if the risk aversion parameter $\gamma > 1$ and concave if $\gamma < 1$: \footnote{Assumption \ref{assump:concavity_inverse_marginal_utility} requires that $\gamma > \frac{1}{2}$.}  
-    $$ w(y) = \left( \lambda + k y \right)^{\frac{1}{\gamma}} \text{ for } y > \ubar y. $$  
+    Suppose the score function is linear, and let $\mu S(y | a_0) = \beta y$. Then, if the agent has CRRA utility, the increasing region of a canonical contract is convex if the risk aversion parameter $\gamma < 1$ and concave if $\gamma > 1$:
+    $$ w(y) = \left( \lambda + \beta y \right)^{\frac{1}{\gamma}} \text{ for } y > \ubar y. $$  
 
     If the agent has CARA utility, the increasing region of a canonical contract is logarithmic:
-    $$ w(y) =  \frac{\log( \lambda + k y )}{\alpha} - w_0 \text{ for } y > \ubar y .$$
+    $$ w(y) =  \frac{\log( \lambda + \beta y )}{\alpha} - w_0 \text{ for } y > \ubar y .$$
 \end{remark}
 
 The remark shows that the shape of the optimal contract depends on the agent's utility function. Interestingly, the first-order approach is valid even in settings with convex contracts, like stock option compensation. This assuages the concerns raised by \textcite{conlon2009two}. He makes the insightful point that, apparently, the first-order approach should fail in the practically important case of convex contracts, ruling out common contracts like options. \textcite{conlon2009two}'s point was based on the Jewitt conditions, which do require this.
-
-However, in the high reservation utility case, we see that many common convex contracts still work with the first-order approach. The optimal contract with CRRA utility and $\gamma < 1$ closely approximates a CEO compensation package of stock options with many strike prices. To see this, consider a CEO who receives $n_{i}$ options with strike price $s_i$ that expire at the end of the year. The CEO's wage is 
-$$ w(y) = \sum_i n_{i} (y - \text{strike}_i)^+, $$
-where $y$ is the stock's end-of-year price. 
-The wage function's slope at $y$ is $\sum_{\text{strike}_i < y} n_{i}$; the wage is a piecewise-linear function where the slope increases as $y$ increases. The options package wage may be a discretization of the contract the model predicts for an agent with CRRA utility with $\gamma < 1$, and a linear score function.
 
 Remark \ref{rem:convexandconcave} affirms \citeauthor{holmstrom1987aggregation}'s (\citeyear{holmstrom1987aggregation}) view that the principal-agent model does not robustly predict linear wages. The optimal wage is only (piecewise) linear if the agent's risk aversion parameter is precisely $\gamma=1$. However, if the agent's risk aversion is approximately one, the optimal contract will be approximately linear in certain cases.
 
