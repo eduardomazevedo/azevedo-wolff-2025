@@ -6,8 +6,7 @@ Throughout this section, fix a regular intended action $a_0$. To simplify notati
 
 \subsection{Solution to the Relaxed Problem}
 
-We first show that the relaxed cost minimization problem has an almost everywhere unique solution, and that this solution has a simple formula in terms of Lagrange multipliers. The solution is based on the first-order condition and is similar to standard formulas in the literature.\footnote{%
-This type of formula for the optimal contract is well-known and central in the literature that assumes the first-order approach. The seminal reference is \textcite{holmstrom1978incentives}, and recent examples with limited liability include \textcite{jewitt2008moral} and \textcite{chaigneau2022should}. The survey \textcite{georgiadis2022contracting} has an excellent explanation of the formula in its first paragraphs.}
+We first show that the relaxed cost minimization problem has an almost everywhere unique solution, and that this solution has a simple formula in terms of Lagrange multipliers. This section is a minor extension of standard results on the relaxed problem going back to \textcite{holmstrom1978incentives} and \textcite{jewitt2008moral}.
 
 The relaxed cost minimization problem is convex. Define its Lagrangian as
 \begin{equation}
@@ -29,7 +28,7 @@ Dividing by $f(y | a)$ gives
 
 Equation (\ref{eq:foc}) is the key step in the standard first-order approach literature. Appendix \ref{sec:appendix-proofs} formally analyzes the convex program, demonstrates existence and uniqueness of the solution, and characterizes the optimal contract based on equation (\ref{eq:foc}).
 
-In our case of limited liability, the solution is described clearly with the following notation. Define the {\bf optimal expected wage} $\omega(\bar U)$ as the value of the infimum in the relaxed cost minimization problem. Define the \textbf{link function} $g:\mathbb R \rightarrow \mathbb R$ as\footnote{%
+In our case of limited liability, the solution is described with the following notation. Define the {\bf optimal expected wage} $\omega(\bar U)$ as the value of the infimum in the relaxed cost minimization problem. Define the \textbf{link function} $g:\mathbb R \rightarrow \mathbb R$ as\footnote{%
 The link function's input, $z$, is a marginal dollar cost of providing one util to the agent  (measured in units of $\frac{\text{\$}}{\text{util}} $). The link function evaluated at $z$, $g(z)$, returns the utility level where $z$ is the marginal cost of utility to the agent. Any $z$ below $\frac{1}{u'(0)}$, which is the cheapest possible marginal cost, returns $g(z) = u(0)$.
 }
 \[
@@ -51,7 +50,7 @@ Define the \textbf{score} function\footnote{The score is known as the likelihood
     \label{eq:canonical-contract}
     V\left(y | \lambda, \mu \right)
     :=
-    g \left(\lambda + \mu S(y|a_0) \right) \text{.}
+    g \biggl(\lambda + \mu S(y|a_0)\biggr) \text{.}
     \end{equation}
 \end{definition}
 
@@ -65,7 +64,8 @@ The following proposition shows that the relaxed problem has a solution and char
         \item (existence, uniqueness, and characterization) The relaxed problem has an almost everywhere unique solution $v^*(y|\bar U)$. There exist Lagrange multipliers $\lambda^*(\bar U) \geq 0$ and $\mu^*(\bar U) > 0$ such that the solution is almost everywhere equal to the canonical contract
     \[
         \label{eq:relaxed-optimal-contract}
-        v^*(y|\bar U) := V\left(y | \lambda^*(\bar U), \mu^*(\bar U)\right)
+        v^*(y|\bar U) :=
+        V\biggl(y \big| \lambda^*(\bar U), \mu^*(\bar U)\biggr)
         \text{.}
     \]
         \item (comparative statics)
@@ -84,7 +84,7 @@ The Gaussian-log utility example illustrates proposition \ref{prop:relaxed-optim
  =
  \left[\lambda^*(\bar U) + \mu^*(\bar U) \frac{y-a}{\sigma^2} - w_0 \right] ^ +\text{.}
 \]
-This is the piecewise linear solution that we saw numerically in figure \ref{fig:norm_log_con_opt}. The convex Pareto frontier is illustrated in figure \ref{fig:pf}.
+This is the piecewise linear solution that we saw numerically in figure \ref{fig:gaussian-log-pp}. The convex Pareto frontier is illustrated in figure \ref{fig:pf}.
 
 The figure illustrates the comparative statics from part (2). For sufficiently low $\bar U$, the (\ref{IR}) constraint is not binding, and thus the solution does not depend on $\bar U$. In the region where the (\ref{IR}) constraint is binding, expected wages and the Lagrange multiplier $\lambda^*(\bar U)$ are strictly increasing in $\bar U$.
 
@@ -95,12 +95,10 @@ The figure illustrates the comparative statics from part (2). For sufficiently l
     \caption{Pareto frontier in the Gaussian-log utility example}
     \label{fig:pf}
     \captionsetup{font=footnotesize} % Makes the note footnote-sized
-    \caption*{\textit{Note:} This figure displays the Pareto frontier of the cost minimization problem and the relaxed cost minimization problem in the Gaussian-log utility example. Parameters are as in figure \ref{fig:gaussian-log-pp}.}
+    \caption*{\textit{Note:} This figure displays the Pareto frontier of the cost minimization problem and the relaxed cost minimization problem in the Gaussian-log utility example. The first-order approach is valid for all reservation utilities where the two sets coincide. Parameters are as in figure \ref{fig:gaussian-log-pp}.}
 \end{figure}
 
-The formula in proposition \ref{prop:relaxed-optimal-contract} is essentially the standard first-order approach's equation (\ref{eq:foc}), but properly accounts for limited liability. The intuition is the following: the principal would like to always pay the agent $g(\lambda ^* (\bar U))$, which is the utility level where the marginal cost of providing utility to the agent is $\lambda ^* (\bar U)$. However, incentive compatibility requires that payment depends on whether there is statistical evidence of high effort. The optimal contract pays more if the score is positive and less if the score is negative.
-
-Proposition \ref{prop:relaxed-optimal-contract} deviates substantially from the literature without limited liability. Our formula for the optimal contract is different because it gives the agent a constant payment of $0$ for sufficiently low outcomes, where the limited liability constraint binds (see the kink in the wage function in figure \ref{fig:norm_log_con}). Proposition \ref{prop:relaxed-optimal-contract} guarantees existence of an optimum in the relaxed problem, whereas without limited liability the relaxed problem often has no solution. This stark difference can be seen in the Gaussian-log utility example. Without limited liability, any contract satisfying the first-order conditions would pay a {\em globally} linear wage. But this would imply negative consumption in some states, and thus $-\infty$ utility to the agent. Indeed, the Gaussian-log utility example illustrates \textcite{mirrlees1999}'s classic point that optimal contracts may not exist without limited liability.
+The formula in proposition \ref{prop:relaxed-optimal-contract} is essentially the standard first-order approach's equation (\ref{eq:foc}), but properly accounts for limited liability. The intuition is the following: the principal would like to always pay the agent $g(\lambda ^* (\bar U))$, which is the utility level where the marginal cost of providing utility to the agent is $\lambda ^* (\bar U)$. However, incentive compatibility requires that payment depends on whether there is statistical evidence of high effort. The $\mu$ term in the optimal contract pays more if the score is positive and less if the score is negative. Finally, the maximum ensures that limited liability is respected.
 
 \subsection{High Reservation Utility} 
 

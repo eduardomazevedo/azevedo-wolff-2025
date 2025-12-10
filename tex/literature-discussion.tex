@@ -1,3 +1,5 @@
+TIDBITS TODO ORGANIZE
+
 At first glance, our results appear to contradict the standard view in the literature that the first order approach requires stringent conditions. In fact, the two are perfectly consistent. Consider the Gaussian example in figure \ref{fig:norm_log_opt}. When reservation utility is low, the optimal contract produces two distinct local maxima of the agent's utility, violating the first-order approach because the agent then has a profitable non-local deviation. This is exactly the kind of global incentive problem highlighted by \textcite{mirrlees1999}.  Likewise, the first-order approach fails in all the examples in figure \ref{fig:grid_contract_opt}. Hence, if one insists that the first-order approach must hold \emph{for every reservation utility}, many interesting examples must be ruled out. This is the standard view in the literature. Indeed, our examples imply that it is impossible to find sufficient conditions for the first-order approach that include basic examples like Gaussian-log utility, and that work regardless of reservation utility.
 
 Our contribution is to show that \emph{if the reservation utility is sufficiently high}, those very same examples do satisfy the first-order approach.  The core idea is that requiring the principal to give the agent greater overall utility increases the payoff at the principal's intended action, pushing the local maximum at the intended action above other local maxima.
@@ -9,3 +11,17 @@ The seminal papers in the second generation are \textcite{rogerson1985} and \tex
 Our own results are close to \textcite{jewitt1988justifying}. We impose similar conditions on the part of the contract where limited liability does not bind, while allowing for limited liability. In contrast, \textcite{jewitt1988justifying} requires the conditions to hold globally, ruling out limited liability, and sometimes creating existence issues \parencite{jewitt2008moral,moroni2014existence}. The proof of Theorem \ref{thm:main} shows that, with high reservation utility, the limited liability constraint binds with low probability. We then show, in similar lines to \textcite{jewitt1988justifying}, that the agent's problem becomes concave.
 
 Finally, there is a third generation of work extending Jewitt's single-peakedness approach to multidimensional actions and richer information structures \parencite{conlon2009two,jung2015information,chade2020no,chaigneau2022should,jung2024proxy}. We believe our methods can be adapted to such environments, but we do not pursue that here.
+
+
+XXX
+Piecewise linear contracts are options, with a constant value up to a point, and increasing thereafter. Our finding extends previous results that rationalize option-like contracts \textcite{innes1990limited, jewitt2008moral, chaigneau2024theory} and contributes to the literature rationalizing linear contracts \textcite{holmstrom1987aggregation,carroll2015robustness}.
+
+
+XXX FOA results
+\footnote{%
+This type of formula for the optimal contract is well-known and central in the literature that assumes the first-order approach. The seminal reference is \textcite{holmstrom1978incentives}, and recent examples with limited liability include \textcite{jewitt2008moral} and \textcite{chaigneau2022should}. The survey \textcite{georgiadis2022contracting} has an excellent explanation of the formula in its first paragraphs.}
+
+
+XXX Existence stuff
+
+Proposition \ref{prop:relaxed-optimal-contract} deviates substantially from the literature without limited liability. Our formula for the optimal contract is different because it gives the agent a constant payment of $0$ for sufficiently low outcomes, where the limited liability constraint binds (see the kink in the wage function in figure \ref{fig:gaussian-log-pp}). Proposition \ref{prop:relaxed-optimal-contract} guarantees existence of an optimum in the relaxed problem, whereas without limited liability the relaxed problem often has no solution. This stark difference can be seen in the Gaussian-log utility example. Without limited liability, any contract satisfying the first-order conditions would pay a {\em globally} linear wage. But this would imply negative consumption in some states, and thus $-\infty$ utility to the agent. Indeed, the Gaussian-log utility example illustrates \textcite{mirrlees1999}'s classic point that optimal contracts may not exist without limited liability.
