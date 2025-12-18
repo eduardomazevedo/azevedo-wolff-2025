@@ -1,5 +1,5 @@
 \subsection{Linear Contracts}
-The formulae imply linear contracts in many examples. The key ingredients are log utility, which makes the wage function linear in the score, and a linear score function. This includes an exponential family with linear sufficient statistics. That is, when $f(y, a)$ is of the form
+The formulae imply piecewise linear contracts in many examples. The key ingredients are log utility, which makes the wage function piecewise linear in the score, and a linear score function. This includes an exponential family with linear sufficient statistics. That is, when $f(y, a)$ is of the form
 \begin{equation}
 \label{eq:linear-exponential-family}
 f(y | a)
@@ -11,7 +11,7 @@ f(y | a)
 We note this as follows:
 
 \begin{remark}[Piecewise Linear Option Contracts]
-    Assume that utility is log (as in $u(x) = \log(w_0 + x)$) and that the distribution of outcomes is in an exponential family with a linear sufficient statistic (as in equation \ref{eq:linear-exponential-family}). Then the canonical contract wage function is piecewise linear. This includes the Gaussian, exponential, Poisson, and gamma distributions.
+    Assume that utility is log ($u(x) = \log(w_0 + x)$ with $w_0 > 0$) and that the distribution of outcomes is in an exponential family with a linear sufficient statistic (as in equation \ref{eq:linear-exponential-family}). Then the canonical contract wage function is piecewise linear. This includes the Gaussian, exponential, Poisson, geometric, binomial, and gamma distributions.
 \end{remark}
 
 Our piecewise linear contracts are option contracts. The contracts pay zero for low outcomes and increases linearly past a ``strike price.'' In some examples with a lower bound on the support, the optimal contract is linear (e.g., Figure \ref{fig:poisson-log-pp}). In other examples, optimal contracts are piecewise linear in some cases where the first-order approach is valid, but there are also low reservation utility cases where the first-order approach is invalid and optimal contracts are not linear (e.g., Figure \ref{fig:gaussian-log-pp}).

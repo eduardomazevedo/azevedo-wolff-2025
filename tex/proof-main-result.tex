@@ -28,7 +28,7 @@ Dividing by $f(y | a)$ gives
 
 Equation (\ref{eq:foc}) is the key step in the standard first-order approach literature. Appendix \ref{sec:appendix-proofs} formally analyzes the convex program, demonstrates existence and uniqueness of the solution, and characterizes the optimal contract based on equation (\ref{eq:foc}).
 
-In our case of limited liability, the solution is described with the following notation. Define the {\bf optimal expected wage} $\omega(\bar U)$ as the value of the infimum in the relaxed cost minimization problem. Define the \textbf{link function} $g:\mathbb R \rightarrow \mathbb R$ as\footnote{%
+The solution is best described with the following notation. Define the {\bf optimal expected wage} $\omega(\bar U)$ as the value of the infimum in the relaxed cost minimization problem. Define the \textbf{link function} $g:\mathbb R \rightarrow \mathbb R$ as\footnote{%
 The link function's input, $z$, is a marginal dollar cost of providing one util to the agent  (measured in units of $\frac{\text{\$}}{\text{util}} $). The link function evaluated at $z$, $g(z)$, returns the utility level where $z$ is the marginal cost of utility to the agent. Any $z$ below $\frac{1}{u'(0)}$, which is the cheapest possible marginal cost, returns $g(z) = u(0)$.
 }
 \[
@@ -80,13 +80,11 @@ The proposition shows that the solution to the relaxed cost minimization problem
 
 The Gaussian-log utility example illustrates proposition \ref{prop:relaxed-optimal-contract}. The score is $(y-a) / \sigma^2$, the compensation cost function is $k(v)=\exp (v) - w_0$, and the link function is $\log \max \{z, w_0\}$. This implies the wage function
 \[
- k(v^*(y|\bar U))
+ k\left(v^*(y|\bar U)\right)
  =
  \left[\lambda^*(\bar U) + \mu^*(\bar U) \frac{y-a}{\sigma^2} - w_0 \right] ^ +\text{.}
 \]
 This is the piecewise linear solution that we saw numerically in figure \ref{fig:gaussian-log-pp}. The convex Pareto frontier is illustrated in figure \ref{fig:pf}.
-
-The figure illustrates the comparative statics from part (2). For sufficiently low $\bar U$, the (\ref{IR}) constraint is not binding, and thus the solution does not depend on $\bar U$. In the region where the (\ref{IR}) constraint is binding, expected wages and the Lagrange multiplier $\lambda^*(\bar U)$ are strictly increasing in $\bar U$.
 
 % Pareto frontier figure
 \begin{figure}[ht]
@@ -117,16 +115,16 @@ Theorem \ref{thm:main} is a direct consequence of this fact:
     Take $\bar U \geq U ^*$. If the relaxed cost minimization problem has a solution $v^*(y | \bar U)$, proposition \ref{prop:concave} implies that the agent's expected utility $U(v^*,a)$ is concave in $a$. Therefore, the global incentive compatibility constraint is satisfied, and the solution to the relaxed cost minimization problem is also a solution to the cost minimization problem.
 \end{proof} 
 
-Figure \ref{fig:gaussian-log-cm} illustrates the proposition in the Gaussian-log utility example. We use the same parameters as in figure \ref{fig:gaussian-log-pp}, but consider the cost minimization problem with intended action $a_0 = 100K$. We see the same pattern as in figure \ref{fig:gaussian-log-pp}. For low reservation utility, there are multiple local maxima, and the first-order approach is invalid. For high reservation utility, there is only one local maximum, and the first-order approach is valid.
+Figure \ref{fig:gaussian-log-cm} illustrates the proposition in the Gaussian-log utility example. We use the same parameters as in figure \ref{fig:gaussian-log-pp}, but consider the cost minimization problem with intended action $a_0 = \$100,000$. We see the same pattern as in figure \ref{fig:gaussian-log-pp}. For low reservation utility, there are multiple local maxima, and the first-order approach is invalid. For high reservation utility, there is only one local maximum, and the first-order approach is valid.
 
 % Gaussian - log utility cost minimization problem figure
 \begin{figure}[p]
     \centering
     \includegraphics[width=\textwidth]{figures/log-gaussian-sigma=50.0/cm_stacked.pdf}
     \captionsetup{font=footnotesize} % Makes the note footnote-sized
-    \caption{Optimal contracts with Gaussian distribution and log utility in cost minimization problem with intended action $a_0 = 100K$.}
+    \caption{Optimal contracts with Gaussian distribution and log utility in cost minimization problem with intended action $a_0 = \$100,000$.}
     \label{fig:gaussian-log-cm}
-    \caption*{\textit{Note:} Top panel: optimal wage function $w(y)$. Bottom panel: agent's expected utility $U(v^*, a)$ given optimal contract and action $a$. Colors represent reservation utility. Dashed lines indicate that the first-order approach is invalid at that reservation utility. Dots indicate the recommended action. The thin horizontal line indicates indifference between local maxima. Intended action is $a_0 = 100K$ and other parameters are as in figure \ref{fig:gaussian-log-pp}.}
+    \caption*{\textit{Note:} Top panel: optimal wage function $w(y)$. Bottom panel: agent's expected utility $U(v^*, a)$ given optimal contract and action $a$. Colors represent reservation utility. Dashed lines indicate that the first-order approach is invalid at that reservation utility. Dots indicate the recommended action. The thin horizontal line indicates indifference between local maxima. Intended action is $a_0 = \$100,000$ and other parameters are as in figure \ref{fig:gaussian-log-pp}.}
 \end{figure}
 
 The intuition for why the agent's problem is concave for high reservation utility is as follows. The relaxed optimal contract has two regions. When the outcome $y$ is below a threshold, the limited liability constraint binds, and the contract specifies a constant wage of $0$. When $y$ is above the threshold, the agent's payment is dictated by equation (\ref{eq:foc}). This kink introduces convexity into the agent's problem. As reservation utility increases, the kink moves to the left, so that the agent is paid with high probability. In the example, $a_0$ is fixed at \$100,000. As the kink moves to the left, the probability that the agent is paid a non-zero wage conditional on $a_0$ approaches $1$. 

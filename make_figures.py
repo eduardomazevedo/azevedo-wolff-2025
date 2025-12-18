@@ -90,6 +90,7 @@ make_example_figures(
 
 
 # t distribution example for sigma = 10 and sigma = 20
+reservation_wage_grid_t = np.linspace(-1.0, 100.0, 5)
 for sigma in [10.0, 20.0, 50.0]:
     dist_cfg = make_distribution_cfg("Student_t", sigma=sigma, nu=1.15)
     comp_cfg = {
@@ -109,7 +110,7 @@ for sigma in [10.0, 20.0, 50.0]:
         mhp=mhp,
         utility_cfg=utility_cfg,
         n_a_iterations=n_a_iterations,
-        reservation_wage_grid=reservation_wage_grid,
+        reservation_wage_grid=reservation_wage_grid_t,
         reservation_wage_grid_pareto=reservation_wage_grid_pareto,
         a_min=a_min,
         a_max=a_max,
@@ -167,7 +168,7 @@ intended_action = 50.0 # Action of 100 was extremely not worth it for principal.
 dist_cfg = make_distribution_cfg("exponential")
 comp_cfg = {
     "distribution_type": "continuous",
-    "y_min": 0.1,
+    "y_min": 0.01,
     "y_max": a_max + 6 * np.floor(np.sqrt(a_max)),
     "n": 201,  # must be odd
 }
