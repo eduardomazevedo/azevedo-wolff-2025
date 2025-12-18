@@ -1,6 +1,6 @@
 The proof of the main result follows from two key propositions. Proposition \ref{prop:relaxed-optimal-contract} characterizes the solution of the relaxed problem. Proposition \ref{prop:concave} shows that, for sufficiently high reservation utility, the agent's problem is concave. We now state these propositions and explain the key steps in the argument. Appendix \ref{sec:appendix-proofs} contains the proofs.
 
-For the relaxed problem to be well-defined, the derivative $\partial _a U(v,a)$ must exist. Remark \ref{rem:leibniz} in the appendix shows that this is true under our assumptions, and moreover, that we can calculate the derivative by differentiating under the integral sign. Henceforth, we will use differentiation under the integral sign without referencing Remark \ref{rem:leibniz}.
+For the relaxed problem to be well-defined, the derivative $\partial _a U(v,a)$ must exist. Remark \ref{rem:leibniz} shows that this is true under our assumptions, and moreover, that we can calculate the derivative by differentiating under the integral sign. Henceforth, we will use differentiation under the integral sign without referencing Remark \ref{rem:leibniz}.
 
 Throughout this section, fix a regular intended action $a_0$. To simplify notation, we omit the dependence on $a_0$ whenever it is clear, writing, for example, $U(v)$ instead of $U(v, a_0)$.
 
@@ -98,7 +98,7 @@ The figure illustrates the comparative statics from part (2). For sufficiently l
     \caption*{\textit{Note:} This figure displays the Pareto frontier of the cost minimization problem and the relaxed cost minimization problem in the Gaussian-log utility example. The first-order approach is valid for all reservation utilities where the two sets coincide. Parameters are as in figure \ref{fig:gaussian-log-pp}.}
 \end{figure}
 
-The formula in proposition \ref{prop:relaxed-optimal-contract} is essentially the standard first-order approach's equation (\ref{eq:foc}), but properly accounts for limited liability. The intuition is the following: the principal would like to always pay the agent $g(\lambda ^* (\bar U))$, which is the utility level where the marginal cost of providing utility to the agent is $\lambda ^* (\bar U)$. However, incentive compatibility requires that payment depends on whether there is statistical evidence of high effort. The $\mu$ term in the optimal contract pays more if the score is positive and less if the score is negative. Finally, the maximum ensures that limited liability is respected.
+The formula in proposition \ref{prop:relaxed-optimal-contract} is simply solving the first-order condition (\ref{eq:foc}) accounting for limited liability. The intuition is the following: the principal would like to always pay the agent $g(\lambda ^* (\bar U))$, which is the utility level where the marginal cost of providing utility to the agent is $\lambda ^* (\bar U)$. However, incentive compatibility requires that payment depends on whether there is statistical evidence of high effort. The $\mu$ term in the optimal contract pays more if the score is positive and less if the score is negative. Finally, the maximum ensures that limited liability is respected.
 
 \subsection{High Reservation Utility} 
 
@@ -117,42 +117,20 @@ Theorem \ref{thm:main} is a direct consequence of this fact:
     Take $\bar U \geq U ^*$. If the relaxed cost minimization problem has a solution $v^*(y | \bar U)$, proposition \ref{prop:concave} implies that the agent's expected utility $U(v^*,a)$ is concave in $a$. Therefore, the global incentive compatibility constraint is satisfied, and the solution to the relaxed cost minimization problem is also a solution to the cost minimization problem.
 \end{proof} 
 
-Proposition \ref{prop:concave} shows that high reservation utility is crucial for the first-order approach's validity. Figure \ref{fig:norm_log} helps illustrate this result by plotting the relaxed optimal contract and the agent's expected utility versus her effort under the relaxed-optimal contract in the Gaussian-log utility example. The charcoal line represents the expected utility function for the relaxed-optimal contract with the lowest reservation utility, $\bar U = u(0)$. When reservation utility is low, the agent's problem is not concave, and choosing an action close to $0$ is a profitable global deviation for the agent. The limited liability constraint makes low effort appealing for the agent; it ensures that the agent can always achieve utility strictly greater than $u(0)$ by exerting no effort. If the (\ref{IR_relaxed}) constraint binds, as it does in many of our examples, then the agent's expected utility from choosing the intended action is $\bar U$, and the first-order approach surely fails when $\bar U = u(0)$.
+Figure \ref{fig:gaussian-log-cm} illustrates the proposition in the Gaussian-log utility example. We use the same parameters as in figure \ref{fig:gaussian-log-pp}, but consider the cost minimization problem with intended action $a_0 = 100K$. We see the same pattern as in figure \ref{fig:gaussian-log-pp}. For low reservation utility, there are multiple local maxima, and the first-order approach is invalid. For high reservation utility, there is only one local maximum, and the first-order approach is valid.
 
+% Gaussian - log utility cost minimization problem figure
 \begin{figure}[p]
     \centering
-    \includegraphics{figures/log-gaussian-sigma=50.0/cm_stacked.pdf}
-    \caption{Optimal contracts for cost minimization problem with $a_0 = 100K$, Gaussian distribution, and log utility.}
+    \includegraphics[width=\textwidth]{figures/log-gaussian-sigma=50.0/cm_stacked.pdf}
+    \captionsetup{font=footnotesize} % Makes the note footnote-sized
+    \caption{Optimal contracts with Gaussian distribution and log utility in cost minimization problem with intended action $a_0 = 100K$.}
     \label{fig:gaussian-log-cm}
-    \captionsetup{font=footnotesize} % Makes the note footnote-sized
-    \caption*{\textit{Note:} Top panel: optimal wage function $w(y)$. Bottom panel: agent's expected utility $U(v^*, a)$ Colors represent reservation utility. Dashed lines indicate that the first-order approach is invalid at that reservation utility. Dots indicate the recommended action. The thin horizontal line indicates indifference between local maxima. Parameters are as in figure \ref{fig:gaussian-log-pp}.}
-    \label{fig:norm_log}
+    \caption*{\textit{Note:} Top panel: optimal wage function $w(y)$. Bottom panel: agent's expected utility $U(v^*, a)$ given optimal contract and action $a$. Colors represent reservation utility. Dashed lines indicate that the first-order approach is invalid at that reservation utility. Dots indicate the recommended action. The thin horizontal line indicates indifference between local maxima. Intended action is $a_0 = 100K$ and other parameters are as in figure \ref{fig:gaussian-log-pp}.}
 \end{figure}
 
-Figure \ref{fig:norm_log} also illustrates how, as reservation utility increases, the first-order approach becomes valid. The (\ref{IR_relaxed}) constraint ensures that $U(v^*,a_0)$ must be greater than $\bar U$. The rightmost local maximum, $U(v^*,a_0)$, therefore, increases as $\bar U$ increases. The leftmost local maximum also rises, but much more slowly. In the example, the first-order approach becomes valid with a very small increase in $\bar U$ above $u(0)$, as the rightmost local maximum overtakes the leftmost local maximum. Concavity of $U(v^*,a)$ on the other hand, usually requires much larger increases to $\bar U$, so, there are many values of $\bar U$ where the first-order approach is valid, even though $U(v^*,a)$ is not concave in $a$.
+The intuition for why the agent's problem is concave for high reservation utility is as follows. The relaxed optimal contract has two regions. When the outcome $y$ is below a threshold, the limited liability constraint binds, and the contract specifies a constant wage of $0$. When $y$ is above the threshold, the agent's payment is dictated by equation (\ref{eq:foc}). This kink introduces convexity into the agent's problem. As reservation utility increases, the kink moves to the left, so that the agent is paid with high probability. In the example, $a_0$ is fixed at \$100,000. As the kink moves to the left, the probability that the agent is paid a non-zero wage conditional on $a_0$ approaches $1$. 
 
-We now clarify the intuition of why the agent's problem is concave for high reservation utility, but not for low reservation utility. The relaxed optimal contract has two regions. When the outcome $y$ is below a threshold, the limited liability constraint binds, and the contract specifies a constant wage of $0$. When $y$ is above the threshold, the agent's payment is dictated by equation (\ref{eq:foc}). This kink introduces convexity into the agent's problem.
-
-The key observation is that, as reservation utility increases, the kink tends to move to the left, so that the agent is paid with high probability. This is illustrated in figure \ref{fig:norm_log_con}. Thus, as reservation utility increases, the kink becomes less relevant, and the agent's problem becomes more concave due to the curvature of the cost function.
-
-\begin{figure}[ht]
-    \centering
-    \begin{subfigure}[b]{0.45\textwidth}
-        \texttt{FIGURE HERE: norm\_log\_probs.pdf}
-        \caption{Probability of payment}
-        \label{fig:norm_log_probs}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.45\textwidth}
-        \texttt{FIGURE HERE: norm\_log\_exp\_wage.pdf}
-        \caption{Expected wage}
-        \label{fig:norm_log_exp_wage}
-    \end{subfigure}
-    \caption{Probability of payment and expected wages in the Gaussian-log utility example}
-    \captionsetup{font=footnotesize} % Makes the note footnote-sized
-    \caption*{\textit{Note:} Panel A plots the probability that the agent receives a strictly positive wage against the agent's action, under the relaxed optimal contract for different values of reservation utility. Panel B plots the expected wage against effort for the same contracts. The parameters of the problem are as in figure \ref{fig:fig1}.}
-\end{figure}
-
-Appendix \ref{sec:appendix-proofs} formalizes this argument in the proof of proposition \ref{prop:concave}. The proof has two key steps. First, it is shown that the probability that the agent receives zero payment converges to zero. The intuition is that, when $\bar U$ is large, the typical payment received by the agent is large. So, if the agent could have a high impact on the probability of receiving a non-zero payment, she would have incentives to work harder than the intended effort level. This would violate the first-order condition, so the probability of receiving zero payment must converge to zero (lemma \ref{lem:threshold-outcome}).
+Appendix \ref{sec:appendix-proofs} formalizes this argument in the proof of proposition \ref{prop:concave}. The proof has two key steps. First, it is shown that the probability that the agent receives zero payment converges to zero. When $\bar U$ is large, the typical payment received by the agent is large. So, if the agent could have a high impact on the probability of receiving a non-zero payment, she would have incentives to work harder than the intended effort level. This would violate the first-order condition, so the probability of receiving zero payment must converge to zero (lemma \ref{lem:threshold-outcome}).
 
 The second key step is to show that this implies that the agent's expected utility is concave in $a$. The intuition is that the kink is very far to the left. Moreover, most of the increase in utility going from a payment of zero to the typical payment happens close to the kink. The proof shows that, due to this, the curvature of expected utility is dominated by the curvature of the cost function (lemma \ref{lem:inf_lambda_second_deriv}).

@@ -1,1 +1,99 @@
 \subsection{Numerical Methods}
+The combination of Theorem \ref{thm:main} and the closed-form solutions yield efficient algorithms for solving the cost minimization problem.
+
+To see this, consider a relaxed cost minimization problem where we also include a finite number of global incentive compatibility constraints at a vector of actions $\boldsymbol{\hat a} = (\hat a_1, \ldots, \hat a_n)$. The Lagrangian from equation (\ref{eq:lagrangian}) becomes
+\[
+    \mathcal{L}(v,\lambda,\mu, \boldsymbol{\hat \mu}, \boldsymbol{\hat a})
+    :=
+    W(v, a_0)
+    +\lambda\left(\bar{U}-U(v, a_0)\right)
+    +\mu(-U_{a}(v, a_0))
+    +\sum \hat \mu_i \left(U(v, \hat a_i) - U(v, a_0)\right)
+    \text{.}
+\]
+
+Heuristically differentiating pointwise with respect to $v(y)$ and setting the derivative to zero gives
+\[
+    k'(v(y)) f(y | a_0)
+    =
+    \lambda f(y | a_0)
+    + \mu f_{a}(y|a_0)
+    + \sum \hat \mu_i [f(y | a_0) - f(y | \hat a_i)]
+    \text{.}
+\]
+
+The solution $v$ equals
+\[
+    V(y | \lambda, \mu, \boldsymbol{\hat \mu}, \boldsymbol{\hat a})
+    :=
+    g\biggl(
+        \lambda + \mu S(y|a_0) + \sum \hat \mu_i \left(1 - \frac{f(y | \hat a_i)}{f(y | a_0)}\right)
+    \biggr)
+    \text{.}\
+\]
+
+And we can define the Lagrange dual function as
+\[
+    \mathcal{D}(\lambda, \mu, \boldsymbol{\hat \mu}, \boldsymbol{\hat a})
+    :=
+    \mathcal{L}(V(y | \lambda, \mu, \boldsymbol{\hat a}), \lambda, \mu, \boldsymbol{\hat a})
+    \text{.}
+\]
+
+For any parametric example, the dual can be computed efficiently with the analytical formulas from section \ref{sec:calculus}. It also has an analytic gradient by Danskin’s envelope theorem. Moreover, given a grid of outputs $\mathbf{y}_{\mathrm{grid}}$, we can cache $f(y | a_0)$, $S(y | a_0)$, and $f(y | \hat a_i)$. This is enough to perform the numerical integrations needed for $\mathcal D$, so that $\mathcal D$ only involves matrix multiplications and applications of the link function.
+
+This suggests the following algorithm \ref{alg:cost-minimization}:
+
+\begin{algorithm}[H]
+    \DontPrintSemicolon % Removes semicolons at end of lines for cleaner look
+    \SetAlgoLined
+    
+    % Define keywords for functions to make them bold/distinct
+    \SetKwFunction{FindBest}{FindBestDeviation}
+    \SetKwFunction{MaximizeDual}{MaximizeDual}
+    \SetKwFunction{InitGrid}{InitializeGrid}
+    \SetKwFunction{CacheLikelihoods}{CacheLikelihoods}
+
+    % Initialize variables
+    % Using \tcp for comments ensures proper alignment
+    $\boldsymbol{\hat a} \gets \emptyset$; \quad
+    $\boldsymbol{\hat\mu} \gets \emptyset$; \quad
+    $\lambda \gets \lambda_{\text{init}}$; \quad
+    $\mu \gets \mu_{\text{init}}$\;
+    
+    $\mathbf{y}_{\mathrm{grid}} \gets \InitGrid()$\;
+
+    \BlankLine
+    \Repeat{$\mathtt{deviation\_gain} \le \mathtt{tolerance}$}{
+        \CacheLikelihoods{$\mathbf{y}_{\mathrm{grid}},\, a_0,\, \boldsymbol{\hat a}$} \tcp*[r]{For faster dual calls}
+        
+        $(\lambda,\, \mu,\, \boldsymbol{\hat\mu})
+        \gets
+        \MaximizeDual{$\mathcal{D}, \text{init}=\{\lambda, \mu, \boldsymbol{\hat\mu}\}$}$
+        \tcp*[r]{use warm start}
+
+
+        $v(\mathbf{y}_{\mathrm{grid}}) \gets V(\mathbf{y}_{\mathrm{grid}} \mid \lambda, \mu, \boldsymbol{\hat\mu}, \boldsymbol{\hat a})$\;
+
+        $\mathtt{best\_deviation},\;\mathtt{deviation\_gain}
+        \gets
+        \FindBest{$v,\, a_0$}$\;
+
+        \If{$\mathtt{deviation\_gain} > \mathtt{tolerance}$}{
+            $\boldsymbol{\hat a} \gets \boldsymbol{\hat a} \cup \{\mathtt{best\_deviation}\}$\;
+            $\boldsymbol{\hat\mu} \gets (\boldsymbol{\hat\mu}, 0)$ \tcp*[r]{Warm start update}
+        }
+    }
+
+    \Return{$v$}
+
+    \caption{Cost minimization via active–set}
+    \label{alg:cost-minimization}
+\end{algorithm}
+
+In practice, the algorithm takes in the order of 1E-3 seconds. Performance is helped by the following:
+\begin{itemize}
+    \item The algorithm often ends in the first iteration because of Theorem \ref{thm:main}.
+    \item Dual calls are fast because of the analytic formulas and caching.
+    \item Dual maximization is fast because of the analytic gradients and warm starts.
+\end{itemize}
