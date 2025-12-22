@@ -1,5 +1,6 @@
 \subsection{Numerical Methods}
-The combination of Theorem \ref{thm:main} and the closed-form solutions yield efficient algorithms for solving the cost minimization problem.
+\label{sec:numerical-methods}
+Theorem \ref{thm:main} and the closed-form solutions yield efficient algorithms for solving the cost minimization problem.
 
 To see this, consider a relaxed cost minimization problem where we also include a finite number of global incentive compatibility constraints at a vector of actions $\boldsymbol{\hat a} = (\hat a_1, \ldots, \hat a_n)$. The Lagrangian from equation (\ref{eq:lagrangian}) becomes
 \[
@@ -52,7 +53,7 @@ This suggests the following algorithm \ref{alg:cost-minimization}:
     \SetKwFunction{FindBest}{FindBestDeviation}
     \SetKwFunction{MaximizeDual}{MaximizeDual}
     \SetKwFunction{InitGrid}{InitializeGrid}
-    \SetKwFunction{CacheLikelihoods}{CacheLikelihoods}
+    \SetKwFunction{UpdateCache}{UpdateCache}
 
     % Initialize variables
     % Using \tcp for comments ensures proper alignment
@@ -65,7 +66,7 @@ This suggests the following algorithm \ref{alg:cost-minimization}:
 
     \BlankLine
     \Repeat{$\mathtt{deviation\_gain} \le \mathtt{tolerance}$}{
-        \CacheLikelihoods{$\mathbf{y}_{\mathrm{grid}},\, a_0,\, \boldsymbol{\hat a}$} \tcp*[r]{For faster dual calls}
+        \UpdateCache{$\mathbf{y}_{\mathrm{grid}},\, a_0,\, \boldsymbol{\hat a}$} \tcp*[r]{For fast dual calls}
         
         $(\lambda,\, \mu,\, \boldsymbol{\hat\mu})
         \gets

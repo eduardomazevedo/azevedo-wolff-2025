@@ -1,17 +1,19 @@
 \subsection{Linear Contracts}
+\label{sec:linear-contracts}
 The formulae imply piecewise linear contracts in many examples. The key ingredients are log utility, which makes the wage function piecewise linear in the score, and a linear score function. This includes an exponential family with linear sufficient statistics. That is, when $f(y, a)$ is of the form
 \begin{equation}
 \label{eq:linear-exponential-family}
 f(y | a)
 =
-\exp\left(\eta (a) y + A(a)\right)
+h(y) \cdot \exp\left(\eta (a) y + A(a)\right)
 \text{.}    
 \end{equation}
 
 We note this as follows:
 
 \begin{remark}[Piecewise Linear Option Contracts]
+    \label{rem:linear-contracts}
     Assume that utility is log ($u(x) = \log(w_0 + x)$ with $w_0 > 0$) and that the distribution of outcomes is in an exponential family with a linear sufficient statistic (as in equation \ref{eq:linear-exponential-family}). Then the canonical contract wage function is piecewise linear. This includes the Gaussian, exponential, Poisson, geometric, binomial, and gamma distributions.
 \end{remark}
 
-Our piecewise linear contracts are option contracts. The contracts pay zero for low outcomes and increases linearly past a ``strike price.'' In some examples with a lower bound on the support, the optimal contract is linear (e.g., Figure \ref{fig:poisson-log-pp}). In other examples, optimal contracts are piecewise linear in some cases where the first-order approach is valid, but there are also low reservation utility cases where the first-order approach is invalid and optimal contracts are not linear (e.g., Figure \ref{fig:gaussian-log-pp}).
+Our piecewise linear contracts are option contracts. The contracts pay zero for low outcomes and increases linearly past a ``strike price.'' In some examples with a lower bound on the support, the optimal contract is globally linear (e.g., some of the Poisson examples in Figure \ref{fig:poisson-log-pp}). Finally, note that optimal contracts are only piecewise linear when the first-order approach is valid. This is illustrated in the Gaussian-log utility example in Figure \ref{fig:gaussian-log-pp}, where the contract with negative reservation wage is clearly nonlinear.
