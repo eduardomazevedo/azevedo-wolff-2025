@@ -38,3 +38,6 @@ Icon?
 *.tmp
 
 __pycache__/
+
+# Arxiv
+tex_arXiv/
