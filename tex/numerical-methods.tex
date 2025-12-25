@@ -4,13 +4,15 @@ Theorem \ref{thm:main} and the closed-form solutions yield efficient algorithms 
 
 To see this, consider a relaxed cost minimization problem where we also include a finite number of global incentive compatibility constraints at a vector of actions $\boldsymbol{\hat a} = (\hat a_1, \ldots, \hat a_n)$. The Lagrangian from equation (\ref{eq:lagrangian}) becomes
 \[
+    \begin{aligned}
     \mathcal{L}(v,\lambda,\mu, \boldsymbol{\hat \mu}, \boldsymbol{\hat a})
-    :=
+    &:=
     W(v, a_0)
     +\lambda\left(\bar{U}-U(v, a_0)\right)
-    +\mu(-U_{a}(v, a_0))
-    +\sum \hat \mu_i \left(U(v, \hat a_i) - U(v, a_0)\right)
+    +\mu(-U_{a}(v, a_0))\\
+    &\quad+\sum \hat \mu_i \left(U(v, \hat a_i) - U(v, a_0)\right)
     \text{.}
+    \end{aligned}
 \]
 
 Heuristically differentiating pointwise with respect to $v(y)$ and setting the derivative to zero gives
@@ -33,10 +35,12 @@ The solution $v$ equals
     \text{.}\
 \]
 
-And we can define the Lagrange dual function as
+Define the Lagrange dual function as
 \[
     \mathcal{D}(\lambda, \mu, \boldsymbol{\hat \mu}, \boldsymbol{\hat a})
-    :=
+    := \sup_{v} 
+    \mathcal{L}(v, \lambda, \mu, \boldsymbol{\hat \mu}, \boldsymbol{\hat a})
+    =
     \mathcal{L}(V(y | \lambda, \mu, \boldsymbol{\hat a}), \lambda, \mu, \boldsymbol{\hat a})
     \text{.}
 \]
