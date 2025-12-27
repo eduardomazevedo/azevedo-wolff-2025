@@ -1,23 +1,23 @@
 \ProvidesPackage{custom}
 
-% Character encoding
+% -------------------------------------------------------------------
+% 1. Character encoding & Fonts
+% -------------------------------------------------------------------
 \RequirePackage[T1]{fontenc}
 \RequirePackage[utf8]{inputenc}
-
-% Fonts
 \RequirePackage{mathpazo}
 
-% Margins and spacing
-\RequirePackage[top=1.25in, bottom=1.25in, left=1.25in, right=1.25in]{geometry}
+% -------------------------------------------------------------------
+% 2. Margins and spacing
+% -------------------------------------------------------------------
+% 1 inch margins (Industry Standard)
+\RequirePackage[margin=1in]{geometry}
 \RequirePackage{setspace}
 \onehalfspacing
 
-% Bibliography with Biber backend
-\RequirePackage[style=authoryear, maxnames=3, maxbibnames=5, backend=biber]{biblatex}
-\addbibresource{bibliography.bib}
-\renewcommand*{\nameyeardelim}{\addcomma\space}
-
-% Colors
+% -------------------------------------------------------------------
+% 3. Colors
+% -------------------------------------------------------------------
 \RequirePackage{xcolor}
 \definecolor{ghibli_palette_red}{RGB}{255, 92, 92}
 \definecolor{ghibli_palette_gold}{RGB}{255, 215, 0}
@@ -30,30 +30,42 @@
 \definecolor{ghibli_palette_muted_green}{RGB}{132, 165, 157}
 \definecolor{ghibli_palette_warm_red}{RGB}{242, 132, 130}
 
-% Essential packages
+% -------------------------------------------------------------------
+% 4. Essential packages
+% -------------------------------------------------------------------
 \RequirePackage{graphicx}
 \RequirePackage{amsmath}
 \RequirePackage{amsthm}
 \RequirePackage{amssymb}
-\RequirePackage{fullpage}
-\RequirePackage{hyperref}
 \RequirePackage{subcaption}
-
-% Better tables
 \RequirePackage{booktabs}
-
-% Algorithms
 \RequirePackage[ruled, vlined, linesnumbered]{algorithm2e}
 
-% Apply the color links
+% Bibliography (Load before hyperref)
+\RequirePackage[style=authoryear, maxnames=3, maxbibnames=5, backend=biber]{biblatex}
+\addbibresource{bibliography.bib}
+\renewcommand*{\nameyeardelim}{\addcomma\space}
+
+% Hyperref (Load last)
+\RequirePackage{hyperref}
+
+% -------------------------------------------------------------------
+% 5. Link Configuration (FIXED)
+% -------------------------------------------------------------------
+% MOVED OUT of \AtBeginDocument to ensure Mac Preview sees the colors.
+% Added pdfborder={0 0 0} to ensure Chrome doesn't draw magenta boxes.
 \hypersetup{
-    colorlinks=true,       % Enable colored links
-    linkcolor=ghibli_palette_red,      % Color for internal links (e.g., equations, sections)
-    citecolor=ghibli_palette_deep_teal,      % Color for citations
-    urlcolor=ghibli_palette_deep_teal        % Color for URLs
+    colorlinks=true,
+    linkcolor=ghibli_palette_red,
+    citecolor=ghibli_palette_deep_teal,
+    urlcolor=ghibli_palette_deep_teal,
+    pdfborder={0 0 0},      % Crucial for Chrome/Acrobat to hide boxes
+    breaklinks=true         % Allows links to break across lines
 }
 
-% Theorem environments setup
+% -------------------------------------------------------------------
+% 6. Theorem environments setup
+% -------------------------------------------------------------------
 \theoremstyle{plain}
 \newtheorem{proposition}{Proposition}
 \newtheorem{assumption}{Assumption}
@@ -63,7 +75,9 @@
 \newtheorem{definition}{Definition}
 \newtheorem{remark}{Remark}
 
-% Appendix counter management
+% -------------------------------------------------------------------
+% 7. Appendix counter management
+% -------------------------------------------------------------------
 \RequirePackage{chngcntr}
 \RequirePackage{apptools}
 \AtAppendix{
@@ -76,11 +90,13 @@
     \counterwithin{equation}{section}
 }
 
-% Mathematical notation
+% -------------------------------------------------------------------
+% 8. Mathematical notation
+% -------------------------------------------------------------------
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\Var}{\mathrm{Var}}
 \newcommand{\Cov}{\mathrm{Cov}}
 \newcommand{\supp}{\mathrm{supp}}
 \newcommand{\ubar}[1]{\text{\b{$#1$}}}
 
-\endinput 
+\endinput
