@@ -1,5 +1,5 @@
 """
-Gaussian log utility example — refactored and cleaned version.
+Functions to make comprehensive figures for each example.
 """
 
 # -------------------------------------------------------------

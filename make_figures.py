@@ -1,5 +1,5 @@
 """
-Make figures for the examples.
+Script that makes all figures for the paper.
 """
 import numpy as np
 from moralhazard import MoralHazardProblem
@@ -17,11 +17,11 @@ def C(a): return theta * a ** 2 / 2
 def Cprime(a): return theta * a
 
 utility_cfg = make_utility_cfg("log", w0=initial_wealth)
-reservation_wage_grid = np.linspace(-1.0, 25.0, 5)
+reservation_wage_grid = np.linspace(-1.0, 15.0, 5)
 reservation_wage_grid_pareto = np.linspace(-20.0, 50.0, 100)
 a_min, a_max = 0.0, 180.0
 action_grid_plot = np.linspace(a_min, a_max, 100)
-n_a_iterations = 10
+n_a_iterations = 100
 
 for sigma in [10.0, 20.0, 50.0]:
     dist_cfg = make_distribution_cfg("gaussian", sigma=sigma)
@@ -123,13 +123,15 @@ for sigma in [10.0, 20.0, 50.0]:
 
 
 # log-Poisson example
-a_min, a_max = 0.0, 30.0
+a_min, a_max = 0.0, 10.0
 action_grid_plot = np.linspace(a_min, a_max, 100)
 
-first_best_effort_poisson = 20.0
+first_best_effort_poisson = 7.0
 theta_poisson = 1.0 / first_best_effort_poisson / (first_best_effort_poisson + initial_wealth)
 def C_poisson(a): return theta_poisson * a ** 2 / 2
 def Cprime_poisson(a): return theta_poisson * a
+
+reservation_wage_grid_poisson = np.linspace(-1.0, 5.0, 5)
 
 dist_cfg = make_distribution_cfg("poisson")
 comp_cfg = {
@@ -150,7 +152,7 @@ make_example_figures(
     mhp=mhp,
     utility_cfg=utility_cfg,
     n_a_iterations=n_a_iterations,
-    reservation_wage_grid=reservation_wage_grid,
+    reservation_wage_grid=reservation_wage_grid_poisson,
     reservation_wage_grid_pareto=reservation_wage_grid_pareto,
     a_min=a_min,
     a_max=a_max,
@@ -162,8 +164,8 @@ make_example_figures(
 
 #log-exponential example
 a_min, a_max = 10.0, 180.0
-action_grid_plot = np.linspace(a_min, a_max, 100)
-intended_action = 50.0 # Action of 100 was extremely not worth it for principal.
+action_grid_plot = np.linspace(a_min, 60.0, 100)
+intended_action = 100.0 # Action of 100 was extremely not worth it for principal.
 
 dist_cfg = make_distribution_cfg("exponential")
 comp_cfg = {

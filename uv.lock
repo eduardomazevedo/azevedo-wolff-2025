@@ -46,7 +46,7 @@ requires-dist = [
     { name = "arxiv-latex-cleaner", specifier = ">=1.0.8" },
     { name = "cmocean", specifier = ">=4.0.3" },
     { name = "matplotlib", specifier = ">=3.10.7" },
-    { name = "moralhazard", git = "https://github.com/eduardomazevedo/moralhazard.git" },
+    { name = "moralhazard", git = "https://github.com/eduardomazevedo/moralhazard.git?rev=fe6e0b9080802d7162daf6b0cac66515f06f6d9f" },
     { name = "numpy", specifier = ">=2.3.5" },
     { name = "pandas", specifier = ">=2.3.3" },
     { name = "scipy", specifier = ">=1.16.3" },
@@ -312,10 +312,9 @@ wheels = [
 [[package]]
 name = "moralhazard"
 version = "0.1.0"
-source = { git = "https://github.com/eduardomazevedo/moralhazard.git#776ed30fa514a621908a5e805757b53fcaf938e5" }
+source = { git = "https://github.com/eduardomazevedo/moralhazard.git?rev=fe6e0b9080802d7162daf6b0cac66515f06f6d9f#fe6e0b9080802d7162daf6b0cac66515f06f6d9f" }
 dependencies = [
     { name = "numpy" },
-    { name = "pandas" },
     { name = "scipy" },
 ]
 

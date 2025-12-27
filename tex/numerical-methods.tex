@@ -96,4 +96,4 @@ This suggests the following algorithm \ref{alg:cost-minimization}:
     \label{alg:cost-minimization}
 \end{algorithm}
 
-Note that the dual maximization step is not a convex program, so this algorithm does not guarantee global optimality. In practice, it solves all the examples in the paper, and each run takes in the order of 1E-3 seconds. Performance seems to be due to three factors. First, the algorithm often ends in the first iteration because of Theorem \ref{thm:main}. Second, dual calls are fast because of the analytic formulas and caching. Third, dual maximization is fast because of the analytic gradients and warm starts.
+Note that the dual maximization step is not a convex program, so this algorithm does not guarantee global optimality. In practice, it solves all the examples in the paper, and each run takes in the order of 1.5 to 8 milliseconds. Performance seems to be due to three factors. First, the algorithm often ends in the first iteration because of Theorem \ref{thm:main}. Second, dual calls are fast because of the analytic formulas and caching. Third, dual maximization is fast because of low dimensionality, analytic gradients and warm starts.
