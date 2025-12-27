@@ -7,7 +7,6 @@ Functions to make comprehensive figures for each example.
 # -------------------------------------------------------------
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
 import os
 from matplotlib.colors import LinearSegmentedColormap
 from moralhazard import MoralHazardProblem

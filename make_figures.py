@@ -164,7 +164,7 @@ make_example_figures(
 
 #log-exponential example
 a_min, a_max = 10.0, 180.0
-action_grid_plot = np.linspace(a_min, 60.0, 100)
+action_grid_plot = np.linspace(a_min, 90.0, 100)
 intended_action = 100.0 # Action of 100 was extremely not worth it for principal.
 
 dist_cfg = make_distribution_cfg("exponential")
