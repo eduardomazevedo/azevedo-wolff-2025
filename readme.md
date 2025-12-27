@@ -4,7 +4,7 @@
 
 ## Requirements
 
-- **Python** (>=3.12)
+- **Python** (3.12)
 - **uv** (Python package manager)
 
 ## Reproduction instructions
@@ -16,6 +16,6 @@ uv run make_figures.py
 
 ## Algorithm 1 Implementation
 
-Algorithm 1 implementation: https://github.com/eduardomazevedo/moralhazard
+https://github.com/eduardomazevedo/moralhazard
 
 [**Quickstart Colab Demo** ![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/eduardomazevedo/moralhazard/blob/main/examples/colab_demo.ipynb)
