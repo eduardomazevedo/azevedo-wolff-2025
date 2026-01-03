@@ -1,0 +1,26 @@
+timestamp_utc: 2026-01-03T15:04:02.272519Z
+platform: macOS-15.7.1-arm64-arm-64bit
+python: 3.12.11 (main, Jul  1 2025, 18:16:32) [Clang 20.1.4 ]
+executable: /Users/eduaze/projects/azevedo-wolff-2025/.venv/bin/python3
+
+uname -a:
+Darwin Eduardos-MacBook-Pro-2.local 24.6.0 Darwin Kernel Version 24.6.0: Mon Aug 11 21:16:52 PDT 2025; root:xnu-11417.140.69.701.11~1/RELEASE_ARM64_T8112 arm64
+
+lscpu:
+<lscpu not found>
+
+meminfo (first 40 lines):
+<no /proc/meminfo>
+
+thread_env:
+  OMP_NUM_THREADS=''
+  MKL_NUM_THREADS=''
+  OPENBLAS_NUM_THREADS=''
+  VECLIB_MAXIMUM_THREADS=''
+  NUMEXPR_NUM_THREADS=''
+
+package_versions:
+  numpy=2.3.5
+  pandas=2.3.3
+  cvxpy=1.7.5
+  moralhazard=<no __version__>

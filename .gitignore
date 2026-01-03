@@ -41,3 +41,6 @@ __pycache__/
 
 # Arxiv
 tex_arXiv/
+
+# output tex files (but track benchmarking data)
+output/*.tex

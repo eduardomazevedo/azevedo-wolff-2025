@@ -197,4 +197,23 @@ w(z) &= k(g(z)) \\
      &= \frac{(\log^+ z - \alpha w_0)^+}{\alpha}. 
 \end{align*}
 
+
+\section{Benchmarking Numerical Solvers}
+\label{sec:benchmarks}
+
+This section reports benchmarks comparing Algorithm~\ref{alg:cost-minimization} (``Algorithm 1'') with the convex optimization solver described in Section~\ref{sec:numerical-methods}. \input{../output/specs_description.tex}
+
+We benchmark three cases: (i) Gaussian (easy), with parameters as in Figure~\ref{fig:gaussian-log-pp} where the first-order approach holds; (ii) Gaussian (hard), with a low reservation utility where the first-order approach fails; and (iii) Student-$t$ distribution from Figure \ref{fig:t-log-pp}, where the score is not monotone and there are many binding incentive compatibility constraints. For each case, we solve both the cost minimization problem with intended action $a_0=100$ (CMP) and the principal's problem (PP). Each benchmark reports the median time over 20 runs, after discarding one warmup run. The convex solver uses a grid of 201 points for the outcomes and 101 points for the actions.
+
+Table~\ref{tab:benchmarks} reports the results. Algorithm~1 is substantially faster than the convex solver for the cost minimization problem, typically by a factor of 20--140$\times$. The advantage is especially pronounced for the principal's problem, where Algorithm~1 is 2--300$\times$ faster.
+
+\begin{table}[h]
+    \centering
+    \captionsetup{font=footnotesize}
+    \caption{Benchmark results: median runtime in milliseconds.}
+    \label{tab:benchmarks}
+    \input{../output/benchmarks_table.tex}
+    \caption*{\textit{Note:} CMP = cost minimization problem. PP = principal's problem. Each benchmark is the median of 20 runs. ``k'' denotes thousands of milliseconds.}
+\end{table}
+
 \end{document}

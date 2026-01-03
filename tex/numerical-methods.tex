@@ -2,7 +2,7 @@
 \label{sec:numerical-methods}
 Theorem \ref{thm:main} and the closed-form solutions yield efficient algorithms for solving the cost minimization problem.
 
-To see this, consider a relaxed cost minimization problem where we also include a finite number of global incentive compatibility constraints at a vector of actions $\boldsymbol{\hat a} = (\hat a_1, \ldots, \hat a_n)$. The Lagrangian from equation (\ref{eq:lagrangian}) becomes
+Consider a relaxed cost minimization problem where we also include a finite number of global incentive compatibility constraints at a vector of actions $\boldsymbol{\hat a} = (\hat a_1, \ldots, \hat a_n)$. The Lagrangian from equation (\ref{eq:lagrangian}) becomes
 \[
     \begin{aligned}
     \mathcal{L}(v,\lambda,\mu, \boldsymbol{\hat \mu}, \boldsymbol{\hat a})
@@ -96,4 +96,20 @@ This suggests the following algorithm \ref{alg:cost-minimization}:
     \label{alg:cost-minimization}
 \end{algorithm}
 
-Note that the dual maximization step is not a convex program, so this algorithm does not guarantee global optimality. In practice, it solves all the examples in the paper, and each run takes in the order of 1.5 to 8 milliseconds. Performance seems to be due to three factors. First, the algorithm often ends in the first iteration because of Theorem \ref{thm:main}. Second, dual calls are fast because of the analytic formulas and caching. Third, dual maximization is fast because of low dimensionality, analytic gradients and warm starts.
+Algorithm \ref{alg:cost-minimization} solves all the examples in the paper. In our benchmarks, each run takes in the order of 1.5 to 8 milliseconds (see supplementary material). Performance seems to be due to three factors. First, the algorithm often ends in the first iteration because of Theorem \ref{thm:main}. Second, dual calls are fast because of the analytic formulas and caching. Third, dual maximization is fast because of low dimensionality, analytic gradients and warm starts.
+
+Algorithm \ref{alg:cost-minimization} has two main drawbacks. The dual is not convex, so that the optimization step can get stuck in a local maximum. And the heuristic to add constraints might also get stuck.
+
+To overcome these drawbacks, we implement a straightforward convex optimization solver. We discretize both the outcome and action spaces, which yields a problem with a convex objective and linear constraints. We solve this discretized problem using \texttt{CVXPY} with the \texttt{Clarabel} solver. This approach is computationally more expensive—taking between 140 and 230 milliseconds in our benchmarks—because it solves for the contract $v$ at every point of the outcome grid. However, it provides a global optimality guarantee. In our implementation, Algorithm~\ref{alg:cost-minimization} uses this convex solver as a fallback.
+
+The main drawback of the convex solver is that the numerical optimal contract $v(y)$ is numerically unstable at points where the density $f(y | a_0)$ is small. This is illustrated in Figure \ref{fig:convex-solver-stability}. The figure shows that both solvers reach essentially the same objective value. In the middle of the distribution, they reach essentially the same optimal contract. However, in the tails of the distribution, the convex solver optimal contract is numerically unstable.
+
+\begin{figure}[p]
+    \centering
+    \includegraphics[width=\textwidth]{figures/solver_comparison/stacked_comparison.pdf}
+    \captionsetup{font=footnotesize}
+    \caption{Comparison of Algorithm 1 and convex program solvers.}
+    \label{fig:convex-solver-stability}
+    \caption*{\textit{Note:} Top panel: optimal wage function $w(y)$. Bottom panel: agent's expected utility $U(v^*, a)$. Both solvers reach essentially the same expected wage cost. The convex program solution is numerically unstable in the tails where the density $f(y | a_0)$ is small. Parameters are as in Figure \ref{fig:gaussian-log-pp} with $\sigma = 10$. The convex solver uses a grid of 201 points for the outcomes and 200 points for the actions.}
+\end{figure}
+

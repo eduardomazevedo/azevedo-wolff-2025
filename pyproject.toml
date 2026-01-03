@@ -8,7 +8,8 @@ dependencies = [
     "matplotlib>=3.10.7",
     "moralhazard",
     "numpy>=2.3.5",
+    "pandas>=2.3.3",
 ]
 
 [tool.uv.sources]
-moralhazard = { git = "https://github.com/eduardomazevedo/moralhazard.git", rev = "fe6e0b9080802d7162daf6b0cac66515f06f6d9f" }
+moralhazard = { git = "https://github.com/eduardomazevedo/moralhazard.git", rev = "dd3770410017feb9491cfc8479e1f01d1d9c4a96" }
