@@ -349,13 +349,8 @@ print("=== Results Table: median_ms (IQR) ===")
 print(df_table.to_string(index=False, float_format="%.2f"))
 print()
 
-# Output directory: prefer script directory; fall back to CWD (works in notebooks too)
-try:
-    base_dir = Path(__file__).resolve().parent
-except NameError:
-    base_dir = Path.cwd()
-
-output_dir = base_dir / "output"
+# Output directory: use project root (assumes running from root with uv)
+output_dir = Path.cwd() / "output"
 output_dir.mkdir(parents=True, exist_ok=True)
 
 csv_path = output_dir / "timing_results.csv"
