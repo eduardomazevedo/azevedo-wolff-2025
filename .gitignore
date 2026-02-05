@@ -44,3 +44,6 @@ tex_arXiv/
 
 # output tex files (but track benchmarking data)
 output/*.tex
+
+# Ignore generated model data for the interactive dashboard
+interactive_dashboard/model_data.js
