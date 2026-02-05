@@ -21,10 +21,10 @@
         .value-display { font-family: monospace; font-weight: bold; color: #007bff; }
 
         /* Grid for Plots */
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .plot-box { height: 500px; border: 1px solid #eee; border-radius: 4px; }
+        .grid { display: grid; grid-template-rows: 1fr 1fr; gap: 20px; }
+        .plot-box { height: 420px; border: 1px solid #eee; border-radius: 4px; }
         
-        @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .grid { grid-template-rows: 1fr 1fr; } }
     </style>
 </head>
 <body>
@@ -163,13 +163,15 @@
         }
 
         // --- Plot 1: Wage Contract w(y) ---
+        const paperRed = 'rgb(255, 92, 92)';
+
         const wageTrace = {
             x: caseData.y_grid,
             y: frame.wage_curve,
             mode: 'lines',
             line: { 
-                color: '#2ca02c', // Fixed green color
-                width: 3
+                color: paperRed,
+                width: 2
             },
             name: 'Wage'
         };
@@ -188,9 +190,9 @@
 
         const layoutWage = {
             ...layoutCommon,
-            title: 'Optimal Wage Contract w(y) and Output Density',
-            xaxis: { title: 'Output (y)' },
-            yaxis: { title: 'Wage', range: caseData.wageYRange },
+            title: 'Optimal Contract',
+            xaxis: { title: 'Output y (USD 1,000s)' },
+            yaxis: { title: 'Wage w(y) (USD 1,000s)', range: caseData.wageYRange },
             yaxis2: { 
                 overlaying: 'y',
                 side: 'right',
@@ -210,7 +212,7 @@
             x: caseData.a_grid,
             y: frame.u_curve,
             mode: 'lines',
-            line: { color: '#1f77b4', width: 2 },
+            line: { color: paperRed, width: 2 },
             name: 'Utility'
         };
 
@@ -226,15 +228,15 @@
             x: caseData.a_grid,
             y: Array(caseData.a_grid.length).fill(frame.opt_u),
             mode: 'lines',
-            line: { color: 'red', dash: 'dash', width: 1 },
+            line: { color: paperRed, dash: 'dash', width: 1 },
             name: 'Optimal Utility Level'
         };
         
         const layoutUtil = {
             ...layoutCommon,
-            title: 'Agent Utility vs Action',
-            xaxis: { title: 'Action (a)' },
-            yaxis: { title: 'Utility (Certain Equivalent)', range: caseData.utilYRange }
+            title: 'Agent Expected Utility',
+            xaxis: { title: 'Action (USD 1,000s)' },
+            yaxis: { title: 'Agent expected utility (certain equivalent, USD 1,000s)', range: caseData.utilYRange }
         };
 
         // Render
