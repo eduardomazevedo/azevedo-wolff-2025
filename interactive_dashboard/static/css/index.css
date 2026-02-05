@@ -151,6 +151,11 @@ body {
     margin-bottom: 1.5rem;
 }
 
+.publication-authors .author-sep {
+  margin: 0 0.5rem;
+  color: var(--text-light);
+}
+
 /* Dashboard page overrides */
 :root {
   --primary-color: #ff5c5c;
@@ -187,9 +192,19 @@ body {
 
 .dashboard-frame iframe {
   width: 100%;
-  height: 980px;
+  height: 85vh;
+  min-height: 780px;
   border: 0;
   display: block;
+}
+
+.dashboard-section {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.dashboard-frame.full-bleed {
+  margin: 0 1.5rem;
 }
 
 .table thead th {
@@ -385,6 +400,36 @@ body {
 
 .content.has-text-justified p {
   margin-bottom: 1.5rem;
+}
+
+/* Intro text: paragraph spacing and Colab link */
+.intro-text p {
+  margin-bottom: 1.25rem;
+}
+
+.intro-text p:last-of-type {
+  margin-bottom: 0;
+}
+
+.intro-text .colab-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--primary-color);
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+}
+
+.intro-text .colab-link:hover {
+  color: var(--primary-hover);
+  background: var(--background-accent);
+}
+
+.intro-text .colab-link .icon {
+  font-size: 0.85em;
 }
 
 /* Footer Improvements */
@@ -794,5 +839,3 @@ a:focus {
     box-shadow: none !important;
   }
 }
-
-
