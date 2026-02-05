@@ -41,6 +41,8 @@ __pycache__/
 
 # Arxiv
 tex_arXiv/
+arxiv_staging/
+arxiv_submission.zip
 
 # output tex files (but track benchmarking data)
 output/*.tex
