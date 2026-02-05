@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Azevedo-Wolff (2025) Interactive Dashboard</title>
+
+  <meta name="title" content="Azevedo-Wolff (2025) Interactive Dashboard">
+  <meta name="description" content="Interactive visualization of the principal problem from Azevedo-Wolff (2025), with case parameters and links to the paper and code.">
+  <meta name="author" content="Eduardo Azevedo, Lucas Wolff">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Source+Serif+4:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <main id="main-content">
+    <section class="hero is-light">
+      <div class="hero-body">
+        <div class="container is-max-desktop has-text-centered">
+          <p class="eyebrow">Azevedo-Wolff (2025)</p>
+          <h1 class="title is-2 publication-title">The First-Order Approach in the Principal Problem</h1>
+          <p class="subtitle is-5">Interactive dashboard for the wage contract and agent utility.</p>
+          <div class="publication-links">
+            <span class="link-block">
+              <a href="https://eduardomazevedo.github.io/papers/azevedo-wolff-foa.pdf" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                <span>Paper (PDF)</span>
+              </a>
+            </span>
+            <span class="link-block">
+              <a href="https://github.com/eduardomazevedo/azevedo-wolff-2025" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                <span class="icon"><i class="fab fa-github"></i></span>
+                <span>Code</span>
+              </a>
+            </span>
+            <span class="link-block">
+              <a href="https://arxiv.org/abs/2506.18873" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                <span class="icon"><i class="ai ai-arxiv"></i></span>
+                <span>arXiv</span>
+              </a>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container is-max-desktop">
+        <div class="content">
+          <h2 class="title is-4">Interactive Dashboard</h2>
+          <p>
+            Use the case selector and reservation wage slider to explore the optimal wage contract and the agent utility curve.
+          </p>
+        </div>
+        <div class="dashboard-frame">
+          <iframe
+            title="Azevedo-Wolff Dashboard"
+            src="dashboard.html"
+            loading="lazy"
+            referrerpolicy="no-referrer"
+          ></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section class="section is-light">
+      <div class="container is-max-desktop">
+        <div class="content">
+          <h2 class="title is-4">Case Parameters</h2>
+          <p>
+            Each case corresponds to a utility specification and an output distribution. Values are in USD 1,000s where noted.
+          </p>
+        </div>
+        <div class="table-container">
+          <table class="table is-striped is-fullwidth is-hoverable">
+            <thead>
+              <tr>
+                <th>Case</th>
+                <th>Utility</th>
+                <th>Distribution</th>
+                <th>Distribution Params</th>
+                <th>w0</th>
+                <th>target a</th>
+                <th>a range</th>
+                <th>y grid</th>
+                <th>Reservation wage range</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>log-gaussian</td>
+                <td>log</td>
+                <td>Gaussian</td>
+                <td>sigma = 50</td>
+                <td>50</td>
+                <td>100</td>
+                <td>0 to 180</td>
+                <td>y ∈ [-300, 480], n = 201</td>
+                <td>-1 to 15</td>
+              </tr>
+              <tr>
+                <td>cara-gaussian</td>
+                <td>CARA (alpha = 1 / w0)</td>
+                <td>Gaussian</td>
+                <td>sigma = 50</td>
+                <td>50</td>
+                <td>100</td>
+                <td>0 to 180</td>
+                <td>y ∈ [-300, 480], n = 201</td>
+                <td>-1 to 15</td>
+              </tr>
+              <tr>
+                <td>log-poisson</td>
+                <td>log</td>
+                <td>Poisson</td>
+                <td>—</td>
+                <td>50</td>
+                <td>7</td>
+                <td>0 to 10</td>
+                <td>y ∈ [0, 28], step = 1</td>
+                <td>-1 to 5</td>
+              </tr>
+              <tr>
+                <td>log-exponential</td>
+                <td>log</td>
+                <td>Exponential</td>
+                <td>—</td>
+                <td>50</td>
+                <td>100</td>
+                <td>10 to 180</td>
+                <td>y ∈ [0.01, 260], n = 201</td>
+                <td>-1 to 15</td>
+              </tr>
+              <tr>
+                <td>log-t</td>
+                <td>log</td>
+                <td>Student t</td>
+                <td>sigma = 20, nu = 1.15</td>
+                <td>50</td>
+                <td>100</td>
+                <td>0 to 180</td>
+                <td>y ∈ [-500, 680], n = 201</td>
+                <td>-1 to 100</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        <p>
+          Interactive materials for Azevedo-Wolff (2025). Built from the local template in <code>site-template/</code>.
+        </p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
