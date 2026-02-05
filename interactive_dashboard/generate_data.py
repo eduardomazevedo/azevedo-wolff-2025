@@ -106,6 +106,7 @@ for case_name, params in CASES.items():
             contract = sol.cmp_result.optimal_contract
             wage_curve = mhp.k(contract)
             utility_curve = mhp.U(contract, action_grid_plot)
+            density_curve = mhp.f(mhp._y_grid, sol.optimal_action) # TODO: Let's add this density to the wage plot in the dashboard. The units are totally different from the wage units. And we dont care about giving the proper value. So lets just renormalizefor the plots, so that it looks nice next to the wage function.
 
             min_wage_all = min(min_wage_all, np.min(wage_curve))
             max_wage_all = max(max_wage_all, np.max(wage_curve))
