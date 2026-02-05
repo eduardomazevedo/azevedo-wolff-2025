@@ -78,8 +78,8 @@ def main() -> None:
         except OSError:
             return ""
 
-    # Collect all \input targets reachable from manuscript.tex and si.tex
-    roots = [tex_dir / "manuscript.tex", tex_dir / "si.tex"]
+    # Collect all \input targets reachable from manuscript.tex only (si.tex not included in arxiv bundle)
+    roots = [tex_dir / "manuscript.tex"]
     needed_tex: set[Path] = set()
     to_visit = [r.relative_to(tex_dir) for r in roots if r.exists()]
     while to_visit:
