@@ -106,7 +106,13 @@ for case_name, params in CASES.items():
             contract = sol.cmp_result.optimal_contract
             wage_curve = mhp.k(contract)
             utility_curve = mhp.U(contract, action_grid_plot)
-            density_curve = mhp.f(mhp._y_grid, sol.optimal_action) # TODO: Let's add this density to the wage plot in the dashboard. The units are totally different from the wage units. And we dont care about giving the proper value. So lets just renormalizefor the plots, so that it looks nice next to the wage function.
+            density_curve = mhp.f(mhp._y_grid, sol.optimal_action) 
+            # Normalize density curve to be visible alongside the wage curve
+            # We want max(density_curve) to be proportional to max(wage_curve)
+            if np.max(density_curve) > 1e-9: # Avoid division by zero for flat distributions
+                density_curve = density_curve / np.max(density_curve) * np.max(wage_curve) * 0.75
+            else:
+                density_curve = np.zeros_like(density_curve) # If flat, make it all zeros for consistency
 
             min_wage_all = min(min_wage_all, np.min(wage_curve))
             max_wage_all = max(max_wage_all, np.max(wage_curve))
@@ -117,6 +123,7 @@ for case_name, params in CASES.items():
                 "rw": float(rw),
                 "wage_curve": wage_curve.tolist(),
                 "u_curve": utility_curve.tolist(),
+                "density_curve": density_curve.tolist(), # Add normalized density curve
                 "opt_a": float(sol.optimal_action),
                 "opt_u": float(mhp.U(contract, sol.optimal_action)),
                 "foa_holds": bool(sol.cmp_result.first_order_approach_holds)
@@ -143,7 +150,8 @@ for case_name, params in CASES.items():
 # We write to a .js file to allow local loading without CORS errors
 js_content = f"window.MORAL_HAZARD_DATA = {json.dumps(export_data, allow_nan=False)};"
 
-with open("model_data.js", "w") as f:
+output_path = os.path.join(os.path.dirname(__file__), "model_data.js")
+with open(output_path, "w") as f:
     f.write(js_content)
 
-print("Done! Data saved to model_data.js")
+print(f"Done! Data saved to {output_path}")

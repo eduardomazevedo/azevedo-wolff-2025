@@ -174,46 +174,36 @@
             name: 'Wage'
         };
         
-        // The distribution overlay is currently disabled as dist_name and dist_kwargs
-        // are not yet exported to model_data.js.
-        // To re-enable, uncomment this block and the calculateDistY function.
-        /*
-        const outputDistY = calculateDistY(
-            caseData.dist_name,
-            caseData.dist_kwargs,
-            caseData.y_grid,
-            frame.opt_a
-        );
-
-        const outputDistTrace = {
+        const densityTrace = {
             x: caseData.y_grid,
-            y: outputDistY,
+            y: frame.density_curve,
             mode: 'lines',
-            line: { color: 'gray', width: 2, opacity: 0.8 },
-            name: 'Output Distribution',
-            yaxis: 'y2' // Use secondary y-axis
+            line: { 
+                color: 'rgba(128, 128, 128, 0.5)', // Faded gray with 50% opacity
+                width: 2
+            },
+            name: 'Output Density',
+            yaxis: 'y2' // Use secondary y-axis, but match primary scale
         };
-        */
 
         const layoutWage = {
             ...layoutCommon,
-            title: 'Optimal Wage Contract w(y)',
+            title: 'Optimal Wage Contract w(y) and Output Density',
             xaxis: { title: 'Output (y)' },
             yaxis: { title: 'Wage', range: caseData.wageYRange },
-            /*
-            yaxis2: { // Secondary y-axis configuration is disabled
+            yaxis2: { 
                 overlaying: 'y',
                 side: 'right',
                 showticklabels: false,
                 showgrid: false,
                 zeroline: false,
+                range: caseData.wageYRange, // Match primary axis so 0 aligns
                 title: '' // No title for this axis
             }
-            */
         };
 
         // Render
-        Plotly.react('wagePlot', [wageTrace], layoutWage); // Only wageTrace for now
+        Plotly.react('wagePlot', [wageTrace, densityTrace], layoutWage); // Added densityTrace
 
         // --- Plot 2: Utility vs Action ---
         const utilTrace = {
