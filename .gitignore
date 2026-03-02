@@ -18,6 +18,7 @@
 
 # Ignore PDF output and build folders
 pdf/
+slides/slides.pdf
 
 # Ignore figures folder (PDF figures not committed)
 figures/

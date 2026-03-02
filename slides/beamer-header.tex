@@ -1,0 +1,35 @@
+\defaultfontfeatures{Ligatures=TeX}
+
+\usepackage{unicode-math}
+\setmathfont{Latin Modern Math}
+
+\definecolor{deepteal}{RGB}{59,105,120}
+\definecolor{accentred}{RGB}{242,132,130}
+\setbeamertemplate{headline}{}
+\setbeamertemplate{footline}{}
+\setbeamerfont{frametitle}{size=\Large}
+\setbeamerfont{section title}{size=\Huge, series=\bfseries}
+\setbeamertemplate{frametitle}{
+  \vspace{0.5cm}
+  \insertframetitle
+  \vspace{0.3cm}
+}
+\addtobeamertemplate{frametitle}{}{\vspace{-0.5em}}
+\setbeamertemplate{section page}{
+  \centering
+  \vfill
+  {\usebeamerfont{section title}\usebeamercolor[fg]{section title}\insertsection\par}
+  \vfill
+}
+\setbeamercolor{background canvas}{bg=white}
+\setbeamercolor{normal text}{fg=black}
+\setbeamercolor{frametitle}{fg=black, bg=white}
+\setbeamercolor{title}{fg=black}
+\setbeamercolor{subtitle}{fg=black}
+\setbeamercolor{author}{fg=black}
+\setbeamercolor{date}{fg=black}
+\setbeamercolor{progress bar}{fg=deepteal, bg=white}
+\setbeamercolor{alerted text}{fg=accentred}
+\setbeamerfont{alerted text}{series=\bfseries}
+\setbeamercolor{example text}{fg=deepteal}
+\setbeamercolor{section title}{fg=accentred}

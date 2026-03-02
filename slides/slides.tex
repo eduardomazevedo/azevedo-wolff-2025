@@ -1,0 +1,121 @@
+\documentclass[12pt,aspectratio=169,t]{beamer}
+\usetheme[numbering=none,progressbar=none]{metropolis}
+
+\input{beamer-header.tex}
+
+\title{Broad Validity of the First-Order Approach in Moral Hazard}
+\author{Eduardo M. Azevedo and Ilan Wolff (Wharton)}
+\date{March 2, 2026}
+
+\begin{document}
+
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+\begin{frame}{Refresher: The Moral Hazard Problem}
+  \begin{itemize}
+    \item Firm hires a worker. Output
+    \[
+      y \sim \mathcal N(a, \sigma^2)
+    \]
+    \item Worker utility
+    \[
+      \log(\$50{,}000 + x) - c(a)
+    \]
+    \item $\sigma = \$50{,}000$, quadratic cost so that $a \approx \$100{,}000$ is optimal.
+    \item Problem is to find \textcolor{accentred}{optimal contract $w(y) \geq 0$}.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{What is known}
+  \begin{itemize}
+    \item The moral hazard problem has a simple solution if the first-order approach is valid \textcolor{deepteal}{(Mirrlees 75, Holmstrom 78)}.
+    \item Unfortunately, FOA is only valid under restrictive assumptions \textcolor{deepteal}{(Rogerson 85, Jewitt 88, Sinclair-Desgagné 94)}.
+    \item So theoretical optimal contracts are \textcolor{accentred}{intractable}, \textcolor{accentred}{complex}, and \textcolor{accentred}{not realistic}.
+    \item Motivates huge literature proving linearity: \textcolor{deepteal}{Holmstrom \& Milgrom 87, Innes 90, Carroll 15, Chassang 13}. Theoretical literature often assumes FOA anyway. Applied literature often assumes two possible outputs or linearity.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[plain]
+  \begin{center}
+    \includegraphics[height=\textheight]{../tex/figures/log-gaussian-sigma=50.0/pp_stacked.pdf}
+  \end{center}
+\end{frame}
+
+\begin{frame}{What is actually true}
+  \begin{itemize}
+    \item The FOA holds most of the time.
+    \item Key assumptions: reservation utility is not too low, and the score is increasing in output.
+    \item Side effects:
+    \begin{itemize}
+      \item Problem is analytically tractable and computationally trivial.
+      \item Solution is intuitive and plausible.
+      \item With log utility and exponential family with linear sufficient statistic: optimal contracts are piecewise linear option contracts.
+    \end{itemize}
+    \item Interactive examples: \url{https://eduardomazevedo.github.io/azevedo-wolff-2025-site/}.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Literature is mathematically correct}
+  \begin{itemize}
+    \item The literature is correct that any sufficient condition that guarantees that FOA holds for any reservation utility is extremely restrictive. Gaussian example above would be ruled out because FOA fails at monopsony reservation utility.
+    \item But sufficient conditions are mild if we include sufficiently high reservation utility. See all the examples above and theorem below.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Roadmap}
+  \begin{itemize}
+    \item \textcolor{alert}{Model}
+    \item Main result
+    \item Proof
+    \item Applications
+  \end{itemize}
+\end{frame}
+
+\section{Section Title}
+
+\begin{frame}[fragile]{Slide with Code}
+\begin{verbatim}
+def hello_world():
+    print("Hello, World!")
+\end{verbatim}
+\end{frame}
+
+\begin{frame}{Slide with Two Columns}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.5\textwidth}
+    \textbf{Left Column}
+    \begin{itemize}
+      \item Item 1
+      \item Item 2
+    \end{itemize}
+
+    \column{0.5\textwidth}
+    \textbf{Right Column}
+    \begin{itemize}
+      \item Item A
+      \item Item B
+    \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Slide with Math}
+  Inline math: $E = mc^2$
+
+  \vspace{0.4em}
+  Display math:
+  \[
+    \frac{d}{dx}\left( \int_{0}^{x} f(u)\,du\right)=f(x)
+  \]
+\end{frame}
+
+\begin{frame}{Conclusion}
+  \begin{itemize}
+    \item Summary point 1
+    \item Summary point 2
+    \item Thank you!
+  \end{itemize}
+\end{frame}
+
+\end{document}
