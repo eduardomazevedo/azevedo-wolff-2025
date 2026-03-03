@@ -1,5 +1,6 @@
 \documentclass[12pt,aspectratio=169,t]{beamer}
 \usetheme[numbering=none,progressbar=none]{metropolis}
+\usepackage{booktabs}
 
 \input{beamer-header.tex}
 
@@ -13,45 +14,56 @@
   \titlepage
 \end{frame}
 
-\begin{frame}{Refresher: The Moral Hazard Problem}
+\begin{frame}{The Moral Hazard Problem (1970s)}
   \begin{itemize}
-    \item Firm hires a worker. Output
+    \item Principal hires agent. Output
     \[
-      y \sim \mathcal N(a, \sigma^2)
+      y \sim f(y | a)
     \]
-    \item Worker utility
+    \item Agent utility
     \[
-      \log(\$50{,}000 + x) - c(a)
+      u(\text{payment}) - c(a)
     \]
-    \item $\sigma = \$50{,}000$, quadratic cost so that $a \approx \$100{,}000$ is optimal.
-    \item Problem is to find \textcolor{accentred}{optimal contract $w(y) \geq 0$}.
+    \item Principal's problem is to find optimal contract \textcolor{accentred}{$w(y)$}.
   \end{itemize}
 \end{frame}
 
 \begin{frame}{What is known}
   \begin{itemize}
-    \item The moral hazard problem has a simple solution if the first-order approach is valid \textcolor{deepteal}{(Mirrlees 75, Holmstrom 78)}.
-    \item Unfortunately, FOA is only valid under restrictive assumptions \textcolor{deepteal}{(Rogerson 85, Jewitt 88, Sinclair-Desgagné 94)}.
+    \item The moral hazard problem has a simple solution if the first-order approach is valid \textcolor{deepteal}{(Holmstrom 78)}.
+    \item Unfortunately, FOA is only valid under restrictive assumptions \textcolor{deepteal}{(Mirrlees 75, Rogerson 85, Jewitt 88, Sinclair-Desgagné 94)}.
     \item So theoretical optimal contracts are \textcolor{accentred}{intractable}, \textcolor{accentred}{complex}, and \textcolor{accentred}{not realistic}.
-    \item Motivates huge literature proving linearity: \textcolor{deepteal}{Holmstrom \& Milgrom 87, Innes 90, Carroll 15, Chassang 13}. Theoretical literature often assumes FOA anyway. Applied literature often assumes two possible outputs or linearity.
+    \item Motivates huge literature proving linearity. Theoretical literature often assumes FOA anyway. Applied literature often assumes two possible outputs or linearity.
   \end{itemize}
 \end{frame}
 
-\begin{frame}[plain]
-  \begin{center}
-    \includegraphics[height=\textheight]{../tex/figures/log-gaussian-sigma=50.0/pp_stacked.pdf}
-  \end{center}
+\begin{frame}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.40\textwidth}
+    \textbf{Simplest example}
+    \begin{itemize}
+      \item Gaussian output: $y \sim \mathcal N(a, \sigma^2)$, $\sigma = \$50{,}000$
+      \item Log utility, initial wealth $\$50{,}000$
+      \item Quadratic cost.
+    \end{itemize}
+
+    \textbf{Results at odds with received wisdom.}
+
+    \column{0.56\textwidth}
+    \centering
+    \includegraphics[height=\textheight]{../figures/log-gaussian-sigma=50.0/pp_stacked.pdf}
+  \end{columns}
 \end{frame}
 
 \begin{frame}{What is actually true}
   \begin{itemize}
-    \item The FOA holds most of the time.
-    \item Key assumptions: reservation utility is not too low, and the score is increasing in output.
+    \item The FOA holds except for very low reservation utility.
+    \item Key theorem assumptions: reservation utility is high enough and score is increasing.
     \item Side effects:
     \begin{itemize}
-      \item Problem is analytically tractable and computationally trivial.
-      \item Solution is intuitive and plausible.
-      \item With log utility and exponential family with linear sufficient statistic: optimal contracts are piecewise linear option contracts.
+      \item \textcolor{accentred}{Tractable} (analytically and computationally trivial).
+      \item \textcolor{accentred}{Simple} (intuitive formula, linear w/ log utility and exponential family with linear sufficient statistic).
+      \item \textcolor{accentred}{Realistic}.
     \end{itemize}
     \item Interactive examples: \url{https://eduardomazevedo.github.io/azevedo-wolff-2025-site/}.
   \end{itemize}
@@ -59,6 +71,7 @@
 
 \begin{frame}{Literature is mathematically correct}
   \begin{itemize}
+    \item There is not a mathematical error in key prior results.
     \item The literature is correct that any sufficient condition that guarantees that FOA holds for any reservation utility is extremely restrictive. Gaussian example above would be ruled out because FOA fails at monopsony reservation utility.
     \item But sufficient conditions are mild if we include sufficiently high reservation utility. See all the examples above and theorem below.
   \end{itemize}
@@ -68,54 +81,301 @@
   \begin{itemize}
     \item \textcolor{alert}{Model}
     \item Main result
-    \item Proof
     \item Applications
   \end{itemize}
 \end{frame}
 
-\section{Section Title}
+\begin{frame}{Model}
+  Agent utility $u(x) - c(a)$ from payment $x \geq 0$ and action $a \in \mathcal{A}$. Reservation utility $\bar{U}$.
+  
+  Output $y$ has density $f(y|a)$.
 
-\begin{frame}[fragile]{Slide with Code}
-\begin{verbatim}
-def hello_world():
-    print("Hello, World!")
-\end{verbatim}
+  Contract is $v \colon \mathbb{R} \to u(\mathbb{R}_+)$.
+  
+  Let $k = u^{-1}$. Feasible contracts: $\mathcal{C}$.
+
+  \begin{align}
+    U(v, a) &= \int \phantom{k(}v(y)\phantom{)} \cdot f(y|a)\,\mathrm{d}y - c(a) \\
+    W(v, a) &= \int k(v(y)) \cdot f(y|a)\,\mathrm{d}y
+  \end{align}
 \end{frame}
 
-\begin{frame}{Slide with Two Columns}
-  \begin{columns}[T,onlytextwidth]
-    \column{0.5\textwidth}
-    \textbf{Left Column}
-    \begin{itemize}
-      \item Item 1
-      \item Item 2
-    \end{itemize}
+\begin{frame}{Definitions: FOA}
+  \textbf{GIC} (global incentive compatibility): choosing $a_0$ is optimal for the agent.
 
-    \column{0.5\textwidth}
-    \textbf{Right Column}
-    \begin{itemize}
-      \item Item A
-      \item Item B
-    \end{itemize}
-  \end{columns}
+  \textbf{LIC} (local incentive compatibility): $\partial_a U(v, a_0) = 0$.
+
+  \textbf{Cost minimization problem:} minimize expected wage subject to IR and GIC.
+
+  \textbf{Relaxed cost minimization problem:} minimize expected wage subject to IR and LIC.
+
+  \textbf{FOA holds for $(a_0, \bar{U})$} if the solution to the relaxed cmp solves the cmp.
 \end{frame}
 
-\begin{frame}{Slide with Math}
-  Inline math: $E = mc^2$
+\begin{frame}{Key Assumptions}
+  \begin{itemize}
+    \item Increasing score $S(y|a) := \frac{\partial}{\partial a} \log f(y|a)$.
+    \item Limits to punishments: $u(0)$ and $u'(0)$ are finite.
+    \item Need some risk aversion: $k'^{-1}$ is concave.
+    \item Support of $f(y|a)$ is the real line and image of the score is the real line.
+  \end{itemize}
+\end{frame}
 
-  \vspace{0.4em}
-  Display math:
+\begin{frame}{Outline}
+  \begin{itemize}
+    \item Model
+    \item \textcolor{alert}{Main result}
+    \item Applications
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Theorem 1}
+
+  Given an action $a_0 > 0$, the first-order approach is valid for $(a_0, \bar{U})$ for any sufficiently high reservation utility $\bar{U}$.
+\end{frame}
+
+\begin{frame}{Outline}
+  \begin{itemize}
+    \item Model
+    \item Main result
+    \item \textcolor{alert}{Applications}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Proof part 1: Relaxed problem}
+  Write Lagrangian:
   \[
-    \frac{d}{dx}\left( \int_{0}^{x} f(u)\,du\right)=f(x)
+    \mathcal{L}(v, \lambda, \mu) = W(v) + \lambda (\bar{U} - U(v)) + \mu (-U_a(v))
+  \]
+  \begin{align}
+    W(v)   &= \int k(v(y)) \cdot f\phantom{_a}(y|a_0)\,\mathrm{d}y \\
+    U(v)   &= \int \phantom{k(}v(y)\phantom{)} \cdot f\phantom{_a}(y|a_0)\,\mathrm{d}y - c(a_0) \\
+    U_a(v) &= \int \phantom{k(}v(y)\phantom{)} \cdot f_a(y|a_0)\,\mathrm{d}y - c'(a_0)
+  \end{align}
+\end{frame}
+
+\begin{frame}{Proof part 1: Relaxed problem}
+  FOC:
+  \[
+    k'(v(y)) = \lambda + \mu S(y|a_0)
+  \]
+  Solve for $v(y)$:
+  \[
+    v(y) = g\left(\lambda + \mu S(y|a_0)\vphantom{\frac{1}{1}}\right),
+  \]
+  where
+  \[
+    g(z) := k'^{-1}\left(\max\left\{\frac{1}{u'(0)}, z\right\}\right).
   \]
 \end{frame}
 
-\begin{frame}{Conclusion}
+\begin{frame}{Proposition 1 ($\approx$ Holmstrom 78)}
+  The relaxed problem has an almost everywhere unique solution $v^*(y|\bar{U})$. There exist $\lambda^*(\bar{U})$, $\mu^*(\bar{U})$ such that
+  \[
+    v^*\bigl(y|\bar{U}\bigr) = g\left(\lambda^*(\bar{U}) + \mu^*(\bar{U}) S(y|a_0)\vphantom{\frac{1}{1}}\right)
+  \]
+\end{frame}
+
+\begin{frame}{Proof part 2: concavity}
+  \textbf{Proposition 2:}
+
+  There exists $U^* \in \mathbb{R}$ such that, for all $\bar{U} \geq U^*$ and all $a \in \mathcal{A}$,
+  \[
+    U_{aa}\bigl(v^*\bigl(y|\bar{U}\bigr), a\bigr) \leq 0.
+  \]
+\end{frame}
+
+\begin{frame}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.40\textwidth}
+    \textbf{Key idea:} kink moves to the left when $\bar{U}$ goes up.
+
+    \column{0.56\textwidth}
+    \centering
+    \includegraphics[height=\textheight]{../figures/log-gaussian-sigma=50.0/cm_stacked.pdf}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Heuristic derivation}
+  \[
+    U(v, a) = g(\lambda) + \mu \int \Delta g(y|\lambda) \cdot S(y|a_0) \cdot f(y|a)\,\mathrm{d}y - c(a),
+  \]
+  where
+  \[
+    \Delta g(y|\lambda) = \frac{g(\lambda + \mu S(y|a_0)) - g(\lambda)}{\mu S(y|a_0)}.
+  \]
+  So
+  \[
+    c'(a_0) = \mu \int \Delta g(y|\lambda) \cdot S(y|a_0) \cdot f_a(y|a_0)\,\mathrm{d}y.
+  \]
+  $S$ and $f_a$ have the same sign. So
+  \[
+    c'(a_0) \geq \mu \int_{\text{left of the kink}} \Delta g \cdot S \cdot f_a\,\mathrm{d}y.
+  \]
+\end{frame}
+
+\begin{frame}{Heuristic derivation}
+  Substituting $\Delta g$ we get
+  \begin{align*}
+    c'(a_0) &\geq \int_{\text{left of the kink}} \bigl(g(\lambda + \mu S(y|a_0)) - g(\lambda)\bigr) \cdot f_a(y|a_0)\,\mathrm{d}y \\
+    &= \bigl(u(0) - g(\lambda)\bigr) \int_{\text{left of the kink}} f_a(y|a_0)\,\mathrm{d}y \\
+    &= \bigl(u(0) - g(\lambda)\bigr) \cdot \frac{\partial F(\underline{y}|a_0)}{\partial a}.
+  \end{align*}
+
+  Thus, as $\lambda \to \infty$, the left of the kink approaches $-\infty$. Concavity then follows with argument similar to \textcolor{deepteal}{(Jewitt 88)}.
+\end{frame}
+
+\begin{frame}{Outline}
   \begin{itemize}
-    \item Summary point 1
-    \item Summary point 2
-    \item Thank you!
+    \item Model
+    \item Main result
+    \item \textcolor{alert}{Applications}
   \end{itemize}
 \end{frame}
+
+\begin{frame}{Calculus}
+  \vspace{\fill}
+  \centering
+  \renewcommand{\arraystretch}{1.6}
+  \setlength{\tabcolsep}{8pt}
+  \begin{tabular}{lccc}
+    \toprule
+    & \textbf{Utility } $u(x)$ & \textbf{Link } $g(z)$ & \textbf{Wage } $k \circ g(z)$ \\
+    \midrule
+    Log & $\log(x + w_0)$ & $\log(\max(w_0, z))$ & $(z - w_0)^+$ \\
+    CRRA & $\frac{(x+w_0)^{1-\gamma}}{1-\gamma}$ & $\frac{\max(w_0^\gamma, z)^{\frac{1-\gamma}{\gamma}}}{1-\gamma}$ & $\bigl((z^+)^{1/\gamma} - w_0\bigr)^+$ \\
+    CARA & $\frac{-\exp(-\alpha(x+w_0))}{\alpha}$ & $-\frac{1}{\alpha\max(e^{\alpha w_0}, z)}$ & $\frac{(\log^+ z - \alpha w_0)^+}{\alpha}$ \\
+    \bottomrule
+  \end{tabular}
+  \vspace{\fill}
+\end{frame}
+
+\begin{frame}{Calculus}
+  \vspace{\fill}
+  \centering
+  \scriptsize
+  \renewcommand{\arraystretch}{1.4}
+  \setlength{\tabcolsep}{4pt}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{l p{4.5cm} p{3.2cm} p{2.5cm}}
+    \toprule
+    \textbf{Distribution} & \textbf{PDF } $f(y|a)$ & \textbf{Score } $S(y|a)$ & \textbf{Mean} \\
+    \midrule
+    Gaussian & $\mathcal{N}(a, \sigma^2)$ & $\frac{y - a}{\sigma^2}$ & $a$ \\
+    Log Normal & $\frac{1}{y\sqrt{2\pi\sigma^2}}\exp\bigl(-\frac{(\log y - a)^2}{2\sigma^2}\bigr)$ & $\frac{\log y - a}{\sigma^2}$ & $\exp(a + \sigma^2/2)$ \\
+    Poisson & $\frac{a^y e^{-a}}{y!}$ & $\frac{y - a}{a}$ & $a$ \\
+    Exponential & $\frac{1}{a}e^{-y/a}$ & $\frac{y-a}{a^2}$ & $a$ \\
+    Bernoulli & $a^y(1-a)^{1-y}$, $y \in \{0,1\}$ & $\frac{y-a}{a-a^2}$ & $a$ \\
+    Geometric & $(1-1/a)^{y-1}(1/a)$, $y \geq 1$ & $\frac{y-a}{a^2-a}$ & $a$ \\
+    Binomial & $\binom{n}{y}a^y(1-a)^{n-y}$ & $\frac{y-na}{a-a^2}$ & $na$ \\
+    Gamma & $\frac{y^{n-1}e^{-y/a}}{\Gamma(n)a^n}$ & $\frac{y-na}{a^2}$ & $na$ \\
+    Exponential Family & $h(y)\exp(\eta(a)T(y) - A(a))$ & $T(y)\eta'(a) - A'(a)$ & -- \\
+    \bottomrule
+  \end{tabular}%
+  }
+  \vspace{\fill}
+\end{frame}
+
+\begin{frame}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.40\textwidth}
+    \textbf{Piecewise linear contracts}
+    \medskip
+
+    Optimal contract is piecewise linear for log utility + exponential family with linear sufficient statistic.
+    \medskip
+
+    Prior results: \textcolor{deepteal}{Opp 25} (independently), earlier papers without existence \textcolor{deepteal}{(Hemmer 99, Christensen 05)}.
+    \medskip
+
+    Global linearity in some cases.
+
+    \column{0.56\textwidth}
+    \centering
+    \includegraphics[height=\textheight]{../figures/log-gaussian-sigma=50.0/pp_stacked.pdf}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.40\textwidth}
+    \textbf{Piecewise linear contracts}
+    \medskip
+
+    Optimal contract is piecewise linear for log utility + exponential family with linear sufficient statistic.
+    \medskip
+
+    Prior results: \textcolor{deepteal}{Opp 25} (independently), earlier papers without existence \textcolor{deepteal}{(Hemmer 99, Christensen 05)}.
+    \medskip
+
+    Global linearity in some cases.
+
+    \column{0.56\textwidth}
+    \centering
+    \includegraphics[height=\textheight]{../figures/log-poisson/pp_stacked.pdf}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Numerical methods}
+  \begin{itemize}
+    \item Results suggest efficient algorithms.
+    \item Consider a finite set of GIC constraints at $\boldsymbol{\hat a} = (\hat a_1,\ldots,\hat a_n)$.
+    \item With multipliers $\theta := (\lambda,\mu,\boldsymbol{\hat\mu})$, the optimal contract is
+    \[
+      V(y | \theta, \hat a) = g\left(\lambda + \mu S(y|a_0) + \sum_i \hat\mu_i\left(1-\frac{f(y|\hat a_i)}{f(y|a_0)}\right)\right).
+    \]
+    \item Lagrange dual $\mathcal D(\theta, \hat a)$ is fast to compute if we cache these terms.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Numerical method: the algorithm}
+  \begin{enumerate}
+    \item Start with $\hat a = \emptyset$.
+    \item Maximize dual to solve relaxed problem, and add best deviation action to $\hat a$ if needed.
+    \item Repeat until no deviation is found.
+    \item In case of trouble, fall back to convex optimizer to find more deviations for $\hat a$.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.40\textwidth}
+    \textbf{Performance}
+    \medskip
+
+    Active-set algorithm runs in about \textcolor{accentred}{3--14 ms} vs. hours reported in literature.
+    \medskip
+
+    Why it is fast:
+    \begin{itemize}
+      \item Often terminates in one iteration.
+      \item Dual calls use analytic formulas + caching.
+      \item Low-dimensional dual with analytic gradients + warm starts.
+    \end{itemize}
+
+    \column{0.56\textwidth}
+    \centering
+    \includegraphics[height=\textheight]{../figures/solver_comparison/stacked_comparison.pdf}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.40\textwidth}
+    \textbf{Key assumption:} monotone score.
+    \medskip
+
+    Example: $t$ distributed outcome, tail coefficient $\nu = 1.15$.
+    \medskip
+
+    Score is not monotone, and FOA often fails even for high reservation utility.
+
+    \column{0.56\textwidth}
+    \centering
+    \includegraphics[height=\textheight]{../figures/log-t-sigma=20.0/pp_stacked.pdf}
+  \end{columns}
+\end{frame}
+
+
 
 \end{document}
