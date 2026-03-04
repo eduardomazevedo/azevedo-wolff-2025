@@ -1,6 +1,7 @@
 \documentclass[12pt,aspectratio=169,t]{beamer}
 \usetheme[numbering=none,progressbar=none]{metropolis}
 \usepackage{booktabs}
+\usepackage[compatibility=false]{caption}
 
 \input{beamer-header.tex}
 
@@ -227,51 +228,26 @@
 \end{frame}
 
 \begin{frame}{Calculus}
-
-  Optimal contracts have simple and intuitive closed-form solutions.
-
-  Calculus of moral hazard has two parts: link function and score.
-
-  \vspace{\fill}
-  \centering
-  \renewcommand{\arraystretch}{1.6}
-  \setlength{\tabcolsep}{8pt}
-  \begin{tabular}{lccc}
-    \toprule
-    & \textbf{Utility } $u(x)$ & \textbf{Link } $g(z)$ & \textbf{Wage } $k \circ g(z)$ \\
-    \midrule
-    Log & $\log(x + w_0)$ & $\log(\max(w_0, z))$ & $(z - w_0)^+$ \\
-    CRRA & $\frac{(x+w_0)^{1-\gamma}}{1-\gamma}$ & $\frac{\max(w_0^\gamma, z)^{\frac{1-\gamma}{\gamma}}}{1-\gamma}$ & $\bigl((z^+)^{1/\gamma} - w_0\bigr)^+$ \\
-    CARA & $\frac{-\exp(-\alpha(x+w_0))}{\alpha}$ & $-\frac{1}{\alpha\max(e^{\alpha w_0}, z)}$ & $\frac{(\log^+ z - \alpha w_0)^+}{\alpha}$ \\
-    \bottomrule
-  \end{tabular}
-  \vspace{\fill}
+  \begin{itemize}
+    \item Optimal contracts have simple and intuitive closed-form solutions.
+    \item Calculus of moral hazard has two parts: link function and score.
+  \end{itemize}
 \end{frame}
 
-\begin{frame}{Calculus}
-  \vspace{\fill}
+\begin{frame}[plain]
   \centering
-  \scriptsize
-  \renewcommand{\arraystretch}{1.4}
-  \setlength{\tabcolsep}{4pt}
-  \resizebox{\textwidth}{!}{%
-  \begin{tabular}{l p{4.5cm} p{3.2cm} p{2.5cm}}
-    \toprule
-    \textbf{Distribution} & \textbf{PDF } $f(y|a)$ & \textbf{Score } $S(y|a)$ & \textbf{Mean} \\
-    \midrule
-    Gaussian & $\mathcal{N}(a, \sigma^2)$ & $\frac{y - a}{\sigma^2}$ & $a$ \\
-    Log Normal & $\frac{1}{y\sqrt{2\pi\sigma^2}}\exp\bigl(-\frac{(\log y - a)^2}{2\sigma^2}\bigr)$ & $\frac{\log y - a}{\sigma^2}$ & $\exp(a + \sigma^2/2)$ \\
-    Poisson & $\frac{a^y e^{-a}}{y!}$ & $\frac{y - a}{a}$ & $a$ \\
-    Exponential & $\frac{1}{a}e^{-y/a}$ & $\frac{y-a}{a^2}$ & $a$ \\
-    Bernoulli & $a^y(1-a)^{1-y}$, $y \in \{0,1\}$ & $\frac{y-a}{a-a^2}$ & $a$ \\
-    Geometric & $(1-1/a)^{y-1}(1/a)$, $y \geq 1$ & $\frac{y-a}{a^2-a}$ & $a$ \\
-    Binomial & $\binom{n}{y}a^y(1-a)^{n-y}$ & $\frac{y-na}{a-a^2}$ & $na$ \\
-    Gamma & $\frac{y^{n-1}e^{-y/a}}{\Gamma(n)a^n}$ & $\frac{y-na}{a^2}$ & $na$ \\
-    Exponential Family & $h(y)\exp(\eta(a)T(y) - A(a))$ & $T(y)\eta'(a) - A'(a)$ & -- \\
-    \bottomrule
-  \end{tabular}%
-  }
-  \vspace{\fill}
+  \input{../tex/tables/utility_functions}
+\end{frame}
+
+\begin{frame}[plain]
+  \centering
+  \begin{minipage}{0.90\textwidth}
+    \begingroup
+    \let\small\scriptsize
+    \let\footnotesize\tiny
+    \input{../tex/tables/distributions}
+    \endgroup
+  \end{minipage}
 \end{frame}
 
 \begin{frame}
@@ -342,7 +318,7 @@
     \textbf{Performance}
     \medskip
 
-    Active-set algorithm runs in about \textcolor{accentred}{3--14 ms} vs. hours reported in literature.
+    Active-set algorithm runs in about \textcolor{accentred}{3--14 ms (CMP)} and \textcolor{accentred}{232--240 ms (PP)} vs. hours reported in the literature.
     \medskip
 
     Why it is fast:
