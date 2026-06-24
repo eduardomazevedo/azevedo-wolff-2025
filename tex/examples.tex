@@ -1,4 +1,4 @@
-Consider the following \textbf{Gaussian-log utility example}. A risk-neutral principal hires an agent to perform a task. The agent chooses action $a$ at a cost $c(a)$ proportional to $a^2$. Output $y$, which accrues to the principal, is normally distributed with mean $a$ and standard deviation $\sigma$. The agent has some initial wealth and log utility, so that her utility from a payment of $x \geq 0$ is $u(x) = \log(w_0 + x)$. We consider $a$ choices in the order of \$100{,}000, standard deviation $\sigma$ of \$50{,}000, and $w_0$ equal to \$50{,}000. The agent has reservation wage $\bar w$.
+Consider the following \textbf{Gaussian-log utility example}. A risk-neutral principal hires an agent to perform a task. The agent chooses action $a$ at a cost $c(a)$ proportional to $a^2$. Output $y$, which accrues to the principal, is normally distributed with mean $a$ and standard deviation $\sigma$. The agent has some initial wealth and log utility, so that her utility from a payment of $x \geq 0$ is $u(x) = \log(w_0 + x)$. We consider $a$ choices in the order of \$100{,}000, standard deviation $\sigma$ of \$50{,}000, and $w_0$ equal to \$50{,}000. The agent has utility $\bar U$ with certain equivalent reservation wage $\bar w$.
 
 The principal designs a compensation contract with wage $w(y) \geq 0$ to maximize profits. The optimal contract balances the goals of inducing effort, reducing the agent's risk, and providing the agent with her reservation utility.
 
@@ -40,7 +40,7 @@ Theorem \ref{thm:main} does not contradict existing results in the literature. T
 As a corollary to Theorem \ref{thm:main}, the problem is often tractable because we can use standard first-order approach arguments dating back to \textcite{holmstrom1978incentives}. We show that an optimal contract exists, is unique, and optimal wages have a simple formula:
 \begin{equation}
     \label{eq:optimal-wage}
-    w(y) = k \circ g\biggl(\mu + \lambda S(y | a_0)\biggr) \text{.}
+    w(y) = k \circ g\biggl(\lambda + \mu S(y | a_0)\biggr) \text{.}
 \end{equation}
 
 The function $k \circ g$ is determined by the utility function and the limited liability constraint. The score function $S(y | a_0)$ is determined by the distribution of output. The optimal action is $a_0$, and $\lambda$ and $\mu$ are Lagrange multipliers. We give closed-form solutions for these functions for a wide range of examples, and use these formulas to develop an algorithm to compute optimal contracts.

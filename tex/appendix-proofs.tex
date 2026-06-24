@@ -299,7 +299,7 @@ By Lemma \ref{lem:second-derivative},
     $$
     U_{aa}\left( \tilde{V} \left( y |  \lambda \right), a \right)
     =
-    g(\lambda) + \tilde{\mu} \int \Delta g(y | \lambda)
+    \tilde{\mu} \int \Delta g(y | \lambda)
     \cdot S(y|a_0)
     \cdot f_{aa}(y | a) \, dy - c''(a)
     $$ 
@@ -311,7 +311,7 @@ By Lemma \ref{lem:second-derivative},
     \tilde{\mu} \int_{y_0}^{\infty} 
     \Delta g(y | \lambda)
     \cdot S(y|a_0)
-    \cdot f_{aa}(y | \hat a) \, dy
+    \cdot f_{aa}(y | a) \, dy
     - c''(a) \text{.}
     $$
 
@@ -321,7 +321,7 @@ By Lemma \ref{lem:second-derivative},
     \tilde{\mu} \int_{Y_+} 
     \Delta g(y | \lambda)
     \cdot S(y|a_0)
-    \cdot f_{aa}(y | \hat a) \, dy
+    \cdot f_{aa}(y | a) \, dy
     - c''(a) \text{.}
     $$
     
@@ -331,11 +331,11 @@ By Lemma \ref{lem:second-derivative},
     \tilde{\mu} \int_{Y_+} 
     \Delta g \left(y_0 | \lambda \right)
     \cdot S(y|a_0)
-    \cdot f_{aa}(y | \hat a) \, dy
+    \cdot f_{aa}(y | a) \, dy
     - c''(a) \text{.}
     $$
 
-    $g(y | \lambda)$ is concave for $y > \ubar y$. Thus,
+    The link function $g$ is concave in its scalar argument on the nonbinding region. Thus,
     \begin{align*}
     \tilde{\mu} \Delta g(y_0 | \lambda)
     &\leq \tilde{\mu} g'(\lambda + \tilde{\mu} S(y_0|a_0)) \\
@@ -366,12 +366,12 @@ By Lemma \ref{lem:second-derivative},
         0\text{.}
     \]
     
-    To reach a contradiction, assume that this is not the case. Then there exists a sequence of $\lambda_n \rightarrow \infty$ and $a_k$ in $\mathcal A$ such that
+    To reach a contradiction, assume that this is not the case. Then there exists a sequence of $\lambda_n \rightarrow \infty$ and $a_n$ in $\mathcal A$ such that
     \[
-        U_{aa} \left(\tilde V(y | \lambda_n), _n \right) > 0\text{.}
+        U_{aa} \left(\tilde V(y | \lambda_n), a_n \right) > 0\text{.}
     \]
     
-    Because $\mathcal A$ is compact, we can take a convergent subsequence where $a_k \rightarrow a_1$. Therefore,
+    Because $\mathcal A$ is compact, we can take a convergent subsequence where $a_n \rightarrow a_1$. Continuity of $U_{aa}(\tilde V(y | \lambda),a)$ in $a$, which follows from Assumptions \ref{assump:utility_cost} and \ref{assump:leibniz}, gives
     \[
         \limsup _ {\lambda \rightarrow \infty}
         U_{aa}(\tilde V(y | \lambda), a_1) > 0\text{.}
