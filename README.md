@@ -9,10 +9,14 @@
 
 ## Reproduction instructions
 
+From the repository root, install the pinned dependencies and run the reproduction script:
+
 ```bash
 uv sync
-uv run make_figures.py
+./make.sh
 ```
+
+This runs the benchmark, main figure, and solver comparison scripts used to generate the replication outputs.
 
 ## Algorithm 1 Implementation
 
