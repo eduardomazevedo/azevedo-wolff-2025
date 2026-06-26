@@ -1,6 +1,6 @@
 \subsection{Solution of the Relaxed Problem (Proof of Proposition \ref{prop:relaxed-optimal-contract})} 
 
-Throughout this subsection, fix a reservation utility $\bar U$ and intended action $a_0$. Let $Y_+ := \{y:S(y|a_0) \geq 0\}$ denote the positive-score region. The local IC constraint is only defined if $U(v, a)$ can be differentiated under the integral sign, so we begin by showing that differentiation under the integral at any action is possible for any feasible contract.
+Throughout this subsection, fix a reservation utility $\bar U$ and intended action $a_0$. The local IC constraint is only defined if $U(v, a)$ can be differentiated under the integral sign, so we begin by showing that differentiation under the integral at any action is possible for any feasible contract.
 
 \begin{remark} 
     \label{rem:leibniz}
@@ -166,7 +166,7 @@ We first note that there is no upper bound on the utility levels attained by the
 \end{lemma}
 
 \begin{proof}
-Assumption \ref{assump:regularity_S} implies that $Y_+$ has positive probability. Since $g$ is increasing, for $y \in Y_+$,
+Let $Y_+ := \{y:S(y|a_0) \geq 0\}$. Assumption \ref{assump:regularity_S} implies that $Y_+$ has positive probability. Since $g$ is increasing, for $y \in Y_+$,
 \[
     \tilde V(y|\lambda)
     = g(\lambda + \tilde \mu(\lambda)S(y|a_0))
