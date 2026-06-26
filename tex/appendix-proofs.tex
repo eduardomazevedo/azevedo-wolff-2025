@@ -156,9 +156,7 @@ Continuity follows from the continuity of the canonical contract in $(\lambda,\m
 The function $H$ is continuous and, by the strict monotonicity argument in Lemma \ref{lem:mu-tilde}, strictly increasing in $\mu$ at the solution to $H(\lambda,\mu)=0$. Hence the unique solution $\tilde\mu(\lambda)$ varies continuously with $\lambda$, and so does $\tilde U(\lambda)$.
 \end{proof}
 
-The proof of proposition \ref{prop:relaxed-optimal-contract} follows from collecting these results.
-
-We first note that there is no upper bound on the utility levels attained by the LIC-satisfying canonical contracts.
+We next note that there is no upper bound on the utility levels attained by the LIC-satisfying canonical contracts.
 
 \begin{lemma}
     \label{lem:utilde-unbounded}
@@ -183,27 +181,26 @@ For all $y$, $\tilde V(y|\lambda) \geq u(0)$. Therefore,
 Assumption \ref{assump:utility_cost} implies that $u$ is unbounded above and $u'(x)\rightarrow 0$, so $g(\lambda)\rightarrow\infty$. Hence $\tilde U(\lambda)\rightarrow\infty$.
 \end{proof}
 
+The proof of proposition \ref{prop:relaxed-optimal-contract} follows from collecting these results.
+
 \begin{proof}[Proof of Proposition \ref{prop:relaxed-optimal-contract}]
 Let $\bar U _ L : = \tilde U (0)$.
 
-\textbf{Part 1.}
+\textbf{Part 1: existence, uniqueness, and characterization.}
 
 The relaxed problem is feasible for every reservation utility $\bar U$. If $\bar U \leq \bar U_L$, feasibility follows from the contract $\tilde V(\cdot|0)$. If $\bar U > \bar U_L$, Lemma \ref{u-tilde-increasing} and Lemma \ref{lem:utilde-unbounded} imply that there exists $\lambda>0$ such that $\tilde U(\lambda) = \bar U$, and $\tilde V(\cdot|\lambda)$ is feasible.
-
-\textbf{Part 2.}
 
 Let $\lambda ^*(\bar U)$ be $0$ if $\bar U \leq \bar U _L$ and be the inverse of $\tilde U$ for $\bar U _L < \bar U$. Lemma \ref{u-tilde-increasing} and Lemma \ref{lem:utilde-unbounded} imply that $\lambda^*$ is well defined and that $\lambda^*(\bar U) \geq 0$.
 
 Let $\mu ^* (\bar U) := \tilde \mu (\lambda ^* (\bar U))$. Lemma \ref{lem:mu-tilde} implies that $\mu^*(\bar U) > 0$. Let $v^*(y | \bar U) := \tilde V (y | \lambda ^* (\bar U))$. Note that this coincides with the definition of $v^*$ in the proposition statement.
 
-Lemma \ref{lem:pareto-problem} implies that $v^*(y | \bar U)$ solves the Pareto problem given $\lambda^*(\bar U)$. This implies that $v^*(y | \bar U)$ also solves the relaxed cost minimization problem given $\bar U$. Likewise, \ref{lem:pareto-problem} implies that the solution is unique almost everywhere.
+Lemma \ref{lem:pareto-problem} implies that $v^*(y | \bar U)$ solves the Pareto problem given $\lambda^*(\bar U)$. This implies that $v^*(y | \bar U)$ also solves the relaxed cost minimization problem given $\bar U$. Likewise, Lemma \ref{lem:pareto-problem} implies that the solution is unique almost everywhere.
 
-\textbf{Part 3, nonbinding individual rationality case.}
+\textbf{Part 2: comparative statics.}
 
-This follows from the definition of $\lambda^*(\bar U)$ which equals $0$ in this range.
+For $\bar U \leq \bar U_L$, the definition gives $\lambda^*(\bar U)=0$, so the relaxed optimal contract and optimal expected wage do not vary with $\bar U$.
 
-\textbf{Part 3, binding individual rationality case.}
-$\lambda ^*$ strictly increasing and $\lim_{\bar U\rightarrow\infty}\lambda^*(\bar U)=\infty$ follow from Lemma \ref{u-tilde-increasing} and Lemma \ref{lem:utilde-unbounded}. The strict convexity of $\omega$ follows from $v^*(\cdot | \lambda)$ being different for each value of $\lambda$ and from $k$ being strictly convex.
+For $\bar U > \bar U_L$, $\lambda ^*$ is strictly increasing and $\lim_{\bar U\rightarrow\infty}\lambda^*(\bar U)=\infty$ by Lemma \ref{u-tilde-increasing} and Lemma \ref{lem:utilde-unbounded}. The strict convexity of $\omega$ follows from $v^*(\cdot | \lambda)$ being different for each value of $\lambda$ and from $k$ being strictly convex.
     
 \end{proof}
 
