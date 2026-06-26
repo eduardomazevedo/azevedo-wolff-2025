@@ -124,7 +124,7 @@ Define the expected wage and utility attained by these contracts as
 
 \begin{lemma}
     \label{u-tilde-increasing}
-    $\tilde U (\lambda)$ is strictly increasing.
+    $\tilde U (\lambda)$ is continuous and strictly increasing.
 \end{lemma}
 
 \begin{proof}
@@ -146,20 +146,53 @@ Adding the inequalities,
 \]
 
 Therefore, $\tilde U$ is non-decreasing. It only remains to show that $\tilde U$ is strictly increasing. To reach a contradiction, assume that $\tilde U(\lambda _ 2) = \tilde U (\lambda _ 1)$. Optimality implies that $\tilde W (\lambda _1) = \tilde W (\lambda _2)$.  Consider the contract $(v_1 + v_2)/2$. By our assumptions on the score, $v_1$ and $v_2$ differ in a set of positive measure. By strict convexity of $k$, it follows that $W((v_1 + v_2)/2) < W(v_1)$. This contradicts the optimality of $v_1$.
+
+Continuity follows from the continuity of the canonical contract in $(\lambda,\mu)$ and Assumption \ref{assump:leibniz}. To see that $\tilde\mu(\lambda)$ is continuous, define
+\[
+    H(\lambda,\mu)
+    :=
+    \int V(y|\lambda,\mu)f_a(y|a_0)\,dy - c'(a_0).
+\]
+The function $H$ is continuous and, by the strict monotonicity argument in Lemma \ref{lem:mu-tilde}, strictly increasing in $\mu$ at the solution to $H(\lambda,\mu)=0$. Hence the unique solution $\tilde\mu(\lambda)$ varies continuously with $\lambda$, and so does $\tilde U(\lambda)$.
 \end{proof}
 
 The proof of proposition \ref{prop:relaxed-optimal-contract} follows from collecting these results.
 
+We first note that there is no upper bound on the utility levels attained by the LIC-satisfying canonical contracts.
+
+\begin{lemma}
+    \label{lem:utilde-unbounded}
+    $\lim _ {\lambda \rightarrow \infty} \tilde U(\lambda) = \infty$.
+\end{lemma}
+
+\begin{proof}
+Let $Y_+ := \{y:S(y|a_0) \geq 0\}$. Assumption \ref{assump:regularity_S} implies that $Y_+$ has positive probability. Since $g$ is increasing, for $y \in Y_+$,
+\[
+    \tilde V(y|\lambda)
+    = g(\lambda + \tilde \mu(\lambda)S(y|a_0))
+    \geq g(\lambda).
+\]
+For all $y$, $\tilde V(y|\lambda) \geq u(0)$. Therefore,
+\[
+    \tilde U(\lambda)
+    \geq
+    \Pr(Y_+)g(\lambda)
+    + (1-\Pr(Y_+))u(0)
+    - c(a_0).
+\]
+Assumption \ref{assump:utility_cost} implies that $u$ is unbounded above and $u'(x)\rightarrow 0$, so $g(\lambda)\rightarrow\infty$. Hence $\tilde U(\lambda)\rightarrow\infty$.
+\end{proof}
+
 \begin{proof}[Proof of Proposition \ref{prop:relaxed-optimal-contract}]
-Let $\bar U _ L : = \tilde U (0)$ and $\bar U _ R := \lim _ {\lambda \rightarrow \infty} \tilde U (\lambda)$.
+Let $\bar U _ L : = \tilde U (0)$.
 
 \textbf{Part 1.}
 
-The definition of $\bar U _ R$ implies that the relaxed problem is not feasible for $\bar{U} \geq \bar{U}_R$, as desired.
+The relaxed problem is feasible for every reservation utility $\bar U$. If $\bar U \leq \bar U_L$, feasibility follows from the contract $\tilde V(\cdot|0)$. If $\bar U > \bar U_L$, Lemma \ref{u-tilde-increasing} and Lemma \ref{lem:utilde-unbounded} imply that there exists $\lambda>0$ such that $\tilde U(\lambda) = \bar U$, and $\tilde V(\cdot|\lambda)$ is feasible.
 
 \textbf{Part 2.}
 
-Let $\lambda ^*(\bar U)$ be $0$ if $\bar U \leq \bar U _L$ and be the inverse of $\tilde U$ for $\bar U _L < \bar U < \bar U _R$. Lemma \ref{u-tilde-increasing} implies that $\lambda^*$ is well defined and that $\lambda^*(\bar U) \geq 0$.
+Let $\lambda ^*(\bar U)$ be $0$ if $\bar U \leq \bar U _L$ and be the inverse of $\tilde U$ for $\bar U _L < \bar U$. Lemma \ref{u-tilde-increasing} and Lemma \ref{lem:utilde-unbounded} imply that $\lambda^*$ is well defined and that $\lambda^*(\bar U) \geq 0$.
 
 Let $\mu ^* (\bar U) := \tilde \mu (\lambda ^* (\bar U))$. Lemma \ref{lem:mu-tilde} implies that $\mu^*(\bar U) > 0$. Let $v^*(y | \bar U) := \tilde V (y | \lambda ^* (\bar U))$. Note that this coincides with the definition of $v^*$ in the proposition statement.
 
@@ -170,7 +203,7 @@ Lemma \ref{lem:pareto-problem} implies that $v^*(y | \bar U)$ solves the Pareto 
 This follows from the definition of $\lambda^*(\bar U)$ which equals $0$ in this range.
 
 \textbf{Part 3, binding individual rationality case.}
-$\lambda ^*$ strictly increasing follows from lemma $\ref{u-tilde-increasing}$ and the strict convexity of $\omega$ follows from $v^*(\cdot | \lambda)$ being different for each value of $\lambda$ and from $k$ being strictly convex.
+$\lambda ^*$ strictly increasing and $\lim_{\bar U\rightarrow\infty}\lambda^*(\bar U)=\infty$ follow from Lemma \ref{u-tilde-increasing} and Lemma \ref{lem:utilde-unbounded}. The strict convexity of $\omega$ follows from $v^*(\cdot | \lambda)$ being different for each value of $\lambda$ and from $k$ being strictly convex.
     
 \end{proof}
 
