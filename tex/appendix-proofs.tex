@@ -1,6 +1,6 @@
 \subsection{Solution of the Relaxed Problem (Proof of Proposition \ref{prop:relaxed-optimal-contract})} 
 
-Throughout this subsection, fix a reservation utility $\bar U$ and intended action $a_0$. The local IC constraint is only defined if $U(v, a)$ can be differentiated under the integral sign, so we begin by showing that differentiation under the integral at any action is possible for any feasible contract.
+Throughout this subsection, fix a reservation utility $\bar U$ and intended action $a_0$. Let $Y_+ := \{y:S(y|a_0) \geq 0\}$ denote the positive-score region. The local IC constraint is only defined if $U(v, a)$ can be differentiated under the integral sign, so we begin by showing that differentiation under the integral at any action is possible for any feasible contract.
 
 \begin{remark} 
     \label{rem:leibniz}
@@ -166,7 +166,7 @@ We first note that there is no upper bound on the utility levels attained by the
 \end{lemma}
 
 \begin{proof}
-Let $Y_+ := \{y:S(y|a_0) \geq 0\}$. Assumption \ref{assump:regularity_S} implies that $Y_+$ has positive probability. Since $g$ is increasing, for $y \in Y_+$,
+Assumption \ref{assump:regularity_S} implies that $Y_+$ has positive probability. Since $g$ is increasing, for $y \in Y_+$,
 \[
     \tilde V(y|\lambda)
     = g(\lambda + \tilde \mu(\lambda)S(y|a_0))
@@ -348,20 +348,20 @@ By Lemma \ref{lem:second-derivative},
     - c''(a) \text{.}
     $$
 
-    Let $Y_+$ be the set of $y \geq y_0$ where this integrand is positive. Then 
+    Let $Y_{aa}^+$ be the set of $y \geq y_0$ where this integrand is positive. Then 
     $$
     U_{aa}\left( \tilde{V} \left( y |  \lambda \right), a \right) \leq
-    \tilde{\mu} \int_{Y_+} 
+    \tilde{\mu} \int_{Y_{aa}^+} 
     \Delta g(y | \lambda)
     \cdot S(y|a_0)
     \cdot f_{aa}(y | a) \, dy
     - c''(a) \text{.}
     $$
     
-     Lemma \ref{lem:threshold-outcome} implies that for $\lambda$ sufficiently large, $\ubar y (\lambda, a_0) \leq y_0$. The concavity of $k'^{-1}$ (Assumption \ref{assump:concavity_inverse_marginal_utility}) implies that $\Delta g$ is decreasing for $y$ in $Y_+$. Therefore,
+     Lemma \ref{lem:threshold-outcome} implies that for $\lambda$ sufficiently large, $\ubar y (\lambda, a_0) \leq y_0$. The concavity of $k'^{-1}$ (Assumption \ref{assump:concavity_inverse_marginal_utility}) implies that $\Delta g$ is decreasing for $y$ in $Y_{aa}^+$. Therefore,
     $$
     U_{aa}\left( \tilde{V} \left( y |  \lambda \right), a \right) \leq
-    \tilde{\mu} \int_{Y_+} 
+    \tilde{\mu} \int_{Y_{aa}^+} 
     \Delta g \left(y_0 | \lambda \right)
     \cdot S(y|a_0)
     \cdot f_{aa}(y | a) \, dy
