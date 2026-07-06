@@ -1,103 +1,117 @@
-Below is the plan as it currently stands. I wrote it as a roadmap for revising the proof, with enough detail that someone can pick up from here and turn it into formal statements.
+# Plan to Generalize the Concavity Result
+
+Throughout, output lies in a fixed set $\mathcal Y\subseteq\mathbb R$, and $f(\cdot|a)$ is a density with respect to a common dominating measure $\nu$. Integrals are with respect to $d\nu(y)$. This covers both continuous and discrete output.
 
 ---
 
-# Summary of the new concavity-proof plan
+## 1. Score notation instead of score normalization
 
-## 1. Change notation: work in score coordinates
-
-The first simplification is to normalize output so that
+Let
 
 $$
-S(y|a_0)=y.
+s(y):=S(y|a_0)=\partial_a\log f(y|a)\big|_{a=a_0}.
 $$
 
-This is without loss because the paper assumes the score $S(\cdot|a_0)$ is strictly increasing with image $\mathbb R$. Thus we can use the score as the output variable. After this normalization, the canonical contract is simply
+The canonical contract is
 
 $$
-V(y|\lambda,\mu)=g(\lambda+\mu y),
+V(y|\lambda,\mu)=g(\lambda+\mu s(y)).
 $$
 
-and the limited-liability kink is
+Let
 
 $$
-\bar y(\lambda,\mu)=\frac{m-\lambda}{\mu},
-\qquad
-m:=\frac{1}{u'(0)}.
+m:=\frac1{u'(0)}.
 $$
 
-The agent receives zero wage exactly when
+The limited-liability floor binds exactly when
 
 $$
-y\le \bar y(\lambda,\mu).
+\lambda+\mu s(y)\le m.
 $$
 
-This is much cleaner than constantly moving between original output (y) and score (S(y|a_0)).
-
-We also need to include a short invariance argument. If (x) denotes original output and (y=S(x|a_0)), with inverse (x=X(y)), then the transformed density is
+For $\mu>0$, define the threshold score
 
 $$
-\tilde f(y|a)=f(X(y)|a)X'(y).
+\bar s(\lambda,\mu):=\frac{m-\lambda}{\mu}.
 $$
 
-Because (X'(y)>0) and the transformation is independent of (a),
+Then the zero-payment region is the score lower contour set
 
 $$
-\tilde f_{aa}(y|a)=f_{aa}(X(y)|a)X'(y),
+\{y:s(y)\le \bar s(\lambda,\mu)\}.
 $$
 
-so the sign of (f_{aa}) is preserved. Thus the condition “(f_{aa}>0) in the left tail” is really a condition on the left tail in score order. The threshold changes according to the score map, but the property is invariant.
+This notation avoids assuming that the output support is an interval or that the score map is invertible. It includes continuous examples and discrete examples such as Poisson.
+
+When the score is strictly increasing with image $\mathbb R$, this notation specializes to the old score-normalized proof by taking the score itself as the output variable.
 
 ---
 
-## 2. Replace “the kink goes to $-\infty$” by “the kink lies left of a tail-safe cutoff”
+## 2. Tail-safe score cutoffs
 
-Define a **tail-safe cutoff** (q<0) by requiring
+A **tail-safe cutoff** is a number $q<0$ such that
 
 $$
 f_{aa}(y|a)>0
-\quad\text{for all }y\le q,\ a\in A.
+\quad\text{for all }a\in\mathcal A
+\quad\text{and all }y\in\mathcal Y\text{ with }s(y)\le q.
+\tag{TS}
 $$
 
-The condition (q<0) ensures the score is negative on the zero-payment region. The condition (f_{aa}>0) ensures that the no-pay region contributes negatively to (U_{aa}).
+The condition $q<0$ ensures that score is negative on the low-score region. The condition $f_{aa}>0$ on that region ensures that the low-score, zero-payment contribution to $U_{aa}$ is nonpositive.
 
-The old proof tried to show the kink goes to $-\infty$. That is stronger than necessary. What we actually need is
-
-$$
-\bar y(\lambda,\tilde\mu(\lambda))\le q
-$$
-
-for some tail-safe (q).
-
-For fixed $\lambda>m$, define
+Define
 
 $$
-\mu_q(\lambda):=\frac{m-\lambda}{q}.
+A_q:=-\int_{\{s\le q\}}s(y)f(y|a_0)\,d\nu(y)>0.
 $$
 
-This is the value of $\mu$ that puts the kink exactly at (q). Let
+For continuous score-normalized models, this is the old object
 
 $$
-I(\lambda,\mu):=\int g(\lambda+\mu y)y f(y|a_0),dy.
+A_q=-\int_{y\le q}y f(y|a_0)\,dy.
 $$
 
-The local incentive constraint is
+For discrete models, it is the same expression with sums over the low-score states.
+
+---
+
+## 3. Kink lemma: getting the floor region below a tail-safe cutoff
+
+For fixed $\lambda>m$ and tail-safe $q<0$, define
+
+$$
+\mu_q(\lambda):=\frac{m-\lambda}{q}>0.
+$$
+
+This is the value of $\mu$ that places the limited-liability threshold exactly at score $q$:
+
+$$
+\lambda+\mu_q(\lambda)q=m.
+$$
+
+Define the local-incentive functional
+
+$$
+I(\lambda,\mu):=
+\int g(\lambda+\mu s(y))s(y)f(y|a_0)\,d\nu(y).
+$$
+
+The LIC multiplier solves
 
 $$
 I(\lambda,\tilde\mu(\lambda))=c'(a_0).
 $$
 
-Since
+Because
 
 $$
-I_\mu(\lambda,\mu)
-=
-\int g'$\lambda+\mu y$y^2 f(y|a_0),dy\ge0,
+I_\mu(\lambda,\mu)=
+\int g'(\lambda+\mu s(y))s(y)^2 f(y|a_0)\,d\nu(y)\ge0,
 $$
 
-(I) is increasing in $\mu$.
-
-Therefore we get the new kink lemma:
+$I(\lambda,\mu)$ is increasing in $\mu$.
 
 **Kink lemma.** If
 
@@ -109,18 +123,18 @@ $$
 then
 
 $$
-\bar y(\lambda,\tilde\mu(\lambda))\le q.
+\bar s(\lambda,\tilde\mu(\lambda))\le q.
 $$
 
-This is the clean replacement for the old kink-to-$-\infty$ lemma.
-
-A simple sufficient condition for (K) is obtained by using (E_{a_0}[y]=0). Define
+Equivalently, the zero-payment region is contained in the tail-safe low-score region:
 
 $$
-A_q:=-\int_{y\le q}y f(y|a_0),dy>0.
+\{s\le \bar s(\lambda,\tilde\mu(\lambda))\}
+\subseteq
+\{s\le q\}.
 $$
 
-Then
+A useful sufficient condition for (K) is obtained from $E_{a_0}[s(Y)]=0$. At $\mu=\mu_q(\lambda)$, states with $s\le q$ receive utility $u(0)$, while states with $s>q$ receive at least $g(\lambda)$ if $s\ge0$. The crude lower bound is
 
 $$
 I(\lambda,\mu_q(\lambda))
@@ -135,233 +149,263 @@ $$
 \tag{K'}
 $$
 
-At the limiting level, this becomes the **capacity condition**
+At the limiting level this becomes the tail-safe capacity condition
 
 $$
-[u(\infty)-u(0)]A_q>c'(a_0).
-\tag{Cap}
+[\bar u-u(0)]A_q>c'(a_0),
+\tag{Cap-q}
 $$
 
-If $u(\infty)=\infty$, this holds automatically. If $u$ is bounded, this is the quantitative condition saying the maximum utility spread across the event $\{y>q\}$ contains enough local incentive power.
+where
+
+$$
+\bar u:=\lim_{x\to\infty}u(x)\le\infty.
+$$
+
+If $\bar u=\infty$, this condition is automatic for any $q$ with $A_q>0$. If $\bar u<\infty$, it says that the maximum utility spread across the low-score cutoff is enough to generate the required local incentive.
+
+This capacity condition is stronger than the implementability condition used for Proposition 1. Proposition 1 only needs enough total utility spread to satisfy LIC; concavity needs enough incentive power while placing the no-pay region inside a tail-safe low-score set.
 
 ---
 
-## 3. Rewrite the concavity proof around the useful split
+## 4. Curvature formula and useful split
 
-After normalization, the key curvature expression can be written in the form
+For a canonical LIC-satisfying contract, write $\tilde\mu=\tilde\mu(\lambda)$. Define the secant slope term
 
 $$
-U_{aa}(V,a)
+\Delta g(y|\lambda):=
+\frac{g(\lambda+\tilde\mu s(y))-g(\lambda)}{\tilde\mu s(y)}
+$$
+
+for $s(y)\ne0$, with the usual continuous extension at $s(y)=0$.
+
+Then
+
+$$
+U_{aa}(V(\cdot|\lambda,\tilde\mu),a)
 =
-\mu\int \Delta g(y|\lambda)\,y\,f_{aa}(y|a),dy
-c''(a),
+\tilde\mu
+\int \Delta g(y|\lambda)s(y)f_{aa}(y|a)\,d\nu(y)
+-c''(a).
+\tag{Curv}
 $$
 
-where $\Delta g$ is the relevant secant slope term.
+Once the kink is below $q$, the zero-payment region is contained in $\{s\le q\}$. On this region, $s<0$ and $f_{aa}>0$, so its contribution to the integral in (Curv) is nonpositive. Therefore, for an upper bound we can discard it.
 
-Once the kink is to the left of a tail-safe (q), the zero-payment region lies in ({y<0, f_{aa}>0}), so its contribution is negative. Therefore we may discard that region when looking for an upper bound.
-
-The remaining positive part is controlled by
-
-$$
-\mu\int_{y>q}\Delta g(y|\lambda)[y f_{aa}(y|a)]_+,dy.
-$$
-
-Define
+Define the positive-part constant
 
 $$
 M_q:=
-\sup_{a\in A}
-\int_{y>q}[y f_{aa}(y|a)]_+,dy.
+\sup_{a\in\mathcal A}
+\int_{\{s>q\}}
+[s(y)f_{aa}(y|a)]_+\,d\nu(y).
 $$
 
-The first crude bound is
+Assume $M_q<\infty$.
+
+On the nonbinding region and under concavity of $g$ in its scalar argument, the secant slope is bounded by the marginal slope at the lowest relevant score:
 
 $$
-\mu\int_{y>q}\Delta g(y|\lambda)[y f_{aa}(y|a)]_+,dy
+\Delta g(y|\lambda)\le g'(\lambda+\tilde\mu q)
+\quad\text{for }s(y)>q.
+$$
+
+Hence
+
+$$
+\tilde\mu
+\int_{\{s>q\}}
+\Delta g(y|\lambda)[s(y)f_{aa}(y|a)]_+\,d\nu(y)
 \le
-\mu g'$\lambda+\mu q$M_q.
+\tilde\mu g'(\lambda+\tilde\mu q)M_q.
 $$
 
-Important correction: the factor $\mu$ remains. The positive-part condition is therefore
-
-$$
-\mu g'$\lambda+\mu q$M_q
-\le
-\underline c'',
-\qquad
-\underline c'':=\inf_{a\in A}c''(a).
-\tag{P}
-$$
-
-This is the finite-$\lambda$ condition that guarantees
-
-$$
-U_{aa}(V,a)\le0
-\quad\text{for all }a\in A.
-$$
-
-The old condition (\limsup z g'(z)<\infty) was used precisely to control this missing $\mu$. The new proof improves the left-tail part, but the positive part still needs either a flattening argument or an asymptotic-affinity argument.
+The factor $\tilde\mu$ is important. The old proof controlled it through assumptions on $zg'(z)$ and through $\tilde\mu/\lambda\to0$. The generalized proof should keep this factor explicit.
 
 ---
 
-## 4. First main result: finite-$\lambda$ concavity criterion
+## 5. Finite-$\lambda$ concavity criterion
 
-The first proposition should be a finite-$\lambda$ criterion.
+The first result should be a finite-$\lambda$ criterion.
 
-**Proposition, finite-$\lambda$ criterion.** Normalize $S(y|a_0)=y$. Fix a tail-safe cutoff $q<0$, and suppose $M_q<\infty$. Let $\lambda>m$, and let $\tilde\mu(\lambda)$ solve LIC. If
+**Finite-$\lambda$ criterion.** Fix a tail-safe cutoff $q<0$ with $M_q<\infty$. Let $\lambda>m$, and let $\tilde\mu(\lambda)$ solve LIC. If
 
 $$
 I(\lambda,\mu_q(\lambda))\ge c'(a_0)
+\tag{K}
 $$
 
 and
 
 $$
 \tilde\mu(\lambda)g'(\lambda+\tilde\mu(\lambda)q)M_q
-\le \underline c'',
+\le
+\underline c'',
+\qquad
+\underline c'':=\inf_{a\in\mathcal A}c''(a),
+\tag{P}
 $$
 
 then
 
 $$
-U_{aa}(V(\cdot|\lambda,\tilde\mu(\lambda)),a)\le0
-\quad\text{for all }a\in A.
+U_{aa}(V(\cdot|\lambda,\tilde\mu(\lambda)),a)
+\le0
+\quad\text{for all }a\in\mathcal A.
 $$
 
-This proposition is the basic quantitative replacement for the current asymptotic proof. It is also useful in bounded-utility cases and finite-reservation applications.
+This proposition is useful because it is quantitative and applies to both continuous and discrete output. It is the basic building block for the asymptotic high-reservation results.
 
 ---
 
-## 5. Second result: high-reservation theorem via the flattening route
+## 6. High-reservation theorem via flattening
 
-The first high-reservation theorem follows when the positive part vanishes because the contract becomes flat enough.
+The first high-reservation theorem uses the finite-$\lambda$ criterion and shows that condition (P) eventually holds because the paid-region contract becomes flat enough.
 
-We need:
+Assumptions:
 
-1. A tail-safe (q) with $M_q<\infty$.
-2. The capacity condition
+1. There exists a tail-safe cutoff $q<0$ with $M_q<\infty$.
+2. Tail-safe capacity holds:
 
 $$
-[u(\infty)-u(0)]A_q>c'(a_0).
+[\bar u-u(0)]A_q>c'(a_0).
+\tag{Cap-q}
 $$
 
-3. A condition implying
+3. Along the LIC path,
 
 $$
 \tilde\mu(\lambda)g'(\lambda+\tilde\mu(\lambda)q)\to0.
 \tag{Flat}
 $$
 
-If these hold, then along any sequence with $\lambda\to\infty$,
+Then the finite-$\lambda$ criterion implies that, for all sufficiently large $\lambda$,
 
 $$
-\sup_{a\in A}U_{aa}(V(\cdot|\lambda,\tilde\mu(\lambda)),a)
+U_{aa}(V(\cdot|\lambda,\tilde\mu(\lambda)),a)
+\le0
+\quad\text{for all }a\in\mathcal A.
+$$
+
+Using generalized Proposition 1, this implies FOA validity:
+
+* if $\bar u=\infty$, for all sufficiently high $\bar U$;
+* if $\bar u<\infty$, for all $\bar U$ sufficiently close to $\bar U_R$ from below.
+
+### Bounded-utility step-contract argument
+
+For bounded utility, capacity implies that the cutoff utility level at $q$ diverges:
+
+$$
+z_q(\lambda):=\lambda+\tilde\mu(\lambda)q\to\infty.
+$$
+
+Proof idea. Fix $L>m$ and define
+
+$$
+\mu_{q,L}(\lambda):=\frac{L-\lambda}{q}.
+$$
+
+This puts score $q$ at scalar marginal-cost index $L$:
+
+$$
+\lambda+\mu_{q,L}(\lambda)q=L.
+$$
+
+As $\lambda\to\infty$, the contract
+
+$$
+g(\lambda+\mu_{q,L}(\lambda)s(y))
+$$
+
+converges pointwise to the step contract that gives $u(0)$ on $\{s<q\}$ and $\bar u$ on $\{s>q\}$, with the boundary $s=q$ receiving $g(L)$. To avoid boundary clutter, choose $q$ away from score atoms; in discrete applications this means choosing $q$ between adjacent score values. Then the limiting incentive is
+
+$$
+[\bar u-u(0)]A_q.
+$$
+
+If there is an atom at $s=q$, use a nearby cutoff and the strict slack in capacity. By strict capacity, the limiting incentive exceeds $c'(a_0)$. Hence for large $\lambda$, the trial multiplier $\mu_{q,L}(\lambda)$ gives too much incentive. Since $I$ is increasing in $\mu$, the true multiplier satisfies
+
+$$
+\tilde\mu(\lambda)
 \le
--\underline c''+o(1)<0.
+\mu_{q,L}(\lambda).
 $$
 
-This yields FOA validity for sufficiently high feasible reservation utilities, provided high feasible reservation utility drives (\lambda^*$\bar U$\to\infty).
-
-### How to verify the flattening condition
-
-For log utility, $g'(z)=1/z$. The old proof shows $\tilde\mu/\lambda\to0$, and then
+Because $q<0$, this implies
 
 $$
-\tilde\mu g'(\lambda+\tilde\mu q)\sim \tilde\mu/\lambda\to0.
+z_q(\lambda)=\lambda+\tilde\mu(\lambda)q
+\ge L.
 $$
 
-For CARA, $g'(z)=1/(\alpha z^2)$. Under capacity, we can show $z_q(\lambda):=\lambda+\tilde\mu q$ grows at least linearly in $\lambda$, while $\tilde\mu=O(\lambda)$. Therefore
+Since $L$ is arbitrary, $z_q(\lambda)\to\infty$.
+
+To get linear growth of $z_q$ when needed, choose a stricter cutoff $t<q<0$ that also satisfies capacity. Applying the kink lemma at $t$ gives, for large $\lambda$,
+
+$$
+\tilde\mu(\lambda)
+\le
+\frac{m-\lambda}{t}=O(\lambda).
+$$
+
+Then
+
+$$
+z_q(\lambda)
+=
+\lambda+\tilde\mu(\lambda)q
+\ge
+\lambda+\frac{m-\lambda}{t}q
+\sim
+\lambda\left(1-\frac{q}{t}\right),
+$$
+
+which is positive and linear because $t<q<0$.
+
+### Utilities covered by flattening
+
+* **Log utility:** $g'(z)=1/z$. In the unbounded case, the old argument gives $\tilde\mu/\lambda\to0$, so
+
+$$
+\tilde\mu g'(\lambda+\tilde\mu q)
+\sim
+\tilde\mu/\lambda\to0.
+$$
+
+* **CARA:** $g'(z)=1/(\alpha z^2)$. Under capacity, $z_q$ grows at least linearly and $\tilde\mu=O(\lambda)$, so
 
 $$
 \tilde\mu g'(z_q)=O(\lambda/\lambda^2)\to0.
 $$
 
-For CRRA with $\gamma>1$, $g'(z)=\frac1\gamma z^{1/\gamma-2}$. Again, under capacity we can get $z_q\ge \delta\lambda$ and $\tilde\mu=O(\lambda)$, so
+* **CRRA with $\gamma>1$:** $g'(z)=\frac1\gamma z^{1/\gamma-2}$. Under capacity, $z_q\ge\delta\lambda$ and $\tilde\mu=O(\lambda)$, so
 
 $$
-\tilde\mu g'(z_q)
- =
-O(\lambda^{1/\gamma-1})\to0.
+\tilde\mu g'(z_q)=O(\lambda^{1/\gamma-1})\to0.
 $$
 
-Thus the flattening route covers log, CARA, and bounded CRRA $\gamma>1$.
+Thus the flattening route covers log, CARA, and bounded CRRA with $\gamma>1$.
 
 ---
 
-## 6. Important bounded-utility step-contract argument
+## 7. High-reservation theorem via asymptotic affinity
 
-For bounded utility, capacity also implies that
+Flattening can fail for some unbounded utilities, notably CRRA with $\gamma\in(1/2,1)$. In that case the contract may not become flat, but it can become asymptotically affine in the score.
 
-$$
-z_q(\lambda):=\lambda+\tilde\mu(\lambda)q\to\infty
-$$
-
-and, with a slightly stricter cutoff, (z_q) grows at least linearly in $\lambda$.
-
-The argument is:
-\tilde\mu g'(\lambda)\int y f_{aa}(y|a),dy.
-Fix (L>m) and define
-
-\text{for all }a\in A,
-\mu_{q,L}(\lambda)=\frac{L-\lambda}{q}.
-$$
-
-Then the contract satisfying $\lambda+\mu_{q,L}q=L$ converges pointwise to the step contract
-
-$$
-u(0)\mathbf 1_{\{y<q\}}+u(\infty)\mathbf 1_{\{y>q\}}.
-$$
-- \tilde\mu g'(\lambda)y
-Its incentive converges to
-
-$$
-[u(\infty)-u(0)]A_q.
-$$
-
-If capacity holds strictly, this exceeds $c'(a_0)$. Therefore, for large $\lambda$, this contract gives too much incentive. By monotonicity of $I(\lambda,\mu)$, the true LIC multiplier is smaller, which implies $z_q(\lambda)\ge L$. Since $L$ is arbitrary, $z_q(\lambda)\to\infty$.
-\tilde\mu g'(\lambda)=O(1),
-To get linear growth, choose a stricter cutoff (t<q) that still satisfies capacity. Evaluating the kink at (t) gives
-
-$$
-\tilde\mu(\lambda)\le \frac{m-\lambda}{t}=O(\lambda).
-- \tilde\mu g'(\lambda)y
-
-Then
-O\left(\tilde\mu^2 |g''(\lambda)|y^2\right)
-$$
-z_q(\lambda)
-\tilde\mu^2 |g''(\lambda)|
-\lambda+\tilde\mu q
-[\tilde\mu g'(\lambda)]\frac{\tilde\mu}{\lambda}
-\lambda+\frac{m-\lambda}{t}q
-\sim
-This route covers CRRA $\gamma\in(1/2,1)$ when affine-score curvature is harmless. It explains the Gaussian numerics.
-$$
-### Branch 2: $\gamma\in(1/2,1)$
-which is linear and positive since (t<q<0).
-\tilde\mu^2 |g''(\lambda)|
-This is crucial for CARA and CRRA $\gamma>1$.
-Normalize $S(y|a_0)=y$. Prove invariance of $f_{aa}>0$ under the transformation.
-Define $q$, $A_q$, $\mu_q(\lambda)$, and $I(\lambda,\mu)$. Prove the kink lemma and the sufficient condition $[g(\lambda)-u(0)]A_q\ge c'(a_0)$.
-Define $M_q$. Prove the finite-$\lambda$ proposition with conditions $K$ and $P$.
-Conclude concavity. Use this to cover CRRA $\gamma\in(1/2,1)$, especially Gaussian location families.
-4. CRRA $\gamma\in(1/2,1)$ under affine-score concavity;
-This is both more general and more informative. It handles bounded utility through a capacity condition. It also explains why CRRA $\gamma\in(1/2,1)$ can work numerically: the contract is not flat, but it is asymptotically affine, and affine score contracts are harmless in Gaussian location families.
-
-For CRRA $\gamma\in(1/2,1)$,
+For CRRA with $\gamma\in(1/2,1)$,
 
 $$
 g'(z)\to0
 \quad\text{but}\quad
-z g'(z)\to\infty.
+zg'(z)\to\infty.
 $$
 
 LIC suggests
 
 $$
 \tilde\mu(\lambda)g'(\lambda)
-\int y^2 f(y|a_0),dy
+\int s(y)^2 f(y|a_0)\,d\nu(y)
 \approx c'(a_0),
 $$
 
@@ -371,37 +415,38 @@ $$
 \tilde\mu(\lambda)g'(\lambda)
 \to
 \theta:=
-\frac{c'(a_0)}
-{\int y^2 f(y|a_0),dy},
+\frac{c'(a_0)}{\int s(y)^2 f(y|a_0)\,d\nu(y)}.
 $$
 
-not zero.
-
-Thus the contract behaves like
+The contract behaves like
 
 $$
-g(\lambda+\tilde\mu y)
+g(\lambda+\tilde\mu s(y))
 =
-g(\lambda)+\tilde\mu g'(\lambda)y+o(1).
+g(\lambda)+\tilde\mu g'(\lambda)s(y)+o(1)
 $$
 
-The constant term contributes nothing to (U_{aa}), because
+in the weighted sense relevant for $f_{aa}$.
+
+The constant term contributes nothing to $U_{aa}$ because
 
 $$
-\int f_{aa}(y|a),dy=0.
+\int f_{aa}(y|a)\,d\nu(y)=0.
 $$
 
 The affine term contributes
 
 $$
-\tilde\mu g'(\lambda)\int y f_{aa}(y|a),dy.
+\tilde\mu g'(\lambda)
+\int s(y)f_{aa}(y|a)\,d\nu(y).
 $$
 
-Therefore the right additional condition is:
+Thus the natural additional condition is affine-score curvature:
 
 $$
-\int y f_{aa}(y|a),dy\le0
-\quad\text{for all }a\in A.
+\int s(y)f_{aa}(y|a)\,d\nu(y)
+\le0
+\quad\text{for all }a\in\mathcal A.
 \tag{Affine}
 $$
 
@@ -413,39 +458,41 @@ $$
 
 is concave.
 
-If this affine-score curvature condition holds, then the affine part is harmless, and the nonlinear residual vanishes. Hence
+A theorem can then assume the residual condition
 
 $$
-U_{aa}(V,a)\le -c''(a)+o(1).
-$$
-
-This gives a second high-reservation theorem.
-
-### Residual condition
-
-We need to formalize the asymptotic-affinity residual:
-
-$$
-\sup_{a\in A}
+\sup_{a\in\mathcal A}
 \left|
 \int
 \left[
-g(\lambda+\tilde\mu y)
-- g(\lambda)
-- \tilde\mu g'(\lambda)y
+ g(\lambda+\tilde\mu s(y))
+ -g(\lambda)
+ -\tilde\mu g'(\lambda)s(y)
 \right]
-f_{aa}(y|a),dy
+ f_{aa}(y|a)\,d\nu(y)
 \right|
 \to0.
 \tag{R}
 $$
 
-Primitive sufficient conditions for (R) should include:
+Under (Affine) and (R),
 
 $$
-\frac{\tilde\mu}{\lambda}\to0,
+\sup_{a\in\mathcal A}U_{aa}(V(\cdot|\lambda,\tilde\mu(\lambda)),a)
+\le
+-\underline c''+o(1),
+$$
+
+uniformly in $a$, and hence concavity holds for large $\lambda$.
+
+### Primitive sufficient conditions for the residual
+
+A sufficient route for (R) is:
+
+$$
+\frac{\tilde\mu(\lambda)}{\lambda}\to0,
 \qquad
-\tilde\mu g'(\lambda)=O(1),
+\tilde\mu(\lambda)g'(\lambda)=O(1),
 $$
 
 a controlled curvature condition such as
@@ -454,20 +501,19 @@ $$
 \sup_{z\ge \lambda/2}\frac{z|g''(z)|}{g'(z)}<\infty,
 $$
 
-and a uniform integrability condition for (y^2 f_{aa}(y|a)).
+and uniform integrability of $s(y)^2 f_{aa}(y|a)$ over $a\in\mathcal A$.
 
-Taylor’s theorem gives
+Taylor's theorem gives, on the central region,
 
 $$
-g(\lambda+\tilde\mu y)
-- g(\lambda)
-- \tilde\mu g'(\lambda)y
-
+g(\lambda+\tilde\mu s)
+-g(\lambda)
+-\tilde\mu g'(\lambda)s
 =
-O\left(\tilde\mu^2 |g''(\lambda)|y^2\right)
+O\left(\tilde\mu^2 |g''(\lambda)|s^2\right).
 $$
 
-on the central region, and
+For CRRA $\gamma\in(1/2,1)$,
 
 $$
 \tilde\mu^2 |g''(\lambda)|
@@ -476,45 +522,75 @@ $$
 \to0.
 $$
 
-Tails need to be handled by uniform integrability.
-
-This route covers CRRA $\gamma\in(1/2,1)$ when affine-score curvature is harmless. It explains the Gaussian numerics.
+Tails are handled by uniform integrability.
 
 ---
 
-## 8. Gaussian example
+## 8. Discrete output and Poisson
 
-For Gaussian original output (X\sim N(a,\sigma^2)), normalized output is
-
-$$
-y=S(X|a_0)=\frac{X-a_0}{\sigma^2}.
-$$
-
-Then under action (a),
+The score-cutoff formulation handles discrete output with little extra notation. For Poisson, take
 
 $$
-y\sim N\left(\frac{a-a_0}{\sigma^2},\frac1{\sigma^2}\right).
+\mathcal Y=\mathbb N,
+$$
+
+and let $\nu$ be counting measure. Integrals become sums.
+
+The tail-safe condition is not an interval condition on output. It is a condition on a lower contour set of the score:
+
+$$
+f_{aa}(y|a)>0
+\quad\text{for all }y\text{ such that }s(y)\le q.
+$$
+
+The quantities $A_q$ and $M_q$ are sums over score regions:
+
+$$
+A_q=-\sum_{s(y)\le q}s(y)f(y|a_0),
+$$
+
+and
+
+$$
+M_q=
+\sup_a\sum_{s(y)>q}[s(y)f_{aa}(y|a)]_+.
+$$
+
+Atoms at the cutoff are harmless if the cutoff is chosen away from score atoms. If a cutoff atom is unavoidable, use weak inequalities consistently and keep capacity strict. In applications, one can choose a slightly different cutoff unless the score support is extremely sparse.
+
+The bounded-below score issue is conceptually separate from discreteness. If the score has a lower bound, the kink may eventually fall below the lowest score. That case can still be handled by the finite-$\lambda$ criterion or by an appropriate limiting-curvature argument. Non-interval support by itself adds little complexity once everything is written in score-set notation.
+
+---
+
+## 9. Gaussian example
+
+For Gaussian original output $X\sim N(a,\sigma^2)$,
+
+$$
+s(X)=S(X|a_0)=\frac{X-a_0}{\sigma^2}.
+$$
+
+Under action $a$,
+
+$$
+s(X)\sim N\left(\frac{a-a_0}{\sigma^2},\frac1{\sigma^2}\right).
 $$
 
 The left-tail condition is explicit:
 
 $$
-f_{aa}(y|a)>0
+f_{aa}(s|a)>0
 \quad\Longleftrightarrow\quad
-\left|y-\frac{a-a_0}{\sigma^2}\right|>\frac1\sigma.
+\left|s-\frac{a-a_0}{\sigma^2}\right|>\frac1\sigma.
 $$
 
-Thus
+Thus any
 
 $$
-y^*(a)=\frac{a-a_0}{\sigma^2}-\frac1\sigma.
-$$
-
-Any
-
-$$
-q<\min\left\{0,\inf_{a\in A}
-\left(\frac{a-a_0}{\sigma^2}-\frac1\sigma\right)\right\}
+q<\min\left\{0,
+\inf_{a\in\mathcal A}
+\left(\frac{a-a_0}{\sigma^2}-\frac1\sigma\right)
+\right\}
 $$
 
 is tail-safe.
@@ -522,7 +598,7 @@ is tail-safe.
 Also,
 
 $$
-A_q=-\int_{y\le q}y f(y|a_0),dy
+A_q=-\int_{s\le q}s f(s|a_0)\,ds
 =
 \frac1\sigma\varphi(\sigma q).
 $$
@@ -531,44 +607,39 @@ The positive-part constant is finite automatically:
 
 $$
 M_q=
-\sup_{a\in A}
+\sup_{a\in\mathcal A}
 \int_q^\infty
 \left[
-y\left(\left(y-\frac{a-a_0}{\sigma^2}\right)^2-\frac1{\sigma^2}\right)
+s\left(\left(s-\frac{a-a_0}{\sigma^2}\right)^2-\frac1{\sigma^2}\right)
 \right]_+
-f(y|a),dy<\infty.
+f(s|a)\,ds<\infty.
 $$
 
 Finally,
 
 $$
-\int y f_{aa}(y|a),dy
+\int s f_{aa}(s|a)\,ds
 =
-\frac{\partial^2}{\partial a^2}E_a[y]
- =
-0,
+\frac{\partial^2}{\partial a^2}E_a[s]
+=0,
 $$
 
 because
 
 $$
-E_a[y]=\frac{a-a_0}{\sigma^2}
+E_a[s]=\frac{a-a_0}{\sigma^2}
 $$
 
-is affine. Therefore Gaussian location families satisfy the affine-score curvature condition exactly.
+is affine. Therefore Gaussian location families satisfy the affine-score curvature condition with equality.
 
 So in Gaussian-CRRA:
 
-* $\gamma\ge1$: covered by flattening, with capacity if $\gamma>1$.
+* $\gamma\ge1$: covered by flattening, with capacity if $\gamma>1$;
 * $\gamma\in(1/2,1)$: covered by asymptotic affinity because the affine-score term contributes zero curvature.
-
-This matches the numerical observation that $\gamma\in(1/2,1)$ does well.
 
 ---
 
-## 9. CRRA corollary
-
-The CRRA corollary should probably be stated in two branches.
+## 10. CRRA corollary
 
 For CRRA,
 
@@ -578,34 +649,29 @@ $$
 
 ### Branch 1: $\gamma\ge1$
 
-If $\gamma=1$, this is log utility and utility is unbounded. Capacity is automatic.
+If $\gamma=1$, this is log utility and utility is unbounded. Tail-safe capacity is automatic.
 
 If $\gamma>1$, utility is bounded and capacity becomes
 
 $$
-\frac{w_0^{1-\gamma}}{\gamma-1}A_q>c'(a_0).
+\frac{w_0^{1-\gamma}}{\gamma-1}A_q>c'(a_0),
 $$
 
-Then the flattening theorem applies.
+up to the exact normalization of CRRA utility in the paper. Then the flattening theorem applies.
 
 ### Branch 2: $\gamma\in(1/2,1)$
 
 Utility is unbounded, so capacity is automatic. Flattening may fail, but asymptotic affinity applies if
 
 $$
-\int y f_{aa}(y|a),dy\le0
-\quad\text{for all }a\in A,
+\int s(y)f_{aa}(y|a)\,d\nu(y)
+\le0
+\quad\text{for all }a\in\mathcal A,
 $$
 
 plus the residual and integrability conditions.
 
-For Gaussian location families,
-
-$$
-\int y f_{aa}(y|a),dy=0,
-$$
-
-so all CRRA coefficients
+For Gaussian location families, this integral is zero, so all CRRA coefficients
 
 $$
 \gamma>1/2
@@ -613,17 +679,11 @@ $$
 
 are covered.
 
-We should not make a broad claim for $\gamma\le1/2$. For those values, the nonlinear residual need not vanish because
-
-$$
-\tilde\mu^2 |g''(\lambda)|
-$$
-
-may fail to go to zero.
+Do not make a broad claim for $\gamma\le1/2$. For those values, the nonlinear residual need not vanish.
 
 ---
 
-## 10. CARA corollary
+## 11. CARA corollary
 
 For CARA,
 
@@ -634,16 +694,16 @@ $$
 so
 
 $$
-u(\infty)-u(0)=\frac{e^{-\alpha w_0}}{\alpha},
+\bar u-u(0)=\frac{e^{-\alpha w_0}}{\alpha},
 $$
 
 and
 
 $$
-g'(z)=\frac{1}{\alpha z^2}.
+g'(z)=\frac1{\alpha z^2}.
 $$
 
-Thus CARA is covered by the flattening theorem under the capacity condition
+CARA is covered by the flattening theorem under the capacity condition
 
 $$
 \frac{e^{-\alpha w_0}}{\alpha}A_q>c'(a_0).
@@ -659,21 +719,25 @@ This is conservative but clean. It explains why bounded CARA can still work: the
 
 ---
 
-## 11. Proposed revised organization of the proof
+## 12. Proposed organization of the revised proof
 
-A good revised proof section could be structured as follows:
+A good revised proof section could be structured as follows.
 
-### A. Score normalization
+### A. Common measure and score notation
 
-Normalize $S(y|a_0)=y$. Prove invariance of $f_{aa}>0$ under the transformation.
+Use $s(y)=S(y|a_0)$ and score cutoff sets $\{s\le q\}$. Avoid relying on an inverse score map.
 
 ### B. Tail-safe cutoffs and kink lemma
 
-Define $q$, $A_q$, $\mu_q(\lambda)$, and $I(\lambda,\mu)$. Prove the kink lemma and the sufficient condition $[g(\lambda)-u(0)]A_q\ge c'(a_0)$.
+Define $q$, $A_q$, $\mu_q(\lambda)$, and $I(\lambda,\mu)$. Prove the kink lemma and the sufficient condition
+
+$$
+[g(\lambda)-u(0)]A_q\ge c'(a_0).
+$$
 
 ### C. Finite-$\lambda$ concavity criterion
 
-Define $M_q$. Prove the finite-$\lambda$ proposition with conditions $K$ and $P$.
+Define $M_q$. Prove the finite-$\lambda$ criterion with conditions (K) and (P).
 
 ### D. High-reservation theorem I: flattening
 
@@ -684,13 +748,14 @@ Use capacity and $\tilde\mu g'(z_q)\to0$ to prove concavity. Provide primitive s
 State conditions under which
 
 $$
-V(y)=g(\lambda)+\tilde\mu g'(\lambda)y+o(1)
+V(y)=g(\lambda)+\tilde\mu g'(\lambda)s(y)+o(1)
 $$
 
-in the (f_{aa})-weighted sense. Add the affine-score curvature condition
+in the $f_{aa}$-weighted sense. Add affine-score curvature:
 
 $$
-\int y f_{aa}(y|a),dy\le0.
+\int s(y)f_{aa}(y|a)\,d\nu(y)
+\le0.
 $$
 
 Conclude concavity. Use this to cover CRRA $\gamma\in(1/2,1)$, especially Gaussian location families.
@@ -703,36 +768,28 @@ State clean corollaries for:
 2. CARA;
 3. CRRA $\gamma\ge1$;
 4. CRRA $\gamma\in(1/2,1)$ under affine-score concavity;
-5. Gaussian location family, which satisfies the affine-score condition with equality.
+5. Gaussian location families.
 
 ---
 
-## 12. Main conceptual improvement
+## 13. Main conceptual improvement
 
 The original proof had one asymptotic mechanism:
 
 $$
-\text{the no-pay region vanishes / kink goes to }-\infty,
-\quad
-\text{and the paid-region curvature becomes small}.
+\text{the no-pay region moves to the far left tail, and the paid-region curvature becomes small.}
 $$
 
 The revised proof separates the logic into sharper components:
 
 $$
-\boxed{
-\text{left-tail no-pay region contributes negatively}
-}
+\boxed{\text{low-score no-pay states contribute negatively}}
 $$
 
-once the kink is left of a tail-safe cutoff;
+once the kink is below a tail-safe cutoff, and
 
 $$
-\boxed{
-\text{positive part is controlled either by flattening or asymptotic affinity}
-}
+\boxed{\text{the remaining positive part is controlled by flattening or asymptotic affinity.}}
 $$
 
-depending on the utility function.
-
-This is both more general and more informative. It handles bounded utility through a capacity condition. It also explains why CRRA $\gamma\in(1/2,1)$ can work numerically: the contract is not flat, but it is asymptotically affine, and affine score contracts are harmless in Gaussian location families.
+This is more general and more informative. It handles bounded utility through a capacity condition, includes discrete output through score cutoff sets, and explains why CRRA $\gamma\in(1/2,1)$ can work in Gaussian examples: the contract is not flat, but it is asymptotically affine, and affine score contracts are harmless when expected score is concave in action.
