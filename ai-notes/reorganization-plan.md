@@ -22,8 +22,8 @@ Add convention:
 Introduce:
 
 * initial wealth $w_0$;
-* payment contract $x(y)\ge0$;
-* final wealth contract $W(y)=w_0+x(y)$;
+* payment contract $w(y)\ge0$;
+* final wealth contract $W(y)=w_0+w(y)$;
 * utility over final wealth $u(W)$;
 * effort cost $c(a)$.
 
@@ -41,7 +41,7 @@ Define:
 * $\bar u=\lim_{W\to\infty}u(W)$;
 * $\Delta u=\bar u-\underline u$;
 * $k=u^{-1}$;
-* payment induced by utility contract: $k(v(y))-w_0$.
+* payment induced by utility contract: $w(y)=k(v(y))-w_0$.
 
 ### Definition: Agent utility and compensation cost
 
@@ -150,30 +150,32 @@ This is the first analytical section. It solves the relaxed problem before discu
 Define:
 
 * $m_0=1/u'(w_0)$;
-* $h(z)=(k')^{-1}(z)$;
-* $g(z)=h(z\vee m_0)$.
+* the unconstrained wealth link $L_0(z)=(u')^{-1}(1/z)$;
+* the limited-liability wealth link $L(z)=L_0(z\vee m_0)$;
+* the utility link $\ell(z)=u(L(z))$.
 
 Explain:
 
-* $h$ is the unconstrained inverse marginal-cost map;
-* $g$ adds the limited-liability floor.
+* $L$ maps a marginal-cost index into final wealth;
+* $\ell$ maps the same index into delivered utility;
+* the truncation $z\vee m_0$ imposes limited liability.
 
 ### Definition: Canonical contract
 
 Define:
 
 $$
-V(y|\lambda,\mu)=g(\lambda+\mu S(y|a_0)).
+W(y|\lambda,\mu)=L(\lambda+\mu S(y|a_0)).
 $$
 
-Also define associated final wealth and payment:
+Also define associated utility and payment contracts:
 
 $$
-W(y|\lambda,\mu)=k(V(y|\lambda,\mu)),
+V(y|\lambda,\mu)=\ell(\lambda+\mu S(y|a_0)),
 $$
 
 $$
-x(y|\lambda,\mu)=k(V(y|\lambda,\mu))-w_0.
+w(y|\lambda,\mu)=L(\lambda+\mu S(y|a_0))-w_0.
 $$
 
 ### Proposition 1: Relaxed optimal contract
@@ -284,13 +286,13 @@ for all $a$ and all $y$ with $s(y)\le q$.
 ### Definition: Low-score set
 
 $$
-L_q=\{y:s(y)\le q\}.
+B_q=\{y:s(y)\le q\}.
 $$
 
 ### Definition: Low-score incentive capacity
 
 $$
-A_q=-\int_{L_q}s(y)f(y|a_0)\,d\nu(y).
+A_q=-\int_{B_q}s(y)f(y|a_0)\,d\nu(y).
 $$
 
 ### Assumption: Tail-safe capacity
@@ -310,7 +312,7 @@ $$
 ### Definition: Incentive functional
 
 $$
-I(\lambda,\mu)=\int g(\lambda+\mu s(y))s(y)f(y|a_0)\,d\nu(y).
+I(\lambda,\mu)=\int \ell(\lambda+\mu s(y))s(y)f(y|a_0)\,d\nu(y).
 $$
 
 ### Lemma 2: Kink lemma
@@ -334,8 +336,8 @@ Tail-safe capacity implies that, for all sufficiently high feasible reservation 
 For the LIC path, define
 
 $$
-\Delta g(y|\lambda)=
-\frac{g(\lambda+\tilde\mu(\lambda)s(y))-g(\lambda)}
+\Delta \ell(y|\lambda)=
+\frac{\ell(\lambda+\tilde\mu(\lambda)s(y))-\ell(\lambda)}
 {\tilde\mu(\lambda)s(y)}.
 $$
 
@@ -347,7 +349,7 @@ $$
 U_{aa}(V(\cdot|\lambda,\tilde\mu(\lambda)),a)
 =
 \tilde\mu(\lambda)
-\int \Delta g(y|\lambda)s(y)f_{aa}(y|a)\,d\nu(y)
+\int \Delta \ell(y|\lambda)s(y)f_{aa}(y|a)\,d\nu(y)
 -c''(a).
 $$
 
@@ -372,7 +374,7 @@ If:
 3. the positive paid-region bound satisfies
 
 $$
-\tilde\mu(\lambda)g'(\lambda+\tilde\mu(\lambda)q)M_q\le \underline c'',
+\tilde\mu(\lambda)\ell'(\lambda+\tilde\mu(\lambda)q)M_q\le \underline c'',
 $$
 
 then
@@ -400,7 +402,7 @@ If:
 3. along the LIC path,
 
 $$
-\tilde\mu(\lambda)g'(\lambda+\tilde\mu(\lambda)q)\to0,
+\tilde\mu(\lambda)\ell'(\lambda+\tilde\mu(\lambda)q)\to0,
 $$
 
 then the agent's problem is concave for all sufficiently high feasible reservation utilities.
@@ -473,7 +475,7 @@ is concave.
 State the weighted residual condition:
 
 $$
-\int [g(\lambda+\tilde\mu s)-g(\lambda)-\tilde\mu g'(\lambda)s]f_{aa}\,d\nu\to0
+\int [\ell(\lambda+\tilde\mu s)-\ell(\lambda)-\tilde\mu \ell'(\lambda)s]f_{aa}\,d\nu\to0
 $$
 
 uniformly in $a$.
@@ -556,9 +558,9 @@ For each utility, list:
 
 1. $u(W)$;
 2. $k(v)$;
-3. $h(z)=(k')^{-1}(z)$;
-4. $g(z)=h(z\vee m_0)$;
-5. induced payment $x(y)=k(g(\lambda+\mu S))-w_0$;
+3. wealth link $L(z)$;
+4. utility link $\ell(z)=u(L(z))$;
+5. induced payment $w(y)=L(\lambda+\mu S)-w_0$;
 6. utility spread $\Delta u$.
 
 ### Distribution table
@@ -601,7 +603,7 @@ Definitions/results to include:
 3. algorithm for full problem when FOA fails;
 4. computational complexity discussion.
 
-Notation should use payment $x(y)$ and final wealth $W(y)$ in exposition, with utility contracts $v(y)$ in formulas where useful.
+Notation should use payment $w(y)$ and final wealth $W(y)$ in exposition, with utility contracts $v(y)$ in formulas where useful.
 
 ---
 
@@ -630,7 +632,7 @@ Emphasize:
 3. relation to failures of FOA at low reservation utility;
 4. why existing global sufficient conditions are restrictive.
 
-If desired, include a historical note that Jewitt denotes $(k')^{-1}$ by $\omega$, but the paper uses $h$ for transparency.
+If desired, include a historical note that Jewitt denotes $(k')^{-1}$ by $\omega$, while the paper uses the wealth link $L$ and utility link $\ell$ for transparency.
 
 ---
 
@@ -704,12 +706,12 @@ Full technical proofs of Sections 8 and 9.
 
 Definitions/results:
 
-1. $L_q$, $A_q$, $I(\lambda,\mu)$, $\mu_q(\lambda)$.
+1. $B_q$, $A_q$, $I(\lambda,\mu)$, $\mu_q(\lambda)$.
 2. Lemma: monotonicity of $I$ in $\mu$.
 3. Lemma: kink comparison.
 4. Lemma: capacity implies eventual kink placement.
 5. Lemma: curvature formula with secant slope.
-6. Lemma: secant slope bound from concavity of $g$.
+6. Lemma: secant slope bound from concavity of $\ell$.
 7. Proposition: finite-$\lambda$ concavity criterion.
 
 ---
@@ -752,7 +754,7 @@ Move or keep current supplementary derivations here, depending on journal length
 Include:
 
 1. utility functions with separated $w_0$;
-2. link functions $h$ and $g$;
+2. wealth and utility links $L$ and $\ell$;
 3. payment formulas;
 4. distribution scores;
 5. Gaussian calculations;

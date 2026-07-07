@@ -174,6 +174,7 @@ $$
 ### Recommendation
 
 * Use $w(y)$ or $W(y)$ in the model and intuition.
+* Do not introduce a separate payment symbol such as $x(y)$; reserve lowercase $w$ for payments and uppercase $W$ for final wealth.
 * Introduce $v(y)=u(W(y))$ before solving the relaxed problem.
 * State the canonical formula in final-wealth units using the wealth link $L$, then give the equivalent utility-contract formula using the utility link $\ell$.
 
@@ -472,6 +473,8 @@ For a score cutoff $q<0$, define the bad-score set
 $$
 B_q:=\{y\in\mathcal Y:s(y)\le q\}.
 $$
+
+Use $B_q$, not $L_q$, to avoid conflict with the wealth link $L$.
 
 Define
 
