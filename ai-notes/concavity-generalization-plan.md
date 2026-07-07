@@ -269,25 +269,33 @@ This proposition is useful because it is quantitative and applies to both contin
 
 ---
 
-## 6. High-reservation theorem via flattening
+## 6. High-reservation theorem via strong flattening
 
-The first high-reservation theorem uses the finite-$\lambda$ criterion and shows that condition (P) eventually holds because the paid-region contract becomes flat enough.
+The first high-reservation theorem uses the finite-$\lambda$ criterion and verifies condition (P) from primitive utility curvature. This route covers bounded utilities such as CARA and CRRA with $\gamma>1$.
+
+Use two cutoffs
+
+$$
+t<q<0.
+$$
+
+The stricter cutoff $t$ supplies capacity and controls the growth of $\tilde\mu(\lambda)$; the cutoff $q$ defines the paid-region curvature bound $M_q$.
 
 Assumptions:
 
-1. There exists a tail-safe cutoff $q<0$ with $M_q<\infty$.
-2. Tail-safe capacity holds:
+1. $q$ is tail-safe and $M_q<\infty$.
+2. Tail-safe capacity holds at the stricter cutoff $t$:
 
 $$
-[\bar u-\underline u]A_q>c'(a_0).
-\tag{Cap-q}
+[\bar u-\underline u]A_t>c'(a_0).
+\tag{Cap-t}
 $$
 
-3. Along the LIC path,
+3. The utility link strongly flattens:
 
 $$
-\tilde\mu(\lambda)\ell'(\lambda+\tilde\mu(\lambda)q)\to0.
-\tag{Flat}
+z\ell'(z)\to0.
+\tag{StrongFlat}
 $$
 
 Then the finite-$\lambda$ criterion implies that, for all sufficiently large $\lambda$,
@@ -303,100 +311,99 @@ Using generalized Proposition 1, this implies FOA validity:
 * if $\bar u=\infty$, for all sufficiently high $\bar U$;
 * if $\bar u<\infty$, for all $\bar U$ sufficiently close to $\bar U_R$ from below.
 
-### Bounded-utility step-contract argument
+### Linear-growth argument from the stricter cutoff
 
-For bounded utility, capacity implies that the cutoff marginal-cost index at $q$ diverges:
-
-$$
-z_q(\lambda):=\lambda+\tilde\mu(\lambda)q\to\infty.
-$$
-
-Proof idea. Fix $\rho>m_0$ and define
+Capacity at $t$ and the kink lemma imply that, for all large $\lambda$,
 
 $$
-\mu_{q,\rho}(\lambda):=\frac{\rho-\lambda}{q}.
+\bar s(\lambda,\tilde\mu(\lambda))\le t.
 $$
 
-This puts score $q$ at scalar marginal-cost index $\rho$:
-
-$$
-\lambda+\mu_{q,\rho}(\lambda)q=\rho.
-$$
-
-As $\lambda\to\infty$, the contract
-
-$$
-\ell(\lambda+\mu_{q,\rho}(\lambda)s(y))
-$$
-
-converges pointwise to the step contract that gives $\underline u$ on $\{s<q\}$ and $\bar u$ on $\{s>q\}$, with the boundary $s=q$ receiving $\ell(\rho)$. To avoid boundary clutter, choose $q$ away from score atoms; in discrete applications this means choosing $q$ between adjacent score values. Then the limiting incentive is
-
-$$
-[\bar u-\underline u]A_q.
-$$
-
-If there is an atom at $s=q$, use a nearby cutoff and the strict slack in capacity. By strict capacity, the limiting incentive exceeds $c'(a_0)$. Hence for large $\lambda$, the trial multiplier $\mu_{q,\rho}(\lambda)$ gives too much incentive. Since $I$ is increasing in $\mu$, the true multiplier satisfies
+Equivalently,
 
 $$
 \tilde\mu(\lambda)
 \le
-\mu_{q,\rho}(\lambda).
+\frac{m_0-\lambda}{t}=O(\lambda),
 $$
 
-Because $q<0$, this implies
-
-$$
-z_q(\lambda)=\lambda+\tilde\mu(\lambda)q
-\ge \rho.
-$$
-
-Since $\rho$ is arbitrary, $z_q(\lambda)\to\infty$.
-
-To get linear growth of $z_q$ when needed, choose a stricter cutoff $t<q<0$ that also satisfies capacity. Applying the kink lemma at $t$ gives, for large $\lambda$,
-
-$$
-\tilde\mu(\lambda)
-\le
-\frac{m_0-\lambda}{t}=O(\lambda).
-$$
-
-Then
+because $t<0$. Since $q<0$, this gives
 
 $$
 z_q(\lambda)
-=
+:=
 \lambda+\tilde\mu(\lambda)q
 \ge
 \lambda+\frac{m_0-\lambda}{t}q
 \sim
-\lambda\left(1-\frac{q}{t}\right),
+\lambda\left(1-\frac{q}{t}\right).
 $$
 
-which is positive and linear because $t<q<0$.
-
-### Utilities covered by flattening
-
-* **Log utility:** $\ell'(z)=1/z$. In the unbounded case, one needs a separate vanishing-ratio lemma, $\tilde\mu/\lambda\to0$; capacity and kink placement alone do not imply it. With that lemma,
+The coefficient is positive because $t<q<0$. Thus $z_q(\lambda)$ grows at least linearly and $\tilde\mu(\lambda)=O(\lambda)$. Under $z\ell'(z)\to0$,
 
 $$
-\tilde\mu \ell'(\lambda+\tilde\mu q)
-\sim
-\tilde\mu/\lambda\to0.
+\tilde\mu(\lambda)\ell'(z_q(\lambda))\to0,
 $$
 
-* **CARA:** $\ell'(z)=1/(\alpha z^2)$. Under capacity, $z_q$ grows at least linearly and $\tilde\mu=O(\lambda)$, so
+so condition (P) eventually holds.
+
+### Utilities covered by strong flattening
+
+* **CARA:** $\ell'(z)=1/(\alpha z^2)$, so
 
 $$
-\tilde\mu \ell'(z_q)=O(\lambda/\lambda^2)\to0.
+z\ell'(z)=\frac1{\alpha z}\to0.
 $$
 
-* **CRRA with $\gamma>1$:** $\ell'(z)=\frac1\gamma z^{1/\gamma-2}$. Under capacity, $z_q\ge\delta\lambda$ and $\tilde\mu=O(\lambda)$, so
+* **CRRA with $\gamma>1$:** $\ell'(z)=\frac1\gamma z^{1/\gamma-2}$, so
 
 $$
-\tilde\mu \ell'(z_q)=O(\lambda^{1/\gamma-1})\to0.
+z\ell'(z)=\frac1\gamma z^{1/\gamma-1}\to0.
 $$
 
-Thus the flattening route covers log, CARA, and bounded CRRA with $\gamma>1$.
+Log utility is not a strongly flattening case. For log, $\ell'(z)=1/z$ and $z\ell'(z)=1$, so log requires either the old unbounded-left-score argument giving $\tilde\mu(\lambda)/\lambda\to0$, or a direct finite-$\lambda$ bound. See the next subsection.
+
+### Borderline log case
+
+For log utility,
+
+$$
+\ell'(z)=\frac1z.
+$$
+
+The paid-region term in the master criterion is
+
+$$
+\tilde\mu(\lambda)\ell'(\lambda+\tilde\mu(\lambda)q)
+=
+\frac{\tilde\mu(\lambda)}{\lambda+\tilde\mu(\lambda)q}.
+$$
+
+There are two ways to handle this borderline case.
+
+1. **Unbounded-left-score route.** If the negative score tail is unbounded and $A_t>0$ for arbitrarily negative $t$, then log utility's unbounded utility spread makes capacity automatic at each such $t$. The kink lemma gives $\bar s(\lambda)\to-\infty$, hence
+
+$$
+\frac{\tilde\mu(\lambda)}{\lambda}\to0,
+$$
+
+and the paid-region term vanishes.
+
+2. **Finite-bound route.** If the score is bounded below, log can still be covered by the master finite-$\lambda$ criterion, but not automatically. Capacity at $t<q<0$ gives the primitive bound
+
+$$
+\frac{\tilde\mu(\lambda)}{\lambda+\tilde\mu(\lambda)q}
+\lesssim
+\frac1{q-t}.
+$$
+
+Thus it is enough, conservatively, that
+
+$$
+\frac{M_q}{q-t}<\underline c''.
+$$
+
+This route covers bounded-below score models when the paid-region positive curvature is small enough relative to effort-cost curvature.
 
 ---
 
@@ -645,7 +652,8 @@ is affine. Therefore Gaussian location families satisfy the affine-score curvatu
 
 So in Gaussian-CRRA:
 
-* $\gamma\ge1$: covered by flattening, with capacity if $\gamma>1$;
+* $\gamma>1$: covered by strong flattening, with capacity at a stricter cutoff $t<q$;
+* $\gamma=1$ (log): covered either by the unbounded-left-score route or by the finite-bound route;
 * $\gamma\in(1/2,1)$: covered by asymptotic affinity because the affine-score term contributes zero curvature.
 
 ---
@@ -658,17 +666,19 @@ $$
 \ell'(z)=\frac1\gamma z^{1/\gamma-2}.
 $$
 
-### Branch 1: $\gamma\ge1$
+### Branch 1: $\gamma>1$
 
-If $\gamma=1$, this is log utility and utility is unbounded. Tail-safe capacity is automatic.
-
-If $\gamma>1$, utility is bounded and capacity becomes
+If $\gamma>1$, utility is bounded and capacity at the stricter cutoff $t<q<0$ becomes
 
 $$
-\frac{w_0^{1-\gamma}}{\gamma-1}A_q>c'(a_0),
+\frac{w_0^{1-\gamma}}{\gamma-1}A_t>c'(a_0),
 $$
 
-up to the exact normalization of CRRA utility in the paper. Then the flattening theorem applies.
+up to the exact normalization of CRRA utility in the paper. Then the strong-flattening theorem applies because $z\ell'(z)\to0$.
+
+### Branch 1b: $\gamma=1$ / log
+
+If $\gamma=1$, this is log utility and utility is unbounded. Capacity is automatic at any cutoff with $A_t>0$, but log is only borderline flattening because $z\ell'(z)=1$. Therefore log requires either the unbounded-left-score route, which gives $\tilde\mu/\lambda\to0$, or the finite-bound route based on the master criterion.
 
 ### Branch 2: $\gamma\in(1/2,1)$
 
@@ -714,16 +724,16 @@ $$
 \ell'(z)=\frac1{\alpha z^2}.
 $$
 
-CARA is covered by the flattening theorem under the capacity condition
+CARA is covered by the strong-flattening theorem under the capacity condition at a stricter cutoff $t<q<0$:
 
 $$
-\frac{e^{-\alpha w_0}}{\alpha}A_q>c'(a_0).
+\frac{e^{-\alpha w_0}}{\alpha}A_t>c'(a_0).
 $$
 
 For Gaussian output, this becomes
 
 $$
-\frac{e^{-\alpha w_0}}{\alpha\sigma}\varphi(\sigma q)>c'(a_0).
+\frac{e^{-\alpha w_0}}{\alpha\sigma}\varphi(\sigma t)>c'(a_0).
 $$
 
 This is conservative but clean. It explains why bounded CARA can still work: the maximum utility spread must be large enough to generate incentives, and once it is, the paid-region slope vanishes quickly enough.
@@ -750,9 +760,9 @@ $$
 
 Define $M_q$. Prove the finite-$\lambda$ criterion with conditions (K) and (P).
 
-### D. High-reservation theorem I: flattening
+### D. High-reservation theorem I: strong flattening and log borderline
 
-Use capacity and $\tilde\mu \ell'(z_q)\to0$ to prove concavity. Provide primitive sufficient conditions covering log, CARA, and CRRA $\gamma>1$.
+Use two cutoffs $t<q<0$. Capacity at $t$ gives $\tilde\mu=O(\lambda)$ and $z_q(\lambda)\ge\delta\lambda$. Then $z\ell'(z)\to0$ proves concavity for CARA and CRRA $\gamma>1$. Treat log separately as the borderline case $z\ell'(z)=1$, using either unbounded left score support or the finite-bound condition from the master criterion.
 
 ### E. High-reservation theorem II: asymptotic affinity
 
@@ -777,9 +787,10 @@ State clean corollaries for:
 
 1. log utility;
 2. CARA;
-3. CRRA $\gamma\ge1$;
-4. CRRA $\gamma\in(1/2,1)$ under affine-score concavity;
-5. Gaussian location families.
+3. CRRA $\gamma>1$;
+4. log utility as the borderline CRRA $\gamma=1$ case;
+5. CRRA $\gamma\in(1/2,1)$ under affine-score concavity;
+6. Gaussian location families.
 
 ---
 
@@ -803,4 +814,4 @@ $$
 \boxed{\text{the remaining positive part is controlled by flattening or asymptotic affinity.}}
 $$
 
-This is more general and more informative. It handles bounded utility through a capacity condition, includes discrete output through score cutoff sets, and explains why CRRA $\gamma\in(1/2,1)$ can work in Gaussian examples: the contract is not flat, but it is asymptotically affine, and affine score contracts are harmless when expected score is concave in action.
+This is more general and more informative. It handles bounded utility through capacity plus strong flattening, treats log as the borderline case, includes discrete output through score cutoff sets, and explains why CRRA $\gamma\in(1/2,1)$ can work in Gaussian examples: the contract is not flat, but it is asymptotically affine, and affine score contracts are harmless when expected score is concave in action.
