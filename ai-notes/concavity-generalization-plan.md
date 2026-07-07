@@ -26,6 +26,8 @@ $$
 m_0:=\frac1{u'(w_0)}.
 $$
 
+Maintain throughout this note that the utility link $\ell$ is nondecreasing and concave on the nonbinding region. At the limited-liability kink, interpret $\ell'$ as the relevant one-sided upper derivative when needed.
+
 The limited-liability floor binds exactly when
 
 $$
@@ -303,52 +305,52 @@ Using generalized Proposition 1, this implies FOA validity:
 
 ### Bounded-utility step-contract argument
 
-For bounded utility, capacity implies that the cutoff utility level at $q$ diverges:
+For bounded utility, capacity implies that the cutoff marginal-cost index at $q$ diverges:
 
 $$
 z_q(\lambda):=\lambda+\tilde\mu(\lambda)q\to\infty.
 $$
 
-Proof idea. Fix $R>m_0$ and define
+Proof idea. Fix $\rho>m_0$ and define
 
 $$
-\mu_{q,R}(\lambda):=\frac{R-\lambda}{q}.
+\mu_{q,\rho}(\lambda):=\frac{\rho-\lambda}{q}.
 $$
 
-This puts score $q$ at scalar marginal-cost index $R$:
+This puts score $q$ at scalar marginal-cost index $\rho$:
 
 $$
-\lambda+\mu_{q,R}(\lambda)q=R.
+\lambda+\mu_{q,\rho}(\lambda)q=\rho.
 $$
 
 As $\lambda\to\infty$, the contract
 
 $$
-\ell(\lambda+\mu_{q,R}(\lambda)s(y))
+\ell(\lambda+\mu_{q,\rho}(\lambda)s(y))
 $$
 
-converges pointwise to the step contract that gives $\underline u$ on $\{s<q\}$ and $\bar u$ on $\{s>q\}$, with the boundary $s=q$ receiving $\ell(R)$. To avoid boundary clutter, choose $q$ away from score atoms; in discrete applications this means choosing $q$ between adjacent score values. Then the limiting incentive is
+converges pointwise to the step contract that gives $\underline u$ on $\{s<q\}$ and $\bar u$ on $\{s>q\}$, with the boundary $s=q$ receiving $\ell(\rho)$. To avoid boundary clutter, choose $q$ away from score atoms; in discrete applications this means choosing $q$ between adjacent score values. Then the limiting incentive is
 
 $$
 [\bar u-\underline u]A_q.
 $$
 
-If there is an atom at $s=q$, use a nearby cutoff and the strict slack in capacity. By strict capacity, the limiting incentive exceeds $c'(a_0)$. Hence for large $\lambda$, the trial multiplier $\mu_{q,R}(\lambda)$ gives too much incentive. Since $I$ is increasing in $\mu$, the true multiplier satisfies
+If there is an atom at $s=q$, use a nearby cutoff and the strict slack in capacity. By strict capacity, the limiting incentive exceeds $c'(a_0)$. Hence for large $\lambda$, the trial multiplier $\mu_{q,\rho}(\lambda)$ gives too much incentive. Since $I$ is increasing in $\mu$, the true multiplier satisfies
 
 $$
 \tilde\mu(\lambda)
 \le
-\mu_{q,R}(\lambda).
+\mu_{q,\rho}(\lambda).
 $$
 
 Because $q<0$, this implies
 
 $$
 z_q(\lambda)=\lambda+\tilde\mu(\lambda)q
-\ge R.
+\ge \rho.
 $$
 
-Since $R$ is arbitrary, $z_q(\lambda)\to\infty$.
+Since $\rho$ is arbitrary, $z_q(\lambda)\to\infty$.
 
 To get linear growth of $z_q$ when needed, choose a stricter cutoff $t<q<0$ that also satisfies capacity. Applying the kink lemma at $t$ gives, for large $\lambda$,
 
@@ -374,7 +376,7 @@ which is positive and linear because $t<q<0$.
 
 ### Utilities covered by flattening
 
-* **Log utility:** $\ell'(z)=1/z$. In the unbounded case, the old argument gives $\tilde\mu/\lambda\to0$, so
+* **Log utility:** $\ell'(z)=1/z$. In the unbounded case, one needs a separate vanishing-ratio lemma, $\tilde\mu/\lambda\to0$; capacity and kink placement alone do not imply it. With that lemma,
 
 $$
 \tilde\mu \ell'(\lambda+\tilde\mu q)
@@ -510,7 +512,7 @@ $$
 \sup_{z\ge \lambda/2}\frac{z|\ell''(z)|}{\ell'(z)}<\infty,
 $$
 
-and uniform integrability of $s(y)^2 f_{aa}(y|a)$ over $a\in\mathcal A$.
+and uniform integrability of $s(y)^2 |f_{aa}(y|a)|$ over $a\in\mathcal A$.
 
 Taylor's theorem gives, on the central region,
 
