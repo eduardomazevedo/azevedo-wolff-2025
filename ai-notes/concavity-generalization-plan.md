@@ -50,36 +50,73 @@ This notation avoids assuming that the output support is an interval or that the
 
 ---
 
-## 2. Tail-safe score cutoffs
+## 2. Tail-safe score interval, boundary, and capacity
 
-A **tail-safe cutoff** is a number $q<0$ such that
+A **tail-safe cutoff** is a number $q\le0$ such that
 
 $$
-f_{aa}(y|a)>0
+f_{aa}(y|a)\ge0
 \quad\text{for all }a\in\mathcal A
 \quad\text{and all }y\in\mathcal Y\text{ with }s(y)\le q.
 \tag{TS}
 $$
 
-The condition $q<0$ ensures that score is negative on the low-score region. The condition $f_{aa}>0$ on that region ensures that the low-score, zero-payment contribution to $U_{aa}$ is nonpositive.
+Use the weak inequality $s(y)\le q$ because this matches the limited-liability no-payment region exactly. The condition $q\le0$ ensures that score is nonpositive on the low-score region. The condition $f_{aa}\ge0$ on that region ensures that the low-score, zero-payment contribution to $U_{aa}$ is nonpositive.
 
-Define the bad-score set
+Let
+
+$$
+\mathcal Q_{\mathrm{safe}}
+:=
+\{q\le0:q\text{ is tail-safe}\}.
+$$
+
+The set $\mathcal Q_{\mathrm{safe}}$ is a lower interval in score space: if $q$ is tail-safe, then every $q'<q$ is tail-safe. Define its right endpoint by
+
+$$
+\bar q_{\mathrm{safe}}
+:=
+\sup \mathcal Q_{\mathrm{safe}},
+$$
+
+with the convention that $\bar q_{\mathrm{safe}}=-\infty$ if $\mathcal Q_{\mathrm{safe}}=\varnothing$.
+
+For any cutoff $q\le0$, define the low-score set
 
 $$
 B_q:=\{y\in\mathcal Y:s(y)\le q\}.
 $$
 
-Define
+Use the auxiliary notation
 
 $$
-A_q:=-\int_{B_q}s(y)f(y|a_0)\,d\nu(y)>0.
+A_q:=-\int_{B_q}s(y)f(y|a_0)\,d\nu(y)\ge0.
 $$
+
+for the incentive capacity up to cutoff $q$. Capacity is monotone in the cutoff. If $q_1<q_2\le0$, then
+
+$$
+A_{q_2}-A_{q_1}
+=
+-\int_{\{q_1<s(y)\le q_2\}}s(y)f(y|a_0)\,d\nu(y)
+\ge0.
+$$
+
+The primitive capacity object for theorem statements is the safe-tail capacity
+
+$$
+A_{\mathrm{safe}}
+:=
+\sup_{q\in\mathcal Q_{\mathrm{safe}}}A_q.
+$$
+
+Thus $A_q$ is proof and example notation; $A_{\mathrm{safe}}$ is the primitive theorem-level quantity. In continuous score models with the relevant continuity, this equals capacity at the right endpoint. The supremum formulation handles score gaps and atoms without endpoint cases.
 
 ---
 
-## 3. Kink lemma: getting the floor region below a tail-safe cutoff
+## 3. Kink placement lemma
 
-For fixed $\lambda>m_0$ and tail-safe $q<0$, define
+For fixed $\lambda>m_0$ and a negative tail-safe cutoff $q<0$, define
 
 $$
 \mu_q(\lambda):=\frac{m_0-\lambda}{q}>0.
@@ -113,59 +150,58 @@ $$
 
 $I(\lambda,\mu)$ is increasing in $\mu$.
 
-**Kink lemma.** If
-
-$$
-I(\lambda,\mu_q(\lambda))\ge c'(a_0),
-\tag{K}
-$$
-
-then
-
-$$
-\bar s(\lambda,\tilde\mu(\lambda))\le q.
-$$
-
-Equivalently, the zero-payment region is contained in the tail-safe low-score region:
-
-$$
-\{y:s(y)\le \bar s(\lambda,\tilde\mu(\lambda))\}
-\subseteq
-B_q.
-$$
-
-A useful sufficient condition for (K) is obtained from $E_{a_0}[s(Y)]=0$. At $\mu=\mu_q(\lambda)$, states with $s\le q$ receive utility $\underline u$, while states with $s>q$ receive at least $\ell(\lambda)$ if $s\ge0$. The crude lower bound is
-
-$$
-I(\lambda,\mu_q(\lambda))
-\ge
-[\ell(\lambda)-\underline u]A_q.
-$$
-
-Thus it suffices that
-
-$$
-[\ell(\lambda)-\underline u]A_q\ge c'(a_0).
-\tag{K'}
-$$
-
-At the limiting level this becomes the tail-safe capacity condition
+**Kink placement lemma.** Fix a negative tail-safe cutoff $q<0$. If
 
 $$
 [\bar u-\underline u]A_q>c'(a_0),
 \tag{Cap-q}
 $$
 
-where
+then, for all sufficiently large $\lambda$, the kink score is below $q$:
 
 $$
-\bar u:=\lim_{W\to\infty}u(W)\le\infty,
-\qquad \underline u:=u(w_0).
+\bar s(\lambda,\tilde\mu(\lambda))\le q.
 $$
 
-If $\bar u=\infty$, this condition is automatic for any $q$ with $A_q>0$. If $\bar u<\infty$, it says that the maximum utility spread across the low-score cutoff is enough to generate the required local incentive.
+Moreover,
 
-This capacity condition is stronger than the implementability condition used for Proposition 1. Proposition 1 only needs enough total utility spread to satisfy LIC; concavity needs enough incentive power while placing the no-pay region inside a tail-safe low-score set.
+$$
+\tilde\mu(\lambda)
+\le
+\mu_q(\lambda)
+=
+\frac{m_0-\lambda}{q}
+=O(\lambda).
+$$
+
+Proof logic: since $\ell(\lambda)\to\bar u$, strict capacity implies that, for all sufficiently large $\lambda$,
+
+$$
+[\ell(\lambda)-\underline u]A_q
+\ge c'(a_0).
+$$
+
+At $\mu=\mu_q(\lambda)$, states with $s\le q$ receive utility $\underline u$, while states with $s>q$ receive at least $\ell(\lambda)$ if $s\ge0$. Using $E_{a_0}[s(Y)]=0$ gives the crude lower bound
+
+$$
+I(\lambda,\mu_q(\lambda))
+\ge
+[\ell(\lambda)-\underline u]A_q
+\ge c'(a_0).
+$$
+
+Since $I(\lambda,\mu)$ is increasing in $\mu$, the LIC solution satisfies $\tilde\mu(\lambda)\le\mu_q(\lambda)$. Because $m_0-\lambda<0$,
+
+$$
+\bar s(\lambda,\tilde\mu(\lambda))
+=
+\frac{m_0-\lambda}{\tilde\mu(\lambda)}
+\le
+\frac{m_0-\lambda}{\mu_q(\lambda)}
+=q.
+$$
+
+If $\bar u=\infty$, this condition is automatic for any negative cutoff $q$ with $A_q>0$.
 
 ---
 
@@ -191,7 +227,7 @@ U_{aa}(V(\cdot|\lambda,\tilde\mu),a)
 \tag{Curv}
 $$
 
-Once the kink is below $q$, the zero-payment region is contained in $B_q$. On this region, $s<0$ and $f_{aa}>0$, so its contribution to the integral in (Curv) is nonpositive. Therefore, for an upper bound we can discard it.
+Once the kink is below $q\le0$, the zero-payment region is contained in $B_q$. On this region, $s\le0$ and $f_{aa}\ge0$, so its contribution to the integral in (Curv) is nonpositive. Therefore, for an upper bound we can discard it.
 
 Define the positive-part constant
 
@@ -229,7 +265,7 @@ The factor $\tilde\mu$ is important. The old proof controlled it through assumpt
 
 The first result should be a finite-$\lambda$ criterion.
 
-**Finite-$\lambda$ criterion.** Fix a tail-safe cutoff $q<0$ with $M_q<\infty$. Let $\lambda>m_0$, and let $\tilde\mu(\lambda)$ solve LIC. If
+**Finite-$\lambda$ criterion.** Fix a negative tail-safe kink cutoff $q<0$ with $M_q<\infty$. Let $\lambda>m_0$, and let $\tilde\mu(\lambda)$ solve LIC. If
 
 $$
 I(\lambda,\mu_q(\lambda))\ge c'(a_0)
@@ -269,10 +305,10 @@ $$
 \boxed{\text{paid-region positive curvature is asymptotically dominated by }c''.}
 $$
 
-**Unified asymptotic criterion.** Fix a tail-safe paid-region cutoff $q<0$ with $M_q<\infty$. Define the interior safe-capacity below $q$ by
+**Unified asymptotic criterion.** Fix a paid-region cutoff $q\in\mathcal Q_{\mathrm{safe}}$ with $M_q<\infty$. Define the interior safe-capacity below $q$ by
 
 $$
-C_q:=\sup_{r<q}A_r.
+C_q:=\sup_{\substack{r\in\mathcal Q_{\mathrm{safe}}\\ r<q}}A_r.
 $$
 
 Let $\tilde\mu(\lambda)$ solve LIC. Suppose:
@@ -307,7 +343,7 @@ U_{aa}(V(\cdot|\lambda,\tilde\mu(\lambda)),a)
 \quad\text{for all }a\in\mathcal A.
 $$
 
-Why condition (ICap-q) puts the kink in the safe tail: since the inequality is strict, there is some $t<q$ such that
+Why condition (ICap-q) puts the kink in the safe tail: since the inequality is strict, there is some $t\in\mathcal Q_{\mathrm{safe}}$ with $t<q$ and $t<0$ such that
 
 $$
 [\bar u-\underline u]A_t>c'(a_0).
@@ -319,7 +355,7 @@ $$
 [\ell(\lambda)-\underline u]A_t>c'(a_0).
 $$
 
-The kink lemma then gives
+The kink placement lemma then gives
 
 $$
 \bar s(\lambda,\tilde\mu(\lambda))\le t<q
@@ -329,9 +365,15 @@ for all sufficiently large $\lambda$. Hence the zero-payment region is safely in
 
 Using generalized Proposition 1, this implies FOA validity for the corresponding high-reservation range.
 
-This statement is often the most elegant theorem-level object. The finite-$\lambda$ criterion proves it immediately. The remaining results can be presented as verification corollaries:
+This statement is often the most elegant theorem-level object. It can also be stated using the primitive safe boundary: if
 
-* safe-tail capacity verifies (AK);
+$$
+[\bar u-\underline u]A_{\mathrm{safe}}>c'(a_0),
+$$
+
+then strictness lets the proof choose an interior capacity cutoff $t\in\mathcal Q_{\mathrm{safe}}$ with $t<0$, and then a paid-region cutoff $q\in\mathcal Q_{\mathrm{safe}}$ with $t<q$. The finite-$\lambda$ criterion proves the result immediately. The remaining results can be presented as verification corollaries:
+
+* safe-tail capacity verifies kink placement;
 * strong flattening verifies (AP) with a zero limit, covering CARA and CRRA $\gamma>1$;
 * log utility verifies (AP) through safe score width, with the unbounded-left-score case as the infinite-width limit.
 
@@ -349,13 +391,15 @@ $$
 
 The set of tail-safe cutoffs is automatically a lower interval in score space: if $q$ is tail-safe, then every $q'<q$ is tail-safe. The output set $B_q$ may jump as $q$ crosses score atoms, but that causes no conceptual problem.
 
-This is why the interior-capacity condition in the unified criterion is written as
+This is why theorem statements should use the right-limit capacity
 
 $$
-C_q=\sup_{r<q}A_r
+A_{\mathrm{safe}}
+=
+\sup_{q\in\mathcal Q_{\mathrm{safe}}}A_q
 $$
 
-rather than requiring a named cutoff $t$ in the theorem statement. In a discrete model, the proof can choose an interior capacity cutoff that includes the desired safe atom and choose $q$ between that atom and the first unsafe score. If only one low-score atom is safe, this still gives a positive safe width in score space whenever the next score is strictly larger.
+rather than requiring a named cutoff $t$ in the theorem statement. In a discrete model, the proof can choose an interior capacity cutoff that includes the desired safe atom and choose a real paid-region cutoff between that atom and the first unsafe score. If only one low-score atom is safe, this still gives a positive safe width in score space whenever the next score is strictly larger.
 
 For example, in Poisson output,
 
@@ -371,29 +415,12 @@ so adjacent scores are separated by $1/a_0$. If only $y=0$ is safe, one can use 
 
 The first high-reservation theorem uses the finite-$\lambda$ criterion and verifies condition (P) from primitive utility curvature. This route covers bounded utilities such as CARA and CRRA with $\gamma>1$.
 
-The theorem statement should not be phrased as "choose two cutoffs." The primitive distributional object is the largest low-score region in which zero-payment states are known to help concavity.
-
-Define the safe-tail boundary
-
-$$
-\bar q_{\mathrm{safe}}
-:=
-\sup\left\{
-q<0:
- f_{aa}(y|a)>0
- \text{ for all }a\in\mathcal A
- \text{ and all }y\text{ with }s(y)\le q
-\right\}.
-$$
-
-If the set is empty, set $\bar q_{\mathrm{safe}}=-\infty$. Because tail-safety is monotone in the cutoff, every $q<\bar q_{\mathrm{safe}}$ is tail-safe. In examples this object is easy to compute: it is the largest uniformly safe low-score cutoff.
+The theorem statement should not be phrased as "choose two cutoffs." The primitive distributional objects are the safe-tail boundary $\bar q_{\mathrm{safe}}$ and the safe-tail capacity $A_{\mathrm{safe}}$. In examples, $\bar q_{\mathrm{safe}}$ is easy to compute: it is the right edge of the uniformly safe low-score region.
 
 The primitive capacity condition is
 
 $$
-[\bar u-\underline u]
-\sup_{q<\bar q_{\mathrm{safe}}} A_q
->
+[\bar u-\underline u]A_{\mathrm{safe}}>
 c'(a_0).
 \tag{SafeCap}
 $$
@@ -404,7 +431,7 @@ Assume also the regularity condition
 
 $$
 M_q<\infty
-\quad\text{for every }q<\bar q_{\mathrm{safe}}.
+\quad\text{for every }q\in\mathcal Q_{\mathrm{safe}}.
 \tag{SafeReg}
 $$
 
@@ -449,24 +476,24 @@ This theorem is the main theorem for CARA and CRRA with $\gamma>1$.
 
 ### From primitive capacity to the two-cutoff proof
 
-The two cutoffs are proof devices, not primitive assumptions. By (SafeCap), choose a stricter cutoff $t<\bar q_{\mathrm{safe}}$ such that
+The two cutoffs are proof devices, not primitive assumptions. By (SafeCap) and the definition of $A_{\mathrm{safe}}$, choose a kink cutoff $t\in\mathcal Q_{\mathrm{safe}}$, with $t<0$ and slack below the safe boundary, such that
 
 $$
 [\bar u-\underline u]A_t>c'(a_0).
 \tag{Cap-t}
 $$
 
-Then choose $q$ with
+Then choose $q\in\mathcal Q_{\mathrm{safe}}$ with
 
 $$
-t<q<\bar q_{\mathrm{safe}}\le0.
+t<q\le\bar q_{\mathrm{safe}}\le0.
 $$
 
 The cutoff $t$ supplies capacity and controls the growth of $\tilde\mu(\lambda)$; the cutoff $q$ defines the paid-region curvature bound $M_q$, which is finite by (SafeReg).
 
 ### Linear-growth argument from the stricter cutoff
 
-Capacity at $t$ and the kink lemma imply that, for all large $\lambda$,
+Capacity at $t$ and the kink placement lemma imply that, for all large $\lambda$,
 
 $$
 \bar s(\lambda,\tilde\mu(\lambda))\le t.
@@ -480,7 +507,7 @@ $$
 \frac{m_0-\lambda}{t}=O(\lambda),
 $$
 
-because $t<0$. Since $q<0$, this gives
+because $t<0$. Since $q\le0$, this gives
 
 $$
 z_q(\lambda)
@@ -492,7 +519,7 @@ z_q(\lambda)
 \lambda\left(1-\frac{q}{t}\right).
 $$
 
-The coefficient is positive because $t<q<0$. Thus $z_q(\lambda)$ grows at least linearly and $\tilde\mu(\lambda)=O(\lambda)$. Under the equivalent link condition $z\ell'(z)\to0$,
+The coefficient is positive because $t<q\le0$. Thus $z_q(\lambda)$ grows at least linearly and $\tilde\mu(\lambda)=O(\lambda)$. Under the equivalent link condition $z\ell'(z)\to0$,
 
 $$
 \tilde\mu(\lambda)\ell'(z_q(\lambda))\to0,
@@ -571,10 +598,14 @@ D_{\mathrm{safe}}
 \in[0,\infty].
 $$
 
-The formal theorem should avoid endpoint cases and use strict inequalities. Assume there exist cutoffs
+The clean primitive version should use the safe width and limiting paid-region curvature. The proof-facing version should still avoid endpoint cases and use strict inequalities. Assume there exist cutoffs
 
 $$
-\underline s<t<q<\bar q_{\mathrm{safe}}
+\underline s<t<q,
+\qquad
+t,q\in\mathcal Q_{\mathrm{safe}},
+\qquad
+t<0,
 $$
 
 such that
@@ -590,17 +621,17 @@ $$
 
 Then, for log utility, concavity holds for all sufficiently large $\lambda$, and hence FOA validity holds for sufficiently high reservation utility.
 
-This is the unified log theorem. It covers:
+This proof-facing condition is the strict-cutoff form of the unified log theorem. It covers:
 
-* **Unbounded-left-score models.** If $\underline s=-\infty$, fix any safe paid-region cutoff $q<\bar q_{\mathrm{safe}}$ with $M_q<\infty$ and take $t\to-\infty$. Then $q-t\to\infty$, so (LogWidth) is automatic. This is the old argument that the kink moves to $-\infty$ and $\tilde\mu/\lambda\to0$.
+* **Unbounded-left-score models.** If $\underline s=-\infty$, fix any safe paid-region cutoff $q\in\mathcal Q_{\mathrm{safe}}$ with $M_q<\infty$ and take $t\to-\infty$. Then $q-t\to\infty$, so (LogWidth) is automatic. This is the old argument that the kink moves to $-\infty$ and $\tilde\mu/\lambda\to0$.
 * **Bounded-left-score models.** If $\underline s> -\infty$, the condition says that the safe score width must be large enough relative to the positive paid-region curvature. Since log utility is unbounded above, capacity is automatic for any fixed $t$ with $A_t>0$.
 
-A cleaner but slightly stronger primitive version is to define
+A cleaner primitive version is to define
 
 $$
 M_{\mathrm{safe}}
 :=
-\liminf_{q\uparrow\bar q_{\mathrm{safe}}}M_q
+\liminf_{\substack{q\uparrow\bar q_{\mathrm{safe}}\\ q\in\mathcal Q_{\mathrm{safe}}}}M_q
 $$
 
 and require
@@ -610,7 +641,11 @@ $$
 \tag{LogWidth'}
 $$
 
-with the convention that the ratio is zero when $D_{\mathrm{safe}}=\infty$ and $M_{\mathrm{safe}}<\infty$. This is easier to explain: the rightmost safe score minus the bottom score support must be large enough. The proof can still use the strict-cutoff version (LogWidth) to avoid equality and atom issues.
+with the convention that the ratio is zero when $D_{\mathrm{safe}}=\infty$ and $M_{\mathrm{safe}}<\infty$. This is easier to explain: the rightmost safe score minus the bottom score support must be large enough. The proof can still use the strict-cutoff version (LogWidth) to avoid equality and atom issues. The eventual best statement is therefore
+
+$$
+\frac{M_{\mathrm{safe}}}{D_{\mathrm{safe}}}<\underline c''.
+$$
 
 For Poisson and exponential examples, impose the natural nondegeneracy condition that the feasible action set is bounded away from zero.
 
@@ -629,9 +664,9 @@ $$
 The low-tail condition is
 
 $$
-f_{aa}(y|a)>0
+f_{aa}(y|a)\ge0
 \quad\Longleftrightarrow\quad
-|y-a|>\sigma.
+|y-a|\ge\sigma.
 $$
 
 Thus, if $\mathcal A=[\underline a,\bar a]$,
@@ -669,7 +704,7 @@ $$
 Thus a low count $y$ is uniformly tail-safe when
 
 $$
-y+\sqrt y<\underline a,
+y+\sqrt y\le\underline a,
 \qquad
 \underline a:=\min\mathcal A.
 $$
@@ -705,13 +740,13 @@ $$
 The low-tail safe region is
 
 $$
-y<(2-\sqrt2)a.
+y\le(2-\sqrt2)a.
 $$
 
 Uniformly over $a\in\mathcal A$, this gives the safe output cutoff
 
 $$
-y<(2-\sqrt2)\underline a.
+y\le(2-\sqrt2)\underline a.
 $$
 
 Again the theorem should assume $\underline a>0$; otherwise the uniform safe low-output region collapses. In score units,
@@ -888,7 +923,7 @@ and let $\nu$ be counting measure. Integrals become sums.
 The tail-safe condition is not an interval condition on output. It is a condition on a lower contour set of the score:
 
 $$
-f_{aa}(y|a)>0
+f_{aa}(y|a)\ge0
 \quad\text{for all }y\text{ such that }s(y)\le q.
 $$
 
@@ -928,9 +963,9 @@ $$
 The left-tail condition is explicit:
 
 $$
-f_{aa}(s|a)>0
+f_{aa}(s|a)\ge0
 \quad\Longleftrightarrow\quad
-\left|s-\frac{a-a_0}{\sigma^2}\right|>\frac1\sigma.
+\left|s-\frac{a-a_0}{\sigma^2}\right|\ge\frac1\sigma.
 $$
 
 Thus any
@@ -1001,7 +1036,7 @@ The main text should claim CRRA only for $\gamma\ge1$.
 
 ### Main-text branch 1: $\gamma>1$
 
-If $\gamma>1$, utility is bounded and capacity at the stricter cutoff $t<q<0$ becomes
+If $\gamma>1$, utility is bounded and capacity at the stricter cutoff $t<q\le0$ becomes
 
 $$
 \frac{w_0^{1-\gamma}}{\gamma-1}A_t>c'(a_0),
@@ -1057,7 +1092,7 @@ $$
 \ell'(z)=\frac1{\alpha z^2}.
 $$
 
-CARA is covered by the strong-flattening theorem under the capacity condition at a stricter cutoff $t<q<0$:
+CARA is covered by the strong-flattening theorem under the capacity condition at a stricter cutoff $t<q\le0$:
 
 $$
 \frac{e^{-\alpha w_0}}{\alpha}A_t>c'(a_0).
@@ -1081,12 +1116,15 @@ A good revised proof section could be structured as follows.
 
 Use $s(y)=S(y|a_0)$ and score cutoff sets $\{s\le q\}$. Avoid relying on an inverse score map.
 
-### B. Tail-safe cutoffs and kink lemma
+### B. Tail-safe cutoffs and kink placement lemma
 
-Define $q$, $A_q$, $\mu_q(\lambda)$, and $I(\lambda,\mu)$. Prove the kink lemma and the sufficient condition
+Define a negative kink cutoff $q<0$, $A_q$, $\mu_q(\lambda)$, and $I(\lambda,\mu)$. Prove the kink placement lemma:
 
 $$
-[\ell(\lambda)-\underline u]A_q\ge c'(a_0).
+[\bar u-\underline u]A_q>c'(a_0)
+\quad\Longrightarrow\quad
+\bar s(\lambda,\tilde\mu(\lambda))\le q
+\text{ eventually}.
 $$
 
 ### C. Finite-$\lambda$ concavity criterion
@@ -1095,7 +1133,7 @@ Define $M_q$. Prove the finite-$\lambda$ criterion with conditions (K) and (P).
 
 ### D. High-reservation theorem I: strong flattening and log borderline
 
-Use two cutoffs $t<q<0$. Capacity at $t$ gives $\tilde\mu=O(\lambda)$ and $z_q(\lambda)\ge\delta\lambda$. Then $z\ell'(z)\to0$ proves concavity for CARA and CRRA $\gamma>1$. Treat log separately as the borderline case $z\ell'(z)=1$, using either unbounded left score support or the finite-bound condition from the master criterion.
+Use two cutoffs $t<q\le0$, with the kink cutoff $t<0$. Capacity at $t$ gives $\tilde\mu=O(\lambda)$ and $z_q(\lambda)\ge\delta\lambda$. Then $z\ell'(z)\to0$ proves concavity for CARA and CRRA $\gamma>1$. Treat log separately as the borderline case $z\ell'(z)=1$, using either unbounded left score support or the finite-bound condition from the master criterion.
 
 ### E. Main-text corollaries
 

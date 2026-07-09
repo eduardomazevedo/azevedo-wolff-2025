@@ -168,7 +168,7 @@ $$
 and therefore
 
 $$
-\frac{\tilde\mu(\lambda)}{\lambda}	o0.
+\frac{\tilde\mu(\lambda)}{\lambda}	\rightarrow 0.
 \tag{A2}
 $$
 
