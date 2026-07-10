@@ -205,18 +205,43 @@ If $\bar u=\infty$, this condition is automatic for any negative cutoff $q$ with
 
 ---
 
-## 4. Curvature formula and useful split
+## 4. Curvature split lemma
 
-For a canonical LIC-satisfying contract, write $\tilde\mu=\tilde\mu(\lambda)$. Define the secant slope term
+For a canonical LIC-satisfying contract, write $\tilde\mu=\tilde\mu(\lambda)$. Define
+
+$$
+M_q:=
+\sup_{a\in\mathcal A}
+\int_{\{s>q\}}
+[s(y)f_{aa}(y|a)]_+\,d\nu(y).
+$$
+
+Let $\ell_0$ denote the unconstrained, nonbinding utility link, so that $\ell(z)=\ell_0(z)$ for $z\ge m_0$.
+
+**Curvature split lemma.** Fix $q\in\mathcal Q_{\mathrm{safe}}$ with $M_q<\infty$. Suppose the kink is below $q$:
+
+$$
+\bar s(\lambda,\tilde\mu(\lambda))\le q.
+$$
+
+Then, for every $a\in\mathcal A$,
+
+$$
+U_{aa}(V(\cdot|\lambda,\tilde\mu),a)
+\le
+\tilde\mu\,\ell_0'(\lambda+\tilde\mu q)M_q
+-c''(a).
+\tag{Split}
+$$
+
+Proof idea. Define the secant slope term
 
 $$
 \Delta \ell(y|\lambda):=
 \frac{\ell(\lambda+\tilde\mu s(y))-\ell(\lambda)}{\tilde\mu s(y)}
 $$
 
-for $s(y)\ne0$, with the continuous extension at $s(y)=0$.
-
-Then
+for $s(y)\ne0$, with the continuous extension at $s(y)=0$. The curvature identity is
 
 $$
 U_{aa}(V(\cdot|\lambda,\tilde\mu),a)
@@ -227,37 +252,25 @@ U_{aa}(V(\cdot|\lambda,\tilde\mu),a)
 \tag{Curv}
 $$
 
-Once the kink is below $q\le0$, the zero-payment region is contained in $B_q$. On this region, $s\le0$ and $f_{aa}\ge0$, so its contribution to the integral in (Curv) is nonpositive. Therefore, for an upper bound we can discard it.
+On $B_q=\{s\le q\}$, tail safety gives $s\le0$ and $f_{aa}\ge0$, while monotonicity of $\ell$ gives $\Delta\ell\ge0$. Thus this region contributes weakly negatively and can be discarded for an upper bound.
 
-Define the positive-part constant
-
-$$
-M_q:=
-\sup_{a\in\mathcal A}
-\int_{\{s>q\}}
-[s(y)f_{aa}(y|a)]_+\,d\nu(y).
-$$
-
-Assume $M_q<\infty$.
-
-On the nonbinding region and under concavity of $\ell$ in its scalar argument, the secant slope is bounded by the marginal slope at the lowest relevant score:
+On $\{s>q\}$, kink placement implies the contract is nonbinding, so $\ell=\ell_0$. Concavity of $\ell_0$ in its scalar argument gives
 
 $$
-\Delta \ell(y|\lambda)\le \ell'(\lambda+\tilde\mu q)
-\quad\text{for }s(y)>q.
-$$
-
-Hence
-
-$$
-\tilde\mu
-\int_{\{s>q\}}
-\Delta \ell(y|\lambda)[s(y)f_{aa}(y|a)]_+\,d\nu(y)
+\Delta \ell(y|\lambda)
 \le
-\tilde\mu \ell'(\lambda+\tilde\mu q)M_q.
+\ell_0'(\lambda+\tilde\mu q).
 $$
 
-The factor $\tilde\mu$ is important. The old proof controlled it through assumptions on $z\ell'(z)$ and through $\tilde\mu/\lambda\to0$. The generalized proof should keep this factor explicit.
+Bounding only the positive part of $s(y)f_{aa}(y|a)$ gives (Split).
+
+Remark. The remaining object to control is
+
+$$
+\tilde\mu\,\ell_0'(\lambda+\tilde\mu q).
+$$
+
+This is why the asymptotic arguments below focus on controlling both the LIC multiplier $\tilde\mu$ and the slope of the link at the paid-region cutoff.
 
 ---
 
@@ -275,7 +288,7 @@ $$
 and
 
 $$
-\tilde\mu(\lambda)\ell'(\lambda+\tilde\mu(\lambda)q)M_q
+\tilde\mu(\lambda)\ell_0'(\lambda+\tilde\mu(\lambda)q)M_q
 \le
 \underline c'',
 \qquad
@@ -327,7 +340,7 @@ with the convention that the left side is infinite if $\bar u=\infty$ and $C_q>0
 $$
 \limsup_{\lambda\to\infty}
 \tilde\mu(\lambda)
-\ell'(\lambda+\tilde\mu(\lambda)q)M_q
+\ell_0'(\lambda+\tilde\mu(\lambda)q)M_q
 <
 \underline c'',
 \qquad
