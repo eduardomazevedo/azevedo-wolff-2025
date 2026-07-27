@@ -613,7 +613,7 @@ Concavity of $\ell_0$ bounds every relevant secant slope by
 $\ell_0'(\lambda+\widetilde\mu q)$.  Retaining only the positive part of
 $s f_{aa}$ and taking the supremum over actions gives \eqref{eq:curvature-split}.
 
-\begin{proposition}[Deterministic finite-$\lambda$ criterion]
+\begin{proposition}[Finite-$\lambda$ safe-tail curvature bound]
 \label{prop:deterministic-criterion}
 Fix $q_0<q_1\le0$ with $q_0,q_1\in\cQ_{\mathrm{safe}}$.  Suppose $q_0$
 has sufficient incentive capacity and paid-region curvature is finite at $q_1$:
@@ -644,36 +644,28 @@ the first factor and weakly lowers the argument of the decreasing derivative.
 Combine this observation with Lemma~\ref{lem:curvature-split} at $q_1$ and
 $c''(a)\ge\underline c''$.
 
-\section{High feasible reservation utility}
+\section{Asymptotic verification and the main theorem}
 
-\begin{theorem}[Unified asymptotic concavity criterion]
-\label{thm:unified}
-Suppose Assumption~\ref{ass:link-concavity} and \eqref{eq:cost-curv} hold.  Fix
-$q_0<q_1\le0$ with $q_0,q_1\in\cQ_{\mathrm{safe}}$.  Assume
+Proposition~\ref{prop:deterministic-criterion} gives the general asymptotic
+criterion used below.  Suppose Assumption~\ref{ass:link-concavity} and
+\eqref{eq:cost-curv} hold.  If there are $q_0<q_1\le0$ in
+$\cQ_{\mathrm{safe}}$ such that
 \[
- \Delta u\,\Capacity(q_0)>c'(a_0),
+ \Delta u\,\Capacity(q_0)>c'(a_0)
 \]
 and
 \begin{equation}
  \limsup_{\lambda\to\infty}
  \mu_{q_0}(\lambda)
  \ell_0'(\lambda+\mu_{q_0}(\lambda)q_1)\Curv(q_1)
- <\underline c''.
+ <\underline c'',
  \tag{DC}\label{eq:DC}
 \end{equation}
-Then there is $\lambda_0$ such that, for every $\lambda\ge\lambda_0$,
-\[
- U_{aa}(v_\lambda,a)\le0
- \quad\text{for every }a\in\cA.
-\]
-Consequently, every corresponding relaxed solution satisfies global incentive
-compatibility.
-\end{theorem}
-
-\proofsketch
-The strict inequality in \eqref{eq:DC} implies $\Curv(q_1)<\infty$ and,
-together with Proposition~\ref{prop:deterministic-criterion}, gives the conclusion.  Since LIC holds at the interior action
-$a_0$, concavity of $a\mapsto U(v_\lambda,a)$ makes $a_0$ a global maximizer.
+then the LIC-path contracts induce an agent objective concave in action for all
+sufficiently large $\lambda$.  Because LIC holds at the interior action $a_0$,
+these contracts also satisfy global incentive compatibility.  This criterion is
+proof machinery rather than a headline result; the next two lemmas verify it
+using aggregate primitives.
 
 \subsection{Strong flattening}
 
@@ -696,8 +688,8 @@ Indeed, when $v=u(W)$ and $z=k'(v)=1/u'(W)$,
 \]
 \end{definition}
 
-\begin{theorem}[Strong-flattening utilities]
-\label{thm:strong-flattening}
+\begin{lemma}[Strong-flattening verification]
+\label{lem:strong-flattening}
 Suppose Assumption~\ref{ass:link-concavity}, \eqref{eq:cost-curv}, and strong
 flattening hold.  Suppose
 \[
@@ -707,7 +699,7 @@ flattening hold.  Suppose
 \]
 Then the LIC-path contracts induce an agent objective concave in action for all
 sufficiently large $\lambda$.
-\end{theorem}
+\end{lemma}
 
 \proofsketch
 The aggregate conditions provide $q_0<q_1$ in $\cQ_{\mathrm{safe}}$ such that
@@ -721,14 +713,14 @@ Because $q_0<q_1$, the coefficient is positive.  Therefore
 \[
  \mu_{q_0}(\lambda)\ell_0'(z_{01}(\lambda))\Curv(q_1)\longrightarrow0
 \]
-by $z\ell_0'(z)\to0$.  Apply Theorem~\ref{thm:unified}.
+by $z\ell_0'(z)\to0$.  Thus \eqref{eq:DC} holds.
 
 \subsection{The logarithmic borderline}
 
 For log utility, $\ell_0'(z)=1/z$, so $z\ell_0'(z)=1$ and strong flattening fails.
 
-\begin{theorem}[Log utility and safe score width]
-\label{thm:log-width}
+\begin{lemma}[Log-width verification]
+\label{lem:log-width}
 Suppose $u(W)=\log W$, Assumption~\ref{ass:link-concavity}, and
 \eqref{eq:cost-curv}.  Suppose $\cQ_{\mathrm{safe}}$ is nonempty and
 \begin{equation}
@@ -740,7 +732,7 @@ If $\underline s=-\infty$, then $\Width_{\mathrm{safe}}=\infty$ and the right
 side is interpreted as infinity.
 Then the LIC-path contracts induce an agent objective concave in action for all
 sufficiently large $\lambda$.
-\end{theorem}
+\end{lemma}
 
 \proofsketch
 The strict endpoint inequality provides
@@ -761,32 +753,47 @@ Thus \eqref{eq:DC} holds.
 
 \subsection{Passage to reservation utility and the FOA}
 
-\begin{proposition}[Concavity implies global incentive compatibility]
-\label{prop:concavity-GIC}
-Let $v$ satisfy LIC at the interior action $a_0$.  If
-$a\mapsto U(v,a)$ is concave on $\cA$, then $a_0$ is a global maximizer and $v$
-satisfies global incentive compatibility.
-\end{proposition}
-
 \begin{theorem}[FOA at high feasible reservation utility]
 \label{thm:high-reservation}
-Suppose Proposition~\ref{prop:relaxed-solution} applies.  Suppose, in addition,
-that either the hypotheses of Theorem~\ref{thm:strong-flattening} or those of
-Theorem~\ref{thm:log-width} hold.  Then there exists
-$U^*<U_R$ such that the first-order approach is valid for every
+Suppose Proposition~\ref{prop:relaxed-solution},
+Assumption~\ref{ass:link-concavity}, and \eqref{eq:cost-curv} apply.  Suppose,
+in addition, that either
+\begin{enumerate}[label=(\roman*)]
+ \item utility satisfies strong flattening,
+ \[
+  \Delta u\,\Capacity_{\mathrm{safe}}>c'(a_0),
+  \qquad
+  \Curv_{\mathrm{safe}}<\infty;
+ \]
+ or
+ \item $u(W)=\log W$, $\cQ_{\mathrm{safe}}$ is nonempty, and
+ \[
+  \Curv_{\mathrm{safe}}
+  <\underline c''\,\Width_{\mathrm{safe}}.
+ \]
+\end{enumerate}
+Then there exists $U^*<U_R$ such that the first-order approach is valid for every
 \[
  \bar U\in[U^*,U_R).
 \]
-If $\bar u=\infty$, then $U_R=\infty$ and this is the usual sufficiently-high
-reservation-utility statement.  If $\bar u<\infty$, it means reservation utility
-sufficiently close to the relaxed upper frontier from below.
+For every such $\bar U$, the original cost-minimization problem has the almost
+everywhere unique solution
+\[
+ v^*_{\bar U}(y)
+ =\ell\bigl(\lambda^*(\bar U)+\mu^*(\bar U)s(y)\bigr)
+\]
+characterized by Proposition~\ref{prop:relaxed-solution}.  If $\bar u=\infty$,
+then $U_R=\infty$; if $\bar u<\infty$, ``sufficiently high'' means sufficiently
+close to the relaxed upper frontier from below.
 \end{theorem}
 
 \proofsketch
-The relevant concavity theorem supplies $\lambda_0$.  Proposition~\ref{prop:relaxed-solution}
-gives $\lambda^*(\bar U)\to\infty$ as $\bar U\uparrow U_R$.  Choose $U^*$ so
-that $\lambda^*(\bar U)\ge\lambda_0$ above $U^*$, and apply
-Proposition~\ref{prop:concavity-GIC}.
+Lemma~\ref{lem:strong-flattening} or Lemma~\ref{lem:log-width} supplies
+$\lambda_0$.  Proposition~\ref{prop:relaxed-solution} gives
+$\lambda^*(\bar U)\to\infty$ as $\bar U\uparrow U_R$.  Choose $U^*$ so that
+$\lambda^*(\bar U)\ge\lambda_0$ above $U^*$.  Concavity and LIC at the interior
+action $a_0$ give global incentive compatibility.  Thus the unique relaxed
+solution is feasible for, and uniquely solves, the original problem.
 
 \section{Utility corollaries}
 
@@ -794,45 +801,29 @@ The following statements hold the distribution, intended action, effort cost,
 and utility-shape parameter fixed.  They maintain the regularity conditions for
 the relaxed solution and uniform cost curvature~\eqref{eq:cost-curv}.
 
-\begin{corollary}[CARA at sufficiently low initial wealth]
-\label{cor:cara-low-wealth}
-Suppose $\Capacity_{\mathrm{safe}}>0$ and
-$\Curv_{\mathrm{safe}}<\infty$.  Fix $\alpha>0$ and let
-$u(W)=-e^{-\alpha W}/\alpha$.  For all sufficiently low initial wealth $w_0$,
-the first-order approach is valid at all sufficiently high feasible reservation
-utilities.
+\begin{corollary}[Common utility specifications]
+\label{cor:common-utilities}
+Under the maintained conditions, the first-order approach is valid as follows:
+\begin{enumerate}[label=(\roman*)]
+ \item If $\Capacity_{\mathrm{safe}}>0$ and
+ $\Curv_{\mathrm{safe}}<\infty$, then for fixed $\alpha>0$ and CARA utility
+ $u(W)=-e^{-\alpha W}/\alpha$, validity holds at all sufficiently high feasible
+ reservation utilities for all sufficiently low initial wealth $w_0$.
+ \item If $\Capacity_{\mathrm{safe}}>0$ and
+ $\Curv_{\mathrm{safe}}<\infty$, then for fixed $\gamma>1$ and CRRA utility
+ $u(W)=W^{1-\gamma}/(1-\gamma)$, validity holds at all sufficiently high feasible
+ reservation utilities for all sufficiently low positive initial wealth $w_0$.
+ \item If $w_0>0$, $u(W)=\log W$, $\underline s=-\infty$, and
+ $\Curv_{\mathrm{safe}}<\infty$, then there is $U^*<\infty$ such that validity
+ holds for every reservation utility $\bar U\ge U^*$.
+\end{enumerate}
 \end{corollary}
 
 \proofsketch
-CARA utility satisfies strong flattening, and its utility spread diverges as
-$w_0\to-\infty$.  Apply Theorems~\ref{thm:strong-flattening}
-and~\ref{thm:high-reservation}.
-
-\begin{corollary}[CRRA above one at sufficiently low initial wealth]
-\label{cor:crra-low-wealth}
-Suppose $\Capacity_{\mathrm{safe}}>0$ and
-$\Curv_{\mathrm{safe}}<\infty$.  Fix $\gamma>1$ and let
-$u(W)=W^{1-\gamma}/(1-\gamma)$.  For all sufficiently low positive initial
-wealth $w_0$, the first-order approach is valid at all sufficiently high feasible
-reservation utilities.
-\end{corollary}
-
-\proofsketch
-CRRA utility with $\gamma>1$ satisfies strong flattening, and its utility spread
-diverges as $w_0\downarrow0$.  Apply Theorems~\ref{thm:strong-flattening}
-and~\ref{thm:high-reservation}.
-
-\begin{corollary}[Log utility with an unbounded left score]
-\label{cor:log-unbounded-left}
-Suppose $w_0>0$, $u(W)=\log W$, $\underline s=-\infty$, and
-$\Curv_{\mathrm{safe}}<\infty$.  Then there is $U^*<\infty$ such that the
-first-order approach is valid for every reservation utility $\bar U\ge U^*$.
-\end{corollary}
-
-\proofsketch
-The safe score width is infinite, so condition~\eqref{eq:log-width} holds.  Log
-utility is unbounded above, so $U_R=\infty$.  Apply
-Theorem~\ref{thm:high-reservation}.
+CARA and CRRA utility with $\gamma>1$ satisfy strong flattening, while their
+utility spreads diverge as $w_0\to-\infty$ and $w_0\downarrow0$, respectively.
+For log utility, the safe score width and $U_R$ are both infinite.  Each claim
+therefore follows from Theorem~\ref{thm:high-reservation}.
 
 \section{Distribution verifications}
 
@@ -1016,8 +1007,8 @@ On the tail, use the sublinear growth $|\ell(z)|\le C(1+|z|^p)$ and the uniform
 $(2+\eta)$ weighted moment of $f_{aa}$.  Lemma~\ref{lem:affinity-multiplier}
 gives the rates needed for both pieces to vanish uniformly in $a$.
 
-\begin{theorem}[Asymptotic affinity]
-\label{thm:asymptotic-affinity}
+\begin{proposition}[Asymptotic-affinity extension]
+\label{prop:asymptotic-affinity}
 Suppose \eqref{eq:cost-curv}, Assumptions~\ref{ass:affine-score} and
 \ref{ass:affinity-moments}, and CRRA utility with $\gamma\in(1/2,1)$.  Then
 \[
@@ -1028,7 +1019,7 @@ Suppose \eqref{eq:cost-curv}, Assumptions~\ref{ass:affine-score} and
 In particular, the agent's objective is concave for all sufficiently large
 $\lambda$, and the FOA is valid at all sufficiently high feasible reservation
 utilities.
-\end{theorem}
+\end{proposition}
 
 \proofsketch
 Use $\int f_{aa}\dd=0$ to remove $\ell(\lambda)$ and expand
@@ -1047,8 +1038,9 @@ Assumption~\ref{ass:affinity-moments} hold and
  \int s(y)f_{aa}(y\mid a)\dd(y)
  =\frac{d^2}{da^2}\E_a[s(Y)]=0.
 \]
-Consequently, Gaussian output with CRRA utility is covered by strong flattening
-for $\gamma>1$, by the log theorem for $\gamma=1$, and by asymptotic affinity for
+Consequently, Gaussian output with CRRA utility is covered by the
+strong-flattening branch of Theorem~\ref{thm:high-reservation} for $\gamma>1$,
+by its log branch for $\gamma=1$, and by asymptotic affinity for
 $\gamma\in(1/2,1)$, subject in each branch to the assumptions of the corresponding
 relaxed-solution result.
 \end{corollary}
@@ -1057,26 +1049,78 @@ No general claim is made here for $\gamma\le1/2$.
 
 \section{Result map for the revised paper}
 
-The recommended manuscript order is:
+This planning document presents results in logical proof order.  The manuscript
+should instead state the economically useful result early and defer its machinery.
+The recommended manuscript organization is as follows.
+
+\subsection*{Main text}
+
 \begin{enumerate}
- \item model, score, links, and canonical contracts;
- \item generalized relaxed-solution Proposition~\ref{prop:relaxed-solution};
- \item tail-safe cutoffs and the finite-$\lambda$ kink and curvature lemmas;
- \item unified criterion, followed by strong flattening and log as transparent
- verification results;
- \item high-feasible-reservation Theorem~\ref{thm:high-reservation};
- \item utility and distribution applications;
- \item asymptotic affinity only in the appendix.
+ \item \textbf{Introduction and motivating examples.}  Explain failure of the
+ FOA at low reservation utility and the movement of the limited-liability kink
+ as reservation utility rises.
+
+ \item \textbf{Model and main result.}  Define the fixed-intended-action cost
+ minimization problem, the relaxed problem, and FOA validity.  Introduce only the
+ aggregate safe-tail objects needed to state
+ Theorem~\ref{thm:high-reservation}.  State that theorem as the paper's main
+ theorem, with strong flattening and log utility as its two branches.  Follow it
+ immediately with Corollary~\ref{cor:common-utilities} for CARA, CRRA above one,
+ and log utility.
+
+ \item \textbf{The relaxed contract.}  Introduce scores, links, and canonical
+ contracts, and state Proposition~\ref{prop:relaxed-solution}.  Emphasize the
+ contract formula and comparative statics; move functional-analytic details to
+ the appendix.
+
+ \item \textbf{Why the main theorem holds.}  Present the two economic ideas:
+ kink placement in a safe low-score tail and domination of paid-region curvature.
+ State the finite-$\lambda$ safe-tail curvature bound,
+ Proposition~\ref{prop:deterministic-criterion}, as the key technical
+ proposition.  The cutoff-specific asymptotic condition \eqref{eq:DC} is proof
+ machinery, not a separately named theorem.  Strong flattening and log width are
+ verification lemmas inside the proof of the main theorem.
+
+ \item \textbf{Applications.}  Verify the aggregate conditions for the main
+ distribution families and connect them to the numerical examples.  Keep the
+ common-utility corollary near the main theorem rather than repeating separate
+ utility theorems here.
+
+ \item \textbf{Scope and endogenous intended actions.}  State clearly that the
+ main theorem is action-by-action for a fixed interior $a_0$.  A theorem for the
+ principal's problem with endogenous action requires uniformity over relevant
+ intended actions and separate treatment of boundary actions and action-dependent
+ upper utility frontiers.  Include such a result only if those uniform conditions
+ can be stated and proved cleanly; otherwise discuss it as an extension rather
+ than obscuring the main theorem.
 \end{enumerate}
 
-The main conceptual decomposition is
+\subsection*{Appendices}
+
+\begin{enumerate}
+ \item Give complete existence, uniqueness, domination, and Pareto-path proofs
+ for Proposition~\ref{prop:relaxed-solution}.
+ \item Prove kink placement, the curvature identity, the curvature split, and
+ Proposition~\ref{prop:deterministic-criterion}; include endpoint and discrete-score
+ details here when they would interrupt the main text.
+ \item Place the asymptotic-affinity extension for CRRA
+ $\gamma\in(1/2,1)$ entirely in an appendix, including its moment lemmas and the
+ Gaussian corollary.  It uses a different mechanism and should not become a
+ second main theorem.
+ \item Collect longer utility and distribution calculations, including formulas
+ for links, capacities, and curvature bounds.
+\end{enumerate}
+
+The core hierarchy is therefore one main theorem, one common-utility corollary,
+one relaxed-solution proposition, one finite-$\lambda$ curvature proposition,
+and supporting lemmas.  The conceptual decomposition remains
 \[
  \boxed{\text{the kink lies in a safe low-score tail}}
  \quad+\quad
  \boxed{\text{paid-region positive curvature is dominated by }c''}.
 \]
-The first box is supplied by incentive capacity and kink placement.  The second
-is supplied either by strong flattening, by sufficient safe score width for log
-utility, or---in the appendix---by asymptotic affinity.
+Incentive capacity and kink placement supply the first box.  Strong flattening
+or sufficient safe score width supplies the second; asymptotic affinity is a
+separate appendix mechanism.
 
 \end{document}
