@@ -1,0 +1,1082 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks,hypertexnames=false]{hyperref}
+\usepackage{xcolor}
+
+\newtheorem{assumption}{Assumption}[section]
+\newtheorem{theorem}[assumption]{Theorem}
+\newtheorem{proposition}[assumption]{Proposition}
+\newtheorem{lemma}[assumption]{Lemma}
+\newtheorem{corollary}[assumption]{Corollary}
+\newtheorem{definition}[assumption]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[assumption]{Remark}
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\E}{\mathbb E}
+\newcommand{\ind}{\mathbf 1}
+\newcommand{\dd}{\,d\nu}
+\newcommand{\cA}{\mathcal A}
+\newcommand{\cY}{\mathcal Y}
+\newcommand{\cQ}{\mathcal Q}
+\DeclareMathOperator{\Capacity}{Cap}
+\DeclareMathOperator{\Curv}{Curv}
+\DeclareMathOperator{\Width}{Width}
+\newcommand{\ubar}[1]{\underline{#1}}
+\newcommand{\proofsketch}{\paragraph{Proof sketch.}}
+\newcommand{\todo}[1]{\par\smallskip\noindent\textcolor{red!70!black}{\textbf{Open point.} #1}\par\smallskip}
+
+\title{Mathematical Plan for the Generalized Paper}
+\author{Azevedo--Wolff (working document)}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This is the master mathematical document for the generalized version of the paper.
+It fixes notation, records the assumptions, and states the results in their intended
+logical order.  A proof sketch follows every non-obvious statement.  The document
+covers the relaxed solution, the finite-$\lambda$ concavity argument, high feasible
+reservation utility, utility and distribution examples, and the appendix-only
+asymptotic-affinity extension.  It is a planning document rather than manuscript
+prose; theorem names and labels are intended to survive into the paper when possible.
+\end{abstract}
+
+\tableofcontents
+
+\section{Primitives and contract representations}
+
+\subsection{Actions, output, and scores}
+
+\begin{definition}[Actions and output]
+The agent chooses an action $a$ in a compact interval $\cA\subseteq\R_+$.
+The intended action $a_0$ is in the interior of $\cA$.  Output has common
+support $\cY\subseteq\R$ for every $a\in\cA$ and has density or probability mass
+function $f(\cdot\mid a)>0$ on $\cY$ with respect to a common dominating measure
+$\nu$.  Thus
+\[
+  \E_a[h(Y)]=\int_{\cY}h(y)f(y\mid a)\dd(y).
+\]
+Counting measure is used for discrete output.
+\end{definition}
+
+\begin{assumption}[Distributional regularity]
+\label{ass:distribution-regularity}
+For every $y\in\cY$, the map $a\mapsto f(y\mid a)$ is twice continuously
+differentiable on an open set containing $\cA$.  For every $a^*\in\cA$, there are a relative neighborhood
+$N_{a^*}$ of $a^*$ in $\cA$ and a nonnegative $\nu$-integrable function
+$g_{a^*}$ such that
+\begin{equation}
+ \sup_{a\in N_{a^*}}
+ \left\{
+ |f(y\mid a)|+|f_a(y\mid a)|+|f_{aa}(y\mid a)|
+ \right\}
+ \le g_{a^*}(y)
+ \quad\text{for $\nu$-almost every }y.
+ \tag{DensDom}\label{eq:density-domination}
+\end{equation}
+\end{assumption}
+
+Assumption~\ref{ass:distribution-regularity} and differentiation under the
+integral sign imply, for every $a\in\cA$,
+\[
+ \int f_a(y\mid a)\dd(y)=0,
+ \qquad
+ \int f_{aa}(y\mid a)\dd(y)=0.
+\]
+
+\begin{definition}[Twice differentiable integrand class]
+\label{def:H2}
+Let $\mathcal H_f^2$ be the set of measurable functions $h:\cY\to\R$ such that,
+for every $a^*\in\cA$, there are a relative neighborhood $N_{a^*}$ and a
+nonnegative $\nu$-integrable function $g_{h,a^*}$ satisfying
+\begin{equation}
+ \sup_{a\in N_{a^*}}
+ |h(y)|
+ \left\{
+ |f(y\mid a)|+|f_a(y\mid a)|+|f_{aa}(y\mid a)|
+ \right\}
+ \le g_{h,a^*}(y)
+ \quad\text{for $\nu$-almost every }y.
+ \tag{$H^2$}\label{eq:H2}
+\end{equation}
+For every $h\in\mathcal H_f^2$, the map
+$a\mapsto\int h(y)f(y\mid a)\dd(y)$ is twice continuously differentiable and
+its first two derivatives are obtained by differentiating $f$ under the integral.
+\end{definition}
+
+\begin{definition}[Score]
+The score is
+\[
+ S(y\mid a):=\partial_a\log f(y\mid a)=\frac{f_a(y\mid a)}{f(y\mid a)}.
+\]
+After fixing $a_0$, write
+\[
+ s(y):=S(y\mid a_0),\qquad f_0(y):=f(y\mid a_0).
+\]
+Assumption~\ref{ass:distribution-regularity} gives
+\[
+ \E_{a_0}[s(Y)]=\int s(y)f_0(y)\dd(y)=0.
+\]
+\end{definition}
+
+No monotone likelihood ratio property, interval support, or invertibility of the
+score is maintained in the general results.
+
+\subsection{Utility, wealth, payment, and cost}
+
+\begin{definition}[Wealth and payment]
+The agent has initial wealth $w_0$.  A payment contract is a measurable function
+$w:\cY\to\R_+$.  Final wealth is
+\[
+ W(y):=w_0+w(y),
+\]
+so limited liability is equivalently $W(y)\ge w_0$.
+\end{definition}
+
+The admissible wealth domain is utility-specific.  Log and CRRA utility require
+$w_0>0$; CARA utility permits $w_0\in\R$.
+
+\begin{assumption}[Utility and effort cost]
+\label{ass:utility-cost}
+Utility $u$ is defined on an interval containing $[w_0,\infty)$ and is smooth,
+strictly increasing, and strictly concave.  Moreover,
+\[
+ \lim_{W\to\infty}u'(W)=0,
+ \qquad
+ \bar u:=\lim_{W\to\infty}u(W)\in\R\cup\{\infty\}.
+\]
+Define
+\[
+ \underline u:=u(w_0),
+ \qquad
+ \Delta u:=\bar u-\underline u\in(0,\infty].
+\]
+The effort cost $c$ is smooth and strictly convex, and $c'(a_0)>0$.
+\end{assumption}
+
+Uniform concavity results will additionally impose
+\begin{equation}
+ \underline c'':=\inf_{a\in\cA}c''(a)>0.
+ \tag{CostCurv}\label{eq:cost-curv}
+\end{equation}
+This is not needed to characterize the relaxed solution.
+
+\begin{definition}[Three contract representations]
+A payment contract $w$ has associated final-wealth and utility contracts
+\[
+ W(y)=w_0+w(y),
+ \qquad
+ v(y)=u(W(y)).
+\]
+Let $k:=u^{-1}$ on $[\underline u,\bar u)$.  Conversely,
+\[
+ W(y)=k(v(y)),
+ \qquad
+ w(y)=k(v(y))-w_0.
+\]
+The agent's expected utility and expected compensation cost are
+\begin{align*}
+ U(v,a)&:=\int v(y)f(y\mid a)\dd(y)-c(a),\\
+ C(v,a)&:=\int [k(v(y))-w_0]f(y\mid a)\dd(y).
+\end{align*}
+Formally, the first argument of $U$ and $C$ is always a utility contract.  We do
+not overload these functionals by writing $U(w,a)$ or $U(W,a)$; payment and
+final-wealth contracts are first transformed into utility units.  We use $C$,
+rather than $W(v,a)$, for expected compensation cost so that $W(y)$ remains
+available for final wealth.
+\end{definition}
+
+\subsection{Link functions and canonical contracts}
+
+\begin{definition}[Marginal-cost floor and links]
+The marginal cost of utility at the limited-liability floor is
+\[
+ m_0:=k'(\underline u)=\frac{1}{u'(w_0)}.
+\]
+On the nonbinding region define the wealth and utility links
+\[
+ L_0(z):=(u')^{-1}(1/z),
+ \qquad
+ \ell_0(z):=u(L_0(z))=(k')^{-1}(z).
+\]
+The limited-liability links are
+\[
+ L(z):=L_0(z\vee m_0),
+ \qquad
+ \ell(z):=\ell_0(z\vee m_0)=u(L(z)).
+\]
+Thus $L(z)=w_0$ and $\ell(z)=\underline u$ for $z\le m_0$.
+At $m_0$, derivatives always mean the relevant one-sided derivative.
+\end{definition}
+
+On the nonbinding region,
+\[
+ u'(L_0(z))=\frac1z,
+ \qquad
+ \ell_0'(z)=\frac{L_0'(z)}{z}.
+\]
+
+\begin{definition}[Canonical contracts]
+For multipliers $\lambda,\mu\in\R$, define
+\begin{align*}
+ W_{\lambda,\mu}(y)&:=L(\lambda+\mu s(y)),\\
+ w_{\lambda,\mu}(y)&:=L(\lambda+\mu s(y))-w_0,\\
+ v_{\lambda,\mu}(y)&:=\ell(\lambda+\mu s(y)).
+\end{align*}
+The first is final wealth, the second is payment, and the third is utility.
+Subscripts, rather than a vertical bar, distinguish contract parameters from the
+conditioning notation in $f(y\mid a)$.
+\end{definition}
+
+\begin{assumption}[Regularity of feasible contracts]
+\label{ass:contract-regularity}
+The feasible utility-contract set $\mathcal V$ is convex.  Every
+$v\in\mathcal V$ takes values in $[\underline u,\bar u)$ and belongs to
+$\mathcal H_f^2$.  Every canonical contract $v_{\lambda,\mu}$ belongs to
+$\mathcal V$ and has finite expected compensation cost at each $a\in\cA$.
+Moreover, for every compact $K\subset\R^2$, there is a nonnegative
+$\nu$-integrable function $G_K$ such that, for every $(\lambda,\mu)\in K$,
+\begin{multline}
+ \bigl|\ell(\lambda+\mu s(y))\bigr|
+ \bigl(1+|s(y)|\bigr)f_0(y)
+ \\
+ {}+\bigl[L(\lambda+\mu s(y))-w_0\bigr]f_0(y)
+ \le G_K(y)
+ \quad\text{for $\nu$-almost every }y.
+ \tag{CanDom}\label{eq:canonical-domination}
+\end{multline}
+\end{assumption}
+
+Condition~\eqref{eq:H2} is the exact domination condition used to differentiate
+agent utility with respect to action.  Condition~\eqref{eq:canonical-domination}
+is the local uniform domination used for continuity in $(\lambda,\mu)$ of the
+incentive functional, expected utility, and expected compensation cost.
+
+\section{The relaxed problem}
+
+The relaxed cost-minimization problem for $(a_0,\bar U)$ minimizes
+$C(v,a_0)$ subject to
+\begin{align}
+ U(v,a_0)&\ge \bar U, \tag{IR}\label{eq:IR}\\
+ U_a(v,a_0)&=0. \tag{LIC}\label{eq:LIC}
+\end{align}
+Under Assumption~\ref{ass:contract-regularity}, LIC is
+\[
+ \int v(y)s(y)f_0(y)\dd(y)=c'(a_0).
+\]
+
+\subsection{Local implementability and the LIC path}
+
+\begin{assumption}[Local implementability]
+\label{ass:implementability}
+The intended action satisfies
+\begin{equation}
+ \Delta u\int_{\{s>0\}}s(y)f_0(y)\dd(y)>c'(a_0).
+ \tag{Imp}\label{eq:implementability}
+\end{equation}
+When $\Delta u=\infty$, this means that the positive score has positive
+first moment.
+\end{assumption}
+
+\begin{definition}[Incentive functional]
+For fixed $\lambda$ and $\mu$, let
+\[
+ I(\lambda,\mu):=
+ \int \ell(\lambda+\mu s(y))s(y)f_0(y)\dd(y).
+\]
+Thus a canonical contract satisfies LIC exactly when
+$I(\lambda,\mu)=c'(a_0)$.
+\end{definition}
+
+\begin{lemma}[Unique LIC multiplier]
+\label{lem:unique-mu}
+Suppose Assumptions~\ref{ass:distribution-regularity}--\ref{ass:implementability}
+hold.  For every
+$\lambda\ge0$, there is a unique $\widetilde\mu(\lambda)>0$ such that
+\[
+ I(\lambda,\widetilde\mu(\lambda))=c'(a_0).
+\]
+The map $\lambda\mapsto\widetilde\mu(\lambda)$ is continuous.
+\end{lemma}
+
+\proofsketch
+Because $\E_{a_0}[s]=0$, $I(\lambda,0)=0$.  Monotonicity of $\ell$ implies that
+$I$ is weakly increasing in $\mu$; where differentiation is justified,
+\[
+ I_\mu(\lambda,\mu)=
+ \int \ell'(\lambda+\mu s(y))s(y)^2f_0(y)\dd(y)\ge0.
+\]
+After subtracting the constant $\ell(\lambda)$ and using $\E_{a_0}[s]=0$,
+the integrand is nonnegative and increases pointwise in $\mu$.  Hence monotone
+convergence applies.  As $\mu\to\infty$,
+\[
+ \ell(\lambda+\mu s(y))\longrightarrow
+ \begin{cases}
+  \bar u,&s(y)>0,\\
+  \ell(\lambda),&s(y)=0,\\
+  \underline u,&s(y)<0.
+ \end{cases}
+\]
+Consequently, with an infinite limit allowed,
+\[
+ I(\lambda,\mu)\longrightarrow
+ \Delta u\int_{\{s>0\}}s(y)f_0(y)\dd(y)>c'(a_0).
+\]
+Existence follows by continuity.  At any LIC solution, positive generated
+incentives imply that $\ell'$ is positive on a set with $s\ne0$, yielding strict
+monotonicity at the solution and hence uniqueness.  Continuity follows from the
+same strict crossing argument.
+
+\begin{definition}[LIC path]
+Define the utility contract
+\[
+ v_\lambda:=v_{\lambda,\widetilde\mu(\lambda)},
+ \qquad
+ v_\lambda(y)=\ell(\lambda+\widetilde\mu(\lambda)s(y)),
+\]
+with associated expected utility and cost
+\begin{align*}
+ \widetilde U(\lambda)&:=U(v_\lambda,a_0),\\
+ \widetilde C(\lambda)&:=C(v_\lambda,a_0).
+\end{align*}
+\end{definition}
+
+\subsection{Lagrangian and Pareto characterization}
+
+\begin{lemma}[Pointwise Lagrangian minimization]
+\label{lem:pointwise}
+For multipliers $\lambda\ge0$ and $\mu\in\R$, consider
+\[
+ \mathcal L(v,\lambda,\mu)
+ :=C(v,a_0)+\lambda[\bar U-U(v,a_0)]-\mu U_a(v,a_0).
+\]
+Among feasible utility contracts, its almost-everywhere unique minimizer is
+$v_{\lambda,\mu}$.
+\end{lemma}
+
+\proofsketch
+After dropping terms independent of $v$, the integrand is
+\[
+ k(v(y))-w_0-[\lambda+\mu s(y)]v(y).
+\]
+Strict convexity of $k$ gives a unique pointwise minimizer.  The interior first-order
+condition is $k'(v)=\lambda+\mu s$; imposing $v\ge\underline u$ replaces the
+right-hand side by its maximum with $m_0$, which gives $v=\ell(\lambda+\mu s)$.
+
+\begin{lemma}[Relaxed Pareto path]
+\label{lem:pareto-path}
+For every $\lambda\ge0$, $v_\lambda$ is the almost-everywhere
+unique minimizer of
+\[
+ C(v,a_0)-\lambda U(v,a_0)
+\]
+among contracts satisfying LIC.  The function $\widetilde U$ is continuous and
+strictly increasing.
+\end{lemma}
+
+\proofsketch
+The first claim follows from Lemma~\ref{lem:pointwise} with
+$\mu=\widetilde\mu(\lambda)$.  For $\lambda_1<\lambda_2$, the two Pareto inequalities
+imply
+\[
+ (\lambda_2-\lambda_1)
+ [\widetilde U(\lambda_2)-\widetilde U(\lambda_1)]\ge0.
+\]
+If equality held, strict convexity of $k$ and uniqueness would force the two
+contracts to agree almost everywhere, contradicting their distinct supporting
+multipliers under score nondegeneracy.  Continuity follows from continuity of the
+canonical path and dominated convergence.
+
+\begin{definition}[Reservation-utility frontiers]
+Define
+\[
+ U_L:=\widetilde U(0),
+ \qquad
+ U_R:=\lim_{\lambda\to\infty}\widetilde U(\lambda)
+ \in\R\cup\{\infty\}.
+\]
+The limit exists because $\widetilde U$ is increasing.  The phrase
+\emph{high feasible reservation utility} means
+\[
+ \bar U\uparrow U_R.
+\]
+If $\bar u=\infty$, then $U_R=\infty$.  If $\bar u<\infty$, then
+$U_R\le \bar u-c(a_0)<\infty$.
+\end{definition}
+
+\begin{proposition}[Generalized relaxed solution]
+\label{prop:relaxed-solution}
+Suppose Assumptions~\ref{ass:distribution-regularity}--\ref{ass:implementability}
+hold and the preceding nondegeneracy conditions hold.  Then:
+\begin{enumerate}[label=(\roman*)]
+ \item for every $\bar U<U_R$, the relaxed problem has an almost-everywhere
+ unique solution;
+ \item there are multipliers $\lambda^*(\bar U)\ge0$ and
+ $\mu^*(\bar U)=\widetilde\mu(\lambda^*(\bar U))>0$ such that
+ \[
+  v^*_{\bar U}=v_{\lambda^*(\bar U),\mu^*(\bar U)},
+  \qquad
+  v^*_{\bar U}(y)
+  =\ell\bigl(\lambda^*(\bar U)+\mu^*(\bar U)s(y)\bigr);
+ \]
+ \item if $\bar U\le U_L$, then $\lambda^*(\bar U)=0$ and both the relaxed
+ contract and its expected cost are constant in $\bar U$;
+ \item on $(U_L,U_R)$, $\lambda^*(\bar U)$ is strictly increasing and
+ \[
+  \lambda^*(\bar U)\longrightarrow\infty
+  \quad\text{as}\quad \bar U\uparrow U_R;
+ \]
+ \item the relaxed value $C^*(\bar U)$ is strictly increasing and strictly convex
+ on $(U_L,U_R)$.
+\end{enumerate}
+\end{proposition}
+
+\proofsketch
+For $\bar U>U_L$, strict continuity of $\widetilde U$ identifies a unique
+$\lambda$ satisfying $\widetilde U(\lambda)=\bar U$.  The Pareto-path lemma and
+the supporting-multiplier argument prove optimality and uniqueness.  Below
+$U_L$, the IR constraint is slack and the solution is the $\lambda=0$
+contract.  The inverse relationship between $\widetilde U$ and $\lambda^*$ gives
+the frontier limit.  Strict convexity of the value follows from distinct supporting
+slopes and strict convexity of compensation cost.
+
+\todo{Before manuscript drafting, make the functional-analytic existence assumptions
+fully explicit.  In particular, verify that bounded utility does not require a
+separate closure argument at the unattained pointwise upper bound $\bar u$.}
+
+\section{Score-tail geometry and the limited-liability kink}
+
+\begin{assumption}[Nonbinding-link concavity]
+\label{ass:link-concavity}
+The unconstrained utility link $\ell_0$ is nondecreasing and concave on
+$(m_0,\infty)$.  The limited-liability link $\ell(z)=\ell_0(z\vee m_0)$ need not
+be globally concave because its slope jumps upward at $m_0$.
+\end{assumption}
+
+\begin{definition}[Limited-liability score cutoff]
+For $\mu>0$, define
+\[
+ q^{\mathrm{LL}}(\lambda,\mu):=\frac{m_0-\lambda}{\mu}.
+\]
+Limited liability binds precisely on
+\[
+ \{y:s(y)\le q^{\mathrm{LL}}(\lambda,\mu)\}.
+\]
+Along the LIC path write
+\[
+ \widetilde q^{\mathrm{LL}}(\lambda)
+ :=q^{\mathrm{LL}}(\lambda,\widetilde\mu(\lambda)).
+\]
+\end{definition}
+
+\begin{definition}[Tail-safe cutoffs]
+A number $q\le0$ is \emph{tail-safe} if
+\[
+ f_{aa}(y\mid a)\ge0
+ \quad\text{for every }a\in\cA
+ \text{ and every }y\text{ with }s(y)\le q.
+ \tag{TS}\label{eq:tail-safe}
+\]
+Let
+\[
+ \cQ_{\mathrm{safe}}:=\{q\le0:q\text{ is tail-safe}\}.
+\]
+Define incentive capacity and paid-region positive curvature by
+\begin{align*}
+ \Capacity(q)&:=-\int_{\{s(y)\le q\}}s(y)f_0(y)\dd(y),\\
+ \Curv(q)&:=\sup_{a\in\cA}
+ \int_{\{s(y)>q\}}[s(y)f_{aa}(y\mid a)]_+\dd(y).
+\end{align*}
+The set $\cQ_{\mathrm{safe}}$ is a lower interval.  Define its right endpoint,
+safe incentive capacity, and best paid-region curvature bound by
+\begin{align*}
+ \bar q_{\mathrm{safe}}&:=\sup\cQ_{\mathrm{safe}},\\
+ \Capacity_{\mathrm{safe}}
+ &:=\sup_{q<\bar q_{\mathrm{safe}}}\Capacity(q)
+ =-\int_{\{s(y)<\bar q_{\mathrm{safe}}\}}s(y)f_0(y)\dd(y),\\
+ \Curv_{\mathrm{safe}}
+ &:=\inf_{q\in\cQ_{\mathrm{safe}}}\Curv(q).
+\end{align*}
+The supremum is interpreted as zero if there are no interior safe cutoffs, and
+the infimum is interpreted as infinity if there are no safe cutoffs.  For the
+logarithmic result, also define
+\[
+ \underline s:=\operatorname*{ess\,inf}_{Y\sim f_0}s(Y),
+ \qquad
+ \Width_{\mathrm{safe}}:=\bar q_{\mathrm{safe}}-\underline s.
+\]
+\end{definition}
+
+Throughout, when $\Delta u=\infty$, a capacity condition of the form
+$\Delta u\,K>c'(a_0)$ means $K>0$.  This convention applies both to
+$K=\Capacity(q)$ and to $K=\Capacity_{\mathrm{safe}}$.
+
+The weak inequality in $\{s(y)\le q\}$ assigns a score atom at $q$ to the safe,
+no-payment side.  Its strict complement appears in $\Curv(q)$.  The function
+$\Capacity(q)$ is increasing in $q$, whereas $\Curv(q)$ is decreasing.  Safe
+incentive capacity excludes any capacity concentrated at a rightmost safe score
+atom with no larger safe cutoff.
+
+\section{Finite-\texorpdfstring{$\lambda$}{lambda} concavity lemmas}
+
+\begin{definition}[Trial multiplier]
+For $\lambda>m_0$ and $q<0$, let
+\[
+ \mu_q(\lambda):=\frac{m_0-\lambda}{q}>0.
+\]
+This multiplier places the kink at $q$:
+$\lambda+\mu_q(\lambda)q=m_0$.
+\end{definition}
+
+\begin{lemma}[Kink placement]
+\label{lem:kink-placement}
+Fix $q<0$.  If
+\[
+ \Delta u\,\Capacity(q)>c'(a_0),
+\]
+then, for all sufficiently large $\lambda$,
+\[
+ \widetilde q^{\mathrm{LL}}(\lambda)\le q,
+ \qquad
+ \widetilde\mu(\lambda)\le\mu_q(\lambda)=O(\lambda).
+\]
+Tail safety of $q$ is not needed for this lemma, although later applications use
+a tail-safe $q$.
+\end{lemma}
+
+\proofsketch
+At $\mu_q(\lambda)$, scores below $q$ receive $\underline u$.  Subtracting the
+constant $\ell(\lambda)$ and using $\E_{a_0}[s]=0$ gives
+\[
+ I(\lambda,\mu_q(\lambda))
+ \ge [\ell(\lambda)-\underline u]\Capacity(q).
+\]
+All omitted terms are nonnegative: for negative scores above $q$, both the utility
+difference and the score are nonpositive; for positive scores both are nonnegative.
+The strict capacity condition makes the right side exceed $c'(a_0)$ eventually.
+Monotonicity of $I$ then gives $\widetilde\mu\le\mu_q$.  Since $m_0-\lambda<0$,
+dividing by the smaller positive multiplier moves the cutoff weakly left:
+$\widetilde q^{\mathrm{LL}}(\lambda)\le q$.
+
+\begin{definition}[Secant slope]
+Along the LIC path, abbreviate $\widetilde\mu=\widetilde\mu(\lambda)$ and define
+\[
+ D_\lambda\ell(y):=
+ \frac{\ell(\lambda+\widetilde\mu s(y))-\ell(\lambda)}{\widetilde\mu s(y)}
+\]
+when $s(y)\ne0$, with its continuous extension when $s(y)=0$.
+\end{definition}
+
+\begin{lemma}[Curvature identity]
+\label{lem:curvature-identity}
+For every $a\in\cA$,
+\begin{equation}
+ U_{aa}(v_\lambda,a)
+ =\widetilde\mu
+ \int D_\lambda\ell(y)s(y)f_{aa}(y\mid a)\dd(y)-c''(a).
+ \tag{Curv}\label{eq:curvature-identity}
+\end{equation}
+\end{lemma}
+
+\proofsketch
+Add and subtract the constant $\ell(\lambda)$ from the utility contract and use
+$\int f_{aa}(y\mid a)\dd(y)=0$.  Differentiation under the integral sign then
+gives the result.
+
+\begin{lemma}[Curvature split]
+\label{lem:curvature-split}
+Fix $q\in\cQ_{\mathrm{safe}}$ with $\Curv(q)<\infty$.  If the limited-liability cutoff
+is weakly below $q$,
+\[
+ \widetilde q^{\mathrm{LL}}(\lambda)\le q,
+\]
+then, for every $a\in\cA$,
+\begin{equation}
+ U_{aa}(v_\lambda,a)
+ \le
+ \widetilde\mu\,\ell_0'(\lambda+\widetilde\mu q)\Curv(q)-c''(a).
+ \tag{Split}\label{eq:curvature-split}
+\end{equation}
+If the argument equals $m_0$, use the right derivative.
+\end{lemma}
+
+\proofsketch
+On $\{s(y)\le q\}$, tail safety gives $f_{aa}\ge0$, while $s\le0$ and monotonicity gives
+$D_\lambda\ell\ge0$.  Hence this region contributes weakly negatively to
+\eqref{eq:curvature-identity}.  On $\{s>q\}$ the contract is nonbinding.
+Concavity of $\ell_0$ bounds every relevant secant slope by
+$\ell_0'(\lambda+\widetilde\mu q)$.  Retaining only the positive part of
+$s f_{aa}$ and taking the supremum over actions gives \eqref{eq:curvature-split}.
+
+\begin{proposition}[Deterministic finite-$\lambda$ criterion]
+\label{prop:deterministic-criterion}
+Fix $q_0<q_1\le0$ with $q_0,q_1\in\cQ_{\mathrm{safe}}$.  Suppose $q_0$
+has sufficient incentive capacity and paid-region curvature is finite at $q_1$:
+\[
+ \Delta u\,\Capacity(q_0)>c'(a_0),
+ \qquad
+ \Curv(q_1)<\infty.
+\]
+For all sufficiently large $\lambda$,
+\begin{equation}
+ \sup_{a\in\cA}U_{aa}(v_\lambda,a)
+ \le
+ \mu_{q_0}(\lambda)
+ \ell_0'(\lambda+\mu_{q_0}(\lambda)q_1)\Curv(q_1)-\underline c''.
+ \tag{DC-$\lambda$}\label{eq:deterministic-finite}
+\end{equation}
+\end{proposition}
+
+\proofsketch
+Kink placement at $q_0$ gives
+$\widetilde q^{\mathrm{LL}}(\lambda)\le q_0<q_1$ and
+$\widetilde\mu\le\mu_{q_0}$.  For $q_1\le0$, the map
+\[
+ \mu\longmapsto \mu\ell_0'(\lambda+\mu q_1)
+\]
+is nondecreasing on the nonbinding range: increasing $\mu$ directly increases
+the first factor and weakly lowers the argument of the decreasing derivative.
+Combine this observation with Lemma~\ref{lem:curvature-split} at $q_1$ and
+$c''(a)\ge\underline c''$.
+
+\section{High feasible reservation utility}
+
+\begin{theorem}[Unified asymptotic concavity criterion]
+\label{thm:unified}
+Suppose Assumption~\ref{ass:link-concavity} and \eqref{eq:cost-curv} hold.  Fix
+$q_0<q_1\le0$ with $q_0,q_1\in\cQ_{\mathrm{safe}}$.  Assume
+\[
+ \Delta u\,\Capacity(q_0)>c'(a_0),
+\]
+and
+\begin{equation}
+ \limsup_{\lambda\to\infty}
+ \mu_{q_0}(\lambda)
+ \ell_0'(\lambda+\mu_{q_0}(\lambda)q_1)\Curv(q_1)
+ <\underline c''.
+ \tag{DC}\label{eq:DC}
+\end{equation}
+Then there is $\lambda_0$ such that, for every $\lambda\ge\lambda_0$,
+\[
+ U_{aa}(v_\lambda,a)\le0
+ \quad\text{for every }a\in\cA.
+\]
+Consequently, every corresponding relaxed solution satisfies global incentive
+compatibility.
+\end{theorem}
+
+\proofsketch
+The strict inequality in \eqref{eq:DC} implies $\Curv(q_1)<\infty$ and,
+together with Proposition~\ref{prop:deterministic-criterion}, gives the conclusion.  Since LIC holds at the interior action
+$a_0$, concavity of $a\mapsto U(v_\lambda,a)$ makes $a_0$ a global maximizer.
+
+\subsection{Strong flattening}
+
+\begin{definition}[Strong flattening]
+Utility satisfies strong flattening if
+\begin{equation}
+ \frac{[u'(W)]^2}{-u''(W)}\longrightarrow0
+ \quad\text{as }W\to\infty.
+ \tag{SF-$u$}\label{eq:SF-u}
+\end{equation}
+Equivalently,
+\begin{equation}
+ z\ell_0'(z)\longrightarrow0
+ \quad\text{as }z\to\infty.
+ \tag{SF}\label{eq:SF}
+\end{equation}
+Indeed, when $v=u(W)$ and $z=k'(v)=1/u'(W)$,
+\[
+ z\ell_0'(z)=\frac{[u'(W)]^2}{-u''(W)}.
+\]
+\end{definition}
+
+\begin{theorem}[Strong-flattening utilities]
+\label{thm:strong-flattening}
+Suppose Assumption~\ref{ass:link-concavity}, \eqref{eq:cost-curv}, and strong
+flattening hold.  Suppose
+\[
+ \Delta u\,\Capacity_{\mathrm{safe}}>c'(a_0),
+ \qquad
+ \Curv_{\mathrm{safe}}<\infty.
+\]
+Then the LIC-path contracts induce an agent objective concave in action for all
+sufficiently large $\lambda$.
+\end{theorem}
+
+\proofsketch
+The aggregate conditions provide $q_0<q_1$ in $\cQ_{\mathrm{safe}}$ such that
+$\Delta u\,\Capacity(q_0)>c'(a_0)$ and $\Curv(q_1)<\infty$.  The trial
+multiplier is $\mu_{q_0}(\lambda)=O(\lambda)$, while
+\[
+ z_{01}(\lambda):=\lambda+\mu_{q_0}(\lambda)q_1
+ \sim \lambda\left(1-\frac{q_1}{q_0}\right).
+\]
+Because $q_0<q_1$, the coefficient is positive.  Therefore
+\[
+ \mu_{q_0}(\lambda)\ell_0'(z_{01}(\lambda))\Curv(q_1)\longrightarrow0
+\]
+by $z\ell_0'(z)\to0$.  Apply Theorem~\ref{thm:unified}.
+
+\subsection{The logarithmic borderline}
+
+For log utility, $\ell_0'(z)=1/z$, so $z\ell_0'(z)=1$ and strong flattening fails.
+
+\begin{theorem}[Log utility and safe score width]
+\label{thm:log-width}
+Suppose $u(W)=\log W$, Assumption~\ref{ass:link-concavity}, and
+\eqref{eq:cost-curv}.  Suppose $\cQ_{\mathrm{safe}}$ is nonempty and
+\begin{equation}
+ \Curv_{\mathrm{safe}}
+ <\underline c''\,\Width_{\mathrm{safe}}.
+ \tag{LogWidth}\label{eq:log-width}
+\end{equation}
+If $\underline s=-\infty$, then $\Width_{\mathrm{safe}}=\infty$ and the right
+side is interpreted as infinity.
+Then the LIC-path contracts induce an agent objective concave in action for all
+sufficiently large $\lambda$.
+\end{theorem}
+
+\proofsketch
+The strict endpoint inequality provides
+$\underline s<q_0<q_1\le0$ with $q_0,q_1\in\cQ_{\mathrm{safe}}$ such that
+$\Capacity(q_0)>0$ and
+\[
+ \frac{\Curv(q_1)}{q_1-q_0}<\underline c''.
+\]
+Log utility is unbounded, so the first condition gives capacity.  Moreover,
+\[
+ \mu_{q_0}(\lambda)
+ \ell_0'(\lambda+\mu_{q_0}(\lambda)q_1)
+ =\frac{\mu_{q_0}(\lambda)}
+ {\lambda+\mu_{q_0}(\lambda)q_1}
+ \longrightarrow\frac1{q_1-q_0}.
+\]
+Thus \eqref{eq:DC} holds.
+
+\subsection{Passage to reservation utility and the FOA}
+
+\begin{proposition}[Concavity implies global incentive compatibility]
+\label{prop:concavity-GIC}
+Let $v$ satisfy LIC at the interior action $a_0$.  If
+$a\mapsto U(v,a)$ is concave on $\cA$, then $a_0$ is a global maximizer and $v$
+satisfies global incentive compatibility.
+\end{proposition}
+
+\begin{theorem}[FOA at high feasible reservation utility]
+\label{thm:high-reservation}
+Suppose Proposition~\ref{prop:relaxed-solution} applies.  Suppose, in addition,
+that either the hypotheses of Theorem~\ref{thm:strong-flattening} or those of
+Theorem~\ref{thm:log-width} hold.  Then there exists
+$U^*<U_R$ such that the first-order approach is valid for every
+\[
+ \bar U\in[U^*,U_R).
+\]
+If $\bar u=\infty$, then $U_R=\infty$ and this is the usual sufficiently-high
+reservation-utility statement.  If $\bar u<\infty$, it means reservation utility
+sufficiently close to the relaxed upper frontier from below.
+\end{theorem}
+
+\proofsketch
+The relevant concavity theorem supplies $\lambda_0$.  Proposition~\ref{prop:relaxed-solution}
+gives $\lambda^*(\bar U)\to\infty$ as $\bar U\uparrow U_R$.  Choose $U^*$ so
+that $\lambda^*(\bar U)\ge\lambda_0$ above $U^*$, and apply
+Proposition~\ref{prop:concavity-GIC}.
+
+\section{Utility corollaries}
+
+The following statements hold the distribution, intended action, effort cost,
+and utility-shape parameter fixed.  They maintain the regularity conditions for
+the relaxed solution and uniform cost curvature~\eqref{eq:cost-curv}.
+
+\begin{corollary}[CARA at sufficiently low initial wealth]
+\label{cor:cara-low-wealth}
+Suppose $\Capacity_{\mathrm{safe}}>0$ and
+$\Curv_{\mathrm{safe}}<\infty$.  Fix $\alpha>0$ and let
+$u(W)=-e^{-\alpha W}/\alpha$.  For all sufficiently low initial wealth $w_0$,
+the first-order approach is valid at all sufficiently high feasible reservation
+utilities.
+\end{corollary}
+
+\proofsketch
+CARA utility satisfies strong flattening, and its utility spread diverges as
+$w_0\to-\infty$.  Apply Theorems~\ref{thm:strong-flattening}
+and~\ref{thm:high-reservation}.
+
+\begin{corollary}[CRRA above one at sufficiently low initial wealth]
+\label{cor:crra-low-wealth}
+Suppose $\Capacity_{\mathrm{safe}}>0$ and
+$\Curv_{\mathrm{safe}}<\infty$.  Fix $\gamma>1$ and let
+$u(W)=W^{1-\gamma}/(1-\gamma)$.  For all sufficiently low positive initial
+wealth $w_0$, the first-order approach is valid at all sufficiently high feasible
+reservation utilities.
+\end{corollary}
+
+\proofsketch
+CRRA utility with $\gamma>1$ satisfies strong flattening, and its utility spread
+diverges as $w_0\downarrow0$.  Apply Theorems~\ref{thm:strong-flattening}
+and~\ref{thm:high-reservation}.
+
+\begin{corollary}[Log utility with an unbounded left score]
+\label{cor:log-unbounded-left}
+Suppose $w_0>0$, $u(W)=\log W$, $\underline s=-\infty$, and
+$\Curv_{\mathrm{safe}}<\infty$.  Then there is $U^*<\infty$ such that the
+first-order approach is valid for every reservation utility $\bar U\ge U^*$.
+\end{corollary}
+
+\proofsketch
+The safe score width is infinite, so condition~\eqref{eq:log-width} holds.  Log
+utility is unbounded above, so $U_R=\infty$.  Apply
+Theorem~\ref{thm:high-reservation}.
+
+\section{Distribution verifications}
+
+\subsection{Gaussian location}
+
+Suppose $Y\sim N(a,\sigma^2)$.  Then
+\[
+ s(y)=\frac{y-a_0}{\sigma^2},
+ \qquad
+ f_{aa}(y\mid a)=f(y\mid a)
+ \left[\frac{(y-a)^2}{\sigma^4}-\frac1{\sigma^2}\right].
+\]
+If $\cA=[\underline a,\bar a]$, the right edge of the uniformly safe low-score
+region is
+\[
+ \bar q_{\mathrm{safe}}
+ =\min\left\{0,\frac{\underline a-a_0-\sigma}{\sigma^2}\right\}.
+\]
+Under $a_0$, $s(Y)\sim N(0,1/\sigma^2)$, and
+\[
+ \Capacity(q)=\frac1\sigma\varphi(\sigma q).
+\]
+Paid-region curvature is finite on compact action sets, so
+$\Curv_{\mathrm{safe}}<\infty$.  Since the score is unbounded below, the log-width
+condition follows.  For CARA and CRRA with $\gamma>1$, safe incentive capacity
+remains a substantive condition.
+
+\subsection{Poisson}
+
+Suppose $Y\sim\operatorname{Pois}(a)$ and $\underline a:=\min\cA>0$.  Then
+\[
+ s(y)=\frac{y-a_0}{a_0},
+ \qquad
+ p_{aa}(y\mid a)=p(y\mid a)\frac{(y-a)^2-y}{a^2}.
+\]
+A count $y$ is uniformly low-tail safe if
+\[
+ y+\sqrt y\le\underline a.
+\]
+For a safe integer cutoff $K<a_0$, let $q_K:=(K-a_0)/a_0$ be the
+corresponding score cutoff.  Then
+\[
+ \Capacity(q_K)
+ =-\sum_{y\le K}\frac{y-a_0}{a_0}p(y\mid a_0)
+ =\Pr_{a_0}(Y=K).
+\]
+Paid-region curvature is finite on compact action sets bounded away from zero.
+Because score values are discrete, formal applications should compute interior
+safe capacity rather than mechanically using capacity at the rightmost safe
+atom.
+
+\subsection{Exponential output with mean action}
+
+Suppose output has density
+\[
+ f(y\mid a)=\frac1a e^{-y/a}\ind\{y\ge0\},
+ \qquad \underline a:=\min\cA>0.
+\]
+Then
+\[
+ s(y)=\frac{y-a_0}{a_0^2},
+ \qquad
+ f_{aa}(y\mid a)=f(y\mid a)
+ \frac{y^2-4ay+2a^2}{a^4}.
+\]
+The uniformly safe low-output region is
+\[
+ y\le(2-\sqrt2)\underline a,
+\]
+so
+\[
+ \bar q_{\mathrm{safe}}
+ =\min\left\{0,
+ \frac{(2-\sqrt2)\underline a-a_0}{a_0^2}
+ \right\}.
+\]
+For a nonnegative output cutoff $r=a_0+a_0^2q$ and $b=r/a_0$,
+\[
+ \Capacity(q)=\frac{be^{-b}}{a_0}.
+\]
+Again, $\Curv(q)<\infty$ on compact action sets bounded away from zero.
+
+\section{Appendix-only asymptotic-affinity extension}
+
+This section uses a different mechanism from safe-tail flattening.  It is intended
+for an appendix, with at most a brief main-text reference.
+
+\subsection{Affine-score curvature and primitive moments}
+
+\begin{assumption}[Affine-score curvature]
+\label{ass:affine-score}
+For every $a\in\cA$,
+\begin{equation}
+ \int s(y)f_{aa}(y\mid a)\dd(y)\le0.
+ \tag{Affine}\label{eq:affine-score}
+\end{equation}
+Equivalently, $a\mapsto\E_a[s(Y)]$ is concave.
+\end{assumption}
+
+\begin{assumption}[Moments for asymptotic affinity]
+\label{ass:affinity-moments}
+For some $\eta>0$,
+\begin{align*}
+ 0<\sigma_s^2&:=\int s(y)^2f_0(y)\dd(y)<\infty,\\
+ \int |s(y)|^{2+\eta}f_0(y)\dd(y)&<\infty,\\
+ \sup_{a\in\cA}\int
+ (1+|s(y)|^{2+\eta})|f_{aa}(y\mid a)|\dd(y)&<\infty.
+\end{align*}
+\end{assumption}
+
+\subsection{CRRA with one-half below gamma below one}
+
+Suppose
+\[
+ \frac12<\gamma<1,
+ \qquad
+ p:=\frac{1-\gamma}{\gamma}\in(0,1).
+\]
+On the nonbinding region,
+\[
+ \ell_0(z)=\frac{z^p}{1-\gamma},
+ \qquad
+ \ell_0'(z)=\frac1\gamma z^{p-1}.
+\]
+Thus $\ell_0'(z)\to0$ but $z\ell_0'(z)\to\infty$, so strong flattening fails.
+
+\begin{lemma}[LIC multiplier asymptotics]
+\label{lem:affinity-multiplier}
+Under Assumption~\ref{ass:affinity-moments}, for CRRA with
+$\gamma\in(1/2,1)$,
+\[
+ \widetilde\mu(\lambda)\ell_0'(\lambda)
+ \longrightarrow
+ \theta^*:=\frac{c'(a_0)}{\sigma_s^2},
+ \qquad
+ \frac{\widetilde\mu(\lambda)}{\lambda}\longrightarrow0.
+\]
+\end{lemma}
+
+\proofsketch
+For bounded $\theta$, set $\mu_\lambda(\theta)=\theta/\ell_0'(\lambda)$.  Since
+$\lambda\ell_0'(\lambda)\to\infty$, we have $\mu_\lambda(\theta)/\lambda\to0$.
+A central-region Taylor expansion and the $(2+\eta)$ score moment give
+\[
+ \ell(\lambda+\mu_\lambda(\theta)s)
+ =\ell(\lambda)+\theta s+o(1)
+\]
+in the weighted space
+\[
+ L^1\bigl(|s(y)|f_0(y)\dd(y)\bigr).
+\]
+The constant vanishes after multiplication by $s$ and integration.  Hence
+$I(\lambda,\mu_\lambda(\theta))\to\theta\sigma_s^2$.
+Monotonicity of $I$ pins down the LIC solution.  The second limit follows by
+dividing the first by $\lambda\ell_0'(\lambda)$.
+
+\begin{lemma}[Uniform residual]
+\label{lem:uniform-residual}
+Under Assumption~\ref{ass:affinity-moments},
+\begin{equation}
+\begin{aligned}
+ &\sup_{a\in\cA}\Bigg|
+ \int\left[
+  \ell(\lambda+\widetilde\mu(\lambda)s(y))-\ell(\lambda)
+  -\widetilde\mu(\lambda)\ell_0'(\lambda)s(y)
+ \right]
+ \\[-2pt]
+ &\hspace{5cm}{}
+ \times f_{aa}(y\mid a)\dd(y)
+ \Bigg|\longrightarrow0.
+\end{aligned}
+\tag{R}\label{eq:residual}
+\end{equation}
+\end{lemma}
+
+\proofsketch
+Split at $|s|\le \lambda/(2\widetilde\mu)$.  On the central region, Taylor's theorem
+bounds the residual by a constant times
+$\widetilde\mu^2|\ell_0''(\lambda/2)|s^2$, whose coefficient is $O(\lambda^{-p})$.
+On the tail, use the sublinear growth $|\ell(z)|\le C(1+|z|^p)$ and the uniform
+$(2+\eta)$ weighted moment of $f_{aa}$.  Lemma~\ref{lem:affinity-multiplier}
+gives the rates needed for both pieces to vanish uniformly in $a$.
+
+\begin{theorem}[Asymptotic affinity]
+\label{thm:asymptotic-affinity}
+Suppose \eqref{eq:cost-curv}, Assumptions~\ref{ass:affine-score} and
+\ref{ass:affinity-moments}, and CRRA utility with $\gamma\in(1/2,1)$.  Then
+\[
+ \sup_{a\in\cA}
+ U_{aa}(v_\lambda,a)
+ \le-\underline c''+o(1).
+\]
+In particular, the agent's objective is concave for all sufficiently large
+$\lambda$, and the FOA is valid at all sufficiently high feasible reservation
+utilities.
+\end{theorem}
+
+\proofsketch
+Use $\int f_{aa}\dd=0$ to remove $\ell(\lambda)$ and expand
+\begin{align*}
+ \int \ell(\lambda+\widetilde\mu s)f_{aa}(y\mid a)\dd(y)
+ &=\widetilde\mu\ell_0'(\lambda)
+   \int s(y)f_{aa}(y\mid a)\dd(y)+o(1).
+\end{align*}
+The remainder is uniform by Lemma~\ref{lem:uniform-residual}; the leading term is
+nonpositive by affine-score curvature.  Subtract $c''(a)\ge\underline c''$.
+
+\begin{corollary}[Gaussian CRRA extension]
+For a Gaussian location family on a compact action set, all moments in
+Assumption~\ref{ass:affinity-moments} hold and
+\[
+ \int s(y)f_{aa}(y\mid a)\dd(y)
+ =\frac{d^2}{da^2}\E_a[s(Y)]=0.
+\]
+Consequently, Gaussian output with CRRA utility is covered by strong flattening
+for $\gamma>1$, by the log theorem for $\gamma=1$, and by asymptotic affinity for
+$\gamma\in(1/2,1)$, subject in each branch to the assumptions of the corresponding
+relaxed-solution result.
+\end{corollary}
+
+No general claim is made here for $\gamma\le1/2$.
+
+\section{Result map for the revised paper}
+
+The recommended manuscript order is:
+\begin{enumerate}
+ \item model, score, links, and canonical contracts;
+ \item generalized relaxed-solution Proposition~\ref{prop:relaxed-solution};
+ \item tail-safe cutoffs and the finite-$\lambda$ kink and curvature lemmas;
+ \item unified criterion, followed by strong flattening and log as transparent
+ verification results;
+ \item high-feasible-reservation Theorem~\ref{thm:high-reservation};
+ \item utility and distribution applications;
+ \item asymptotic affinity only in the appendix.
+\end{enumerate}
+
+The main conceptual decomposition is
+\[
+ \boxed{\text{the kink lies in a safe low-score tail}}
+ \quad+\quad
+ \boxed{\text{paid-region positive curvature is dominated by }c''}.
+\]
+The first box is supplied by incentive capacity and kink placement.  The second
+is supplied either by strong flattening, by sufficient safe score width for log
+utility, or---in the appendix---by asymptotic affinity.
+
+\end{document}
