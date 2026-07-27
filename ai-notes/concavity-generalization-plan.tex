@@ -827,6 +827,12 @@ therefore follows from Theorem~\ref{thm:high-reservation}.
 
 \section{Distribution verifications}
 
+These calculations are intended for an appendix.  In the manuscript's
+closed-form-solutions subsection, the distribution table should contain only a
+brief note that the named examples other than Student's $t$ satisfy the relevant
+qualitative safe-tail and integrability conditions under the stated parameter
+restrictions, with verification deferred to the appendix.
+
 \subsection{Gaussian location}
 
 Suppose $Y\sim N(a,\sigma^2)$.  Then
@@ -905,6 +911,20 @@ For a nonnegative output cutoff $r=a_0+a_0^2q$ and $b=r/a_0$,
  \Capacity(q)=\frac{be^{-b}}{a_0}.
 \]
 Again, $\Curv(q)<\infty$ on compact action sets bounded away from zero.
+
+\subsection{Other distributions in the solutions table}
+
+The appendix should also record short verifications for the lognormal,
+Bernoulli, geometric, binomial, and gamma examples.  Lognormal follows from the
+Gaussian calculation after the logarithmic transformation.  The discrete
+families are handled with score cutoffs and sums, as in the Poisson calculation,
+and require action sets bounded away from parameter boundaries where relevant.
+Generic exponential, location, and scale families should be accompanied by the
+primitive restrictions under which the qualitative conditions hold rather than
+claimed without qualification.  Student's $t$ is the deliberate exception: its
+nonmonotone score does not generate the required safe low-score geometry in the
+counterexample and should remain in the assumptions-and-counterexamples
+subsection.
 
 \section{Appendix-only asymptotic-affinity extension}
 
@@ -1081,10 +1101,29 @@ The recommended manuscript organization is as follows.
  machinery, not a separately named theorem.  Strong flattening and log width are
  verification lemmas inside the proof of the main theorem.
 
- \item \textbf{Applications.}  Verify the aggregate conditions for the main
- distribution families and connect them to the numerical examples.  Keep the
- common-utility corollary near the main theorem rather than repeating separate
- utility theorems here.
+ \item \textbf{Applications and discussion.}  Preserve the topics and order of
+ the current manuscript draft:
+ \begin{enumerate}[label=(\alph*)]
+  \item \emph{Closed-form solutions:} present the utility and distribution
+  tables.  Add only a brief note that the named example distributions other
+  than Student's $t$ readily satisfy the qualitative safe-tail and integrability
+  requirements under the stated parameter restrictions.  Refer readers to the
+  appendix for verification; do not turn this subsection into another theory
+  section.
+  \item \emph{Linear contracts:} retain the option-contract result for log
+  utility and exponential families with linear sufficient statistics.
+  \item \emph{Numerical methods:} retain the active-set method, convex fallback,
+  and benchmarks.
+  \item \emph{Assumptions and counterexamples:} retain the Student-$t$ example,
+  limited-liability discussion, utility-bound discussion, and support/discrete
+  discussion, updated for the generalized assumptions.  Student's $t$ should be
+  presented as failure of the relevant safe-tail geometry, not as evidence that
+  MLRP is imposed by the main theorem.
+  \item \emph{Literature discussion:} retain the current final position and
+  internal ordering.
+ \end{enumerate}
+ The common-utility corollary remains near the main theorem and is not repeated
+ here.
 
  \item \textbf{Scope and endogenous intended actions.}  State clearly that the
  main theorem is action-by-action for a fixed interior $a_0$.  A theorem for the
@@ -1108,7 +1147,9 @@ The recommended manuscript organization is as follows.
  Gaussian corollary.  It uses a different mechanism and should not become a
  second main theorem.
  \item Collect longer utility and distribution calculations, including formulas
- for links, capacities, and curvature bounds.
+ for links, capacities, and curvature bounds.  Verify the qualitative conditions
+ for the named distributions in the closed-form-solutions table, and explain
+ precisely why the Student-$t$ counterexample falls outside the safe-tail route.
 \end{enumerate}
 
 The core hierarchy is therefore one main theorem, one common-utility corollary,
