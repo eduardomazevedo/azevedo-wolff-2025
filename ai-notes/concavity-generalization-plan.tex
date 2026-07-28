@@ -291,7 +291,9 @@ unique minimizer of
  C(v,a_0)-\lambda U(v,a_0)
 \]
 among contracts satisfying LIC.  The function $\widetilde U$ is continuous and
-strictly increasing.
+nondecreasing.  Moreover, if $\lambda_1<\lambda_2$ and
+$\widetilde U(\lambda_1)=\widetilde U(\lambda_2)$, then
+$v_{\lambda_1}=v_{\lambda_2}$ almost everywhere.
 \end{lemma}
 
 \proofsketch
@@ -302,10 +304,12 @@ imply
  (\lambda_2-\lambda_1)
  [\widetilde U(\lambda_2)-\widetilde U(\lambda_1)]\ge0.
 \]
-If equality held, strict convexity of $k$ and uniqueness would force the two
-contracts to agree almost everywhere, contradicting their distinct supporting
-multipliers under score nondegeneracy.  Continuity follows from continuity of the
-canonical path and dominated convergence.
+If the two utility levels are equal, both contracts solve the same strictly
+convex Pareto problem, so uniqueness forces them to agree almost everywhere.
+Continuity follows from continuity of the canonical path.  Thus a flat portion
+of $\widetilde U$ represents one economic contract supported by multiple
+multipliers; geometrically, it corresponds to a corner of the cost--utility
+frontier.
 
 \begin{definition}[Reservation-utility frontiers]
 Define
@@ -315,7 +319,7 @@ Define
  U_R:=\lim_{\lambda\to\infty}\widetilde U(\lambda)
  \in\R\cup\{\infty\}.
 \]
-The limit exists because $\widetilde U$ is increasing.  The phrase
+The limit exists because $\widetilde U$ is nondecreasing.  The phrase
 \emph{high feasible reservation utility} means
 \[
  \bar U\uparrow U_R.
@@ -324,46 +328,51 @@ If $\bar u=\infty$, then $U_R=\infty$.  If $\bar u<\infty$, then
 $U_R\le \bar u-c(a_0)<\infty$.
 \end{definition}
 
-\todo{State the minimal condition needed for strict Pareto-path comparative
-statics.  With discrete scores and binding limited liability, the canonical path
-may have flat portions even though local implementability holds.  We should
-weaken or localize the strict-monotonicity claims if possible rather than impose
-a nondegeneracy condition that excludes the discrete examples.}
-
 \begin{proposition}[Generalized relaxed solution]
 \label{prop:relaxed-solution}
-Subject to resolution of the preceding nondegeneracy open point:
+The frontiers satisfy $U_L<U_R$, and:
 \begin{enumerate}[label=(\roman*)]
  \item for every $\bar U<U_R$, the relaxed problem has an almost-everywhere
  unique solution;
- \item there are multipliers $\lambda^*(\bar U)\ge0$ and
- $\mu^*(\bar U)=\widetilde\mu(\lambda^*(\bar U))>0$ such that
+ \item the solution has a canonical representation: for some multipliers
+ $\lambda\ge0$ and $\mu=\widetilde\mu(\lambda)>0$,
  \[
-  v^*_{\bar U}=v_{\lambda^*(\bar U),\mu^*(\bar U)},
+  v^*_{\bar U}=v_{\lambda,\mu},
   \qquad
-  v^*_{\bar U}(y)
-  =\ell\bigl(\lambda^*(\bar U)+\mu^*(\bar U)s(y)\bigr);
+  v^*_{\bar U}(y)=\ell\bigl(\lambda+\mu s(y)\bigr);
  \]
- \item if $\bar U\le U_L$, then $\lambda^*(\bar U)=0$ and both the relaxed
- contract and its expected cost are constant in $\bar U$;
- \item on $(U_L,U_R)$, $\lambda^*(\bar U)$ is strictly increasing and
+ the contract is unique, although its multipliers need not be;
+ \item if $\bar U\le U_L$, the relaxed contract and its expected cost are
+ constant in $\bar U$, and the contract admits a representation with $\lambda=0$;
+ if $\bar U\in(U_L,U_R)$, IR binds;
+ \item if $\bar U_n\uparrow U_R$ and $(\lambda_n,\mu_n)$ are any multipliers
+ representing the relaxed-optimal contracts for $\bar U_n$, then
  \[
-  \lambda^*(\bar U)\longrightarrow\infty
-  \quad\text{as}\quad \bar U\uparrow U_R;
+  \lambda_n\longrightarrow\infty;
  \]
- \item the relaxed value $C^*(\bar U)$ is strictly increasing and strictly convex
- on $(U_L,U_R)$.
+ \item the relaxed value $C^*(\bar U)$ is constant below $U_L$ and strictly
+ increasing and strictly convex on $(U_L,U_R)$.
 \end{enumerate}
 \end{proposition}
 
 \proofsketch
-For $\bar U>U_L$, strict continuity of $\widetilde U$ identifies a unique
-$\lambda$ satisfying $\widetilde U(\lambda)=\bar U$.  The Pareto-path lemma and
-the supporting-multiplier argument prove optimality and uniqueness.  Below
-$U_L$, the IR constraint is slack and the solution is the $\lambda=0$
-contract.  The inverse relationship between $\widetilde U$ and $\lambda^*$ gives
-the frontier limit.  Strict convexity of the value follows from distinct supporting
-slopes and strict convexity of compensation cost.
+Continuity and monotonicity of $\widetilde U$ imply that every utility level in
+$(U_L,U_R)$ is attained.  Any two multipliers attaining the same utility induce
+the same contract by Lemma~\ref{lem:pareto-path}.  The supporting-multiplier
+argument then gives optimality and uniqueness, with binding IR above $U_L$.
+Below $U_L$, the $\lambda=0$ Pareto contract is feasible and minimizes cost.
+
+It remains to rule out a terminal flat portion of $\widetilde U$.  If one
+existed, Lemma~\ref{lem:pareto-path} would imply that the same contract is
+canonical for arbitrarily large $\lambda$.  LIC and $c'(a_0)>0$ imply that this
+contract is above the limited-liability floor on a positive-score set.  At any
+such outcome the interior condition gives
+$k'(v(y))=\lambda+\widetilde\mu(\lambda)s(y)>\lambda$, which is impossible for a
+fixed contract as $\lambda\to\infty$.  Hence $U_R$ is not attained at a finite
+$\lambda$.  Continuity then proves the sequential divergence in part~(iv).
+Strict increase and strict convexity of the value follow from binding IR and
+strict convexity of compensation cost; distinct reservation utilities above
+$U_L$ have distinct optimal contracts.
 
 \todo{Before manuscript drafting, make the functional-analytic existence assumptions
 fully explicit.  In particular, verify that bounded utility does not require a
@@ -704,23 +713,24 @@ Then there exists $U^*<U_R$ such that the first-order approach is valid for ever
  \bar U\in[U^*,U_R).
 \]
 For every such $\bar U$, the original cost-minimization problem has the almost
-everywhere unique solution
+everywhere unique solution characterized by Proposition~\ref{prop:relaxed-solution};
+in particular, for some associated multipliers $\lambda\ge0$ and $\mu>0$,
 \[
- v^*_{\bar U}(y)
- =\ell\bigl(\lambda^*(\bar U)+\mu^*(\bar U)s(y)\bigr)
+ v^*_{\bar U}(y)=\ell\bigl(\lambda+\mu s(y)\bigr).
 \]
-characterized by Proposition~\ref{prop:relaxed-solution}.  If $\bar u=\infty$,
+If $\bar u=\infty$,
 then $U_R=\infty$; if $\bar u<\infty$, ``sufficiently high'' means sufficiently
 close to the relaxed upper frontier from below.
 \end{theorem}
 
 \proofsketch
 Lemma~\ref{lem:strong-flattening} or Lemma~\ref{lem:log-width} supplies
-$\lambda_0$.  Proposition~\ref{prop:relaxed-solution} gives
-$\lambda^*(\bar U)\to\infty$ as $\bar U\uparrow U_R$.  Choose $U^*$ so that
-$\lambda^*(\bar U)\ge\lambda_0$ above $U^*$.  Concavity and LIC at the interior
-action $a_0$ give global incentive compatibility.  Thus the unique relaxed
-solution is feasible for, and uniquely solves, the original problem.
+$\lambda_0$.  Proposition~\ref{prop:relaxed-solution} implies that, sufficiently
+close to $U_R$, every canonical representation of the relaxed-optimal contract
+has $\lambda\ge\lambda_0$.  Choose $U^*$ so that this holds above $U^*$.
+Concavity and LIC at the interior action $a_0$ give global incentive
+compatibility.  Thus the unique relaxed solution is feasible for, and uniquely
+solves, the original problem.
 
 \section{Utility corollaries}
 
