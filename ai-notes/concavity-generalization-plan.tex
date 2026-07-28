@@ -99,8 +99,6 @@ $c'(a_0)>0$. Given a utility contract, the agent's \textbf{expected utility} and
  C(v,a)&:=\int [k(v(y))-w_0]f(y\mid a)\dd(y).
 \end{align*}
 
-Let $\underline c'' := \inf_{a\in\cA}c''(a)$.
-
 The \textbf{feasible contract set} $\mathcal V$ consists of all measurable
 utility contracts $v:\cY\to[\underline u,\bar u)$ that have finite expected
 compensation cost $C(v,a)$ for every $a\in\cA$ and for which the map
@@ -161,34 +159,31 @@ Subscripts, rather than a vertical bar, distinguish contract parameters from the
 conditioning notation in $f(y\mid a)$.
 \end{definition}
 
-\begin{assumption}[Canonical-contract regularity]
-\label{ass:contract-regularity}
-Every canonical utility contract $v_{\lambda,\mu}$ belongs to $\mathcal V$.
-Moreover, its expected utility, local incentives, and expected compensation cost vary
-continuously with the contract parameters: the maps
+We maintain \textbf{canonical-contract regularity}: every canonical utility
+contract $v_{\lambda,\mu}$ belongs to $\mathcal V$, and its expected utility,
+local incentives, and expected compensation cost vary continuously with the
+contract parameters.  Thus the maps
 \[
- (\lambda,\mu)\longmapsto
- U(v_{\lambda,\mu},a_0),
+ (\lambda,\mu)\longmapsto U(v_{\lambda,\mu},a_0),
  \qquad
- (\lambda,\mu)\longmapsto
- U_a(v_{\lambda,\mu},a_0),
+ (\lambda,\mu)\longmapsto U_a(v_{\lambda,\mu},a_0),
  \qquad
- (\lambda,\mu)\longmapsto
- C(v_{\lambda,\mu},a_0)
+ (\lambda,\mu)\longmapsto C(v_{\lambda,\mu},a_0)
 \]
-are continuous on $\R^2$.
-\end{assumption}
+are continuous on $\R^2$.  Recall that membership in $\mathcal V$ already
+requires finite expected compensation and valid differentiation under the
+integral sign through second order.  These requirements can be verified together
+by standard local domination conditions.  Distributional examples in the
+appendix should verify such primitive conditions rather than build them into the
+statement of the main results.
 
-\begin{remark}[Domination as a sufficient condition]
-Assumption~\ref{ass:contract-regularity} states directly the regularity used in
-the arguments.  Recall that membership in $\mathcal V$ already requires finite
-expected compensation and valid differentiation under the integral sign through
-second order.  The additional continuity in $(\lambda,\mu)$ and membership in
-$\mathcal V$ can be verified together by standard local domination conditions.  Distributional
-examples in the appendix should verify such primitive conditions rather than
-build them into the statement of the main results.
-\end{remark}
-
+Finally, we maintain \textbf{local implementability}:
+\begin{equation}
+ \Delta u\int_{\{s>0\}}s(y)f_0(y)\dd(y)>c'(a_0).
+ \tag{Imp}\label{eq:implementability}
+\end{equation}
+When $\Delta u=\infty$, this means that the positive score has positive first
+moment.
 
 \section{The relaxed problem}
 
@@ -203,18 +198,7 @@ By the definition of $\mathcal V$, LIC is
  \int v(y)s(y)f_0(y)\dd(y)=c'(a_0).
 \]
 
-\subsection{Local implementability and the LIC path}
-
-\begin{assumption}[Local implementability]
-\label{ass:implementability}
-The intended action satisfies
-\begin{equation}
- \Delta u\int_{\{s>0\}}s(y)f_0(y)\dd(y)>c'(a_0).
- \tag{Imp}\label{eq:implementability}
-\end{equation}
-When $\Delta u=\infty$, this means that the positive score has positive
-first moment.
-\end{assumption}
+\subsection{The LIC path}
 
 \begin{definition}[Incentive functional]
 For fixed $\lambda$ and $\mu$, let
@@ -228,9 +212,7 @@ $I(\lambda,\mu)=c'(a_0)$.
 
 \begin{lemma}[Unique LIC multiplier]
 \label{lem:unique-mu}
-Suppose Assumptions~\ref{ass:distribution-regularity}--\ref{ass:implementability}
-hold.  For every
-$\lambda\ge0$, there is a unique $\widetilde\mu(\lambda)>0$ such that
+For every $\lambda\ge0$, there is a unique $\widetilde\mu(\lambda)>0$ such that
 \[
  I(\lambda,\widetilde\mu(\lambda))=c'(a_0).
 \]
@@ -342,10 +324,15 @@ If $\bar u=\infty$, then $U_R=\infty$.  If $\bar u<\infty$, then
 $U_R\le \bar u-c(a_0)<\infty$.
 \end{definition}
 
+\todo{State the minimal condition needed for strict Pareto-path comparative
+statics.  With discrete scores and binding limited liability, the canonical path
+may have flat portions even though local implementability holds.  We should
+weaken or localize the strict-monotonicity claims if possible rather than impose
+a nondegeneracy condition that excludes the discrete examples.}
+
 \begin{proposition}[Generalized relaxed solution]
 \label{prop:relaxed-solution}
-Suppose Assumptions~\ref{ass:distribution-regularity}--\ref{ass:implementability}
-hold and the preceding nondegeneracy conditions hold.  Then:
+Subject to resolution of the preceding nondegeneracy open point:
 \begin{enumerate}[label=(\roman*)]
  \item for every $\bar U<U_R$, the relaxed problem has an almost-everywhere
  unique solution;
@@ -383,6 +370,17 @@ fully explicit.  In particular, verify that bounded utility does not require a
 separate closure argument at the unattained pointwise upper bound $\bar u$.}
 
 \section{Score-tail geometry and the limited-liability kink}
+
+The following two assumptions are maintained for the safe-tail FOA analysis and
+are invoked explicitly in the main theorem.
+
+\begin{assumption}[Uniform cost curvature]
+\label{ass:cost-curvature}
+Effort cost has uniformly positive curvature:
+\[
+ \underline c'':=\inf_{a\in\cA}c''(a)>0.
+\]
+\end{assumption}
 
 \begin{assumption}[Nonbinding-link concavity]
 \label{ass:link-concavity}
@@ -580,8 +578,7 @@ $c''(a)\ge\underline c''$.
 \section{Asymptotic verification and the main theorem}
 
 Proposition~\ref{prop:deterministic-criterion} gives the general asymptotic
-criterion used below.  Suppose Assumption~\ref{ass:link-concavity} and
-\eqref{eq:cost-curv} hold.  If there are $q_0<q_1\le0$ in
+criterion used below.  If there are $q_0<q_1\le0$ in
 $\cQ_{\mathrm{safe}}$ such that
 \[
  \Delta u\,\Capacity(q_0)>c'(a_0)
@@ -623,8 +620,7 @@ Indeed, when $v=u(W)$ and $z=k'(v)=1/u'(W)$,
 
 \begin{lemma}[Strong-flattening verification]
 \label{lem:strong-flattening}
-Suppose Assumption~\ref{ass:link-concavity}, \eqref{eq:cost-curv}, and strong
-flattening hold.  Suppose
+Suppose strong flattening holds and
 \[
  \Delta u\,\Capacity_{\mathrm{safe}}>c'(a_0),
  \qquad
@@ -654,8 +650,7 @@ For log utility, $\ell_0'(z)=1/z$, so $z\ell_0'(z)=1$ and strong flattening fail
 
 \begin{lemma}[Log-width verification]
 \label{lem:log-width}
-Suppose $u(W)=\log W$, Assumption~\ref{ass:link-concavity}, and
-\eqref{eq:cost-curv}.  Suppose $\cQ_{\mathrm{safe}}$ is nonempty and
+Suppose $u(W)=\log W$, $\cQ_{\mathrm{safe}}$ is nonempty, and
 \begin{equation}
  \Curv_{\mathrm{safe}}
  <\underline c''\,\Width_{\mathrm{safe}}.
@@ -688,9 +683,8 @@ Thus \eqref{eq:DC} holds.
 
 \begin{theorem}[FOA at high feasible reservation utility]
 \label{thm:high-reservation}
-Suppose Proposition~\ref{prop:relaxed-solution},
-Assumption~\ref{ass:link-concavity}, and \eqref{eq:cost-curv} apply.  Suppose,
-in addition, that either
+Suppose Assumptions~\ref{ass:cost-curvature} and
+\ref{ass:link-concavity} hold.  Suppose, in addition, that either
 \begin{enumerate}[label=(\roman*)]
  \item utility satisfies strong flattening,
  \[
@@ -732,7 +726,7 @@ solution is feasible for, and uniquely solves, the original problem.
 
 The following statements hold the distribution, intended action, effort cost,
 and utility-shape parameter fixed.  They maintain the regularity conditions for
-the relaxed solution and uniform cost curvature~\eqref{eq:cost-curv}.
+the relaxed solution.
 
 \begin{corollary}[Common utility specifications]
 \label{cor:common-utilities}
@@ -962,8 +956,9 @@ gives the rates needed for both pieces to vanish uniformly in $a$.
 
 \begin{proposition}[Asymptotic-affinity extension]
 \label{prop:asymptotic-affinity}
-Suppose \eqref{eq:cost-curv}, Assumptions~\ref{ass:affine-score} and
-\ref{ass:affinity-moments}, and CRRA utility with $\gamma\in(1/2,1)$.  Then
+Suppose Assumptions~\ref{ass:cost-curvature}, \ref{ass:affine-score}, and
+\ref{ass:affinity-moments} hold, and utility is CRRA with
+$\gamma\in(1/2,1)$.  Then
 \[
  \sup_{a\in\cA}
  U_{aa}(v_\lambda,a)
@@ -1005,6 +1000,46 @@ No general claim is made here for $\gamma\le1/2$.
 This planning document presents results in logical proof order.  The manuscript
 should instead state the economically useful result early and defer its machinery.
 The recommended manuscript organization is as follows.
+
+\subsection*{Contract notation when implementing the manuscript}
+
+The main text should use only the economically natural wage representation.  A
+contract there will mean a payment function $w:\cY\to\R_+$, with
+\[
+ U(w,a):=\int u(w_0+w(y))f(y\mid a)\dd(y)-c(a),
+ \qquad
+ C(w,a):=\int w(y)f(y\mid a)\dd(y).
+\]
+The cost-minimization problem, the relaxed problem, the characterization
+proposition, and the main FOA theorem should all be stated in this notation.  In
+particular, the characterization should display the wage formula
+\[
+ w^*(y)=L(\lambda^*+\mu^*s(y))-w_0.
+\]
+The main text need not define utility contracts or the utility link $\ell$.
+
+At the beginning of the proof appendix, introduce the one-to-one change of
+variables
+\[
+ v(y):=u(w_0+w(y)),
+ \qquad
+ w(y)=k(v(y))-w_0,
+\]
+and use visibly distinct transformed functionals, for example
+\[
+ \widehat U(v,a):=\int v(y)f(y\mid a)\dd(y)-c(a),
+ \qquad
+ \widehat C(v,a):=\int[k(v(y))-w_0]f(y\mid a)\dd(y).
+\]
+Thus $U(w,a)=\widehat U(v,a)$ and $C(w,a)=\widehat C(v,a)$ under the change of
+variables.  The appendix may then define $\ell=u\circ L$ and conduct the convex
+analysis in utility space.  Do not overload $U$ and $C$ across the two contract
+representations.
+
+This is an implementation instruction for the eventual manuscript refactor.
+Until then, this planning document should retain its present utility-contract
+notation and logical proof order, which make it easier to polish the assumptions
+and results.
 
 \subsection*{Main text}
 
