@@ -52,64 +52,16 @@ prose; theorem names and labels are intended to survive into the paper when poss
 
 \subsection{Actions, output, and scores}
 
-\begin{definition}[Actions and output]
-The agent chooses an action $a$ in a compact interval $\cA\subseteq\R_+$.
-The intended action $a_0$ is in the interior of $\cA$.  Output has common
-support $\cY\subseteq\R$ for every $a\in\cA$ and has density or probability mass
-function $f(\cdot\mid a)>0$ on $\cY$ with respect to a common dominating measure
-$\nu$.  Thus
-\[
-  \E_a[h(Y)]=\int_{\cY}h(y)f(y\mid a)\dd(y).
-\]
-Counting measure is used for discrete output.
-\end{definition}
+The agent chooses an \textbf{action} $a$ from a compact interval
+$\cA\subseteq\R_+$.  Fix an interior \textbf{intended action} $a_0$.
+\textbf{Output} $y$ lies in a common support $\cY\subseteq\R$ and has a strictly
+positive \textbf{density or probability mass function} $f(\cdot\mid a)$ with
+respect to a common \textbf{dominating measure} $\nu$.  We write expectations as
+integrals with respect to $\nu$, using counting measure for discrete output.
 
-\begin{assumption}[Distributional regularity]
-\label{ass:distribution-regularity}
-For every $y\in\cY$, the map $a\mapsto f(y\mid a)$ is twice continuously
-differentiable on an open set containing $\cA$.  For every $a^*\in\cA$, there are a relative neighborhood
-$N_{a^*}$ of $a^*$ in $\cA$ and a nonnegative $\nu$-integrable function
-$g_{a^*}$ such that
-\begin{equation}
- \sup_{a\in N_{a^*}}
- \left\{
- |f(y\mid a)|+|f_a(y\mid a)|+|f_{aa}(y\mid a)|
- \right\}
- \le g_{a^*}(y)
- \quad\text{for $\nu$-almost every }y.
- \tag{DensDom}\label{eq:density-domination}
-\end{equation}
-\end{assumption}
+For $\nu$-almost every $y\in\cY$, the map $a\mapsto f(y\mid a)$ is twice
+continuously differentiable on an open set containing $\cA$.
 
-Assumption~\ref{ass:distribution-regularity} and differentiation under the
-integral sign imply, for every $a\in\cA$,
-\[
- \int f_a(y\mid a)\dd(y)=0,
- \qquad
- \int f_{aa}(y\mid a)\dd(y)=0.
-\]
-
-\begin{definition}[Twice differentiable integrand class]
-\label{def:H2}
-Let $\mathcal H_f^2$ be the set of measurable functions $h:\cY\to\R$ such that,
-for every $a^*\in\cA$, there are a relative neighborhood $N_{a^*}$ and a
-nonnegative $\nu$-integrable function $g_{h,a^*}$ satisfying
-\begin{equation}
- \sup_{a\in N_{a^*}}
- |h(y)|
- \left\{
- |f(y\mid a)|+|f_a(y\mid a)|+|f_{aa}(y\mid a)|
- \right\}
- \le g_{h,a^*}(y)
- \quad\text{for $\nu$-almost every }y.
- \tag{$H^2$}\label{eq:H2}
-\end{equation}
-For every $h\in\mathcal H_f^2$, the map
-$a\mapsto\int h(y)f(y\mid a)\dd(y)$ is twice continuously differentiable and
-its first two derivatives are obtained by differentiating $f$ under the integral.
-\end{definition}
-
-\begin{definition}[Score]
 The score is
 \[
  S(y\mid a):=\partial_a\log f(y\mid a)=\frac{f_a(y\mid a)}{f(y\mid a)}.
@@ -118,46 +70,46 @@ After fixing $a_0$, write
 \[
  s(y):=S(y\mid a_0),\qquad f_0(y):=f(y\mid a_0).
 \]
-Assumption~\ref{ass:distribution-regularity} gives
-\[
- \E_{a_0}[s(Y)]=\int s(y)f_0(y)\dd(y)=0.
-\]
-\end{definition}
-
-No monotone likelihood ratio property, interval support, or invertibility of the
-score is maintained in the general results.
 
 \subsection{Utility, wealth, payment, and cost}
 
-\begin{definition}[Wealth and payment]
-The agent has initial wealth $w_0$.  A payment contract is a measurable function
-$w:\cY\to\R_+$.  Final wealth is
-\[
- W(y):=w_0+w(y),
-\]
-so limited liability is equivalently $W(y)\ge w_0$.
-\end{definition}
-
-The admissible wealth domain is utility-specific.  Log and CRRA utility require
-$w_0>0$; CARA utility permits $w_0\in\R$.
-
-\begin{assumption}[Utility and effort cost]
-\label{ass:utility-cost}
-Utility $u$ is defined on an interval containing $[w_0,\infty)$ and is smooth,
-strictly increasing, and strictly concave.  Moreover,
-\[
- \lim_{W\to\infty}u'(W)=0,
- \qquad
- \bar u:=\lim_{W\to\infty}u(W)\in\R\cup\{\infty\}.
-\]
+The agent has \textbf{initial wealth} $w_0\in\R$ and a \textbf{utility function}
+$u:[w_0,\infty)\to\R$ over final wealth.  The utility function is smooth,
+strictly increasing, strictly concave, and $\lim_{W\to\infty}u'(W)=0$.
 Define
 \[
- \underline u:=u(w_0),
- \qquad
- \Delta u:=\bar u-\underline u\in(0,\infty].
+\begin{aligned}
+ \bar u&:=\lim_{W\to\infty}u(W)\in\R\cup\{\infty\},\\
+ \underline u&:=u(w_0),\\
+ \Delta u&:=\bar u-\underline u\in(0,\infty].
+\end{aligned}
 \]
-The effort cost $c$ is smooth and strictly convex, and $c'(a_0)>0$.
-\end{assumption}
+
+A \textbf{contract} is a measurable function $w:\cY\to\R_+$.  Given a contract
+$w$, we use two convenient reparametrizations.  The associated
+\textbf{final-wealth contract} is $W(y):=w_0+w(y)$, and the associated
+\textbf{utility contract} is $v(y):=u(W(y))$.  Limited liability is $w(y)\ge0$,
+or equivalently $W(y)\ge w_0$.  Let $k:=u^{-1}$
+on $[\underline u,\bar u)$.  A utility contract therefore has associated
+final-wealth and payment contracts
+\[
+ W(y)=k(v(y)),
+ \qquad
+ w(y)=k(v(y))-w_0.
+\]
+
+The agent incurs a smooth, strictly convex \textbf{effort cost} $c(a)$, with
+$c'(a_0)>0$.  The agent's \textbf{expected utility} and the principal's
+\textbf{expected compensation cost} are
+\begin{align*}
+ U(v,a)&:=\int v(y)f(y\mid a)\dd(y)-c(a),\\
+ C(v,a)&:=\int [k(v(y))-w_0]f(y\mid a)\dd(y).
+\end{align*}
+The first argument of $U$ and $C$ is always a utility contract.  We do not
+overload these functionals by writing $U(w,a)$ or $U(W,a)$; payment and
+final-wealth contracts are first transformed into utility units.  We use $C$,
+rather than $W(v,a)$, for expected compensation cost so that $W(y)$ remains
+available for final wealth.
 
 Uniform concavity results will additionally impose
 \begin{equation}
@@ -166,30 +118,27 @@ Uniform concavity results will additionally impose
 \end{equation}
 This is not needed to characterize the relaxed solution.
 
-\begin{definition}[Three contract representations]
-A payment contract $w$ has associated final-wealth and utility contracts
+\begin{definition}[Admissible utility contracts]
+A utility contract $v:\cY\to[\underline u,\bar u)$ is \textbf{admissible} if it
+is measurable, has finite expected compensation cost $C(v,a)$ for every
+$a\in\cA$, and the map
 \[
- W(y)=w_0+w(y),
- \qquad
- v(y)=u(W(y)).
+ a\longmapsto\int v(y)f(y\mid a)\dd(y)
 \]
-Let $k:=u^{-1}$ on $[\underline u,\bar u)$.  Conversely,
-\[
- W(y)=k(v(y)),
- \qquad
- w(y)=k(v(y))-w_0.
-\]
-The agent's expected utility and expected compensation cost are
-\begin{align*}
- U(v,a)&:=\int v(y)f(y\mid a)\dd(y)-c(a),\\
- C(v,a)&:=\int [k(v(y))-w_0]f(y\mid a)\dd(y).
-\end{align*}
-Formally, the first argument of $U$ and $C$ is always a utility contract.  We do
-not overload these functionals by writing $U(w,a)$ or $U(W,a)$; payment and
-final-wealth contracts are first transformed into utility units.  We use $C$,
-rather than $W(v,a)$, for expected compensation cost so that $W(y)$ remains
-available for final wealth.
+is twice continuously differentiable, with
+\begin{equation}
+ \frac{d^j}{da^j}\int v(y)f(y\mid a)\dd(y)
+ =\int v(y)\partial_a^j f(y\mid a)\dd(y),
+ \qquad j=1,2.
+ \tag{Diff}\label{eq:contract-differentiation}
+\end{equation}
+The \textbf{feasible contract set} $\mathcal V$ is the set of all admissible
+utility contracts.
 \end{definition}
+
+The set $\mathcal V$ is convex.  Indeed, action regularity is preserved by
+convex combinations, and convexity of $k$ implies that a convex combination of
+contracts with finite expected compensation cost also has finite expected cost.
 
 \subsection{Link functions and canonical contracts}
 
@@ -233,29 +182,19 @@ Subscripts, rather than a vertical bar, distinguish contract parameters from the
 conditioning notation in $f(y\mid a)$.
 \end{definition}
 
-\begin{assumption}[Regularity of feasible contracts]
+\begin{assumption}[Canonical-contract regularity]
 \label{ass:contract-regularity}
-The feasible utility-contract set $\mathcal V$ is convex.  Every
-$v\in\mathcal V$ takes values in $[\underline u,\bar u)$ and belongs to
-$\mathcal H_f^2$.  Every canonical contract $v_{\lambda,\mu}$ belongs to
-$\mathcal V$ and has finite expected compensation cost at each $a\in\cA$.
-Moreover, for every compact $K\subset\R^2$, there is a nonnegative
-$\nu$-integrable function $G_K$ such that, for every $(\lambda,\mu)\in K$,
-\begin{multline}
- \bigl|\ell(\lambda+\mu s(y))\bigr|
- \bigl(1+|s(y)|\bigr)f_0(y)
- \\
- {}+\bigl[L(\lambda+\mu s(y))-w_0\bigr]f_0(y)
- \le G_K(y)
- \quad\text{for $\nu$-almost every }y.
- \tag{CanDom}\label{eq:canonical-domination}
-\end{multline}
+Every canonical utility contract $v_{\lambda,\mu}$ belongs to $\mathcal V$.
+Moreover, the following maps are well defined and continuous on $\R^2$:
+\begin{align*}
+ (\lambda,\mu)&\longmapsto
+ \int \ell(\lambda+\mu s(y))s(y)f_0(y)\dd(y),\\
+ (\lambda,\mu)&\longmapsto
+ \int \ell(\lambda+\mu s(y))f_0(y)\dd(y),\\
+ (\lambda,\mu)&\longmapsto
+ \int [L(\lambda+\mu s(y))-w_0]f_0(y)\dd(y).
+\end{align*}
 \end{assumption}
-
-Condition~\eqref{eq:H2} is the exact domination condition used to differentiate
-agent utility with respect to action.  Condition~\eqref{eq:canonical-domination}
-is the local uniform domination used for continuity in $(\lambda,\mu)$ of the
-incentive functional, expected utility, and expected compensation cost.
 
 \section{The relaxed problem}
 
@@ -265,7 +204,7 @@ $C(v,a_0)$ subject to
  U(v,a_0)&\ge \bar U, \tag{IR}\label{eq:IR}\\
  U_a(v,a_0)&=0. \tag{LIC}\label{eq:LIC}
 \end{align}
-Under Assumption~\ref{ass:contract-regularity}, LIC is
+By admissibility, LIC is
 \[
  \int v(y)s(y)f_0(y)\dd(y)=c'(a_0).
 \]
@@ -1124,11 +1063,6 @@ The recommended manuscript organization is as follows.
  \end{enumerate}
  The common-utility corollary remains near the main theorem and is not repeated
  here.
-
- \item \textbf{Scope.}  State clearly that the paper studies the cost-minimization
- problem for a fixed interior intended action $a_0$.  Keep the main theorem and its
- corollaries at this action-by-action level; do not add a separate theorem or an
- extended discussion of the principal's endogenous-action problem.
 \end{enumerate}
 
 \subsection*{Appendices}
