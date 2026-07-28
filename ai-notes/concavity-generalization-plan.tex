@@ -79,9 +79,9 @@ strictly increasing, strictly concave, and $\lim_{W\to\infty}u'(W)=0$.
 Define
 \[
 \begin{aligned}
- \bar u&:=\lim_{W\to\infty}u(W)\in\R\cup\{\infty\},\\
+ \bar u&:=\lim_{x\to\infty}u(x),\\
  \underline u&:=u(w_0),\\
- \Delta u&:=\bar u-\underline u\in(0,\infty].
+ \Delta u&:=\bar u-\underline u.
 \end{aligned}
 \]
 
@@ -155,11 +155,9 @@ For multipliers $\lambda,\mu\in\R$, define
  v_{\lambda,\mu}(y)&:=\ell(\lambda+\mu s(y)).
 \end{align*}
 The first is final wealth, the second is payment, and the third is utility.
-Subscripts, rather than a vertical bar, distinguish contract parameters from the
-conditioning notation in $f(y\mid a)$.
 \end{definition}
 
-We maintain \textbf{canonical-contract regularity}: every canonical utility
+We assume \textbf{canonical-contract regularity}: every canonical utility
 contract $v_{\lambda,\mu}$ belongs to $\mathcal V$, and its expected utility,
 local incentives, and expected compensation cost vary continuously with the
 contract parameters.  Thus the maps
@@ -177,7 +175,7 @@ by standard local domination conditions.  Distributional examples in the
 appendix should verify such primitive conditions rather than build them into the
 statement of the main results.
 
-Finally, we maintain \textbf{local implementability}:
+Finally, we assume \textbf{local implementability}:
 \begin{equation}
  \Delta u\int_{\{s>0\}}s(y)f_0(y)\dd(y)>c'(a_0).
  \tag{Imp}\label{eq:implementability}
@@ -319,13 +317,7 @@ Define
  U_R:=\lim_{\lambda\to\infty}\widetilde U(\lambda)
  \in\R\cup\{\infty\}.
 \]
-The limit exists because $\widetilde U$ is nondecreasing.  The phrase
-\emph{high feasible reservation utility} means
-\[
- \bar U\uparrow U_R.
-\]
-If $\bar u=\infty$, then $U_R=\infty$.  If $\bar u<\infty$, then
-$U_R\le \bar u-c(a_0)<\infty$.
+The limit exists because $\widetilde U$ is nondecreasing.
 \end{definition}
 
 \begin{proposition}[Generalized relaxed solution]
