@@ -48,7 +48,7 @@ prose; theorem names and labels are intended to survive into the paper when poss
 
 \tableofcontents
 
-\section{Primitives and contract representations}
+\section{Model, notation, and maintained assumptions}
 
 \subsection{Actions, output, and scores}
 
@@ -89,39 +89,21 @@ A \textbf{contract} is a measurable function $w:\cY\to\R_+$.  Given a contract
 $w$, we use two convenient reparametrizations.  The associated
 \textbf{final-wealth contract} is $W(y):=w_0+w(y)$, and the associated
 \textbf{utility contract} is $v(y):=u(W(y))$.  Limited liability is $w(y)\ge0$,
-or equivalently $W(y)\ge w_0$.  Let $k:=u^{-1}$
-on $[\underline u,\bar u)$.  A utility contract therefore has associated
-final-wealth and payment contracts
-\[
- W(y)=k(v(y)),
- \qquad
- w(y)=k(v(y))-w_0.
-\]
+or equivalently $W(y)\ge w_0$.  Let $k:=u^{-1}$.
 
 The agent incurs a smooth, strictly convex \textbf{effort cost} $c(a)$, with
-$c'(a_0)>0$.  The agent's \textbf{expected utility} and the principal's
+$c'(a_0)>0$. Given a utility contract, the agent's \textbf{expected utility} and the principal's
 \textbf{expected compensation cost} are
 \begin{align*}
  U(v,a)&:=\int v(y)f(y\mid a)\dd(y)-c(a),\\
  C(v,a)&:=\int [k(v(y))-w_0]f(y\mid a)\dd(y).
 \end{align*}
-The first argument of $U$ and $C$ is always a utility contract.  We do not
-overload these functionals by writing $U(w,a)$ or $U(W,a)$; payment and
-final-wealth contracts are first transformed into utility units.  We use $C$,
-rather than $W(v,a)$, for expected compensation cost so that $W(y)$ remains
-available for final wealth.
 
-Uniform concavity results will additionally impose
-\begin{equation}
- \underline c'':=\inf_{a\in\cA}c''(a)>0.
- \tag{CostCurv}\label{eq:cost-curv}
-\end{equation}
-This is not needed to characterize the relaxed solution.
+Let $\underline c'' := \inf_{a\in\cA}c''(a)$.
 
-\begin{definition}[Admissible utility contracts]
-A utility contract $v:\cY\to[\underline u,\bar u)$ is \textbf{admissible} if it
-is measurable, has finite expected compensation cost $C(v,a)$ for every
-$a\in\cA$, and the map
+The \textbf{feasible contract set} $\mathcal V$ consists of all measurable
+utility contracts $v:\cY\to[\underline u,\bar u)$ that have finite expected
+compensation cost $C(v,a)$ for every $a\in\cA$ and for which the map
 \[
  a\longmapsto\int v(y)f(y\mid a)\dd(y)
 \]
@@ -132,9 +114,6 @@ is twice continuously differentiable, with
  \qquad j=1,2.
  \tag{Diff}\label{eq:contract-differentiation}
 \end{equation}
-The \textbf{feasible contract set} $\mathcal V$ is the set of all admissible
-utility contracts.
-\end{definition}
 
 The set $\mathcal V$ is convex.  Indeed, action regularity is preserved by
 convex combinations, and convexity of $k$ implies that a convex combination of
@@ -185,16 +164,31 @@ conditioning notation in $f(y\mid a)$.
 \begin{assumption}[Canonical-contract regularity]
 \label{ass:contract-regularity}
 Every canonical utility contract $v_{\lambda,\mu}$ belongs to $\mathcal V$.
-Moreover, the following maps are well defined and continuous on $\R^2$:
-\begin{align*}
- (\lambda,\mu)&\longmapsto
- \int \ell(\lambda+\mu s(y))s(y)f_0(y)\dd(y),\\
- (\lambda,\mu)&\longmapsto
- \int \ell(\lambda+\mu s(y))f_0(y)\dd(y),\\
- (\lambda,\mu)&\longmapsto
- \int [L(\lambda+\mu s(y))-w_0]f_0(y)\dd(y).
-\end{align*}
+Moreover, its expected utility, local incentives, and expected compensation cost vary
+continuously with the contract parameters: the maps
+\[
+ (\lambda,\mu)\longmapsto
+ U(v_{\lambda,\mu},a_0),
+ \qquad
+ (\lambda,\mu)\longmapsto
+ U_a(v_{\lambda,\mu},a_0),
+ \qquad
+ (\lambda,\mu)\longmapsto
+ C(v_{\lambda,\mu},a_0)
+\]
+are continuous on $\R^2$.
 \end{assumption}
+
+\begin{remark}[Domination as a sufficient condition]
+Assumption~\ref{ass:contract-regularity} states directly the regularity used in
+the arguments.  Recall that membership in $\mathcal V$ already requires finite
+expected compensation and valid differentiation under the integral sign through
+second order.  The additional continuity in $(\lambda,\mu)$ and membership in
+$\mathcal V$ can be verified together by standard local domination conditions.  Distributional
+examples in the appendix should verify such primitive conditions rather than
+build them into the statement of the main results.
+\end{remark}
+
 
 \section{The relaxed problem}
 
@@ -204,7 +198,7 @@ $C(v,a_0)$ subject to
  U(v,a_0)&\ge \bar U, \tag{IR}\label{eq:IR}\\
  U_a(v,a_0)&=0. \tag{LIC}\label{eq:LIC}
 \end{align}
-By admissibility, LIC is
+By the definition of $\mathcal V$, LIC is
 \[
  \int v(y)s(y)f_0(y)\dd(y)=c'(a_0).
 \]
