@@ -280,6 +280,9 @@ After dropping terms independent of $v$, the integrand is
 Strict convexity of $k$ gives a unique pointwise minimizer.  The interior first-order
 condition is $k'(v)=\lambda+\mu s$; imposing $v\ge\underline u$ replaces the
 right-hand side by its maximum with $m_0$, which gives $v=\ell(\lambda+\mu s)$.
+If $\bar u<\infty$, the open upper endpoint causes no nonattainment: since
+$k(v)\to\infty$ as $v\uparrow\bar u$, the pointwise objective also diverges at
+that endpoint for every finite value of $\lambda+\mu s(y)$.
 
 \begin{lemma}[Relaxed Pareto path]
 \label{lem:pareto-path}
@@ -365,10 +368,6 @@ $\lambda$.  Continuity then proves the sequential divergence in part~(iv).
 Strict increase and strict convexity of the value follow from binding IR and
 strict convexity of compensation cost; distinct reservation utilities above
 $U_L$ have distinct optimal contracts.
-
-\todo{Before manuscript drafting, make the functional-analytic existence assumptions
-fully explicit.  In particular, verify that bounded utility does not require a
-separate closure argument at the unattained pointwise upper bound $\bar u$.}
 
 \section{Score-tail geometry and the limited-liability kink}
 
@@ -727,21 +726,32 @@ solves, the original problem.
 \section{Utility corollaries}
 
 The following statements hold the distribution, intended action, effort cost,
-and utility-shape parameter fixed.  They maintain the regularity conditions for
-the relaxed solution.
+and utility-shape parameter fixed.  Parts~(i) and (ii) compare a family of models
+indexed only by initial wealth.  At each $w_0$ covered by the result, the
+regularity conditions for the relaxed solution are understood to hold, and the
+frontier $U_R(w_0)$ and threshold $U^*(w_0)$ are recomputed for that model.  No
+reservation-utility threshold uniform in $w_0$ is claimed.
 
 \begin{corollary}[Common utility specifications]
 \label{cor:common-utilities}
 Under the maintained conditions, the first-order approach is valid as follows:
 \begin{enumerate}[label=(\roman*)]
- \item If $\Capacity_{\mathrm{safe}}>0$ and
- $\Curv_{\mathrm{safe}}<\infty$, then for fixed $\alpha>0$ and CARA utility
- $u(W)=-e^{-\alpha W}/\alpha$, validity holds at all sufficiently high feasible
- reservation utilities for all sufficiently low initial wealth $w_0$.
- \item If $\Capacity_{\mathrm{safe}}>0$ and
- $\Curv_{\mathrm{safe}}<\infty$, then for fixed $\gamma>1$ and CRRA utility
- $u(W)=W^{1-\gamma}/(1-\gamma)$, validity holds at all sufficiently high feasible
- reservation utilities for all sufficiently low positive initial wealth $w_0$.
+ \item Suppose $\Capacity_{\mathrm{safe}}>0$ and
+ $\Curv_{\mathrm{safe}}<\infty$.  For fixed $\alpha>0$ and CARA utility
+ $u(W)=-e^{-\alpha W}/\alpha$, there exists $w_0^\dagger\in\R$ such that, for
+ every $w_0\le w_0^\dagger$, there exists
+ $U^*(w_0)<U_R(w_0)$ and the FOA is valid for every
+ \[
+  \bar U\in[U^*(w_0),U_R(w_0)).
+ \]
+ \item Suppose $\Capacity_{\mathrm{safe}}>0$ and
+ $\Curv_{\mathrm{safe}}<\infty$.  For fixed $\gamma>1$ and CRRA utility
+ $u(W)=W^{1-\gamma}/(1-\gamma)$, there exists $w_0^\dagger>0$ such that, for
+ every $0<w_0\le w_0^\dagger$, there exists
+ $U^*(w_0)<U_R(w_0)$ and the FOA is valid for every
+ \[
+  \bar U\in[U^*(w_0),U_R(w_0)).
+ \]
  \item If $w_0>0$, $u(W)=\log W$, $\underline s=-\infty$, and
  $\Curv_{\mathrm{safe}}<\infty$, then there is $U^*<\infty$ such that validity
  holds for every reservation utility $\bar U\ge U^*$.
@@ -751,8 +761,13 @@ Under the maintained conditions, the first-order approach is valid as follows:
 \proofsketch
 CARA and CRRA utility with $\gamma>1$ satisfy strong flattening, while their
 utility spreads diverge as $w_0\to-\infty$ and $w_0\downarrow0$, respectively.
-For log utility, the safe score width and $U_R$ are both infinite.  Each claim
-therefore follows from Theorem~\ref{thm:high-reservation}.
+Because $a_0$, the distribution, and effort cost are fixed,
+$\Capacity_{\mathrm{safe}}$, $\Curv_{\mathrm{safe}}$, and $c'(a_0)$ do not vary
+with $w_0$.  Choose $w_0^\dagger$ so that the safe-capacity inequality in
+Theorem~\ref{thm:high-reservation} holds throughout the stated range.  Applying
+the theorem separately at each such $w_0$ supplies the possibly different
+thresholds $U^*(w_0)$.  For log utility, the safe score width and $U_R$ are both
+infinite.
 
 \section{Distribution verifications}
 
@@ -1099,7 +1114,7 @@ and results.
 \subsection*{Appendices}
 
 \begin{enumerate}
- \item Give complete existence, uniqueness, domination, and Pareto-path proofs
+ \item Give complete existence, uniqueness, admissibility, and Pareto-path proofs
  for Proposition~\ref{prop:relaxed-solution}.
  \item Prove kink placement, the curvature identity, the curvature split, and
  Proposition~\ref{prop:deterministic-criterion}; include endpoint and discrete-score
