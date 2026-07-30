@@ -325,28 +325,28 @@ The limit exists because $\widetilde U$ is nondecreasing.
 
 \begin{proposition}[Generalized relaxed solution]
 \label{prop:relaxed-solution}
-The frontiers satisfy $U_L<U_R$, and:
+The frontiers satisfy $U_L<U_R$.  For each $\bar U<U_R$, let
+$\Lambda(\bar U)$ denote the set of valid IR multipliers $\lambda$ for which
+$v_\lambda$ represents the relaxed solution.  Then:
 \begin{enumerate}[label=(\roman*)]
- \item for every $\bar U<U_R$, the relaxed problem has an almost-everywhere
- unique solution;
- \item the solution has a canonical representation: for some multipliers
- $\lambda\ge0$ and $\mu=\widetilde\mu(\lambda)>0$,
+ \item the relaxed problem has an almost-everywhere unique solution,
+ $\Lambda(\bar U)$ is a nonempty compact interval, and, for every
+ $\lambda\in\Lambda(\bar U)$,
  \[
-  v^*_{\bar U}=v_{\lambda,\mu},
-  \qquad
-  v^*_{\bar U}(y)=\ell\bigl(\lambda+\mu s(y)\bigr);
+  v^*_{\bar U}(y)
+  =v_\lambda(y)
+  =\ell\bigl(\lambda+\widetilde\mu(\lambda)s(y)\bigr);
  \]
- the contract is unique, although its multipliers need not be;
+ thus the contract is unique although its multipliers need not be;
  \item if $\bar U\le U_L$, the relaxed contract and its expected cost are
- constant in $\bar U$, and the contract admits a representation with $\lambda=0$;
- if $\bar U\in(U_L,U_R)$, IR binds;
- \item if $\bar U_n\uparrow U_R$ and $(\lambda_n,\mu_n)$ are any multipliers
- representing the relaxed-optimal contracts for $\bar U_n$, then
- \[
-  \lambda_n\longrightarrow\infty;
- \]
+ constant in $\bar U$, and $\Lambda(\bar U)=\{0\}$ when $\bar U<U_L$; if
+ $\bar U\in(U_L,U_R)$, IR binds.  On this active region, $\Lambda$ is strictly
+ increasing: every multiplier associated with a higher reservation utility
+ exceeds every multiplier associated with a lower one.  Moreover,
+ $\inf\Lambda(\bar U)$ converges to infinity as $\bar U\to U_R$;
  \item the relaxed value $C^*(\bar U)$ is constant below $U_L$ and strictly
- increasing and strictly convex on $(U_L,U_R)$.
+ increasing and strictly convex on $(U_L,U_R)$.  On this active region its
+ supporting slopes are exactly the IR multipliers.
 \end{enumerate}
 \end{proposition}
 
@@ -355,7 +355,39 @@ Continuity and monotonicity of $\widetilde U$ imply that every utility level in
 $(U_L,U_R)$ is attained.  Any two multipliers attaining the same utility induce
 the same contract by Lemma~\ref{lem:pareto-path}.  The supporting-multiplier
 argument then gives optimality and uniqueness, with binding IR above $U_L$.
-Below $U_L$, the $\lambda=0$ Pareto contract is feasible and minimizes cost.
+Below $U_L$, the $\lambda=0$ Pareto contract is feasible and minimizes cost, and
+complementary slackness makes it the only valid IR multiplier.  The sets
+$\Lambda(\bar U)$ are intervals because they are level sets of the continuous
+nondecreasing function $\widetilde U$ (with the complementary-slackness
+restriction below $U_L$); closedness follows from continuity, and boundedness
+follows from the no-terminal-flat argument below.
+
+Strict convexity of the value follows directly in utility-contract space.  If
+$\bar U_1\ne\bar U_2$ are in $(U_L,U_R)$, IR binds at their distinct optimal
+contracts $v_1$ and $v_2$.  A strict convex combination of these contracts
+satisfies LIC and delivers the corresponding convex combination of utilities,
+while strict convexity of $k$ makes its expected compensation cost strictly less
+than the same convex combination of costs.  Strict increase follows from binding
+IR and the supporting-multiplier characterization below.
+
+Fix $\bar U\in(U_L,U_R)$ and $\lambda\in\Lambda(\bar U)$.  Pareto optimality of
+$v_\lambda$ implies, for every other active reservation utility $T$,
+\[
+ C^*(T)\ge C^*(\bar U)+\lambda(T-\bar U),
+\]
+with the same inequality below $U_L$ because the value is constant there and
+$\lambda\ge0$.  Hence $\lambda\in\partial C^*(\bar U)$.  Conversely, take
+$\lambda\in\partial C^*(\bar U)$ and put $T=\widetilde U(\lambda)$.  The
+subgradient inequality and Pareto optimality give opposite inequalities between
+$C^*(T)-\lambda T$ and $C^*(\bar U)-\lambda\bar U$, so equality holds.  If
+$T\ne\bar U$, the same supporting line touches $C^*$ at two distinct utility
+levels, forcing the value to be affine between them and contradicting strict
+convexity.  Thus $T=\bar U$ and $\lambda\in\Lambda(\bar U)$.  This proves
+$\Lambda(\bar U)=\partial C^*(\bar U)$.  Standard one-dimensional convexity then
+makes this set the compact interval between the one-sided derivatives.  If
+$\bar U_1<\bar U_2$, subgradient monotonicity weakly orders their multiplier
+sets; equality of any two slopes would again make $C^*$ affine between the two
+points, so the ordering is strict.
 
 It remains to rule out a terminal flat portion of $\widetilde U$.  If one
 existed, Lemma~\ref{lem:pareto-path} would imply that the same contract is
@@ -363,30 +395,25 @@ canonical for arbitrarily large $\lambda$.  LIC and $c'(a_0)>0$ imply that this
 contract is above the limited-liability floor on a positive-score set.  At any
 such outcome the interior condition gives
 $k'(v(y))=\lambda+\widetilde\mu(\lambda)s(y)>\lambda$, which is impossible for a
-fixed contract as $\lambda\to\infty$.  Hence $U_R$ is not attained at a finite
-$\lambda$.  Continuity then proves the sequential divergence in part~(iv).
-Strict increase and strict convexity of the value follow from binding IR and
-strict convexity of compensation cost; distinct reservation utilities above
-$U_L$ have distinct optimal contracts.
+fixed contract as $\lambda\to\infty$.  Hence
+$\widetilde U(M)<U_R$ for every finite $M$.  Monotonicity now implies that if
+$\bar U>\widetilde U(M)$, every $\lambda\in\Lambda(\bar U)$ exceeds $M$.
+Because $M$ is arbitrary, $\inf\Lambda(\bar U)\to\infty$.
 
 \section{Score-tail geometry and the limited-liability kink}
 
-The following two assumptions are maintained for the safe-tail FOA analysis and
-are invoked explicitly in the main theorem.
-
-\begin{assumption}[Uniform cost curvature]
-\label{ass:cost-curvature}
-Effort cost has uniformly positive curvature:
+Write
 \[
- \underline c'':=\inf_{a\in\cA}c''(a)>0.
+ \underline c'':=\inf_{a\in\cA}c''(a)\ge0.
 \]
-\end{assumption}
+Conditions requiring uniformly positive cost curvature will state
+$\underline c''>0$ explicitly.  The following utility-shape assumption is used
+by the safe-tail FOA analysis.
 
 \begin{assumption}[Nonbinding-link concavity]
 \label{ass:link-concavity}
 The unconstrained utility link $\ell_0$ is nondecreasing and concave on
-$(m_0,\infty)$.  The limited-liability link $\ell(z)=\ell_0(z\vee m_0)$ need not
-be globally concave because its slope jumps upward at $m_0$.
+$(m_0,\infty)$.
 \end{assumption}
 
 \begin{definition}[Limited-liability score cutoff]
@@ -441,6 +468,9 @@ logarithmic result, also define
  \qquad
  \Width_{\mathrm{safe}}:=\bar q_{\mathrm{safe}}-\underline s.
 \]
+When the curvature--width ratio appears below, a finite numerator divided by an
+infinite width is interpreted as zero; the ratio is infinity if its numerator is
+infinite or its denominator is zero.
 \end{definition}
 
 Throughout, when $\Delta u=\infty$, a capacity condition of the form
@@ -620,7 +650,8 @@ Indeed, when $v=u(W)$ and $z=k'(v)=1/u'(W)$,
 
 \begin{lemma}[Strong-flattening verification]
 \label{lem:strong-flattening}
-Suppose strong flattening holds and
+Suppose Assumption~\ref{ass:link-concavity} holds, $\underline c''>0$, strong
+flattening holds, and
 \[
  \Delta u\,\Capacity_{\mathrm{safe}}>c'(a_0),
  \qquad
@@ -652,12 +683,10 @@ For log utility, $\ell_0'(z)=1/z$, so $z\ell_0'(z)=1$ and strong flattening fail
 \label{lem:log-width}
 Suppose $u(W)=\log W$, $\cQ_{\mathrm{safe}}$ is nonempty, and
 \begin{equation}
- \Curv_{\mathrm{safe}}
- <\underline c''\,\Width_{\mathrm{safe}}.
+ \frac{\Curv_{\mathrm{safe}}}{\Width_{\mathrm{safe}}}
+ <\underline c''.
  \tag{LogWidth}\label{eq:log-width}
 \end{equation}
-If $\underline s=-\infty$, then $\Width_{\mathrm{safe}}=\infty$ and the right
-side is interpreted as infinity.
 Then the LIC-path contracts induce an agent objective concave in action for all
 sufficiently large $\lambda$.
 \end{lemma}
@@ -683,11 +712,13 @@ Thus \eqref{eq:DC} holds.
 
 \begin{theorem}[FOA at high feasible reservation utility]
 \label{thm:high-reservation}
-Suppose Assumptions~\ref{ass:cost-curvature} and
-\ref{ass:link-concavity} hold.  Suppose, in addition, that either
+Suppose either
 \begin{enumerate}[label=(\roman*)]
- \item utility satisfies strong flattening,
+ \item Assumption~\ref{ass:link-concavity} holds, utility satisfies strong
+ flattening, and
  \[
+  \underline c''>0,
+  \qquad
   \Delta u\,\Capacity_{\mathrm{safe}}>c'(a_0),
   \qquad
   \Curv_{\mathrm{safe}}<\infty;
@@ -695,8 +726,8 @@ Suppose Assumptions~\ref{ass:cost-curvature} and
  or
  \item $u(W)=\log W$, $\cQ_{\mathrm{safe}}$ is nonempty, and
  \[
-  \Curv_{\mathrm{safe}}
-  <\underline c''\,\Width_{\mathrm{safe}}.
+  \frac{\Curv_{\mathrm{safe}}}{\Width_{\mathrm{safe}}}
+  <\underline c''.
  \]
 \end{enumerate}
 Then there exists $U^*<U_R$ such that the first-order approach is valid for every
@@ -709,9 +740,6 @@ in particular, for some associated multipliers $\lambda\ge0$ and $\mu>0$,
 \[
  v^*_{\bar U}(y)=\ell\bigl(\lambda+\mu s(y)\bigr).
 \]
-If $\bar u=\infty$,
-then $U_R=\infty$; if $\bar u<\infty$, ``sufficiently high'' means sufficiently
-close to the relaxed upper frontier from below.
 \end{theorem}
 
 \proofsketch
@@ -734,7 +762,8 @@ reservation-utility threshold uniform in $w_0$ is claimed.
 
 \begin{corollary}[Common utility specifications]
 \label{cor:common-utilities}
-Under the maintained conditions, the first-order approach is valid as follows:
+Under the maintained conditions and $\underline c''>0$, the first-order
+approach is valid as follows:
 \begin{enumerate}[label=(\roman*)]
  \item Suppose $\Capacity_{\mathrm{safe}}>0$ and
  $\Curv_{\mathrm{safe}}<\infty$.  For fixed $\alpha>0$ and CARA utility
@@ -973,7 +1002,7 @@ gives the rates needed for both pieces to vanish uniformly in $a$.
 
 \begin{proposition}[Asymptotic-affinity extension]
 \label{prop:asymptotic-affinity}
-Suppose Assumptions~\ref{ass:cost-curvature}, \ref{ass:affine-score}, and
+Suppose $\underline c''>0$, Assumptions~\ref{ass:affine-score} and
 \ref{ass:affinity-moments} hold, and utility is CRRA with
 $\gamma\in(1/2,1)$.  Then
 \[
