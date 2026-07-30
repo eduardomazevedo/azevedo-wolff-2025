@@ -36,7 +36,19 @@ Terse reference for migrating the existing `tex/` manuscript to the notation fix
     w(y)=k(v(y))-w_0.
     $$
 
-The new paper treats $U$ and $C$ formally as functionals of utility contracts. Do not overload them by writing $U(w,a)$ or $U(W,a)$; first transform payment or wealth into utility units.
+The main text treats $U$ and $C$ as functionals of payment contracts:
+$$
+U(w,a):=\int_{\mathcal Y}u(w_0+w(y))f(y|a)\,d\nu(y)-c(a),
+\qquad
+C(w,a):=\int_{\mathcal Y}w(y)f(y|a)\,d\nu(y).
+$$
+The proof appendix uses utility-contract coordinates and visibly distinct transformed functionals:
+$$
+\widehat U(v,a):=\int_{\mathcal Y}v(y)f(y|a)\,d\nu(y)-c(a),
+\qquad
+\widehat C(v,a):=\int_{\mathcal Y}[k(v(y))-w_0]f(y|a)\,d\nu(y).
+$$
+Thus $U(w,a)=\widehat U(v,a)$ and $C(w,a)=\widehat C(v,a)$ under $v=u(w_0+w)$. Do not overload $U$ and $C$ across the two contract representations.
 
 The admissible initial-wealth domain is utility-specific: log and CRRA require $w_0>0$, while CARA permits $w_0\in\mathbb R$.
 
@@ -48,9 +60,9 @@ The admissible initial-wealth domain is utility-specific: log and CRRA require $
   $$
   W(v,a):=\int k(v(y))f(y|a)\,dy.
   $$
-  * New expected compensation cost:
+  * New transformed expected compensation cost in utility coordinates:
     $$
-    C(v,a):=\int_{\mathcal Y}[k(v(y))-w_0]f(y|a)\,d\nu(y).
+    \widehat C(v,a):=\int_{\mathcal Y}[k(v(y))-w_0]f(y|a)\,d\nu(y).
     $$
 
 * Old relaxed-path expected wage: $\widetilde W(\lambda)$.
@@ -160,9 +172,9 @@ Along the local-incentive-compatible path:
 $$
  v_\lambda:=v_{\lambda,\widetilde\mu(\lambda)},
  \qquad
- \widetilde U(\lambda):=U(v_\lambda,a_0),
+ \widetilde U(\lambda):=\widehat U(v_\lambda,a_0),
  \qquad
- \widetilde C(\lambda):=C(v_\lambda,a_0).
+ \widetilde C(\lambda):=\widehat C(v_\lambda,a_0).
 $$
 
 ---
@@ -309,7 +321,7 @@ When $\Delta u=\infty$, this notation means that the relevant capacity is strict
 
 The curvature identity is
 $$
- U_{aa}(v_\lambda,a)
+ \widehat U_{aa}(v_\lambda,a)
  =\widetilde\mu(\lambda)
  \int D_\lambda\ell(y)s(y)f_{aa}(y|a)\,d\nu(y)-c''(a).
 $$

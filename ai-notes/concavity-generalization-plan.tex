@@ -92,16 +92,24 @@ $w$, we use two convenient reparametrizations.  The associated
 or equivalently $W(y)\ge w_0$.  Let $k:=u^{-1}$.
 
 The agent incurs a smooth, strictly convex \textbf{effort cost} $c(a)$, with
-$c'(a_0)>0$. Given a utility contract, the agent's \textbf{expected utility} and the principal's
-\textbf{expected compensation cost} are
+$c'(a_0)>0$.  Given a payment contract, the agent's \textbf{expected utility}
+and the principal's \textbf{expected compensation cost} are
 \begin{align*}
- U(v,a)&:=\int v(y)f(y\mid a)\dd(y)-c(a),\\
- C(v,a)&:=\int [k(v(y))-w_0]f(y\mid a)\dd(y).
+ U(w,a)&:=\int u(w_0+w(y))f(y\mid a)\dd(y)-c(a),\\
+ C(w,a)&:=\int w(y)f(y\mid a)\dd(y).
 \end{align*}
+In utility-contract coordinates, define the corresponding transformed
+functionals
+\begin{align*}
+ \widehat U(v,a)&:=\int v(y)f(y\mid a)\dd(y)-c(a),\\
+ \widehat C(v,a)&:=\int [k(v(y))-w_0]f(y\mid a)\dd(y).
+\end{align*}
+Thus $U(w,a)=\widehat U(v,a)$ and $C(w,a)=\widehat C(v,a)$ under the change of
+variables $v=u(w_0+w)$.
 
 The \textbf{feasible contract set} $\mathcal V$ consists of all measurable
 utility contracts $v:\cY\to[\underline u,\bar u)$ that have finite expected
-compensation cost $C(v,a)$ for every $a\in\cA$ and for which the map
+compensation cost $\widehat C(v,a)$ for every $a\in\cA$ and for which the map
 \[
  a\longmapsto\int v(y)f(y\mid a)\dd(y)
 \]
@@ -162,11 +170,11 @@ contract $v_{\lambda,\mu}$ belongs to $\mathcal V$, and its expected utility,
 local incentives, and expected compensation cost vary continuously with the
 contract parameters.  Thus the maps
 \[
- (\lambda,\mu)\longmapsto U(v_{\lambda,\mu},a_0),
+ (\lambda,\mu)\longmapsto \widehat U(v_{\lambda,\mu},a_0),
  \qquad
- (\lambda,\mu)\longmapsto U_a(v_{\lambda,\mu},a_0),
+ (\lambda,\mu)\longmapsto \widehat U_a(v_{\lambda,\mu},a_0),
  \qquad
- (\lambda,\mu)\longmapsto C(v_{\lambda,\mu},a_0)
+ (\lambda,\mu)\longmapsto \widehat C(v_{\lambda,\mu},a_0)
 \]
 are continuous on $\R^2$.  Recall that membership in $\mathcal V$ already
 requires finite expected compensation and valid differentiation under the
@@ -185,11 +193,11 @@ moment.
 
 \section{The relaxed problem}
 
-The relaxed cost-minimization problem for $(a_0,\bar U)$ minimizes
-$C(v,a_0)$ subject to
+In utility-contract coordinates, the relaxed cost-minimization problem for
+$(a_0,\bar U)$ minimizes $\widehat C(v,a_0)$ subject to
 \begin{align}
- U(v,a_0)&\ge \bar U, \tag{IR}\label{eq:IR}\\
- U_a(v,a_0)&=0. \tag{LIC}\label{eq:LIC}
+ \widehat U(v,a_0)&\ge \bar U, \tag{IR}\label{eq:IR}\\
+ \widehat U_a(v,a_0)&=0. \tag{LIC}\label{eq:LIC}
 \end{align}
 By the definition of $\mathcal V$, LIC is
 \[
@@ -254,8 +262,8 @@ Define the utility contract
 \]
 with associated expected utility and cost
 \begin{align*}
- \widetilde U(\lambda)&:=U(v_\lambda,a_0),\\
- \widetilde C(\lambda)&:=C(v_\lambda,a_0).
+ \widetilde U(\lambda)&:=\widehat U(v_\lambda,a_0),\\
+ \widetilde C(\lambda)&:=\widehat C(v_\lambda,a_0).
 \end{align*}
 \end{definition}
 
@@ -266,7 +274,8 @@ with associated expected utility and cost
 For multipliers $\lambda\ge0$ and $\mu\in\R$, consider
 \[
  \mathcal L(v,\lambda,\mu)
- :=C(v,a_0)+\lambda[\bar U-U(v,a_0)]-\mu U_a(v,a_0).
+ :=\widehat C(v,a_0)+\lambda[\bar U-\widehat U(v,a_0)]
+ -\mu\widehat U_a(v,a_0).
 \]
 Among feasible utility contracts, its almost-everywhere unique minimizer is
 $v_{\lambda,\mu}$.
@@ -289,7 +298,7 @@ that endpoint for every finite value of $\lambda+\mu s(y)$.
 For every $\lambda\ge0$, $v_\lambda$ is the almost-everywhere
 unique minimizer of
 \[
- C(v,a_0)-\lambda U(v,a_0)
+ \widehat C(v,a_0)-\lambda\widehat U(v,a_0)
 \]
 among contracts satisfying LIC.  The function $\widetilde U$ is continuous and
 nondecreasing.  Moreover, if $\lambda_1<\lambda_2$ and
@@ -569,7 +578,7 @@ when $s(y)\ne0$, with its continuous extension when $s(y)=0$.
 \label{lem:curvature-identity}
 For every $a\in\cA$,
 \begin{equation}
- U_{aa}(v_\lambda,a)
+ \widehat U_{aa}(v_\lambda,a)
  =\widetilde\mu
  \int D_\lambda\ell(y)s(y)f_{aa}(y\mid a)\dd(y)-c''(a).
  \tag{Curv}\label{eq:curvature-identity}
@@ -591,7 +600,7 @@ is weakly below $q$,
 \]
 then, for every $a\in\cA$,
 \begin{equation}
- U_{aa}(v_\lambda,a)
+ \widehat U_{aa}(v_\lambda,a)
  \le
  \widetilde\mu\,\ell_0'(\lambda+\widetilde\mu q)\Curv(q)-c''(a).
  \tag{Split}\label{eq:curvature-split}
@@ -619,7 +628,7 @@ has sufficient incentive capacity and paid-region curvature is finite at $q_1$:
 \]
 For all sufficiently large $\lambda$,
 \begin{equation}
- \sup_{a\in\cA}U_{aa}(v_\lambda,a)
+ \sup_{a\in\cA}\widehat U_{aa}(v_\lambda,a)
  \le
  \mu_{q_0}(\lambda)
  \ell_0'(\lambda+\mu_{q_0}(\lambda)q_1)\Curv(q_1)-\underline c''.
@@ -1025,7 +1034,7 @@ Suppose $\underline c''>0$, Assumptions~\ref{ass:affine-score} and
 $\gamma\in(1/2,1)$.  Then
 \[
  \sup_{a\in\cA}
- U_{aa}(v_\lambda,a)
+ \widehat U_{aa}(v_\lambda,a)
  \le-\underline c''+o(1).
 \]
 In particular, the agent's objective is concave for all sufficiently large
@@ -1065,46 +1074,6 @@ No general claim is made here for $\gamma\le1/2$.
 This planning document presents results in logical proof order.  The manuscript
 should instead state the economically useful result early and defer its machinery.
 The recommended manuscript organization is as follows.
-
-\subsection*{Contract notation when implementing the manuscript}
-
-The main text should use only the economically natural wage representation.  A
-contract there will mean a payment function $w:\cY\to\R_+$, with
-\[
- U(w,a):=\int u(w_0+w(y))f(y\mid a)\dd(y)-c(a),
- \qquad
- C(w,a):=\int w(y)f(y\mid a)\dd(y).
-\]
-The cost-minimization problem, the relaxed problem, the characterization
-proposition, and the main FOA theorem should all be stated in this notation.  In
-particular, the characterization should display the wage formula
-\[
- w^*(y)=L(\lambda^*+\mu^*s(y))-w_0.
-\]
-The main text need not define utility contracts or the utility link $\ell$.
-
-At the beginning of the proof appendix, introduce the one-to-one change of
-variables
-\[
- v(y):=u(w_0+w(y)),
- \qquad
- w(y)=k(v(y))-w_0,
-\]
-and use visibly distinct transformed functionals, for example
-\[
- \widehat U(v,a):=\int v(y)f(y\mid a)\dd(y)-c(a),
- \qquad
- \widehat C(v,a):=\int[k(v(y))-w_0]f(y\mid a)\dd(y).
-\]
-Thus $U(w,a)=\widehat U(v,a)$ and $C(w,a)=\widehat C(v,a)$ under the change of
-variables.  The appendix may then define $\ell=u\circ L$ and conduct the convex
-analysis in utility space.  Do not overload $U$ and $C$ across the two contract
-representations.
-
-This is an implementation instruction for the eventual manuscript refactor.
-Until then, this planning document should retain its present utility-contract
-notation and logical proof order, which make it easier to polish the assumptions
-and results.
 
 \subsection*{Main text}
 
