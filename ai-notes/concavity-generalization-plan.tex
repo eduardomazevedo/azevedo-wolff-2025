@@ -6,14 +6,14 @@
 \usepackage[hidelinks,hypertexnames=false]{hyperref}
 \usepackage{xcolor}
 
-\newtheorem{assumption}{Assumption}[section]
-\newtheorem{theorem}[assumption]{Theorem}
-\newtheorem{proposition}[assumption]{Proposition}
-\newtheorem{lemma}[assumption]{Lemma}
-\newtheorem{corollary}[assumption]{Corollary}
-\newtheorem{definition}[assumption]{Definition}
+\newtheorem{assumption}{Assumption}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
 \theoremstyle{remark}
-\newtheorem{remark}[assumption]{Remark}
+\newtheorem{remark}{Remark}
 
 \newcommand{\R}{\mathbb R}
 \newcommand{\E}{\mathbb E}
@@ -407,14 +407,46 @@ Write
  \underline c'':=\inf_{a\in\cA}c''(a)\ge0.
 \]
 Conditions requiring uniformly positive cost curvature will state
-$\underline c''>0$ explicitly.  The following utility-shape assumption is used
-by the safe-tail FOA analysis.
+$\underline c''>0$ explicitly.  For utility with $u''(W)<0$ on
+$(w_0,\infty)$, define absolute risk aversion and absolute prudence by
+\[
+ A(W):=-\frac{u''(W)}{u'(W)},
+ \qquad
+ P(W):=-\frac{u'''(W)}{u''(W)}.
+\]
 
-\begin{assumption}[Nonbinding-link concavity]
-\label{ass:link-concavity}
-The unconstrained utility link $\ell_0$ is nondecreasing and concave on
-$(m_0,\infty)$.
+\begin{assumption}[Prudence--risk aversion bound]
+\label{ass:prudence-risk-aversion}
+For every $W>w_0$,
+\[
+ P(W)\le3A(W).
+\]
 \end{assumption}
+
+\begin{assumption}[Vanishing marginal utility relative to risk aversion]
+\label{ass:vanishing-marginal-utility}
+Marginal utility vanishes relative to absolute risk aversion:
+\[
+ \frac{u'(W)}{A(W)}\longrightarrow0
+ \qquad\text{as }W\to\infty.
+\]
+\end{assumption}
+
+\begin{remark}[Link interpretation]
+Assumption~\ref{ass:prudence-risk-aversion} is equivalent to concavity of the
+nonbinding utility link $\ell_0$; monotonicity of $\ell_0$ follows from the
+maintained utility assumptions.  Moreover, at $W=L_0(z)$,
+\[
+ L_0'(z)
+ =\frac{u'(W)}{A(W)}
+ =\frac{[u'(W)]^2}{-u''(W)},
+ \qquad
+ z\ell_0'(z)=L_0'(z).
+\]
+Thus Assumption~\ref{ass:vanishing-marginal-utility} is equivalent both to an
+asymptotically flat wealth link, $L_0'(z)\to0$, and to
+$z\ell_0'(z)\to0$.
+\end{remark}
 
 \begin{definition}[Limited-liability score cutoff]
 For $\mu>0$, define
@@ -551,7 +583,8 @@ gives the result.
 
 \begin{lemma}[Curvature split]
 \label{lem:curvature-split}
-Fix $q\in\cQ_{\mathrm{safe}}$ with $\Curv(q)<\infty$.  If the limited-liability cutoff
+Suppose Assumption~\ref{ass:prudence-risk-aversion} holds.  Fix
+$q\in\cQ_{\mathrm{safe}}$ with $\Curv(q)<\infty$.  If the limited-liability cutoff
 is weakly below $q$,
 \[
  \widetilde q^{\mathrm{LL}}(\lambda)\le q,
@@ -576,7 +609,8 @@ $s f_{aa}$ and taking the supremum over actions gives \eqref{eq:curvature-split}
 
 \begin{proposition}[Finite-$\lambda$ safe-tail curvature bound]
 \label{prop:deterministic-criterion}
-Fix $q_0<q_1\le0$ with $q_0,q_1\in\cQ_{\mathrm{safe}}$.  Suppose $q_0$
+Suppose Assumption~\ref{ass:prudence-risk-aversion} holds.  Fix
+$q_0<q_1\le0$ with $q_0,q_1\in\cQ_{\mathrm{safe}}$.  Suppose $q_0$
 has sufficient incentive capacity and paid-region curvature is finite at $q_1$:
 \[
  \Delta u\,\Capacity(q_0)>c'(a_0),
@@ -627,31 +661,12 @@ these contracts also satisfy global incentive compatibility.  This criterion is
 proof machinery rather than a headline result; the next two lemmas verify it
 using aggregate primitives.
 
-\subsection{Strong flattening}
+\subsection{Vanishing marginal utility relative to risk aversion}
 
-\begin{definition}[Strong flattening]
-Utility satisfies strong flattening if
-\begin{equation}
- \frac{[u'(W)]^2}{-u''(W)}\longrightarrow0
- \quad\text{as }W\to\infty.
- \tag{SF-$u$}\label{eq:SF-u}
-\end{equation}
-Equivalently,
-\begin{equation}
- z\ell_0'(z)\longrightarrow0
- \quad\text{as }z\to\infty.
- \tag{SF}\label{eq:SF}
-\end{equation}
-Indeed, when $v=u(W)$ and $z=k'(v)=1/u'(W)$,
-\[
- z\ell_0'(z)=\frac{[u'(W)]^2}{-u''(W)}.
-\]
-\end{definition}
-
-\begin{lemma}[Strong-flattening verification]
-\label{lem:strong-flattening}
-Suppose Assumption~\ref{ass:link-concavity} holds, $\underline c''>0$, strong
-flattening holds, and
+\begin{lemma}[Vanishing-marginal-utility verification]
+\label{lem:vanishing-marginal-utility}
+Suppose Assumptions~\ref{ass:prudence-risk-aversion} and
+\ref{ass:vanishing-marginal-utility} hold, $\underline c''>0$, and
 \[
  \Delta u\,\Capacity_{\mathrm{safe}}>c'(a_0),
  \qquad
@@ -677,7 +692,8 @@ by $z\ell_0'(z)\to0$.  Thus \eqref{eq:DC} holds.
 
 \subsection{The logarithmic borderline}
 
-For log utility, $\ell_0'(z)=1/z$, so $z\ell_0'(z)=1$ and strong flattening fails.
+For log utility, $\ell_0'(z)=1/z$, so $z\ell_0'(z)=1$ and marginal utility does
+not vanish relative to risk aversion.
 
 \begin{lemma}[Log-width verification]
 \label{lem:log-width}
@@ -692,7 +708,8 @@ sufficiently large $\lambda$.
 \end{lemma}
 
 \proofsketch
-The strict endpoint inequality provides
+Log utility satisfies Assumption~\ref{ass:prudence-risk-aversion}.  The strict
+endpoint inequality provides
 $\underline s<q_0<q_1\le0$ with $q_0,q_1\in\cQ_{\mathrm{safe}}$ such that
 $\Capacity(q_0)>0$ and
 \[
@@ -714,8 +731,8 @@ Thus \eqref{eq:DC} holds.
 \label{thm:high-reservation}
 Suppose either
 \begin{enumerate}[label=(\roman*)]
- \item Assumption~\ref{ass:link-concavity} holds, utility satisfies strong
- flattening, and
+ \item Utility satisfies Assumptions~\ref{ass:prudence-risk-aversion} and
+ \ref{ass:vanishing-marginal-utility}, and
  \[
   \underline c''>0,
   \qquad
@@ -724,7 +741,7 @@ Suppose either
   \Curv_{\mathrm{safe}}<\infty;
  \]
  or
- \item $u(W)=\log W$, $\cQ_{\mathrm{safe}}$ is nonempty, and
+ \item Utility is logarithmic, $\cQ_{\mathrm{safe}}$ is nonempty, and
  \[
   \frac{\Curv_{\mathrm{safe}}}{\Width_{\mathrm{safe}}}
   <\underline c''.
@@ -743,7 +760,7 @@ in particular, for some associated multipliers $\lambda\ge0$ and $\mu>0$,
 \end{theorem}
 
 \proofsketch
-Lemma~\ref{lem:strong-flattening} or Lemma~\ref{lem:log-width} supplies
+Lemma~\ref{lem:vanishing-marginal-utility} or Lemma~\ref{lem:log-width} supplies
 $\lambda_0$.  Proposition~\ref{prop:relaxed-solution} implies that, sufficiently
 close to $U_R$, every canonical representation of the relaxed-optimal contract
 has $\lambda\ge\lambda_0$.  Choose $U^*$ so that this holds above $U^*$.
@@ -788,7 +805,7 @@ approach is valid as follows:
 \end{corollary}
 
 \proofsketch
-CARA and CRRA utility with $\gamma>1$ satisfy strong flattening, while their
+CARA and CRRA utility with $\gamma>1$ satisfy both utility assumptions, while their
 utility spreads diverge as $w_0\to-\infty$ and $w_0\downarrow0$, respectively.
 Because $a_0$, the distribution, and effort cost are fixed,
 $\Capacity_{\mathrm{safe}}$, $\Curv_{\mathrm{safe}}$, and $c'(a_0)$ do not vary
@@ -941,7 +958,8 @@ On the nonbinding region,
  \qquad
  \ell_0'(z)=\frac1\gamma z^{p-1}.
 \]
-Thus $\ell_0'(z)\to0$ but $z\ell_0'(z)\to\infty$, so strong flattening fails.
+Thus $\ell_0'(z)\to0$ but $z\ell_0'(z)\to\infty$, so marginal utility does not
+vanish relative to risk aversion.
 
 \begin{lemma}[LIC multiplier asymptotics]
 \label{lem:affinity-multiplier}
@@ -1033,7 +1051,8 @@ Assumption~\ref{ass:affinity-moments} hold and
  =\frac{d^2}{da^2}\E_a[s(Y)]=0.
 \]
 Consequently, Gaussian output with CRRA utility is covered by the
-strong-flattening branch of Theorem~\ref{thm:high-reservation} for $\gamma>1$,
+vanishing-marginal-utility branch of Theorem~\ref{thm:high-reservation} for
+$\gamma>1$,
 by its log branch for $\gamma=1$, and by asymptotic affinity for
 $\gamma\in(1/2,1)$, subject in each branch to the assumptions of the corresponding
 relaxed-solution result.
@@ -1098,7 +1117,8 @@ and results.
  minimization problem, the relaxed problem, and FOA validity.  Introduce only the
  aggregate safe-tail objects needed to state
  Theorem~\ref{thm:high-reservation}.  State that theorem as the paper's main
- theorem, with strong flattening and log utility as its two branches.  Follow it
+ theorem, with vanishing marginal utility relative to risk aversion and log
+ utility as its two branches.  Follow it
  immediately with Corollary~\ref{cor:common-utilities} for CARA, CRRA above one,
  and log utility.
 
@@ -1112,7 +1132,8 @@ and results.
  State the finite-$\lambda$ safe-tail curvature bound,
  Proposition~\ref{prop:deterministic-criterion}, as the key technical
  proposition.  The cutoff-specific asymptotic condition \eqref{eq:DC} is proof
- machinery, not a separately named theorem.  Strong flattening and log width are
+ machinery, not a separately named theorem.  Vanishing marginal utility relative
+ to risk aversion and log width are
  verification lemmas inside the proof of the main theorem.
 
  \item \textbf{Applications and discussion.}  Preserve the topics and order of
@@ -1166,8 +1187,9 @@ and supporting lemmas.  The conceptual decomposition remains
  \quad+\quad
  \boxed{\text{paid-region positive curvature is dominated by }c''}.
 \]
-Incentive capacity and kink placement supply the first box.  Strong flattening
-or sufficient safe score width supplies the second; asymptotic affinity is a
+Incentive capacity and kink placement supply the first box.  Vanishing marginal
+utility relative to risk aversion or sufficient safe score width supplies the
+second; asymptotic affinity is a
 separate appendix mechanism.
 
 \end{document}
