@@ -75,7 +75,8 @@ After fixing $a_0$, write
 
 The agent has \textbf{initial wealth} $w_0\in\R$ and a \textbf{utility function}
 $u:[w_0,\infty)\to\R$ over final wealth.  The utility function is smooth,
-strictly increasing, strictly concave, and $\lim_{W\to\infty}u'(W)=0$.
+strictly increasing, satisfies $u''(W)<0$ for every $W>w_0$, and
+$\lim_{W\to\infty}u'(W)=0$.
 Define
 \[
 \begin{aligned}
@@ -191,18 +192,42 @@ Finally, we assume \textbf{local implementability}:
 When $\Delta u=\infty$, this means that the positive score has positive first
 moment.
 
-\section{The relaxed problem}
+\section{The cost-minimization problems and the first-order approach}
 
-In utility-contract coordinates, the relaxed cost-minimization problem for
-$(a_0,\bar U)$ minimizes $\widehat C(v,a_0)$ subject to
+For an intended action $a_0$ and reservation utility $\bar U$, the
+\textbf{cost-minimization problem} minimizes expected compensation cost at the
+intended action,
+\[
+ \widehat C(v,a_0),
+\]
+over contracts $v\in\mathcal V$ subject to individual rationality and global
+incentive compatibility:
 \begin{align}
  \widehat U(v,a_0)&\ge \bar U, \tag{IR}\label{eq:IR}\\
+ \widehat U(v,a_0)&\ge \widehat U(v,a)
+ \quad\text{for every }a\in\cA. \tag{GIC}\label{eq:GIC}
+\end{align}
+Thus GIC requires that the intended action $a_0$ be optimal for the agent under
+the contract.
+
+Because $a_0$ is interior, GIC implies the local first-order condition
+$\widehat U_a(v,a_0)=0$.  The \textbf{relaxed cost-minimization problem} replaces
+GIC with this necessary local condition: it minimizes $\widehat C(v,a_0)$ over
+$v\in\mathcal V$ subject to
+\begin{align}
+ \widehat U(v,a_0)&\ge \bar U, \tag{IR}\\
  \widehat U_a(v,a_0)&=0. \tag{LIC}\label{eq:LIC}
 \end{align}
 By the definition of $\mathcal V$, LIC is
 \[
  \int v(y)s(y)f_0(y)\dd(y)=c'(a_0).
 \]
+
+\begin{definition}[Validity of the first-order approach]
+The \emph{first-order approach} is valid for $(a_0,\bar U)$ if every solution of
+the relaxed cost-minimization problem is also a solution of the original
+cost-minimization problem.
+\end{definition}
 
 \subsection{The LIC path}
 
@@ -485,7 +510,8 @@ Let
 \[
  \cQ_{\mathrm{safe}}:=\{q\le0:q\text{ is tail-safe}\}.
 \]
-Define incentive capacity and paid-region positive curvature by
+For the cutoff-specific arguments in the proofs, define incentive capacity and
+paid-region positive curvature by
 \begin{align*}
  \Capacity(q)&:=-\int_{\{s(y)\le q\}}s(y)f_0(y)\dd(y),\\
  \Curv(q)&:=\sup_{a\in\cA}
@@ -496,18 +522,25 @@ safe incentive capacity, and best paid-region curvature bound by
 \begin{align*}
  \bar q_{\mathrm{safe}}&:=\sup\cQ_{\mathrm{safe}},\\
  \Capacity_{\mathrm{safe}}
- &:=\sup_{q<\bar q_{\mathrm{safe}}}\Capacity(q)
- =-\int_{\{s(y)<\bar q_{\mathrm{safe}}\}}s(y)f_0(y)\dd(y),\\
+ &:=-\int_{\{s(y)<\bar q_{\mathrm{safe}}\}}s(y)f_0(y)\dd(y),\\
  \Curv_{\mathrm{safe}}
- &:=\inf_{q\in\cQ_{\mathrm{safe}}}\Curv(q).
+ &:=\inf_{q\in\cQ_{\mathrm{safe}}}\sup_{a\in\cA}
+ \int_{\{s(y)>q\}}[s(y)f_{aa}(y\mid a)]_+\dd(y).
 \end{align*}
-The supremum is interpreted as zero if there are no interior safe cutoffs, and
-the infimum is interpreted as infinity if there are no safe cutoffs.  For the
-logarithmic result, also define
+In the manuscript body, define only the aggregate quantities
+$\Capacity_{\mathrm{safe}}$ and $\Curv_{\mathrm{safe}}$, writing their integral
+definitions directly.  The cutoff-specific notation $\Capacity(q)$ and
+$\Curv(q)$ is proof machinery and can be introduced later.  For the logarithmic
+result, also define
 \[
  \underline s:=\operatorname*{ess\,inf}_{Y\sim f_0}s(Y),
  \qquad
- \Width_{\mathrm{safe}}:=\bar q_{\mathrm{safe}}-\underline s.
+ \Width_{\mathrm{safe}}:=
+ \begin{cases}
+  \bar q_{\mathrm{safe}}-\underline s,
+   &\cQ_{\mathrm{safe}}\ne\varnothing,\\
+  0,&\cQ_{\mathrm{safe}}=\varnothing.
+ \end{cases}
 \]
 When the curvature--width ratio appears below, a finite numerator divided by an
 infinite width is interpreted as zero; the ratio is infinity if its numerator is
@@ -706,7 +739,7 @@ not vanish relative to risk aversion.
 
 \begin{lemma}[Log-width verification]
 \label{lem:log-width}
-Suppose $u(W)=\log W$, $\cQ_{\mathrm{safe}}$ is nonempty, and
+Suppose $u(W)=\log W$ and
 \begin{equation}
  \frac{\Curv_{\mathrm{safe}}}{\Width_{\mathrm{safe}}}
  <\underline c''.
@@ -750,7 +783,7 @@ Suppose either
   \Curv_{\mathrm{safe}}<\infty;
  \]
  or
- \item Utility is logarithmic, $\cQ_{\mathrm{safe}}$ is nonempty, and
+ \item Utility is logarithmic and
  \[
   \frac{\Curv_{\mathrm{safe}}}{\Width_{\mathrm{safe}}}
   <\underline c''.
