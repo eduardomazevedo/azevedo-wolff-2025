@@ -86,7 +86,7 @@ Let $U_R$ be the supremum reservation utility for which the relaxed
 cost-minimization problem is feasible, and let
 $\underline c'' := \inf_{a\in\mathcal A}c''(a)\geq0$.
 
-The main theorem depends on the output distribution having $f_{aa} > 0$ in a low-score region. We will use the following key quantities. Let $\mathcal Q_{\mathrm{safe}}$ be the set of scores $q\leq0$ such that
+The main theorem depends on the output distribution having $f_{aa}\geq0$ in a low-score region. We will use the following key quantities. Let $\mathcal Q_{\mathrm{safe}}$ be the set of scores $q\leq0$ such that
 $f_{aa}(y\mid a)\geq0$ for every $a\in\mathcal A$ and $\nu$-almost every $y$
 with $s(y)\leq q$, and let
 $\bar q_{\mathrm{safe}}:=\sup\mathcal Q_{\mathrm{safe}}$.  The safe
@@ -112,10 +112,10 @@ low-score region.  The positive curvature outside that region is bounded by the 
 The width of the safe region is
 \[
     \mathrm{Width}_{\mathrm{safe}}
-    :=\bar q_{\mathrm{safe}}
-      -\operatorname*{ess\,inf}_{Y\sim f(\cdot\mid a_0)}s(Y),
+    :=\sup\left(\{0\}\cup
+    \left\{q-t:q\in\mathcal Q_{\mathrm{safe}},\
+    t\in s(\mathcal Y)\right\}\right).
 \]
-and zero if $\mathcal Q_{\mathrm{safe}}$ is empty.
 
 The following utility condition is used for part of the main theorem.
 
