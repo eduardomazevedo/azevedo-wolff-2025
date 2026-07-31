@@ -7,6 +7,7 @@
 \usepackage{xcolor}
 
 \newtheorem{assumption}{Assumption}
+\newtheorem{condition}{Condition}
 \newtheorem{theorem}{Theorem}
 \newtheorem{proposition}{Proposition}
 \newtheorem{lemma}{Lemma}
@@ -441,35 +442,31 @@ Write
  \underline c'':=\inf_{a\in\cA}c''(a)\ge0.
 \]
 Conditions requiring uniformly positive cost curvature will state
-$\underline c''>0$ explicitly.  For utility with $u''(W)<0$ on
-$(w_0,\infty)$, define absolute risk aversion and absolute prudence by
-\[
- A(W):=-\frac{u''(W)}{u'(W)},
- \qquad
- P(W):=-\frac{u'''(W)}{u''(W)}.
-\]
+$\underline c''>0$ explicitly.
 
-\begin{assumption}[Prudence--risk aversion bound]
-\label{ass:prudence-risk-aversion}
-For every $W>w_0$,
-\[
- P(W)\le3A(W).
-\]
-\end{assumption}
+\begin{condition}[Sufficient risk aversion]
+\label{condition:sufficient-risk-aversion}
+Let $A(W):=-u''(W)/u'(W)$ denote absolute risk aversion and
+$P(W):=-u'''(W)/u''(W)$ denote absolute prudence.  For every $W>w_0$,
+\begin{equation}
+ A(W)\ge\frac{P(W)}{3}, \tag{U1}\label{condition:U1}
+\end{equation}
+and risk aversion is asymptotically large relative to marginal utility:
+\begin{equation}
+ \lim_{W\to\infty}\frac{A(W)}{u'(W)}=\infty.
+ \tag{U2}\label{condition:U2}
+\end{equation}
+\end{condition}
 
-\begin{assumption}[Vanishing marginal utility relative to risk aversion]
-\label{ass:vanishing-marginal-utility}
-Marginal utility vanishes relative to absolute risk aversion:
-\[
- \frac{u'(W)}{A(W)}\longrightarrow0
- \qquad\text{as }W\to\infty.
-\]
-\end{assumption}
+\begin{remark}[Common utility specifications]
+CARA utility satisfies the sufficient risk aversion condition.  CRRA utility
+satisfies it for every coefficient of relative risk aversion $\gamma>1$.
+\end{remark}
 
 \begin{remark}[Link interpretation]
-Assumption~\ref{ass:prudence-risk-aversion} is equivalent to concavity of the
-nonbinding utility link $\ell_0$; monotonicity of $\ell_0$ follows from the
-maintained utility assumptions.  Moreover, at $W=L_0(z)$,
+Condition~\eqref{condition:U1} is equivalent to concavity of the nonbinding
+utility link $\ell_0$; monotonicity of $\ell_0$ follows from the maintained
+utility assumptions.  Moreover, at $W=L_0(z)$,
 \[
  L_0'(z)
  =\frac{u'(W)}{A(W)}
@@ -477,9 +474,8 @@ maintained utility assumptions.  Moreover, at $W=L_0(z)$,
  \qquad
  z\ell_0'(z)=L_0'(z).
 \]
-Thus Assumption~\ref{ass:vanishing-marginal-utility} is equivalent both to an
-asymptotically flat wealth link, $L_0'(z)\to0$, and to
-$z\ell_0'(z)\to0$.
+Thus Condition~\eqref{condition:U2} is equivalent both to an asymptotically flat
+wealth link, $L_0'(z)\to0$, and to $z\ell_0'(z)\to0$.
 \end{remark}
 
 \begin{definition}[Limited-liability score cutoff]
@@ -503,7 +499,7 @@ A number $q\le0$ is \emph{tail-safe} if
 \[
  f_{aa}(y\mid a)\ge0
  \quad\text{for every }a\in\cA
- \text{ and every }y\text{ with }s(y)\le q.
+ \text{ and $\nu$-almost every }y\text{ with }s(y)\le q.
  \tag{TS}\label{eq:tail-safe}
 \]
 Let
@@ -533,14 +529,9 @@ definitions directly.  The cutoff-specific notation $\Capacity(q)$ and
 $\Curv(q)$ is proof machinery and can be introduced later.  For the logarithmic
 result, also define
 \[
- \underline s:=\operatorname*{ess\,inf}_{Y\sim f_0}s(Y),
- \qquad
- \Width_{\mathrm{safe}}:=
- \begin{cases}
-  \bar q_{\mathrm{safe}}-\underline s,
-   &\cQ_{\mathrm{safe}}\ne\varnothing,\\
-  0,&\cQ_{\mathrm{safe}}=\varnothing.
- \end{cases}
+ \Width_{\mathrm{safe}}
+ :=\sup\left(\{0\}\cup
+ \left\{q-t:q\in\cQ_{\mathrm{safe}},\ t\in s(\cY)\right\}\right).
 \]
 When the curvature--width ratio appears below, a finite numerator divided by an
 infinite width is interpreted as zero; the ratio is infinity if its numerator is
@@ -625,7 +616,7 @@ gives the result.
 
 \begin{lemma}[Curvature split]
 \label{lem:curvature-split}
-Suppose Assumption~\ref{ass:prudence-risk-aversion} holds.  Fix
+Suppose Condition~\eqref{condition:U1} holds.  Fix
 $q\in\cQ_{\mathrm{safe}}$ with $\Curv(q)<\infty$.  If the limited-liability cutoff
 is weakly below $q$,
 \[
@@ -651,7 +642,7 @@ $s f_{aa}$ and taking the supremum over actions gives \eqref{eq:curvature-split}
 
 \begin{proposition}[Finite-$\lambda$ safe-tail curvature bound]
 \label{prop:deterministic-criterion}
-Suppose Assumption~\ref{ass:prudence-risk-aversion} holds.  Fix
+Suppose Condition~\eqref{condition:U1} holds.  Fix
 $q_0<q_1\le0$ with $q_0,q_1\in\cQ_{\mathrm{safe}}$.  Suppose $q_0$
 has sufficient incentive capacity and paid-region curvature is finite at $q_1$:
 \[
@@ -703,12 +694,12 @@ these contracts also satisfy global incentive compatibility.  This criterion is
 proof machinery rather than a headline result; the next two lemmas verify it
 using aggregate primitives.
 
-\subsection{Vanishing marginal utility relative to risk aversion}
+\subsection{The sufficient risk aversion condition}
 
-\begin{lemma}[Vanishing-marginal-utility verification]
+\begin{lemma}[Sufficient-risk-aversion verification]
 \label{lem:vanishing-marginal-utility}
-Suppose Assumptions~\ref{ass:prudence-risk-aversion} and
-\ref{ass:vanishing-marginal-utility} hold, $\underline c''>0$, and
+Suppose the sufficient risk aversion condition holds,
+$\underline c''>0$, and
 \[
  \Delta u\,\Capacity_{\mathrm{safe}}>c'(a_0),
  \qquad
@@ -750,10 +741,9 @@ sufficiently large $\lambda$.
 \end{lemma}
 
 \proofsketch
-Log utility satisfies Assumption~\ref{ass:prudence-risk-aversion}.  The strict
-endpoint inequality provides
-$\underline s<q_0<q_1\le0$ with $q_0,q_1\in\cQ_{\mathrm{safe}}$ such that
-$\Capacity(q_0)>0$ and
+Log utility satisfies Condition~\eqref{condition:U1}.  The strict endpoint
+inequality provides $q_0<q_1\le0$ with
+$q_0,q_1\in\cQ_{\mathrm{safe}}$ such that $\Capacity(q_0)>0$ and
 \[
  \frac{\Curv(q_1)}{q_1-q_0}<\underline c''.
 \]
@@ -773,8 +763,7 @@ Thus \eqref{eq:DC} holds.
 \label{thm:high-reservation}
 Suppose either
 \begin{enumerate}[label=(\roman*)]
- \item Utility satisfies Assumptions~\ref{ass:prudence-risk-aversion} and
- \ref{ass:vanishing-marginal-utility}, and
+ \item Utility satisfies the sufficient risk aversion condition, and
  \[
   \underline c''>0,
   \qquad
@@ -836,14 +825,15 @@ approach is valid as follows:
  \[
   \bar U\in[U^*(w_0),U_R(w_0)).
  \]
- \item If $w_0>0$, $u(W)=\log W$, $\underline s=-\infty$, and
+ \item If $w_0>0$, $u(W)=\log W$, the score is unbounded below, and
  $\Curv_{\mathrm{safe}}<\infty$, then there is $U^*<\infty$ such that validity
  holds for every reservation utility $\bar U\ge U^*$.
 \end{enumerate}
 \end{corollary}
 
 \proofsketch
-CARA and CRRA utility with $\gamma>1$ satisfy both utility assumptions, while their
+CARA and CRRA utility with $\gamma>1$ satisfy the sufficient risk aversion
+condition, while their
 utility spreads diverge as $w_0\to-\infty$ and $w_0\downarrow0$, respectively.
 Because $a_0$, the distribution, and effort cost are fixed,
 $\Capacity_{\mathrm{safe}}$, $\Curv_{\mathrm{safe}}$, and $c'(a_0)$ do not vary
@@ -1115,8 +1105,8 @@ The recommended manuscript organization is as follows.
  minimization problem, the relaxed problem, and FOA validity.  Introduce only the
  aggregate safe-tail objects needed to state
  Theorem~\ref{thm:high-reservation}.  State that theorem as the paper's main
- theorem, with vanishing marginal utility relative to risk aversion and log
- utility as its two branches.  Follow it
+ theorem, with the sufficient risk aversion condition and log utility as its
+two branches.  Follow it
  immediately with Corollary~\ref{cor:common-utilities} for CARA, CRRA above one,
  and log utility.
 
@@ -1130,9 +1120,8 @@ The recommended manuscript organization is as follows.
  State the finite-$\lambda$ safe-tail curvature bound,
  Proposition~\ref{prop:deterministic-criterion}, as the key technical
  proposition.  The cutoff-specific asymptotic condition \eqref{eq:DC} is proof
- machinery, not a separately named theorem.  Vanishing marginal utility relative
- to risk aversion and log width are
- verification lemmas inside the proof of the main theorem.
+ machinery, not a separately named theorem.  Sufficient risk aversion and log
+ width are verification lemmas inside the proof of the main theorem.
 
  \item \textbf{Applications and discussion.}  Preserve the topics and order of
  the current manuscript draft:
@@ -1185,9 +1174,9 @@ and supporting lemmas.  The conceptual decomposition remains
  \quad+\quad
  \boxed{\text{paid-region positive curvature is dominated by }c''}.
 \]
-Incentive capacity and kink placement supply the first box.  Vanishing marginal
-utility relative to risk aversion or sufficient safe score width supplies the
-second; asymptotic affinity is a
+Incentive capacity and kink placement supply the first box.  The sufficient
+risk aversion condition or sufficient safe score width supplies the second;
+asymptotic affinity is a
 separate appendix mechanism.
 
 \end{document}
