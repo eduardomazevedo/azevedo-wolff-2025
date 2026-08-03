@@ -1,15 +1,51 @@
-We say that \textbf{the first-order approach is valid} for an action and reservation utility pair $(a_0, \bar U)$ if any solution to the relaxed cost minimization problem is a solution to the cost minimization problem.
+The main result gives conditions under which the first-order approach is valid
+at every sufficiently high feasible reservation utility.
 
-Our main result is that the first-order approach is valid for sufficiently high reservation utility:
-
-\begin{theorem}
-    \label{thm:main}[Validity of the first order approach with high reservation utility]
-    Given an interior action $a_0 > 0$, the first-order approach is valid for $(a_0, \bar U)$ for any sufficiently high reservation utility $\bar U$.
+\begin{theorem}[The first-order approach is valid at sufficiently high reservation utility]
+\label{thm:main}
+Suppose either:
+\begin{enumerate}
+    \renewcommand{\labelenumi}{(\roman{enumi})}
+    \item utility satisfies the sufficient risk aversion condition
+    \ref{condition:sufficient-risk-aversion}, $\underline c''>0$,
+    $\mathrm{Curv}_{\mathrm{safe}}<\infty$, and
+    \[
+        \left[\lim_{W\to\infty}u(W)-u(w_0)\right]
+        \mathrm{Cap}_{\mathrm{safe}}>c'(a_0);
+    \]
+    \item $u(W)=\log W$ and
+    \[
+        \frac{\mathrm{Curv}_{\mathrm{safe}}}
+        {\mathrm{Width}_{\mathrm{safe}}}
+        <\underline c''.
+    \]
+\end{enumerate}
+Then there exists $U^*<U_R$ such that, for every
+\[
+    \bar U\in[U^*,U_R),
+\]
+the first-order approach is valid. The relaxed cost-minimization problem has an almost everywhere unique solution characterized in Proposition
+\ref{prop:relaxed-optimal-contract}.
 \end{theorem}
 
-The theorem formalizes the main point discussed in the introduction and examples. That the first order approach is valid under reasonable assumptions, as long as reservation utility is high. In particular, the theorem implies that the cost minimization problem has a tractable solution, given by the standard formulae in the first-order approach literature. We establish the solution in Proposition \ref{prop:relaxed-optimal-contract} below, and note the implication to the full problem here.
+\begin{corollary}[Common Utility Specifications]
+\label{cor:common-utilities}
+Assume $\underline c''>0$.
+\begin{enumerate}
+    \renewcommand{\labelenumi}{(\roman{enumi})}
+    \item Suppose $\mathrm{Cap}_{\mathrm{safe}}>0$ and
+    $\mathrm{Curv}_{\mathrm{safe}}<\infty$.  For CARA utility or CRRA utility
+    with coefficient of relative risk aversion $\gamma>1$, the first-order
+    approach is valid at all sufficiently high feasible reservation utilities
+    whenever initial wealth is sufficiently low.  In particular, this applies
+    to Gaussian, Poisson, exponential, gamma, geometric, Bernoulli, and binomial
+    output under the parameter restrictions in Remark
+    \ref{rem:safe-tails-common-distributions}.
 
-\begin{corollary}
-    \label{cor:main}[Solution of the cost minimization problem]
-    Given an interior action $a_0 > 0$, for any sufficiently high reservation utility $\bar U$, the cost minimization problem has an almost everywhere unique solution given by the formula in Proposition \ref{prop:relaxed-optimal-contract}.
+    \item For log utility with $w_0>0$, if the score is essentially unbounded
+    below and $\mathrm{Curv}_{\mathrm{safe}}<\infty$, the first-order approach
+    is valid for sufficiently high reservation utility.  In particular, this
+    applies to Gaussian output and to the regular exponential
+    families described in Remark \ref{rem:safe-tails-common-distributions}.
+\end{enumerate}
 \end{corollary}
