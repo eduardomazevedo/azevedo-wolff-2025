@@ -1,420 +1,673 @@
-\subsection{Solution of the Relaxed Problem (Proof of Proposition \ref{prop:relaxed-optimal-contract})} 
+\newcommand{\Capq}{\mathrm{Cap}}
+\newcommand{\Curvq}{\mathrm{Curv}}
 
-Throughout this subsection, fix a reservation utility $\bar U$ and intended action $a_0$. The local IC constraint is only defined if $U(v, a)$ can be differentiated under the integral sign, so we begin by showing that differentiation under the integral at any action is possible for any feasible contract.
+\subsection{Notation and Utility Parametrization}
+\label{subsec:appendix-notation}
 
-\begin{remark} 
-    \label{rem:leibniz}
-    Let $v$ be a feasible contract. Then, for all $a$ in $\mathbb{R}_{+}$, the first and second derivatives of $U(v,a)$ with respect to $a$ exist, are finite, and are given by
-    \[
-        U_{a}(v,a) = \int v(y) f_{a}(y|a)\,dy\text{,}
-    \]
-    \[
-        U_{aa}(v,a) = \int v(y) f_{aa}(y|a)\,dy\text{.}
-    \]
-\end{remark} 
+In the appendix we use the following additional notation. Let
+\[
+    \underline u:=u(w_0),\qquad
+    \bar u:=\lim_{W\to\infty}u(W),\qquad
+    \Delta u:=\bar u-\underline u,
+\]
+and $k:=u^{-1}$.
 
-\begin{proof}
-    The conditions for Leibniz's rule to hold are in Assumption \ref{assump:leibniz}.2.    
-\end{proof} 
+It will also be convenient to parametrize contracts in utility units. Given a (payment) contract $w$, define the \textbf{utility contract} parametrization by
+$v(y):=u(w_0+w(y))$.  Conversely, a utility contract $v$ corresponds to the
+payment contract $k(v)-w_0$. Define
+\begin{align*}
+    \widehat U(v,a)&:=\int v(y)f(y\mid a)\,d\nu(y)-c(a),\\
+    \widehat C(v,a)&:=\int [k(v(y))-w_0]f(y\mid a)\,d\nu(y).
+\end{align*}
 
- We now derive some intermediate results to establish proposition \ref{prop:relaxed-optimal-contract}. Recall the definition of the Lagrangian from equation (\ref{eq:lagrangian}) and definition \ref{def:canonical-contract} of a canonical contract.
+Define the feasible-contract set in utility units by
+\[
+    \mathcal V
+    :=\left\{v:\mathcal Y\to[\underline u,\bar u):
+    k(v)-w_0\in\mathcal W\right\}.
+\]
+Thus $\mathcal V$ is exactly the utility parametrization of $\mathcal W$.
+It is convex: differentiation is preserved by convex combinations, and
+convexity of $k$ preserves finiteness of expected compensation cost. In the remainder of the appendix, we work with this equivalent utility parametrization of contracts and refer to utility contracts simply as contracts.
 
-Note that canonical contracts uniquely minimize the Lagrangian:
-\begin{lemma}
-    \label{lem:lagrangian}
-    Given $\lambda$ and $\mu$ in $\mathbb R$, there exists $v$ that minimizes the Lagrangian $\mathcal{L}(v, \lambda, \mu)$ among all feasible contracts. $v$ is $f(\cdot | a_0)$ almost everywhere equal to the canonical contract $V(y, \lambda, \mu)$.
+Define the utility links
+\begin{eqnarray*}
+    \ell_0(z)&:=&u(L_0(z))=(k')^{-1}(z),\\
+    \ell(z)&:=&\ell_0(z\vee m_0).
+\end{eqnarray*}
+The utility version of a
+canonical contract is
+\[
+    v_{\lambda,\mu}(y):=\ell(\lambda+\mu s(y)).
+\]
+It corresponds to the payment canonical contract in Definition
+\ref{def:canonical-contract}.
+
+
+\subsection{The relaxed problem}
+\label{subsec:appendix-relaxed}
+
+We now prove Proposition \ref{prop:relaxed-optimal-contract}.
+
+\begin{lemma}[Pointwise minimization]
+\label{lem:lagrangian}
+For $\lambda\geq0$ and $\mu\in\mathbb R$, the almost everywhere unique
+minimizer of the Lagrangian in \eqref{eq:lagrangian} over $\mathcal V$, expressed
+in utility units, is $v_{\lambda,\mu}$.
 \end{lemma}
 
 \begin{proof}
-The Lagrangian in equation (\ref{eq:lagrangian}) can be written as
+Up to terms independent of $v$, the Lagrangian is the integral, against
+$f(y\mid a_0)d\nu(y)$, of
 \[
-    \mathcal{L}(v, \lambda, \mu)
-    =
-    \int [k(v(y)) - \lambda v(y) - \mu v(y)S(y|a_0)]f(y|a_0)\, dy + \lambda\left(\bar U + c(a_0)\right) + \mu c'(a_0)
-    \text{.}
+    k(v(y))-w_0-[\lambda+\mu s(y)]v(y).
 \]
-
-Differentiating the integrand with respect to $v(y)$ yields
-\[
-[k'(v(y)) - \lambda - \mu S(y|a_0)]f(y|a_0)
-\]
-
-and this is strictly convex in $v(y)$. Therefore, the integrand is minimized pointwise in $v(y)$ at $v(y) = V(y | \lambda, \mu)$. Hence, the infimum is attained, and any minimizer satisfies the desired formula $f(y | a_0)$ almost everywhere.
-
-It only remains to show that $V(y | \lambda, \mu)$ is feasible. This follows from assumption \ref{assump:leibniz} Part 4.
+This expression is strictly convex in $v(y)$.  Its interior first-order
+condition is $k'(v(y))=\lambda+\mu s(y)$.  Imposing
+$v(y)\geq\underline u$ replaces the right-hand side by its maximum with
+$m_0$, and hence gives $v(y)=\ell(\lambda+\mu s(y))$.  If $\bar u<\infty$,
+the open upper endpoint creates no nonattainment because
+$k(v)\to\infty$ as $v\uparrow\bar u$.  Canonical-contract regularity ensures that the
+pointwise minimizer belongs to $\mathcal V$.  Strict convexity gives almost
+everywhere uniqueness.
 \end{proof}
 
-We now note that, given $\lambda$ there is a unique value of $\mu$ that solves the local IC constraint.
-
-\begin{lemma}
-    \label{lem:mu-tilde}
-    Given $\lambda$ in $\mathbb R$, there exists a unique $\tilde \mu(\lambda)$ such that the canonical contract $V(y|\lambda, \tilde \mu(\lambda))$ satisfies the local IC constraint (\ref{LIC_relaxed}). Moreover, $\tilde \mu(\lambda) > 0$.
-\end{lemma}
-
-\begin{proof}
-We have
+For $\lambda\geq0$, set
 \[
-U_{a}(v)=\int v(y)f_{a}(y|a_{0})\,dy\text{.}
+    I(\lambda,\mu)
+    :=\int \ell(\lambda+\mu s(y))s(y)f(y\mid a_0)\,d\nu(y).
 \]
-If $\mu=0$, then $v(y)$ is constant, so
-\[
-    U_{a}(V(\cdot|\lambda,0,a_{0}))-c'(a_{0})<0\text{.}
-\]
+A canonical contract satisfies LIC if and only if
+$I(\lambda,\mu)=c'(a_0)$.
 
-As $\mu\rightarrow\infty$, $V(y|\lambda,\mu,a_{0})$ converges pointwise to $u(\infty) = \infty$ if $S(y|a_0) > 0$ and to $u(0)$ if $S(y|a_0) < 0)$. Hence, for large enough $\mu$,
-\[
-    U_{a}(V(\cdot|\lambda,\mu,a_{0}))-c'(a_{0})>0\text{.}
-\]
-
-Therefore, there exists at least one $\mu_{1}>0$ such that
-\[
-    U_{a}(V(\cdot|\lambda,\mu_{1},a_{0}))-c'(a_{0})=0\text{.}
-\]
-
-It only remains to prove that this solution $\mu_{1}$ is unique. To see this, note
+\begin{lemma}[The LIC multiplier]
+\label{lem:mu-tilde}
+For each $\lambda\geq0$, there is a unique $\widetilde\mu(\lambda)>0$ such
 that
 \[
-    U_{a}(V(\cdot|\lambda,\mu_{1},a_{0}))
+    I(\lambda,\widetilde\mu(\lambda))=c'(a_0).
 \]
-is weakly increasing in $\mu$. And, moreover, it is strictly increasing
-at any solution $\mu_{1}$ because $c'(a_0) > 0$ implies that there is a positive measure of $y$ such that
-$f_{a}(y|a_{0})>0$ and
+Moreover, $\widetilde\mu$ is continuous.
+\end{lemma}
+
+\begin{proof}
+Because the score has mean zero, $I(\lambda,0)=0$.  For $\mu\geq0$,
+write
+\begin{equation}
+ I(\lambda,\mu)
+ =\int[\ell(\lambda+\mu s(y))-\ell(\lambda)]s(y)f(y\mid a_0)\,d\nu(y).
+ \label{eq:I-centered}
+\end{equation}
+The integrand is nonnegative and nondecreasing in $\mu$.  As
+$\mu\to\infty$, monotone convergence yields
 \[
-\lambda+\mu_{1}\frac{f_{a}(y|a_{0})}{f(y|a_{0})}>\frac{1}{u'(0)}\text{.}
-    \]
+ I(\lambda,\mu)\longrightarrow
+ \Delta u\int_{\{s>0\}}s(y)f(y\mid a_0)\,d\nu(y),
+\]
+with an infinite limit allowed.  This limit exceeds $c'(a_0)$ by
+\eqref{eq:local-implementability}.  Continuity therefore gives a positive
+solution.
+
+To see uniqueness, let $\mu_2>\mu_1>0$ and suppose $\mu_1$ solves LIC.  If
+$\lambda\leq m_0$, negative scores contribute zero to
+\eqref{eq:I-centered}; because $I(\lambda,\mu_1)=c'(a_0)>0$, a
+positive-measure set of positive scores must be above the floor.  If
+$\lambda>m_0$, every positive score is already above the floor.  In either
+case, increasing $\mu$ from $\mu_1$ to $\mu_2$ strictly raises the centered
+integrand on a positive-measure set and weakly raises it elsewhere.  Hence
+$I(\lambda,\mu_2)>I(\lambda,\mu_1)$, proving uniqueness.  Finally, joint
+continuity of $I$ and this strict-crossing property imply continuity of the
+unique solution $\widetilde\mu(\lambda)$.
 \end{proof}
 
-The lemma implies that the family of canonical contracts that satisfy (\ref{LIC_relaxed}) is a one-dimensional family indexed by $\lambda$. Define
+Define the LIC path
 \begin{equation}
-    \label{eq:tildeV-definition}
-    \tilde V (y | \lambda) := V(y | \lambda, \tilde \mu(\lambda))
+    v_\lambda(y):=
+    \ell\bigl(\lambda+\widetilde\mu(\lambda)s(y)\bigr),
+    \qquad
+    \widetilde U(\lambda):=\widehat U(v_\lambda,a_0),
+    \qquad
+    \widetilde C(\lambda):=\widehat C(v_\lambda,a_0).
+    \label{eq:lic-path}
 \end{equation}
 
-Define the \textbf{relaxed Pareto problem} as finding $v$ in $\mathcal C$ to
-\begin{align}
-    \text{minimize} \quad & W(v) - \lambda U(v) \nonumber \\
-    \text{subject to} \quad & \partial _a U(v, a_0) = 0 \tag{LIC}
-\end{align}
-
-The next lemma shows that the contracts $\tilde V (y|\lambda)$ span the solutions to the Pareto problem:
-
-\begin{lemma}
-    \label{lem:pareto-problem}
-    Given $\lambda$ in $\mathbb R$, the relaxed Pareto problem has a solution, and any solution is $f(y|a_0)$ almost everywhere equal to $\tilde V (y | \lambda)$.
-\end{lemma}
-\begin{proof}
-For any $v$ satisfying (\ref{LIC_relaxed}),
+\begin{lemma}[The relaxed Pareto path]
+\label{lem:pareto-problem}
+For every $\lambda\geq0$, $v_\lambda$ is the almost everywhere unique
+minimizer of
 \[
-W(v) - \lambda U(v)
-=
-\mathcal{L}(v, \lambda, \tilde \mu(\lambda)) - \lambda \bar U
-\text{.}
+    \widehat C(v,a_0)-\lambda\widehat U(v,a_0)
 \]
-
-Lemma \ref{lem:lagrangian} then implies that $W(v) - \lambda(v)$ is minimized over $\mathcal C$ by $\tilde V (y | \lambda)$, and that this solution is almost-everywhere unique. This contract satisfies (\ref{LIC_relaxed}) by the definition of $\tilde \mu(\lambda)$.
-\end{proof}
-
-Define the expected wage and utility attained by these contracts as
-\[
-\begin{array}{rcl}
-\tilde U (\lambda) & := & U(\tilde V(\cdot | \lambda), a_0) \text{,} \\
-\tilde W (\lambda) & := & W(\tilde V(\cdot | \lambda), a_0) \text{.}
-\end{array}
-\]
-
-\begin{lemma}
-    \label{u-tilde-increasing}
-    $\tilde U (\lambda)$ is continuous and strictly increasing.
+among contracts in $\mathcal V$ satisfying LIC.  The function $\widetilde U$ is
+continuous and nondecreasing.  If $\lambda_1<\lambda_2$ and
+$\widetilde U(\lambda_1)=\widetilde U(\lambda_2)$, then
+$v_{\lambda_1}=v_{\lambda_2}$ almost everywhere.
 \end{lemma}
 
 \begin{proof}
-Consider $\lambda _1 < \lambda _2$ with optima $v_1 := \tilde V (\cdot | \lambda_1)$ and $v_2 := \tilde V (\cdot | \lambda_2)$. By optimality,
-\[
-W(v_1) - \lambda_1 U(v_1) \leq W(v_2) - \lambda_1 U(v_2)
-\text{,}
-\]
-and
-\[
-W(v_2) - \lambda_2 U(v_2) \leq W(v_1) - \lambda_2 U(v_1)
-\text{.}
-\]
+On the LIC constraint, the displayed objective differs by a constant from the
+Lagrangian with $\mu=\widetilde\mu(\lambda)$.  Lemma
+\ref{lem:lagrangian} therefore proves optimality and uniqueness.
 
-Adding the inequalities,
+For $\lambda_1<\lambda_2$, apply the two Pareto inequalities to
+$v_{\lambda_1}$ and $v_{\lambda_2}$ and add them.  This gives
 \[
-(\lambda_2 - \lambda_1) \cdot \left(\tilde U (\lambda _2) - \tilde U (\lambda _ 1) \right) \geq 0
-\text{.}
+ (\lambda_2-\lambda_1)
+ [\widetilde U(\lambda_2)-\widetilde U(\lambda_1)]\geq0.
 \]
-
-Therefore, $\tilde U$ is non-decreasing. It only remains to show that $\tilde U$ is strictly increasing. To reach a contradiction, assume that $\tilde U(\lambda _ 2) = \tilde U (\lambda _ 1)$. Optimality implies that $\tilde W (\lambda _1) = \tilde W (\lambda _2)$.  Consider the contract $(v_1 + v_2)/2$. By our assumptions on the score, $v_1$ and $v_2$ differ in a set of positive measure. By strict convexity of $k$, it follows that $W((v_1 + v_2)/2) < W(v_1)$. This contradicts the optimality of $v_1$.
-
-Continuity follows from the continuity of the canonical contract in $(\lambda,\mu)$ and Assumption \ref{assump:leibniz}. To see that $\tilde\mu(\lambda)$ is continuous, define
-\[
-    H(\lambda,\mu)
-    :=
-    \int V(y|\lambda,\mu)f_a(y|a_0)\,dy - c'(a_0).
-\]
-The function $H$ is continuous and, by the strict monotonicity argument in Lemma \ref{lem:mu-tilde}, strictly increasing in $\mu$ at the solution to $H(\lambda,\mu)=0$. Hence the unique solution $\tilde\mu(\lambda)$ varies continuously with $\lambda$, and so does $\tilde U(\lambda)$.
+If the utility levels are equal, both contracts minimize the same strictly
+convex Pareto problem and hence agree almost everywhere.  Continuity follows
+from Lemma \ref{lem:mu-tilde} and canonical-contract regularity.
 \end{proof}
 
-We next note that there is no upper bound on the utility levels attained by the LIC-satisfying canonical contracts.
+Let
+\[
+    U_L:=\widetilde U(0),
+    \qquad
+    U_R:=\lim_{\lambda\to\infty}\widetilde U(\lambda).
+\]
+The second quantity is well defined in $\mathbb R\cup\{\infty\}$ by
+monotonicity.  The next observation is what allows utility to be bounded
+above.
 
-\begin{lemma}
-    \label{lem:utilde-unbounded}
-    $\lim _ {\lambda \rightarrow \infty} \tilde U(\lambda) = \infty$.
+\begin{lemma}[No terminal flat portion]
+\label{lem:no-terminal-flat}
+For every finite $M$, $\widetilde U(M)<U_R$.  In particular, $U_L<U_R$.
 \end{lemma}
 
 \begin{proof}
-Let $Y_+ := \{y:S(y|a_0) \geq 0\}$. Assumption \ref{assump:regularity_S} implies that $Y_+$ has positive probability. Since $g$ is increasing, for $y \in Y_+$,
+If $\widetilde U$ were constant from some $M$ onward, Lemma
+\ref{lem:pareto-problem} would imply that the contracts $v_\lambda$ agree
+almost everywhere for all $\lambda\geq M$.  Call the common contract $v$.
+Because the score has mean zero, LIC gives
 \[
-    \tilde V(y|\lambda)
-    = g(\lambda + \tilde \mu(\lambda)S(y|a_0))
-    \geq g(\lambda).
+    \int[v(y)-\underline u]s(y)f(y\mid a_0)\,d\nu(y)=c'(a_0)>0.
 \]
-For all $y$, $\tilde V(y|\lambda) \geq u(0)$. Therefore,
+Since $v\geq\underline u$, this requires $v>\underline u$ on a
+positive-measure set of positive-score outcomes.  Choose an unbounded
+countable sequence of multipliers.  Outside the union of their null sets, the
+interior canonical condition at every such outcome is
 \[
-    \tilde U(\lambda)
-    \geq
-    \Pr(Y_+)g(\lambda)
-    + (1-\Pr(Y_+))u(0)
-    - c(a_0).
+    k'(v(y))=\lambda+\widetilde\mu(\lambda)s(y)>\lambda.
 \]
-Assumption \ref{assump:utility_cost} implies that $u$ is unbounded above and $u'(x)\rightarrow 0$, so $g(\lambda)\rightarrow\infty$. Hence $\tilde U(\lambda)\rightarrow\infty$.
+But $v(y)<\bar u$ implies $k'(v(y))<\infty$, so this identity cannot hold along
+the sequence.  Thus there is no terminal flat portion.  Monotonicity then
+implies the stated strict inequality for every finite $M$.
 \end{proof}
-
-The proof of proposition \ref{prop:relaxed-optimal-contract} follows from collecting these results.
 
 \begin{proof}[Proof of Proposition \ref{prop:relaxed-optimal-contract}]
-Let $\bar U _ L : = \tilde U (0)$.
+For $\bar U\in(U_L,U_R)$, continuity of $\widetilde U$ gives at least one
+$\lambda>0$ such that $\widetilde U(\lambda)=\bar U$.  Lemmas
+\ref{lem:lagrangian} and \ref{lem:pareto-problem}, together with the
+nonnegative IR multiplier $\lambda$, show that $v_\lambda$ solves the relaxed
+problem.  If $\bar U\leq U_L$, the same argument with $\lambda=0$ shows that
+$v_0$ solves it and that slack IR does not change the solution.  Pointwise
+strict convexity gives almost everywhere uniqueness in both cases.
 
-\textbf{Part 1: existence, uniqueness, and characterization.}
+For completeness, let $\Lambda(\bar U)$ be the set of IR multipliers supporting
+the relaxed solution.  On $(U_L,U_R)$ it is the level set
+\[
+    \Lambda(\bar U)=\{\lambda\geq0:\widetilde U(\lambda)=\bar U\}.
+\]
+Lemma \ref{lem:pareto-problem} shows that all multipliers in this set represent
+the same contract, even if the set is not a singleton.  It is a closed interval
+by continuity and monotonicity.  It is bounded by Lemma
+\ref{lem:no-terminal-flat}, and hence compact.  Below $U_L$, complementary
+slackness selects $\lambda=0$.
 
-The relaxed problem is feasible for every reservation utility $\bar U$. If $\bar U \leq \bar U_L$, feasibility follows from the contract $\tilde V(\cdot|0)$. If $\bar U > \bar U_L$, Lemma \ref{u-tilde-increasing} and Lemma \ref{lem:utilde-unbounded} imply that there exists $\lambda>0$ such that $\tilde U(\lambda) = \bar U$, and $\tilde V(\cdot|\lambda)$ is feasible.
+Let $C^*(T)$ denote the relaxed value at reservation utility $T$.  The value is
+strictly convex on $(U_L,U_R)$.  Indeed, take two distinct active utility
+levels and their distinct optimal utility contracts $v_1,v_2$.  A strict
+convex combination satisfies LIC and delivers the corresponding convex
+combination of utilities, while strict convexity of $k$ makes its expected cost
+strictly smaller than the corresponding combination of costs.
 
-Let $\lambda ^*(\bar U)$ be $0$ if $\bar U \leq \bar U _L$ and be the inverse of $\tilde U$ for $\bar U _L < \bar U$. Lemma \ref{u-tilde-increasing} and Lemma \ref{lem:utilde-unbounded} imply that $\lambda^*$ is well defined and that $\lambda^*(\bar U) \geq 0$.
+If $\lambda\in\Lambda(\bar U)$ and $T<U_R$, Pareto optimality gives the
+supporting inequality
+\begin{equation}
+    C^*(T)\geq C^*(\bar U)+\lambda(T-\bar U).
+    \label{eq:value-support}
+\end{equation}
+Every such $\lambda$ is positive on the active region.  The inequality therefore
+also shows that $C^*$ is strictly increasing there; it is constant below
+$U_L$.
 
-Let $\mu ^* (\bar U) := \tilde \mu (\lambda ^* (\bar U))$. Lemma \ref{lem:mu-tilde} implies that $\mu^*(\bar U) > 0$. Let $v^*(y | \bar U) := \tilde V (y | \lambda ^* (\bar U))$. Note that this coincides with the definition of $v^*$ in the proposition statement.
+Conversely, let $\rho$ be any supporting slope of $C^*$ at an active utility
+level $\bar U$.  Monotonicity of the value gives $\rho\geq0$.  Put
+$T:=\widetilde U(\rho)$.  The supporting inequality at $\bar U$ and Pareto
+optimality of $v_\rho$ give opposite inequalities between
+$C^*(T)-\rho T$ and $C^*(\bar U)-\rho\bar U$, so equality holds.  If
+$T\neq\bar U$, the same line supports $C^*$ at both utility levels, forcing
+the value to be affine between them and contradicting strict convexity.
+Therefore $T=\bar U$ and $\rho\in\Lambda(\bar U)$.  Thus
+$\Lambda(\bar U)$ is exactly the subdifferential of $C^*$ at every active
+utility level.
 
-Lemma \ref{lem:pareto-problem} implies that $v^*(y | \bar U)$ solves the Pareto problem given $\lambda^*(\bar U)$. This implies that $v^*(y | \bar U)$ also solves the relaxed cost minimization problem given $\bar U$. Likewise, Lemma \ref{lem:pareto-problem} implies that the solution is unique almost everywhere.
-
-\textbf{Part 2: comparative statics.}
-
-For $\bar U \leq \bar U_L$, the definition gives $\lambda^*(\bar U)=0$, so the relaxed optimal contract and optimal expected wage do not vary with $\bar U$.
-
-For $\bar U > \bar U_L$, $\lambda ^*$ is strictly increasing and $\lim_{\bar U\rightarrow\infty}\lambda^*(\bar U)=\infty$ by Lemma \ref{u-tilde-increasing} and Lemma \ref{lem:utilde-unbounded}. The strict convexity of $\omega$ follows from $v^*(\cdot | \lambda)$ being different for each value of $\lambda$ and from $k$ being strictly convex.
-    
+Finally, strict convexity implies strict ordering of subgradients: if
+$U_L<T_1<T_2<U_R$, every element of $\Lambda(T_1)$ is smaller than every
+element of $\Lambda(T_2)$.  Lemma \ref{lem:no-terminal-flat} also implies that
+for every finite $M$, all multipliers supporting utility levels sufficiently
+close to $U_R$ exceed $M$.  Equivalently,
+\[
+    \inf\Lambda(\bar U)\longrightarrow\infty
+    \quad\text{as }\bar U\uparrow U_R.
+\]
+Translating $v_\lambda$ back through $w=k(v)-w_0$ gives exactly
+\eqref{eq:relaxed-optimal-contract} and proves all three parts of the
+proposition.
 \end{proof}
 
- \subsection{Concavity with High Reservation Utility (Proof of Proposition \ref{prop:concave})}
- \label{subsec:proof-derivs}  
+\subsection{Safe tails and concavity}
+\label{subsec:appendix-safe-tail}
 
- This section demonstrates that the second derivative of agent's utility is negative for sufficiently high reservation utility. The bulk of the section is spent demonstrating the same result for $\lambda$ sufficiently high, and the main result follows as an immediate corollary. Throughout this section, we use the $\tilde V (y | \lambda)$ notation defined in equation (\ref{eq:tildeV-definition}). Although $\tilde \mu(\lambda)$ is a function of $\lambda$ (Lemma \ref{lem:mu-tilde}) we abuse notation by omitting dependence on $\lambda$ and writing $\tilde{\mu}$ to denote $\tilde{\mu}(\lambda)$.
+This subsection proves Proposition \ref{prop:concave}.  We retain the cutoff
+itself in the proof because doing so handles bounded supports, nonmonotone
+scores, and score atoms without separate arguments.
 
-\textbf{Formulae for derivatives of $U(v, a)$}.
+For a safe cutoff $q\in\mathcal Q_{\mathrm{safe}}$, define
+\begin{align}
+    \Capq(q)&:=-\int_{\{s(y)\leq q\}}s(y)f(y\mid a_0)\,d\nu(y),
+    \label{eq:cutoff-capacity}\\
+    \Curvq(q)&:=\sup_{a\in\mathcal A}
+    \int_{\{s(y)>q\}}[s(y)f_{aa}(y\mid a)]_+\,d\nu(y).
+    \label{eq:cutoff-curvature}
+\end{align}
+The weak inequality assigns an atom at $q$ to the safe, no-payment side; the
+strict inequality in \eqref{eq:cutoff-curvature} is its complement.  As $q$
+increases through safe cutoffs, $\Capq(q)$ increases and $\Curvq(q)$ decreases.
+Moreover,
+\[
+ \sup_{q<\bar q_{\mathrm{safe}},\ q\in\mathcal Q_{\mathrm{safe}}}\Capq(q)
+ =\mathrm{Cap}_{\mathrm{safe}},
+ \qquad
+ \inf_{q\in\mathcal Q_{\mathrm{safe}}}\Curvq(q)
+ =\mathrm{Curv}_{\mathrm{safe}}.
+\]
+The strict set in the definition of $\mathrm{Cap}_{\mathrm{safe}}$ is what
+makes the first identity valid even at a rightmost safe score atom.
 
-\begin{lemma}
-\label{lem:second-derivative}
-    Given a canonical contract, $v(y) := \tilde V (y | \lambda)$, the agent's utility and its derivatives evaluated at $a$ are  
-    \[
-    \begin{aligned}
-        U \left( v, a \right) 
-        &= & g(\lambda) + & \tilde{\mu} \int \Delta g(y | \lambda) \cdot S(y|a_0) \cdot f(y | a) \, dy - c(a), \\
-        U_a \left( v, a \right) 
-        &= &            & \tilde{\mu} \int \Delta g(y | \lambda) \cdot S(y|a_0) \cdot f_a(y | a) \, dy - c'(a), \\
-        U_{aa} \left( v, a \right) 
-        &= &            & \tilde{\mu} \int \Delta g(y | \lambda) \cdot S(y|a_0) \cdot f_{aa}(y | a) \, dy - c''(a),
-    \end{aligned}
-    \]
-    where 
-    \[
-    \Delta g(y | \lambda) = \frac{g(\lambda + \tilde{\mu} S(y |  a_0)) - g(\lambda)}{\tilde{\mu} S(y |  a_0)}.
-    \]
+For $\lambda>m_0$ and $q<0$, define the trial multiplier
+\begin{equation}
+    \mu_q(\lambda):=\frac{m_0-\lambda}{q}>0.
+    \label{eq:trial-multiplier}
+\end{equation}
+It places the limited-liability kink exactly at $q$.
+
+\begin{lemma}[Kink placement]
+\label{lem:kink-placement}
+Fix $q<0$.  If
+\[
+    \Delta u\,\Capq(q)>c'(a_0),
+\]
+where an infinite utility spread times positive capacity is interpreted as
+infinity, then, for all sufficiently large $\lambda$,
+\[
+    \widetilde\mu(\lambda)\leq\mu_q(\lambda)=O(\lambda),
+    \qquad
+    \frac{m_0-\lambda}{\widetilde\mu(\lambda)}\leq q.
+\]
+Tail safety is not needed for this lemma.
 \end{lemma}
 
 \begin{proof}
-    The utility function, \( U \), evaluated at the canonical contract, $\tilde{V}\left( y | \lambda \right)$, and action, $a$, is
-    \[
-    U \left( \tilde{V}(y|\lambda), a \right) = \int \tilde{V}(y|\lambda) f(y|a) \, dy.
-    \]
-    Substituting $\tilde{V}(y|\lambda) = g\left( \lambda + \tilde{\mu} S(y|a_0) \right)$ yields 
-    \[
-    U \left( \tilde{V}(y|\lambda), a \right) = \int g\left( \lambda + \tilde{\mu} S(y|a_0) \right) f(y|a) \, dy.
-    \]
-    Adding and subtracting \( g(\lambda) \), we rewrite the integral:
-    \[
-     U \left( \tilde{V}(y|\lambda), a \right) = g(\lambda) + \int \left[ g\left( \lambda + \tilde{\mu} S(y|a_0) \right) - g(\lambda) \right] f(y|a) \, dy.
-    \]
-    Using the definition of $ \Delta g(y | \lambda) $ and multiplying by $\frac{\tilde{\mu} S(y|a_0)}{\tilde{\mu} S(y|a_0)}$ yields 
-     $$ U \left( \tilde{V}(y|\lambda), a \right) = g(\lambda) + \tilde{\mu} \int \Delta g(y | \lambda) \cdot S(y|a_0) f(y | a) \, dy - c(a) .$$
+At $\mu_q(\lambda)$, scores weakly below $q$ receive $\underline u$.
+Centering as in \eqref{eq:I-centered} gives
+\[
+ I(\lambda,\mu_q(\lambda))
+ \geq[\ell(\lambda)-\underline u]\Capq(q).
+\]
+The omitted contributions are nonnegative: on negative scores both the utility
+difference and the score are nonpositive, while on positive scores both are
+nonnegative.  As $\lambda\to\infty$, the right-hand side converges to
+$\Delta u\,\Capq(q)$ and therefore eventually exceeds $c'(a_0)$.  Monotonicity
+of $I$ and uniqueness of the LIC multiplier imply
+$\widetilde\mu\leq\mu_q$.  Since $m_0-\lambda<0$, division by the smaller
+positive multiplier moves the cutoff weakly to the left, proving the second
+inequality.
+\end{proof}
 
-     This yields the formula for $U(v, a)$. The derivatives follow from the Leibniz rule.
-\end{proof} 
+Along the LIC path, fix $\lambda>m_0$, abbreviate
+$\widetilde\mu=\widetilde\mu(\lambda)$, and set
+\[
+    D_\lambda\ell(y):=
+    \frac{\ell(\lambda+\widetilde\mu s(y))-\ell(\lambda)}
+         {\widetilde\mu s(y)},
+\]
+with the continuous extension at $s(y)=0$.
 
-\textbf{Bounding the probability that the agent receives zero payment}.
-
-\begin{definition}
-    \label{def:threshold-score}
-     The \textbf{threshold score}, $\ubar{S}(\lambda)$, is the maximum score such that the agent receives no payment. It is the score that solves 
-    \[
-    \lambda + \tilde \mu \ubar{S}(\lambda) = \frac{1}{u'(0)} \text{,}
-    \]
-    or, equivalently,
-    \[
-    \ubar{S}(\lambda) := \frac{1}{\tilde{\mu} u'(0)} - \frac{\lambda}{\tilde{\mu}} \text{.}
-    \]  
-    The threshold score is well defined because $\tilde{\mu} > 0$ by Lemma \ref{lem:mu-tilde}.
-\end{definition}
-
-\begin{definition}
-    \label{def:threshold-outcome}
-    The \textbf{threshold outcome}, $\ubar{y}(\lambda)$, is the outcome which induces the threshold score, $\ubar{S}(\lambda)$:
-    $$ \ubar{y}(\lambda) := S^{-1}(\ubar{S}(\lambda, \tilde{\mu}) |  a_0) .$$ 
-    A score that satisfies the equation exists by Assumption \ref{assump:regularity_S}.2, which states that the score's image is $\mathbb{R}$. 
-\end{definition} 
-    
-\begin{lemma} 
-    \label{lem:threshold-outcome}
-    The threshold outcome approaches negative infinity as $\lambda$ approaches infinity: 
-    $$ \lim _ {\lambda \rightarrow \infty} \ubar{y}(\lambda) = -\infty . $$ 
+\begin{lemma}[Curvature identity]
+\label{lem:curvature-identity}
+For $\lambda>m_0$ and every $a\in\mathcal A$,
+\begin{equation}
+ U_{aa}(w_{\lambda,\widetilde\mu},a)
+ =\widetilde\mu\int D_\lambda\ell(y)s(y)f_{aa}(y\mid a)\,d\nu(y)-c''(a).
+ \label{eq:curvature-identity}
+\end{equation}
 \end{lemma}
 
 \begin{proof}
-    Lemma \ref{lem:second-derivative}'s result for $U_a$ evaluated at $a_0$ yields
-    $$ U_a  \left( \tilde{V}(y|\lambda), a_0 \right)
-        =
-        \tilde{\mu} \int
-        \Delta g(y | \lambda) \cdot S(y|a_0) f_a(y|a_0) - c'(a_0). $$
-    The local incentive compatibility constraint requires that $U_a  \left( \tilde{V}(y|\lambda), a_0 \right)=0$. It follows that    
-    $$  \tilde{\mu} \int  \Delta g(y | \lambda) \cdot S(y|a_0) f_a(y|a_0) = c'(a_0). $$ 
-    Observe that the term inside the expectation is weakly positive because $\Delta g(y | \lambda) \geq 0 $ and $S(y | a_0)$ has the same sign as $f_a(y|a_0)$.
-    Therefore, 
-    $$
-    c'(a_0) \geq
-    \tilde{\mu} \int _{S(y|a_0) \leq \ubar S(\lambda)} \Delta g(y | \lambda) \cdot S(y|a_0) f_a(y|a_0) \, dy \text{.}
-    $$
-    Substituting $\Delta g(y | \lambda)$ yields
-    $$
-    c'(a_0) \geq
-    \int _{S(y|a_0) \leq \ubar S(\lambda)} (u(0) - g(\lambda)) f_a(y|a_0) \, dy \text{.}
-    $$
-    Integrating yields: 
-    $$ c'(a_0)
-    \geq (u(0) - g(\lambda)) \cdot F_a \left( \ubar y (\lambda) | a_0 \right) .$$ 
-    Observe that $u(0) - g(\lambda) \rightarrow -\infty$ by Assumption \ref{assump:utility_cost}, and $ F_a(\ubar y (\lambda) | a_0) < 0 $ by Assumption \ref{assump:regularity_S}.2 (because the monotone likelihood ratio property implies first order stochastic dominance). Suppose $F_a \left( \ubar y (\lambda) | a_0 \right)$ does not approach $0$. Then we have $c'(a_0) \geq \infty$. By contradiction, $F_a \left( \ubar y (\lambda) | a_0 \right) \rightarrow 0$.
+Add and subtract the constant $\ell(\lambda)$ and use
+$\int f_{aa}(y\mid a)d\nu(y)=0$.  The maintained differentiation condition
+then gives the identity.
+\end{proof}
 
-    The threshold outcome, $\ubar y (\lambda)$, cannot converge to positive infinity because it is bounded above by the solution to $S(y | a_0) = 0$. To reach a contradiction, assume that $\ubar y (\lambda)$ does not converge to negative infinity. Then there is a subsequence where $\ubar S (\lambda)$ converges to a finite value $y_0$. Then $F_a \left( \ubar y (\lambda) | a_0 \right)$ converges to  $F_a \left( y_0 | a_0 \right)$. Assumption \ref{assump:regularity_S}.2 (because the monotone likelihood ratio property implies first order stochastic dominance) implies that this is a strictly negative number, reaching a contradiction.
-\end{proof}  
+\begin{lemma}[Curvature split]
+\label{lem:curvature-split}
+Fix $\lambda>m_0$ and suppose \eqref{condition:U1} holds.  If
+$q\in\mathcal Q_{\mathrm{safe}}$, $\Curvq(q)<\infty$, and the
+limited-liability cutoff is weakly below $q$, then, for every
+$a\in\mathcal A$,
+\begin{equation}
+ U_{aa}(w_{\lambda,\widetilde\mu},a)
+ \leq
+ \widetilde\mu\,\ell_0'(\lambda+\widetilde\mu q)\Curvq(q)-c''(a).
+ \label{eq:curvature-split}
+\end{equation}
+At $m_0$, the derivative is the right derivative.
+\end{lemma}
 
-\begin{corollary}
-\label{cor:mu_lambda} 
-As \( \lambda \rightarrow \infty \), we have \( \tilde{\mu}(\lambda) / \lambda \rightarrow 0 \).
+\begin{proof}
+Because $A>0$, condition \eqref{condition:U1} entails $P>0$ and is equivalent
+to $3A\geq P$.  On the nonbinding region,
+\[
+    \frac{d}{dW}\log\ell_0'(z(W))=P(W)-3A(W),
+    \qquad z(W)=\frac1{u'(W)}.
+\]
+Since $z$ is increasing in $W$, this proves that $\ell_0$ is concave; it is
+increasing because utility is strictly increasing.
+
+On $\{s\leq q\}$, tail safety gives $f_{aa}\geq0$, while $s\leq0$ and
+$D_\lambda\ell\geq0$.  This region therefore contributes weakly negatively
+to \eqref{eq:curvature-identity}.  On $\{s>q\}$ the contract is above the
+limited-liability floor.  Concavity of $\ell_0$ bounds every relevant secant
+slope by $\ell_0'(\lambda+\widetilde\mu q)$.  Keeping only the positive part
+of $s f_{aa}$ and using \eqref{eq:cutoff-curvature} proves
+\eqref{eq:curvature-split}.
+\end{proof}
+
+The two preceding lemmas imply the following finite-$\lambda$ bound, which is
+the precise version of the argument in the main text.
+
+\begin{proposition}[Finite-$\lambda$ safe-tail bound]
+\label{prop:finite-lambda-bound}
+Suppose \eqref{condition:U1} holds.  Let
+$q_0<q_1\leq0$ be safe cutoffs such that
+\[
+    \Delta u\,\Capq(q_0)>c'(a_0),
+    \qquad \Curvq(q_1)<\infty.
+\]
+For all sufficiently large $\lambda$,
+\begin{equation}
+ \sup_{a\in\mathcal A}U_{aa}(w_{\lambda,\widetilde\mu},a)
+ \leq
+ \mu_{q_0}(\lambda)
+ \ell_0'\bigl(\lambda+\mu_{q_0}(\lambda)q_1\bigr)\Curvq(q_1)
+ -\underline c''.
+ \label{eq:finite-lambda-bound}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Lemma \ref{lem:kink-placement} puts the kink weakly below $q_0$ and gives
+$\widetilde\mu\leq\mu_{q_0}$.  Apply Lemma
+\ref{lem:curvature-split} at $q_1$.  Because $q_1\leq0$ and $\ell_0'$ is
+nonincreasing, the map
+\[
+    \mu\longmapsto \mu\ell_0'(\lambda+\mu q_1)
+\]
+is nondecreasing on the relevant nonbinding range.  Replacing
+$\widetilde\mu$ by $\mu_{q_0}$ and using
+$c''(a)\geq\underline c''$ gives \eqref{eq:finite-lambda-bound}.
+\end{proof}
+
+We now verify that the right-hand side is negative under each branch of the
+main theorem.  On the nonbinding region, if $W=L_0(z)$, differentiation gives
+\begin{equation}
+    L_0'(z)=\frac{u'(W)}{A(W)},
+    \qquad z\ell_0'(z)=L_0'(z).
+    \label{eq:link-derivatives}
+\end{equation}
+Thus \eqref{condition:U2} is equivalent to
+$z\ell_0'(z)\to0$.
+
+\begin{lemma}[Sufficient-risk-aversion branch]
+\label{lem:risk-aversion-branch}
+Under branch (i) of Theorem \ref{thm:main},
+\[
+    \sup_{a\in\mathcal A}U_{aa}(w_{\lambda,\widetilde\mu},a)<0
+\]
+for all sufficiently large $\lambda$.
+\end{lemma}
+
+\begin{proof}
+The strict aggregate capacity inequality and the endpoint convention provide a
+safe $q_0<0$ with
+$\Delta u\,\Capq(q_0)>c'(a_0)$.  Since safe cutoffs form a lower interval and
+$\mathrm{Curv}_{\mathrm{safe}}<\infty$, we may choose a safe
+$q_1\in(q_0,0]$ with $\Curvq(q_1)<\infty$.  Put
+$z_{01}(\lambda)=\lambda+\mu_{q_0}(\lambda)q_1$.  Then
+\[
+    \mu_{q_0}(\lambda)=O(\lambda),
+    \qquad
+    z_{01}(\lambda)\sim
+    \lambda\left(1-\frac{q_1}{q_0}\right),
+\]
+and the coefficient in parentheses is strictly positive.  By
+\eqref{eq:link-derivatives},
+\[
+ \mu_{q_0}(\lambda)\ell_0'(z_{01}(\lambda))\Curvq(q_1)
+ \longrightarrow0.
+\]
+Proposition \ref{prop:finite-lambda-bound} and $\underline c''>0$ complete the
+proof.
+\end{proof}
+
+\begin{lemma}[Log-utility branch]
+\label{lem:log-branch}
+Under branch (ii) of Theorem \ref{thm:main},
+\[
+    \sup_{a\in\mathcal A}U_{aa}(w_{\lambda,\widetilde\mu},a)<0
+\]
+for all sufficiently large $\lambda$.
+\end{lemma}
+
+\begin{proof}
+For log utility, $\ell_0'(z)=1/z$ and $\Delta u=\infty$.  The strict
+curvature--width inequality, together with the definitions as an infimum and a
+supremum, permits safe cutoffs $q_0<q_1\leq0$ such that
+\[
+    \Capq(q_0)>0,
+    \qquad
+    \frac{\Curvq(q_1)}{q_1-q_0}<\underline c''.
+\]
+This remains true with score atoms: choose $q_0$ inside the essential support,
+and assign a cutoff atom to the weakly safe side as in
+\eqref{eq:cutoff-capacity}.  Since log utility is unbounded above, the first
+inequality is precisely the capacity condition in Lemma
+\ref{lem:kink-placement}.  Moreover,
+\[
+ \mu_{q_0}(\lambda)
+ \ell_0'(\lambda+\mu_{q_0}(\lambda)q_1)
+ =\frac{\mu_{q_0}(\lambda)}
+ {\lambda+\mu_{q_0}(\lambda)q_1}
+ \longrightarrow\frac1{q_1-q_0}.
+\]
+The limiting upper bound in Proposition \ref{prop:finite-lambda-bound} is
+strictly negative.
+\end{proof}
+
+\begin{proof}[Proof of Proposition \ref{prop:concave}]
+Lemma \ref{lem:mu-tilde} shows that every canonical contract satisfying LIC at
+a given $\lambda\geq0$ uses the unique multiplier
+$\widetilde\mu(\lambda)$.  Lemma \ref{lem:risk-aversion-branch} or Lemma
+\ref{lem:log-branch} therefore supplies a finite $\lambda_0$ such that
+\[
+    U_{aa}(w_{\lambda,\widetilde\mu(\lambda)},a)\leq0
+    \quad\text{for every }a\in\mathcal A
+\]
+whenever $\lambda\geq\lambda_0$.  This is the claim.
+\end{proof}
+
+\subsection{An asymptotic-affinity extension}
+\label{subsec:asymptotic-affinity}
+
+The safe-tail proof is not the only route to eventual concavity.  This
+appendix-only extension covers CRRA coefficients between $1/2$ and $1$ under a
+moment condition and concavity of the expected score.  It is stated separately
+because its mechanism differs from Proposition \ref{prop:concave}.
+
+\begin{assumption}[Affine-score curvature]
+\label{ass:affine-score}
+For every $a\in\mathcal A$,
+\begin{equation}
+    \int s(y)f_{aa}(y\mid a)\,d\nu(y)\leq0.
+    \label{eq:affine-score}
+\end{equation}
+Equivalently, $a\mapsto\E_a[s(Y)]$ is concave.
+\end{assumption}
+
+\begin{assumption}[Moments for asymptotic affinity]
+\label{ass:affinity-moments}
+For some $\eta>0$,
+\begin{align*}
+ 0<\sigma_s^2&:=\int s(y)^2f(y\mid a_0)\,d\nu(y)<\infty,\\
+ \int |s(y)|^{2+\eta}f(y\mid a_0)\,d\nu(y)&<\infty,\\
+ \sup_{a\in\mathcal A}\int
+ (1+|s(y)|^{2+\eta})|f_{aa}(y\mid a)|\,d\nu(y)&<\infty.
+\end{align*}
+\end{assumption}
+
+Suppose $u(W)=W^{1-\gamma}/(1-\gamma)$, $w_0>0$, and
+$\gamma\in(1/2,1)$.  Put $p:=(1-\gamma)/\gamma\in(0,1)$.  On the nonbinding
+region,
+\begin{equation}
+    \ell_0(z)=\frac{z^p}{1-\gamma},
+    \qquad
+    \ell_0'(z)=\frac1\gamma z^{p-1}.
+    \label{eq:crra-link-affinity}
+\end{equation}
+
+\begin{lemma}[LIC multiplier asymptotics]
+\label{lem:affinity-multiplier}
+Under Assumption \ref{ass:affinity-moments},
+\[
+    \widetilde\mu(\lambda)\ell_0'(\lambda)
+    \longrightarrow \frac{c'(a_0)}{\sigma_s^2},
+    \qquad
+    \frac{\widetilde\mu(\lambda)}{\lambda}\longrightarrow0.
+\]
+\end{lemma}
+
+\begin{proof}
+For fixed $\theta>0$, set
+$\mu_\lambda(\theta):=\theta/\ell_0'(\lambda)$.  Since
+$\lambda\ell_0'(\lambda)\to\infty$,
+$\mu_\lambda(\theta)/\lambda\to0$.  Taylor expansion on
+$|s|\leq\lambda/(2\mu_\lambda)$ gives
+\[
+ \ell(\lambda+\mu_\lambda(\theta)s)
+ =\ell(\lambda)+\theta s+r_\lambda(s),
+ \qquad
+ \int |r_\lambda(s)s|f(y\mid a_0)\,d\nu(y)\to0.
+\]
+To justify the last assertion, the central remainder is bounded by a constant
+times
+\[
+    \mu_\lambda^2|\ell_0''(\lambda/2)|s^2.
+\]
+Truncation of the complement uses the $(2+\eta)$ moment and the sublinear
+growth of $z^p$.  Both bounds are uniform
+for $\theta$ in compact sets.  After multiplication by $s$ and integration,
+the constant term vanishes because the score has mean zero, so
+\[
+    I(\lambda,\mu_\lambda(\theta))
+    \longrightarrow\theta\sigma_s^2.
+\]
+Monotonicity of $I$ brackets its unique LIC solution between any two choices of
+$\theta$ surrounding $c'(a_0)/\sigma_s^2$.  This proves the first limit.  The
+second follows after division by
+$\lambda\ell_0'(\lambda)\to\infty$.
+\end{proof}
+
+\begin{lemma}[Uniform affine residual]
+\label{lem:uniform-affine-residual}
+Under Assumption \ref{ass:affinity-moments},
+\begin{align}
+ \sup_{a\in\mathcal A}\Bigg|\int
+ &\left[\ell(\lambda+\widetilde\mu(\lambda)s(y))-\ell(\lambda)
+ -\widetilde\mu(\lambda)\ell_0'(\lambda)s(y)\right]
+ \nonumber\\[-2pt]
+ &\hspace{35mm}\times f_{aa}(y\mid a)\,d\nu(y)\Bigg|
+ \longrightarrow0.
+ \label{eq:uniform-affine-residual}
+\end{align}
+\end{lemma}
+
+\begin{proof}
+Split the integral at
+$|s|=\lambda/(2\widetilde\mu)$.  On the central region, Taylor's theorem and
+\eqref{eq:crra-link-affinity} bound the residual by a constant times
+\[
+    \widetilde\mu^2|\ell_0''(\lambda/2)|s^2.
+\]
+Lemma \ref{lem:affinity-multiplier} makes the coefficient $O(\lambda^{-p})$.
+On the complement, use
+$|\ell(z)|\leq C(1+|z|^p)$, the fact that
+$\widetilde\mu/\lambda\to0$, and the uniform $(2+\eta)$ weighted moment in
+Assumption \ref{ass:affinity-moments}.  Markov's inequality (with threshold
+$\lambda/(2\widetilde\mu)$) makes every tail term vanish uniformly in $a$.
+Combining the two regions proves \eqref{eq:uniform-affine-residual}.
+\end{proof}
+
+\begin{proposition}[Asymptotic-affinity extension]
+\label{prop:asymptotic-affinity}
+Suppose $\underline c''>0$, Assumptions \ref{ass:affine-score} and
+\ref{ass:affinity-moments} hold, and utility is CRRA with
+$\gamma\in(1/2,1)$.  Then
+\[
+    \sup_{a\in\mathcal A}
+    U_{aa}(w_{\lambda,\widetilde\mu(\lambda)},a)
+    \leq-\underline c''+o(1).
+\]
+Consequently, the agent's objective is concave for all sufficiently large
+$\lambda$, and the first-order approach is valid at all sufficiently high
+feasible reservation utilities.
+\end{proposition}
+
+\begin{proof}
+Use $\int f_{aa}(y\mid a)d\nu(y)=0$ to remove $\ell(\lambda)$.  Lemma
+\ref{lem:uniform-affine-residual} gives, uniformly in $a$,
+\begin{align*}
+ \int \ell(\lambda+\widetilde\mu s(y))f_{aa}(y\mid a)\,d\nu(y)
+ ={}&\widetilde\mu\ell_0'(\lambda)
+ \int s(y)f_{aa}(y\mid a)\,d\nu(y)+o(1).
+\end{align*}
+The leading term is nonpositive by Assumption \ref{ass:affine-score}.  After
+subtracting $c''(a)\geq\underline c''$, the asserted bound follows.  LIC at the
+interior action $a_0$ and concavity imply global incentive compatibility.  The
+last conclusion then follows from the divergence of the smallest supporting
+multiplier in Proposition \ref{prop:relaxed-optimal-contract}.
+\end{proof}
+
+\begin{corollary}[Gaussian CRRA extension]
+\label{cor:gaussian-crra-extension}
+For a Gaussian location family on a compact action set, the moment conditions
+in Assumption \ref{ass:affinity-moments} hold and
+\[
+    \int s(y)f_{aa}(y\mid a)\,d\nu(y)
+    =\frac{d^2}{da^2}\E_a[s(Y)]=0.
+\]
+Hence Gaussian output with CRRA utility is covered by Theorem
+\ref{thm:main} for $\gamma>1$, by its log branch for $\gamma=1$, and by
+Proposition \ref{prop:asymptotic-affinity} for $\gamma\in(1/2,1)$, subject to
+the assumptions of the corresponding result.  No general claim is made here
+for $\gamma\leq1/2$.
 \end{corollary}
 
-
 \begin{proof}
-    Lemma \ref{lem:threshold-outcome} and assumption \ref{assump:regularity_S}.2 imply that $\ubar S (\lambda) \rightarrow -\infty$. The result follows from the definition of $\ubar S (\lambda)$.  
-\end{proof}
-
-\begin{lemma}
-    \label{lem:inf_lambda_second_deriv}
-    As $\lambda$ approaches infinity, the limit of the supremum of the second derivative of agent's utility at any action $a > 0$  is strictly negative: 
-    $$
-    \limsup_{\lambda \to \infty}
-    \,
-    U_{aa}\left( \tilde{V}\left( y |  \lambda \right), a \right) < 0\text{.}
-    $$
-\end{lemma} 
-
-\begin{proof}
-By Lemma \ref{lem:second-derivative}, 
-    $$
-    U_{aa}\left( \tilde{V} \left( y |  \lambda \right), a \right)
-    =
-    \tilde{\mu} \int \Delta g(y | \lambda)
-    \cdot S(y|a_0)
-    \cdot f_{aa}(y | a) \, dy - c''(a)
-    $$ 
-    Assumption \ref{assump:regularity_S}.3 implies that there exists $y_0$ such that $f_{aa}(y | a) > 0$ for all $y \leq y_0$ and $a$. Because the score is monotone, we can take $y_0$ such that $S(y|a_0) < 0$ for all $y \leq y_0$. Therefore, the integrand is negative for all $y \leq y_0$ and $a$.    
-    
-    It follows that 
-    $$
-    U_{aa}\left( \tilde{V} \left( y |  \lambda \right), a \right) \leq
-    \tilde{\mu} \int_{y_0}^{\infty} 
-    \Delta g(y | \lambda)
-    \cdot S(y|a_0)
-    \cdot f_{aa}(y | a) \, dy
-    - c''(a) \text{.}
-    $$
-
-    Let $Y_{aa}^+$ be the set of $y \geq y_0$ where this integrand is positive. Then 
-    $$
-    U_{aa}\left( \tilde{V} \left( y |  \lambda \right), a \right) \leq
-    \tilde{\mu} \int_{Y_{aa}^+} 
-    \Delta g(y | \lambda)
-    \cdot S(y|a_0)
-    \cdot f_{aa}(y | a) \, dy
-    - c''(a) \text{.}
-    $$
-    
-     Lemma \ref{lem:threshold-outcome} implies that for $\lambda$ sufficiently large, $\ubar y (\lambda, a_0) \leq y_0$. To see that $\Delta g$ is decreasing for $y$ in $Y_{aa}^+$, note that on the nonbinding region,
-    \[
-        \Delta g(y|\lambda)
-        =
-        \frac{g(z(y))-g(\lambda)}{z(y)-\lambda},
-        \quad
-        z(y):=\lambda+\tilde\mu S(y|a_0).
-    \]
-    By the concavity of $k'^{-1}$ (Assumption \ref{assump:concavity_inverse_marginal_utility}), $g$ is concave on the nonbinding region, so this secant slope is decreasing in the endpoint $z(y)$. Since $\tilde\mu>0$ and the score is increasing, $z(y)$ is increasing in $y$. Thus $\Delta g$ is decreasing in $y$. This argument does not require concavity of the score. Therefore,
-    $$
-    U_{aa}\left( \tilde{V} \left( y |  \lambda \right), a \right) \leq
-    \tilde{\mu} \int_{Y_{aa}^+} 
-    \Delta g \left(y_0 | \lambda \right)
-    \cdot S(y|a_0)
-    \cdot f_{aa}(y | a) \, dy
-    - c''(a) \text{.}
-    $$
-
-    The link function $g$ is concave in its scalar argument on the nonbinding region. Thus,
-    \begin{align*}
-    \tilde{\mu} \Delta g(y_0 | \lambda)
-    &\leq \tilde{\mu} g'(\lambda + \tilde{\mu} S(y_0|a_0)) \\
-    &=
-        \frac{\tilde{\mu}}{\lambda
-        + \tilde{\mu} S(y_0|a_0)}
-        \cdot
-        (\lambda + \tilde{\mu} S(y_0|a_0))
-        g'(\lambda + \tilde{\mu} S(y_0|a_0)). 
-    \end{align*}
-    Corollary \ref{cor:mu_lambda} states that $\tilde{\mu} / \lambda \rightarrow 0$ as $\lambda \rightarrow \infty $, and Assumption \ref{assump:concavity_inverse_marginal_utility} implies that $(\lambda + \tilde{\mu} S(y_0|a_0)) g'(\lambda + \tilde{\mu} S(y_0|a_0))$ has a finite limit. It follows that 
-    $$
-    \limsup_{\lambda \to \infty}
-    \,
-    U_{aa}\left( \tilde{V} \left( y |  \lambda \right), a \right) \leq - c''(a)
-    <
-    0
-    $$ 
-    with the last inequality implied by the strict convexity of the cost function (Assumption \ref{assump:utility_cost}). 
-\end{proof} 
-
-\textbf{Completing the proof of Proposition \ref{prop:concave}.}
-\begin{proof}[Proof of Proposition \ref{prop:concave}]
-    We first prove that there exists $\lambda_0$ such that, for all $\lambda \geq \lambda _0$ and $a$ in $\mathcal A$,
-    \[
-        U_{aa} \left(\tilde V(y | \lambda), a \right)
-        \leq
-        0\text{.}
-    \]
-    
-    To reach a contradiction, assume that this is not the case. Then there exists a sequence of $\lambda_n \rightarrow \infty$ and $a_n$ in $\mathcal A$ such that
-    \[
-        U_{aa} \left(\tilde V(y | \lambda_n), a_n \right) > 0\text{.}
-    \]
-    
-    Because $\mathcal A$ is compact, we can take a convergent subsequence where $a_n \rightarrow a_1$. Continuity of $U_{aa}(\tilde V(y | \lambda),a)$ in $a$, which follows from Assumptions \ref{assump:utility_cost} and \ref{assump:leibniz}, gives
-    \[
-        \limsup _ {\lambda \rightarrow \infty}
-        U_{aa}(\tilde V(y | \lambda), a_1) > 0\text{.}
-    \]
-    This contradicts Lemma \ref{lem:inf_lambda_second_deriv}.
-    
-    For any $\lambda \geq \lambda_0$, we thus have that $U(\tilde V (y | \lambda), a)$ is concave in $a$. The proposition is proven by letting $U^*$ be the solution to $\lambda^*(U^*) = \lambda_0$. The agent's problem is concave in $a$ for $\bar{U} \geq U^*$ because $\lambda^*(\bar{U})$ is monotonic by Proposition \ref{prop:relaxed-optimal-contract}.
+For Gaussian location output, $s(y)=(y-a_0)/\sigma^2$ is affine in $y$ and all
+of its moments against $f(y\mid a_0)$ and the Gaussian derivatives
+$f_{aa}(y\mid a)$ are finite uniformly on compact action sets.  Moreover,
+$\E_a[s(Y)]=(a-a_0)/\sigma^2$ is affine in $a$, proving the displayed
+identity.  The stated cases now follow from the corresponding results.
 \end{proof}
