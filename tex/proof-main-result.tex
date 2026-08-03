@@ -1,90 +1,103 @@
-The proof of the main result follows from two key propositions. Proposition \ref{prop:relaxed-optimal-contract} characterizes the solution of the relaxed problem. Proposition \ref{prop:concave} shows that, for sufficiently high reservation utility, the agent's problem is concave. We now state these propositions and explain the key steps in the argument. Appendix \ref{sec:appendix-proofs} contains the proofs.
-
-For the relaxed problem to be well-defined, the derivative $\partial _a U(v,a)$ must exist. Remark \ref{rem:leibniz} shows that this is true under our assumptions, and moreover, that we can calculate the derivative by differentiating under the integral sign. Henceforth, we will use differentiation under the integral sign without referencing Remark \ref{rem:leibniz}.
-
-Throughout this section, fix an interior intended action $a_0>0$. To simplify notation, we omit the dependence on $a_0$ whenever it is clear, writing, for example, $U(v)$ instead of $U(v, a_0)$.
+The proof has two steps.  First, Proposition
+\ref{prop:relaxed-optimal-contract} characterizes the solution of the relaxed
+problem.  Second, we show that, under the conditions of Theorem \ref{thm:main},
+the agent's objective under that contract is concave in action at every
+sufficiently high feasible reservation utility.  Local incentive compatibility
+then implies global incentive compatibility.
 
 \subsection{Solution to the Relaxed Problem}
 
-We first show that the relaxed cost minimization problem has an almost everywhere unique solution, and that this solution has a simple formula in terms of Lagrange multipliers. This section is a minor extension of standard results on the relaxed problem going back to \textcite{holmstrom1978incentives} and \textcite{jewitt2008moral}.
+We first show that the relaxed cost-minimization problem has an almost
+everywhere unique solution with a simple representation in terms of Lagrange
+multipliers.  This is a minor extension of standard results on the relaxed
+problem going back to \textcite{holmstrom1978incentives} and
+\textcite{jewitt2008moral}.
 
-The relaxed cost minimization problem is convex. Define its Lagrangian as
+Let $\lambda\geq0$ be the multiplier on individual rationality and let $\mu$ be
+the multiplier on local incentive compatibility.  The Lagrangian is
 \begin{equation}
+    \mathcal L(w,\lambda,\mu)
+    :=C(w,a_0)+\lambda\bigl[\bar U-U(w,a_0)\bigr]
+      -\mu U_a(w,a_0).
     \label{eq:lagrangian}
-    \mathcal{L}(v,\lambda,\mu):=W(v)+\lambda\left(\bar{U}-U(v)\right)+\mu(-U_{a}(v))\text{.}
 \end{equation}
-
-Heuristically differentiating this Lagrangian with respect to $v(y)$ and setting the derivative to zero gives
-\[
-    k'(v(y)) f(y | a) = \lambda f(y | a) + \mu f_{a}(y|a_{0})\text{.}
-\]
-
-Dividing by $f(y | a)$ gives
+Heuristically differentiating pointwise with respect to $w(y)$
+gives, whenever limited liability does not
+bind,
 \begin{equation}
-\label{eq:foc}
-\tag{FOC}
-    k'(v(y)) = \lambda + \mu \frac{f_{a}(y|a_{0})}{f(y|a_{0})}\text{.}
+    \frac{1}{u'\bigl(w_0+w(y)\bigr)}=\lambda+\mu s(y).
+    \tag{FOC}\label{eq:foc}
 \end{equation}
 
-Equation (\ref{eq:foc}) is the key step in the standard first-order approach literature. Appendix \ref{sec:appendix-proofs} formally analyzes the convex program, demonstrates existence and uniqueness of the solution, and characterizes the optimal contract based on equation (\ref{eq:foc}).
-
-The solution is best described with the following notation. Define the {\bf optimal expected wage} $\omega(\bar U)$ as the value of the infimum in the relaxed cost minimization problem. Define the \textbf{link function} $g:\mathbb R \rightarrow \mathbb R$ as\footnote{%
-The link function's input, $z$, is a marginal dollar cost of providing one util to the agent  (measured in units of $\frac{\text{\$}}{\text{util}} $). The link function evaluated at $z$, $g(z)$, returns the utility level where $z$ is the marginal cost of utility to the agent. Any $z$ below $\frac{1}{u'(0)}$, which is the cheapest possible marginal cost, returns $g(z) = u(0)$.
-}
+The solution is best described with the following notation.  Let
+$m_0:=1/u'(w_0)$ be the marginal cost of utility at zero payment.  On the
+nonbinding region, the optimal contract is calculated by taking $\lambda + \mu s(y)$ and applying the \textbf{wealth base link function}
 \[
-    g(z):=k'^{-1}\left(\max\left\{ \frac{1}{u'(0)},z\right\} \right) \text{.}
+    L_0(z):=(u')^{-1}(1/z).
+\]
+Taking limited liability into account, we define \textbf{the link function}
+\[
+    L(z):=L_0(z\vee m_0).
 \]
 
-Define the \textbf{score} function\footnote{The score is known as the likelihood ratio in the economics literature. We favor the term score to be in line with the modern scientific literature.} as in the statistics literature:
-\[
-    S(y | a) := \frac{\partial}{\partial a} \log f(y|a)
-    =
-    \frac{f_a(y|a)}{f(y|a)}
-    \text{.}
-\]
- 
-\begin{definition}
-    \label{def:canonical-contract}
-    A canonical contract $V(y | \lambda, \mu)$ is defined for $\lambda$ and $\mu$ in $\mathbb R$ as
-    \begin{equation}
+The optimal contract can be cleanly expressed as follows.
+
+\begin{definition}[Canonical contract]
+\label{def:canonical-contract}
+For $\lambda,\mu\in\mathbb R$, the \textbf{canonical contract} is
+\begin{equation}
+    w_{\lambda,\mu}(y):=L\bigl(\lambda+\mu s(y)\bigr)-w_0.
     \label{eq:canonical-contract}
-    V\left(y | \lambda, \mu \right)
-    :=
-    g \biggl(\lambda + \mu S(y|a_0)\biggr) \text{.}
-    \end{equation}
+\end{equation}
 \end{definition}
 
-The following proposition shows that the relaxed problem has a solution and characterizes the solution and Pareto frontier.
+The following standard proposition characterizes the relaxed solution.
 
-\begin{proposition}
-    \label{prop:relaxed-optimal-contract}
-    [Solution of the Relaxed Cost-Minimization Problem]
-    There exists $\bar U_L$ in $\mathbb R$ such that:
-    \begin{enumerate}
-        \item (existence, uniqueness, and characterization) The relaxed problem has an almost everywhere unique solution $v^*(y|\bar U)$. There exist Lagrange multipliers $\lambda^*(\bar U) \geq 0$ and $\mu^*(\bar U) > 0$ such that the solution is almost everywhere equal to the canonical contract
-    \[
+\begin{proposition}[Solution of the Relaxed Cost-Minimization Problem]
+\label{prop:relaxed-optimal-contract}
+\textnormal{\parencite{holmstrom1978incentives,jewitt2008moral}}
+There exists $U_L<U_R$ such that, for every $\bar U<U_R$:
+\begin{enumerate}
+    \renewcommand{\labelenumi}{(\roman{enumi})}
+    \item The relaxed problem has an almost everywhere unique solution
+    $w^*_{\bar U}$.  There are valid Lagrange multipliers $\lambda\geq0$ and
+    $\mu>0$ such that
+    \begin{equation}
+        w^*_{\bar U}(y)=w_{\lambda,\mu}(y)
+        =L\bigl(\lambda+\mu s(y)\bigr)-w_0
+        \quad\text{almost everywhere.}
         \label{eq:relaxed-optimal-contract}
-        v^*(y|\bar U) :=
-        V\biggl(y \big| \lambda^*(\bar U), \mu^*(\bar U)\biggr)
-        \text{.}
-    \]
-        \item (comparative statics)
-        \begin{itemize}
-            \item For $\bar U \leq \bar U_L$, we have $\lambda^*(\bar U) = 0$. The relaxed optimal contract $v^*(\cdot , \bar U)$ and optimal expected wage $\omega(\bar U)$ do not vary with $\bar U$ in this range.
-            \item For $\bar U > \bar U_L$, $\lambda^*(\bar U)$ is strictly increasing and $\lim_{\bar U \rightarrow \infty} \lambda^*(\bar U) = \infty$. The optimal expected wage $\omega(\bar U)$ is strictly increasing and strictly convex.
-        \end{itemize}
-    \end{enumerate}
+    \end{equation}
+    The contract is unique, although its multipliers need not be.
+
+    \item If $\bar U\leq U_L$, the relaxed-optimal contract and its expected
+    cost are constant in $\bar U$.  If $U_L<\bar U<U_R$, individual
+    rationality binds, every IR multiplier associated with a higher reservation
+    utility exceeds every IR multiplier associated with a lower one, and the
+    smallest associated multiplier converges to infinity as $\bar U\uparrow
+    U_R$.
+
+    \item Let $C^*(\bar U)$ denote the value of the relaxed
+    cost-minimization problem.  Then $C^*(\bar U)$ is constant below $U_L$ and
+    strictly increasing and strictly convex on $(U_L,U_R)$.
+\end{enumerate}
 \end{proposition}
 
-The proposition shows that the solution to the relaxed cost minimization problem is unique and given by a canonical contract. Moreover, the Pareto frontier of profits and agent utility is convex.
+The proposition shows that the relaxed solution always has the familiar
+first-order-approach form.  It also allows for corners in the cost--utility
+frontier: the contract is unique, but a contract at a corner can be supported by
+more than one multiplier.
 
-The Gaussian-log utility example illustrates proposition \ref{prop:relaxed-optimal-contract}. The score is $(y-a) / \sigma^2$, the compensation cost function is $k(v)=\exp (v) - w_0$, and the link function is $\log \max \{z, w_0\}$. This implies the wage function
+The Gaussian-log utility example illustrates Proposition
+\ref{prop:relaxed-optimal-contract}.  Here
+$s(y)=(y-a_0)/\sigma^2$ and $L(z)=z\vee w_0$, so the relaxed-optimal wage is
 \[
- k\left(v^*(y|\bar U)\right)
- =
- \left[\lambda^*(\bar U) + \mu^*(\bar U) \frac{y-a}{\sigma^2} - w_0 \right] ^ +\text{.}
+    w^*_{\bar U}(y)
+    =\left[\lambda+\mu\frac{y-a_0}{\sigma^2}-w_0\right]_+.
 \]
-This is the piecewise linear solution that we saw numerically in figure \ref{fig:gaussian-log-pp}. The convex Pareto frontier is illustrated in figure \ref{fig:pf}.
+This is the piecewise-linear solution seen in Figure
+\ref{fig:gaussian-log-pp}.  Figure \ref{fig:pf} illustrates the associated
+cost--utility frontier.
 
 % Pareto frontier figure
 \begin{figure}[ht]
@@ -96,23 +109,28 @@ This is the piecewise linear solution that we saw numerically in figure \ref{fig
     \caption*{\textit{Note:} This figure displays the Pareto frontier of the cost minimization problem and the relaxed cost minimization problem in the Gaussian-log utility example. The first-order approach is valid for all reservation utilities where the two sets coincide. Parameters are as in figure \ref{fig:gaussian-log-pp}.}
 \end{figure}
 
-The formula in proposition \ref{prop:relaxed-optimal-contract} is simply solving the first-order condition (\ref{eq:foc}) accounting for limited liability. The intuition is the following: the principal would like to always pay the agent $g(\lambda ^* (\bar U))$, which is the utility level where the marginal cost of providing utility to the agent is $\lambda ^* (\bar U)$. However, incentive compatibility requires that payment depends on whether there is statistical evidence of high effort. The $\mu$ term in the optimal contract pays more if the score is positive and less if the score is negative. Finally, the maximum ensures that limited liability is respected.
+The formula in Proposition \ref{prop:relaxed-optimal-contract} simply solves
+\eqref{eq:foc} subject to limited liability.  Absent incentives, the principal
+would provide the constant payment $L(\lambda)-w_0$.  Local incentive
+compatibility tilts the marginal cost of utility by the score: the $\mu$ term
+raises payment when the score is high and lowers it when the score is low.  The
+kink in $L$ imposes zero payment whenever limited liability binds.
 
 \subsection{High Reservation Utility} 
 
-We now demonstrate that, for sufficiently high reservation utility, the solution to the relaxed cost minimization problem also solves the original cost minimization problem. To do so, we show that the relaxed problem's solution satisfies the global incentive compatibility constraint. This is achieved by demonstrating the stronger result that the agent's utility $U(v^*,a)$ is concave in $a$ at the relaxed optimal contract.
+We now demonstrate that, for sufficiently high reservation utility, the solution to the relaxed cost minimization problem also solves the original cost minimization problem. To do so, we show that the relaxed problem's solution satisfies the global incentive compatibility constraint. This is achieved by demonstrating the stronger result that the agent's utility $U(w^*_{\bar U},a)$ is concave in $a$ at the relaxed optimal contract.
 
 \begin{proposition} 
     \label{prop:concave} 
     [Concavity of the Agent's Problem for High Reservation Utility]
     There exists $U^*$ in $\mathbb{R}$ such that, for all $\bar U \geq U^*$ and all $a \in \mathcal{A}$,  
-    $$ U_{aa}(v^* (y | \bar{U}), a) \leq 0 .$$ 
+    $$ U_{aa}(w^*_{\bar U},a) \leq 0 .$$
 \end{proposition}
 
 Theorem \ref{thm:main} is a direct consequence of this fact:
 
 \begin{proof}[Proof of Theorem \ref{thm:main}]
-    Take $\bar U \geq U ^*$. If the relaxed cost minimization problem has a solution $v^*(y | \bar U)$, proposition \ref{prop:concave} implies that the agent's expected utility $U(v^*,a)$ is concave in $a$. Therefore, the global incentive compatibility constraint is satisfied, and the solution to the relaxed cost minimization problem is also a solution to the cost minimization problem.
+    Take $\bar U \geq U ^*$. If the relaxed cost minimization problem has a solution $w^*_{\bar U}$, proposition \ref{prop:concave} implies that the agent's expected utility $U(w^*_{\bar U},a)$ is concave in $a$. Therefore, the global incentive compatibility constraint is satisfied, and the solution to the relaxed cost minimization problem is also a solution to the cost minimization problem.
 \end{proof} 
 
 Figure \ref{fig:gaussian-log-cm} illustrates the proposition in the Gaussian-log utility example. We use the same parameters as in figure \ref{fig:gaussian-log-pp}, but consider the cost minimization problem with intended action $a_0 = \$100,000$. We see the same pattern as in figure \ref{fig:gaussian-log-pp}. For low reservation utility, there are multiple local maxima, and the first-order approach is invalid. For high reservation utility, there is only one local maximum, and the first-order approach is valid.
@@ -124,7 +142,7 @@ Figure \ref{fig:gaussian-log-cm} illustrates the proposition in the Gaussian-log
     \captionsetup{font=footnotesize} % Makes the note footnote-sized
     \caption{Optimal contracts with Gaussian distribution and log utility in cost minimization problem with intended action $a_0 = \$100,000$.}
     \label{fig:gaussian-log-cm}
-    \caption*{\textit{Note:} Top panel: optimal wage function $w(y)$. Bottom panel: agent's expected utility $U(v^*, a)$ given optimal contract and action $a$. Colors represent reservation utility. Dashed lines indicate that the first-order approach is invalid at that reservation utility. Dots indicate the recommended action. The thin horizontal line indicates indifference between local maxima. Intended action is $a_0 = \$100,000$ and other parameters are as in figure \ref{fig:gaussian-log-pp}.}
+    \caption*{\textit{Note:} Top panel: optimal wage function $w(y)$. Bottom panel: agent's expected utility $U(w^*_{\bar U},a)$ given optimal contract and action $a$. Colors represent reservation utility. Dashed lines indicate that the first-order approach is invalid at that reservation utility. Dots indicate the recommended action. The thin horizontal line indicates indifference between local maxima. Intended action is $a_0 = \$100,000$ and other parameters are as in figure \ref{fig:gaussian-log-pp}.}
 \end{figure}
 
 The intuition for why the agent's problem is concave for high reservation utility is as follows. The relaxed optimal contract has two regions. When the outcome $y$ is below a threshold, the limited liability constraint binds, and the contract specifies a constant wage of $0$. When $y$ is above the threshold, the agent's payment is dictated by equation (\ref{eq:foc}). This kink introduces convexity into the agent's problem. As reservation utility increases, the kink moves to the left, so that the agent is paid with high probability. In the example, $a_0$ is fixed at \$100,000. As the kink moves to the left, the probability that the agent is paid a non-zero wage conditional on $a_0$ approaches $1$. 
