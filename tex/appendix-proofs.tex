@@ -19,6 +19,20 @@ payment contract $k(v)-w_0$. Define
     \widehat U(v,a)&:=\int v(y)f(y\mid a)\,d\nu(y)-c(a),\\
     \widehat C(v,a)&:=\int [k(v(y))-w_0]f(y\mid a)\,d\nu(y).
 \end{align*}
+Local incentive compatibility in utility units is
+\begin{equation}
+    \widehat U_a(v,a_0)
+    =\int v(y)s(y)f(y\mid a_0)\,d\nu(y)-c'(a_0)=0.
+    \tag{$\widehat{\mathrm{LIC}}$}\label{LIC_hat}
+\end{equation}
+The Lagrangian in utility units is
+\begin{equation}
+    \widehat{\mathcal L}(v,\lambda,\mu)
+    :=\widehat C(v,a_0)
+      +\lambda[\bar U-\widehat U(v,a_0)]
+      -\mu\widehat U_a(v,a_0).
+    \label{eq:utility-lagrangian}
+\end{equation}
 
 Define the feasible-contract set in utility units by
 \[
@@ -27,7 +41,7 @@ Define the feasible-contract set in utility units by
     k(v)-w_0\in\mathcal W\right\}.
 \]
 Thus $\mathcal V$ is exactly the utility parametrization of $\mathcal W$.
-It is convex: differentiation is preserved by convex combinations, and
+$\mathcal V$ is convex: differentiation is preserved by convex combinations, and
 convexity of $k$ preserves finiteness of expected compensation cost. In the remainder of the appendix, we work with this equivalent utility parametrization of contracts and refer to utility contracts simply as contracts.
 
 Define the utility links
@@ -40,20 +54,18 @@ canonical contract is
 \[
     v_{\lambda,\mu}(y):=\ell(\lambda+\mu s(y)).
 \]
-It corresponds to the payment canonical contract in Definition
-\ref{def:canonical-contract}.
 
 
-\subsection{The relaxed problem}
+\subsection{Solution of the relaxed problem}
 \label{subsec:appendix-relaxed}
 
-We now prove Proposition \ref{prop:relaxed-optimal-contract}.
+We now prove the characterization Proposition \ref{prop:relaxed-optimal-contract}. This is a standard argument made in similar models \parencite{holmstrom1978incentives,jewitt2008moral} that we include for completeness.
 
 \begin{lemma}[Pointwise minimization]
 \label{lem:lagrangian}
 For $\lambda\geq0$ and $\mu\in\mathbb R$, the almost everywhere unique
-minimizer of the Lagrangian in \eqref{eq:lagrangian} over $\mathcal V$, expressed
-in utility units, is $v_{\lambda,\mu}$.
+minimizer of $\widehat{\mathcal L}(v,\lambda,\mu)$ over $\mathcal V$ is
+$v_{\lambda,\mu}$.
 \end{lemma}
 
 \begin{proof}
@@ -77,7 +89,14 @@ For $\lambda\geq0$, set
     I(\lambda,\mu)
     :=\int \ell(\lambda+\mu s(y))s(y)f(y\mid a_0)\,d\nu(y).
 \]
-A canonical contract satisfies LIC if and only if
+Because the score has mean zero, equivalently,
+\begin{equation}
+ I(\lambda,\mu)
+ =\int[\ell(\lambda+\mu s(y))-\ell(\lambda)]s(y)
+ f(y\mid a_0)\,d\nu(y).
+ \label{eq:I-centered}
+\end{equation}
+A canonical contract satisfies \eqref{LIC_hat} if and only if
 $I(\lambda,\mu)=c'(a_0)$.
 
 \begin{lemma}[The LIC multiplier]
@@ -91,69 +110,64 @@ Moreover, $\widetilde\mu$ is continuous.
 \end{lemma}
 
 \begin{proof}
-Because the score has mean zero, $I(\lambda,0)=0$.  For $\mu\geq0$,
-write
-\begin{equation}
- I(\lambda,\mu)
- =\int[\ell(\lambda+\mu s(y))-\ell(\lambda)]s(y)f(y\mid a_0)\,d\nu(y).
- \label{eq:I-centered}
-\end{equation}
-The integrand is nonnegative and nondecreasing in $\mu$.  As
-$\mu\to\infty$, monotone convergence yields
+Equation \eqref{eq:I-centered} shows that $I(\lambda,0)=0$ and that
+$I(\lambda,\mu)$ is weakly increasing in $\mu$.  As $\mu\to\infty$,
+monotone convergence yields
 \[
  I(\lambda,\mu)\longrightarrow
- \Delta u\int_{\{s>0\}}s(y)f(y\mid a_0)\,d\nu(y),
+ \Delta u\int_{\{s>0\}}s(y)f(y\mid a_0)\,d\nu(y).
 \]
-with an infinite limit allowed.  This limit exceeds $c'(a_0)$ by
+This limit exceeds $c'(a_0)$ by
 \eqref{eq:local-implementability}.  Continuity therefore gives a positive
 solution.
 
-To see uniqueness, let $\mu_2>\mu_1>0$ and suppose $\mu_1$ solves LIC.  If
-$\lambda\leq m_0$, negative scores contribute zero to
-\eqref{eq:I-centered}; because $I(\lambda,\mu_1)=c'(a_0)>0$, a
-positive-measure set of positive scores must be above the floor.  If
-$\lambda>m_0$, every positive score is already above the floor.  In either
-case, increasing $\mu$ from $\mu_1$ to $\mu_2$ strictly raises the centered
-integrand on a positive-measure set and weakly raises it elsewhere.  Hence
-$I(\lambda,\mu_2)>I(\lambda,\mu_1)$, proving uniqueness.  Finally, joint
-continuity of $I$ and this strict-crossing property imply continuity of the
-unique solution $\widetilde\mu(\lambda)$.
+Whenever $I(\lambda,\mu)>0$, it is strictly increasing in $\mu$.
+Therefore the multiplier satisfying \eqref{LIC_hat} is unique.  Finally, joint continuity
+of $I$ and this strict crossing imply continuity of
+$\widetilde\mu(\lambda)$.
 \end{proof}
 
-Define the LIC path
-\begin{equation}
-    v_\lambda(y):=
-    \ell\bigl(\lambda+\widetilde\mu(\lambda)s(y)\bigr),
-    \qquad
-    \widetilde U(\lambda):=\widehat U(v_\lambda,a_0),
-    \qquad
-    \widetilde C(\lambda):=\widehat C(v_\lambda,a_0).
-    \label{eq:lic-path}
-\end{equation}
+For each $\lambda\geq0$, define the canonical contract obtained by setting
+$\mu=\widetilde\mu(\lambda)$, together with its associated utility and cost:
+\begin{eqnarray*}
+    v_\lambda(y)&:=&\ell\bigl(\lambda+\widetilde\mu(\lambda)s(y)\bigr),\\
+    \widetilde U(\lambda)&:=&\widehat U(v_\lambda,a_0),\\
+    \widetilde C(\lambda)&:=&\widehat C(v_\lambda,a_0).
+\end{eqnarray*}
 
-\begin{lemma}[The relaxed Pareto path]
+\begin{lemma}[Canonical relaxed contracts]
 \label{lem:pareto-problem}
 For every $\lambda\geq0$, $v_\lambda$ is the almost everywhere unique
 minimizer of
 \[
     \widehat C(v,a_0)-\lambda\widehat U(v,a_0)
 \]
-among contracts in $\mathcal V$ satisfying LIC.  The function $\widetilde U$ is
+among contracts in $\mathcal V$ satisfying \eqref{LIC_hat}.  The function
+$\widetilde U$ is
 continuous and nondecreasing.  If $\lambda_1<\lambda_2$ and
 $\widetilde U(\lambda_1)=\widetilde U(\lambda_2)$, then
 $v_{\lambda_1}=v_{\lambda_2}$ almost everywhere.
 \end{lemma}
 
 \begin{proof}
-On the LIC constraint, the displayed objective differs by a constant from the
+On the constraint \eqref{LIC_hat}, the displayed objective differs by a constant from the
 Lagrangian with $\mu=\widetilde\mu(\lambda)$.  Lemma
 \ref{lem:lagrangian} therefore proves optimality and uniqueness.
 
-For $\lambda_1<\lambda_2$, apply the two Pareto inequalities to
-$v_{\lambda_1}$ and $v_{\lambda_2}$ and add them.  This gives
+For $\lambda_1<\lambda_2$, optimality of $v_{\lambda_1}$ at
+$\lambda_1$ and of $v_{\lambda_2}$ at $\lambda_2$ gives
+\begin{align*}
+    \widetilde C(\lambda_1)-\lambda_1\widetilde U(\lambda_1)
+    &\leq
+    \widetilde C(\lambda_2)-\lambda_1\widetilde U(\lambda_2),\\
+    \widetilde C(\lambda_2)-\lambda_2\widetilde U(\lambda_2)
+    &\leq
+    \widetilde C(\lambda_1)-\lambda_2\widetilde U(\lambda_1).
+\end{align*}
+Adding these inequalities gives
 \[
- (\lambda_2-\lambda_1)
- [\widetilde U(\lambda_2)-\widetilde U(\lambda_1)]\geq0.
+    (\lambda_2-\lambda_1)
+    [\widetilde U(\lambda_2)-\widetilde U(\lambda_1)]\geq0.
 \]
 If the utility levels are equal, both contracts minimize the same strictly
 convex Pareto problem and hence agree almost everywhere.  Continuity follows
@@ -179,7 +193,7 @@ For every finite $M$, $\widetilde U(M)<U_R$.  In particular, $U_L<U_R$.
 If $\widetilde U$ were constant from some $M$ onward, Lemma
 \ref{lem:pareto-problem} would imply that the contracts $v_\lambda$ agree
 almost everywhere for all $\lambda\geq M$.  Call the common contract $v$.
-Because the score has mean zero, LIC gives
+Because the score has mean zero, \eqref{LIC_hat} gives
 \[
     \int[v(y)-\underline u]s(y)f(y\mid a_0)\,d\nu(y)=c'(a_0)>0.
 \]
@@ -218,7 +232,7 @@ slackness selects $\lambda=0$.
 Let $C^*(T)$ denote the relaxed value at reservation utility $T$.  The value is
 strictly convex on $(U_L,U_R)$.  Indeed, take two distinct active utility
 levels and their distinct optimal utility contracts $v_1,v_2$.  A strict
-convex combination satisfies LIC and delivers the corresponding convex
+convex combination satisfies \eqref{LIC_hat} and delivers the corresponding convex
 combination of utilities, while strict convexity of $k$ makes its expected cost
 strictly smaller than the corresponding combination of costs.
 
@@ -326,7 +340,7 @@ positive multiplier moves the cutoff weakly to the left, proving the second
 inequality.
 \end{proof}
 
-Along the LIC path, fix $\lambda>m_0$, abbreviate
+Fix $\lambda>m_0$, abbreviate
 $\widetilde\mu=\widetilde\mu(\lambda)$, and set
 \[
     D_\lambda\ell(y):=
@@ -497,7 +511,8 @@ strictly negative.
 \end{proof}
 
 \begin{proof}[Proof of Proposition \ref{prop:concave}]
-Lemma \ref{lem:mu-tilde} shows that every canonical contract satisfying LIC at
+Lemma \ref{lem:mu-tilde} shows that every canonical contract satisfying
+\eqref{LIC_hat} at
 a given $\lambda\geq0$ uses the unique multiplier
 $\widetilde\mu(\lambda)$.  Lemma \ref{lem:risk-aversion-branch} or Lemma
 \ref{lem:log-branch} therefore supplies a finite $\lambda_0$ such that
