@@ -113,9 +113,31 @@ The width of the safe region is
 \[
     \mathrm{Width}_{\mathrm{safe}}
     :=\sup\left(\{0\}\cup
-    \left\{q-t:q\in\mathcal Q_{\mathrm{safe}},\
-    t\in s(\mathcal Y)\right\}\right).
+    \left\{q-\operatorname*{ess\,inf}_{y\in\mathcal Y}s(y):
+    q\in\mathcal Q_{\mathrm{safe}}\right\}\right),
 \]
+where the essential infimum is taken under the output distribution at $a_0$
+(equivalently, under $\nu$).
+
+\begin{remark}[Safe tails in common distributions]
+For the output distributions Gaussian (fixed positive variance); Poisson and exponential
+($0\notin\mathcal A$); gamma (fixed positive shape and $0\notin\mathcal A$);
+geometric ($\mathcal A\subset(1,\infty)$); and Bernoulli and binomial
+($\mathcal A\subset(0,1)$, with a fixed number of trials),
+\[
+    \mathcal Q_{\mathrm{safe}}\neq\varnothing,
+    \qquad \mathrm{Cap}_{\mathrm{safe}}>0,
+    \qquad \mathrm{Curv}_{\mathrm{safe}}<\infty,
+    \qquad \mathrm{Width}_{\mathrm{safe}}>0.
+\]
+Gaussian has infinite safe width.  The same conclusions, with
+infinite safe width, hold for a regular exponential family with an affine
+sufficient statistic that is essentially unbounded below, provided its natural
+parameter $\eta(a)$ is twice continuously differentiable,
+$\inf_{a\in\mathcal A}\eta'(a)>0$, and $\eta(\mathcal A)$ lies in the interior
+of the natural-parameter space.  Student's $t$, by contrast, need not have
+positive safe width.
+\end{remark}
 
 The following utility condition is used for part of the main theorem.
 

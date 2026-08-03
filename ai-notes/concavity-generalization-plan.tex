@@ -527,16 +527,38 @@ In the manuscript body, define only the aggregate quantities
 $\Capacity_{\mathrm{safe}}$ and $\Curv_{\mathrm{safe}}$, writing their integral
 definitions directly.  The cutoff-specific notation $\Capacity(q)$ and
 $\Curv(q)$ is proof machinery and can be introduced later.  For the logarithmic
-result, also define
+result, define
 \[
  \Width_{\mathrm{safe}}
  :=\sup\left(\{0\}\cup
- \left\{q-t:q\in\cQ_{\mathrm{safe}},\ t\in s(\cY)\right\}\right).
+ \left\{q-\operatorname*{ess\,inf}_{y\in\cY}s(y):
+ q\in\cQ_{\mathrm{safe}}\right\}\right),
 \]
-When the curvature--width ratio appears below, a finite numerator divided by an
-infinite width is interpreted as zero; the ratio is infinity if its numerator is
-infinite or its denominator is zero.
+where the essential infimum is taken under the output distribution at $a_0$
+(equivalently, under $\nu$).  When the curvature--width ratio appears below, a
+finite numerator divided by an infinite width is interpreted as zero; the ratio
+is infinity if its numerator is infinite or its denominator is zero.
 \end{definition}
+
+\begin{remark}[Safe tails in common distributions]
+For the output distributions Gaussian (fixed positive variance); Poisson and exponential
+($0\notin\cA$); gamma (fixed positive shape and $0\notin\cA$);
+geometric ($\cA\subset(1,\infty)$); and Bernoulli and binomial
+($\cA\subset(0,1)$, with a fixed number of binomial trials),
+\[
+ \cQ_{\mathrm{safe}}\neq\varnothing,
+ \qquad \Capacity_{\mathrm{safe}}>0,
+ \qquad \Curv_{\mathrm{safe}}<\infty,
+ \qquad \Width_{\mathrm{safe}}>0.
+\]
+Gaussian has infinite safe width.  The same conclusions, with
+infinite safe width, hold for a regular exponential family with an affine
+sufficient statistic that is essentially unbounded below, provided its natural
+parameter $\eta(a)$ is twice continuously differentiable,
+$\inf_{a\in\cA}\eta'(a)>0$, and $\eta(\cA)$ lies in the interior of the
+natural-parameter space.  Student's $t$, by contrast, need not have positive
+safe width.
+\end{remark}
 
 Throughout, when $\Delta u=\infty$, a capacity condition of the form
 $\Delta u\,K>c'(a_0)$ means $K>0$.  This convention applies both to
@@ -825,7 +847,7 @@ approach is valid as follows:
  \[
   \bar U\in[U^*(w_0),U_R(w_0)).
  \]
- \item If $w_0>0$, $u(W)=\log W$, the score is unbounded below, and
+ \item If $w_0>0$, $u(W)=\log W$, the score is essentially unbounded below, and
  $\Curv_{\mathrm{safe}}<\infty$, then there is $U^*<\infty$ such that validity
  holds for every reservation utility $\bar U\ge U^*$.
 \end{enumerate}
@@ -871,7 +893,7 @@ Under $a_0$, $s(Y)\sim N(0,1/\sigma^2)$, and
  \Capacity(q)=\frac1\sigma\varphi(\sigma q).
 \]
 Paid-region curvature is finite on compact action sets, so
-$\Curv_{\mathrm{safe}}<\infty$.  Since the score is unbounded below, the log-width
+$\Curv_{\mathrm{safe}}<\infty$.  Since the score is essentially unbounded below, the log-width
 condition follows.  For CARA and CRRA with $\gamma>1$, safe incentive capacity
 remains a substantive condition.
 
