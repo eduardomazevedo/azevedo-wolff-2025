@@ -86,11 +86,13 @@ Let $U_R$ be the supremum reservation utility for which the relaxed
 cost-minimization problem is feasible, and let
 $\underline c'' := \inf_{a\in\mathcal A}c''(a)\geq0$.
 
-The main theorem depends on the output distribution having $f_{aa}\geq0$ in a low-score region. We will use the following key quantities. Let $\mathcal Q_{\mathrm{safe}}$ be the set of scores $q\leq0$ such that
-$f_{aa}(y\mid a)\geq0$ for every $a\in\mathcal A$ and $\nu$-almost every $y$
-with $s(y)\leq q$, and let
-$\bar q_{\mathrm{safe}}:=\sup\mathcal Q_{\mathrm{safe}}$.  The safe
-incentive capacity is
+The main theorem depends on regions where the output distribution has
+$f_{aa}\geq0$.  For $q\leq0$, call $\{y:s(y)\leq q\}$ a \textbf{safe
+low-score region} if $f_{aa}(y\mid a)\geq0$ for every $a\in\mathcal A$ and
+$\nu$-almost every $y$ in that region.  Let $\mathcal Q_{\mathrm{safe}}$ be the
+set of cutoffs that generate safe low-score regions, and let
+$\bar q_{\mathrm{safe}}:=\sup\mathcal Q_{\mathrm{safe}}$.  The \textbf{safe
+incentive capacity} is
 \begin{equation}
     \mathrm{Cap}_{\mathrm{safe}}
     :=-
@@ -99,7 +101,8 @@ incentive capacity is
     \label{eq:safe-capacity}
 \end{equation}
 It measures how much incentive power is available from outcomes in the safe
-low-score region.  The positive curvature outside that region is bounded by the safe incentive curvature,
+low-score region.  The positive curvature outside that region is bounded by the
+\textbf{safe curvature},
 \begin{equation}
     \mathrm{Curv}_{\mathrm{safe}}
     :=\inf_{q\in\mathcal Q_{\mathrm{safe}}}
@@ -109,15 +112,13 @@ low-score region.  The positive curvature outside that region is bounded by the 
     \label{eq:safe-curvature}
 \end{equation}
 
-The width of the safe region is
+The \textbf{safe width} is
 \[
     \mathrm{Width}_{\mathrm{safe}}
     :=\sup\left(\{0\}\cup
     \left\{q-\operatorname*{ess\,inf}_{y\in\mathcal Y}s(y):
-    q\in\mathcal Q_{\mathrm{safe}}\right\}\right),
+    q\in\mathcal Q_{\mathrm{safe}}\right\}\right).
 \]
-where the essential infimum is taken under the output distribution at $a_0$
-(equivalently, under $\nu$).
 
 \begin{remark}[Safe tails in common distributions]
 For the output distributions Gaussian (fixed positive variance); Poisson and exponential
@@ -145,16 +146,16 @@ The following utility condition is used for part of the main theorem.
 \label{condition:sufficient-risk-aversion}
 Let $A(W):=-u''(W)/u'(W)$ denote absolute risk aversion and
 $P(W):=-u'''(W)/u''(W)$ denote absolute prudence.  For every $W>w_0$,
-\begin{equation}
-    A(W)\geq\frac{P(W)}{3}, \tag{U1}\label{condition:U1}
-\end{equation}
-and risk aversion is asymptotically large relative to marginal utility:
-\begin{equation}
-    \lim_{W\to\infty}\frac{A(W)}{u'(W)}=\infty. \tag{U2}\label{condition:U2}
-\end{equation}
+\begin{alignat}{2}
+    &\frac{A(W)}{P(W)}
+    &&\geq \frac{1}{3},
+    \tag{U1}\label{condition:U1}\\
+    \lim_{W\to\infty}\quad&\frac{A(W)}{u'(W)}
+    &&=\infty.
+    \tag{U2}\label{condition:U2}
+\end{alignat}
 \end{condition}
 
-\begin{remark}
-CARA utility satisfies the sufficient risk aversion condition.  CRRA utility satisfies it for coefficient of
-relative risk aversion strictly greater than $1$.
+\begin{remark}[Sufficient risk aversion condition in common utility functions]
+The sufficient risk aversion condition is satisfied by CARA utility and by CRRA utility with coefficient of relative risk aversion strictly greater than $1$.
 \end{remark}
