@@ -29,9 +29,10 @@ bind,
     \tag{FOC}\label{eq:foc}
 \end{equation}
 
+The first order condition pins down the optimal contract $w^*_{\bar U}(y)$.
 The solution is best described with the following notation.  Let
 $m_0:=1/u'(w_0)$ be the marginal cost of utility at zero payment.  On the
-nonbinding region, the optimal contract is calculated by taking $\lambda + \mu s(y)$ and applying the \textbf{wealth base link function}
+nonbinding region, the solution to the first-order condition is calculated by taking $\lambda + \mu s(y)$ and applying the \textbf{wealth base link function}
 \[
     L_0(z):=(u')^{-1}(1/z).
 \]
@@ -44,7 +45,7 @@ The optimal contract can be cleanly expressed as follows.
 
 \begin{definition}[Canonical contract]
 \label{def:canonical-contract}
-For $\lambda,\mu\in\mathbb R$, the \textbf{canonical contract} is
+Given multipliers $\lambda,\mu\in\mathbb R$, the associated \textbf{canonical contract} is
 \begin{equation}
     w_{\lambda,\mu}(y):=L\bigl(\lambda+\mu s(y)\bigr)-w_0.
     \label{eq:canonical-contract}
@@ -60,33 +61,24 @@ There exists $U_L<U_R$ such that, for every $\bar U<U_R$:
 \begin{enumerate}
     \renewcommand{\labelenumi}{(\roman{enumi})}
     \item The relaxed problem has an almost everywhere unique solution
-    $w^*_{\bar U}$.  There are valid Lagrange multipliers $\lambda\geq0$ and
-    $\mu>0$ such that
+    $w^*_{\bar U}$, which is almost everywhere a canonical contract for some multipliers $\lambda,\mu$:
     \begin{equation}
-        w^*_{\bar U}(y)=w_{\lambda,\mu}(y)
-        =L\bigl(\lambda+\mu s(y)\bigr)-w_0
-        \quad\text{almost everywhere.}
+        w^*_{\bar U}(y)=w_{\lambda,\mu}(y).
         \label{eq:relaxed-optimal-contract}
     \end{equation}
-    The contract is unique, although its multipliers need not be.
 
-    \item If $\bar U\leq U_L$, the relaxed-optimal contract and its expected
-    cost are constant in $\bar U$.  If $U_L<\bar U<U_R$, individual
-    rationality binds, every IR multiplier associated with a higher reservation
+    \item If $\bar U\leq U_L$, the relaxed-optimal contract
+    is constant in $\bar U$.  If $U_L<\bar U<U_R$, individual
+    rationality binds, every IR multiplier $\lambda$ associated with a higher reservation
     utility exceeds every IR multiplier associated with a lower one, and the
     smallest associated multiplier converges to infinity as $\bar U\uparrow
     U_R$.
 
-    \item Let $C^*(\bar U)$ denote the value of the relaxed
-    cost-minimization problem.  Then $C^*(\bar U)$ is constant below $U_L$ and
+    \item The
+    \textbf{optimal expected wage cost} $C^*(\bar U)$ is constant below $U_L$ and
     strictly increasing and strictly convex on $(U_L,U_R)$.
 \end{enumerate}
 \end{proposition}
-
-The proposition shows that the relaxed solution always has the familiar
-first-order-approach form.  It also allows for corners in the cost--utility
-frontier: the contract is unique, but a contract at a corner can be supported by
-more than one multiplier.
 
 The Gaussian-log utility example illustrates Proposition
 \ref{prop:relaxed-optimal-contract}.  Here
@@ -108,13 +100,6 @@ cost--utility frontier.
     \captionsetup{font=footnotesize} % Makes the note footnote-sized
     \caption*{\textit{Note:} This figure displays the Pareto frontier of the cost minimization problem and the relaxed cost minimization problem in the Gaussian-log utility example. The first-order approach is valid for all reservation utilities where the two sets coincide. Parameters are as in figure \ref{fig:gaussian-log-pp}.}
 \end{figure}
-
-The formula in Proposition \ref{prop:relaxed-optimal-contract} simply solves
-\eqref{eq:foc} subject to limited liability.  Absent incentives, the principal
-would provide the constant payment $L(\lambda)-w_0$.  Local incentive
-compatibility tilts the marginal cost of utility by the score: the $\mu$ term
-raises payment when the score is high and lowers it when the score is low.  The
-kink in $L$ imposes zero payment whenever limited liability binds.
 
 \subsection{High Reservation Utility} 
 
