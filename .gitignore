@@ -38,6 +38,9 @@ Icon?
 *.bak
 *.tmp
 
+# Machine-specific pi agent settings
+.pi/
+
 __pycache__/
 
 # Arxiv

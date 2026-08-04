@@ -14,7 +14,7 @@ and $k:=u^{-1}$.
 
 It will also be convenient to parametrize contracts in utility units. Given a (payment) contract $w$, define the \textbf{utility contract} parametrization by
 $v(y):=u(w_0+w(y))$.  Conversely, a utility contract $v$ corresponds to the
-payment contract $k(v)-w_0$. Define
+payment contract $w(y) = k(v)-w_0$. Define
 \begin{align*}
     \widehat U(v,a)&:=\int v(y)f(y\mid a)\,d\nu(y)-c(a),\\
     \widehat C(v,a)&:=\int [k(v(y))-w_0]f(y\mid a)\,d\nu(y).
@@ -22,7 +22,7 @@ payment contract $k(v)-w_0$. Define
 Local incentive compatibility in utility units is
 \begin{equation}
     \widehat U_a(v,a_0)
-    =\int v(y)s(y)f(y\mid a_0)\,d\nu(y)-c'(a_0)=0.
+    =0.
     \tag{$\widehat{\mathrm{LIC}}$}\label{LIC_hat}
 \end{equation}
 The Lagrangian in utility units is
@@ -40,7 +40,6 @@ Define the feasible-contract set in utility units by
     :=\left\{v:\mathcal Y\to[\underline u,\bar u):
     k(v)-w_0\in\mathcal W\right\}.
 \]
-Thus $\mathcal V$ is exactly the utility parametrization of $\mathcal W$.
 $\mathcal V$ is convex: differentiation is preserved by convex combinations, and
 convexity of $k$ preserves finiteness of expected compensation cost. In the remainder of the appendix, we work with this equivalent utility parametrization of contracts and refer to utility contracts simply as contracts.
 
@@ -49,7 +48,7 @@ Define the utility links
     \ell_0(z)&:=&u(L_0(z))=(k')^{-1}(z),\\
     \ell(z)&:=&\ell_0(z\vee m_0).
 \end{eqnarray*}
-The utility version of a
+The utility parametrization of a
 canonical contract is
 \[
     v_{\lambda,\mu}(y):=\ell(\lambda+\mu s(y)).
@@ -69,49 +68,42 @@ $v_{\lambda,\mu}$.
 \end{lemma}
 
 \begin{proof}
-Up to terms independent of $v$, the Lagrangian is the integral, against
-$f(y\mid a_0)d\nu(y)$, of
+Up to terms independent of $v$, the Lagrangian is the integral with measure
+$f(y\mid a_0)d\nu(y)$ of
 \[
     k(v(y))-w_0-[\lambda+\mu s(y)]v(y).
 \]
 This expression is strictly convex in $v(y)$.  Its interior first-order
-condition is $k'(v(y))=\lambda+\mu s(y)$.  Imposing
-$v(y)\geq\underline u$ replaces the right-hand side by its maximum with
-$m_0$, and hence gives $v(y)=\ell(\lambda+\mu s(y))$.  If $\bar u<\infty$,
-the open upper endpoint creates no nonattainment because
-$k(v)\to\infty$ as $v\uparrow\bar u$.  Canonical-contract regularity ensures that the
-pointwise minimizer belongs to $\mathcal V$.  Strict convexity gives almost
+condition is $k'(v(y))=\lambda+\mu s(y)$.  Taking limited liability into account,
+the solution is $v(y)=\ell(\lambda+\mu s(y))$.
+The assumption that canonical contracts are feasible ensures that this solution belongs to $\mathcal V$.  Strict convexity gives almost
 everywhere uniqueness.
 \end{proof}
 
-For $\lambda\geq0$, set
+\begin{lemma}[The LIC multiplier]
+\label{lem:mu-tilde}
+For each $\lambda\geq0$, there is a unique $\widetilde\mu(\lambda)>0$ such
+that the canonical contract $v_{\lambda,\widetilde\mu(\lambda)}$ satisfies
+\eqref{LIC_hat}.  Moreover, $\widetilde\mu$ is continuous.
+\end{lemma}
+
+\begin{proof}
+For the proof, define
 \[
     I(\lambda,\mu)
     :=\int \ell(\lambda+\mu s(y))s(y)f(y\mid a_0)\,d\nu(y).
 \]
-Because the score has mean zero, equivalently,
+Because the score has mean zero, this can equivalently be written as
 \begin{equation}
  I(\lambda,\mu)
  =\int[\ell(\lambda+\mu s(y))-\ell(\lambda)]s(y)
  f(y\mid a_0)\,d\nu(y).
  \label{eq:I-centered}
 \end{equation}
-A canonical contract satisfies \eqref{LIC_hat} if and only if
-$I(\lambda,\mu)=c'(a_0)$.
+Equation \eqref{LIC_hat} is the same as $I(\lambda,\mu)=c'(a_0)$.
 
-\begin{lemma}[The LIC multiplier]
-\label{lem:mu-tilde}
-For each $\lambda\geq0$, there is a unique $\widetilde\mu(\lambda)>0$ such
-that
-\[
-    I(\lambda,\widetilde\mu(\lambda))=c'(a_0).
-\]
-Moreover, $\widetilde\mu$ is continuous.
-\end{lemma}
-
-\begin{proof}
 Equation \eqref{eq:I-centered} shows that $I(\lambda,0)=0$ and that
-$I(\lambda,\mu)$ is weakly increasing in $\mu$.  As $\mu\to\infty$,
+$I(\lambda,\mu)$ is weakly increasing in $\mu$ because the term in brackets has the same sign as the score.  As $\mu\to\infty$,
 monotone convergence yields
 \[
  I(\lambda,\mu)\longrightarrow
@@ -128,7 +120,7 @@ $\widetilde\mu(\lambda)$.
 \end{proof}
 
 For each $\lambda\geq0$, define the canonical contract obtained by setting
-$\mu=\widetilde\mu(\lambda)$, together with its associated utility and cost:
+$\mu=\widetilde\mu(\lambda)$ and the attained utility and cost by:
 \begin{eqnarray*}
     v_\lambda(y)&:=&\ell\bigl(\lambda+\widetilde\mu(\lambda)s(y)\bigr),\\
     \widetilde U(\lambda)&:=&\widehat U(v_\lambda,a_0),\\
@@ -180,9 +172,9 @@ Let
     \qquad
     U_R:=\lim_{\lambda\to\infty}\widetilde U(\lambda).
 \]
-The second quantity is well defined in $\mathbb R\cup\{\infty\}$ by
-monotonicity.  The next observation is what allows utility to be bounded
-above.
+$U_R$ is well defined in $\mathbb R\cup\{\infty\}$ by
+monotonicity.  The next observation ensures that the supporting multipliers
+diverge at this frontier, even when utility is bounded above.
 
 \begin{lemma}[No terminal flat portion]
 \label{lem:no-terminal-flat}
@@ -190,23 +182,20 @@ For every finite $M$, $\widetilde U(M)<U_R$.  In particular, $U_L<U_R$.
 \end{lemma}
 
 \begin{proof}
-If $\widetilde U$ were constant from some $M$ onward, Lemma
-\ref{lem:pareto-problem} would imply that the contracts $v_\lambda$ agree
-almost everywhere for all $\lambda\geq M$.  Call the common contract $v$.
-Because the score has mean zero, \eqref{LIC_hat} gives
+Suppose instead that $\widetilde U(M)=U_R$ for some finite $M$.
+Monotonicity makes $\widetilde U$ constant on $[M,\infty)$, so Lemma
+\ref{lem:pareto-problem} implies that every $v_\lambda$, $\lambda\geq M$,
+agrees almost everywhere with a fixed contract $v$.
+
+Local implementability implies that $\{s(y)>0\}$ has positive measure.  On this
+set, since $\widetilde\mu(\lambda)>0$,
 \[
-    \int[v(y)-\underline u]s(y)f(y\mid a_0)\,d\nu(y)=c'(a_0)>0.
+    v(y)
+    =\ell\bigl(\lambda+\widetilde\mu(\lambda)s(y)\bigr)
+    \geq\ell(\lambda)
 \]
-Since $v\geq\underline u$, this requires $v>\underline u$ on a
-positive-measure set of positive-score outcomes.  Choose an unbounded
-countable sequence of multipliers.  Outside the union of their null sets, the
-interior canonical condition at every such outcome is
-\[
-    k'(v(y))=\lambda+\widetilde\mu(\lambda)s(y)>\lambda.
-\]
-But $v(y)<\bar u$ implies $k'(v(y))<\infty$, so this identity cannot hold along
-the sequence.  Thus there is no terminal flat portion.  Monotonicity then
-implies the stated strict inequality for every finite $M$.
+almost everywhere. Letting $\lambda\to\infty$ gives
+$v(y)\geq\bar u$ reaching a contradiction.
 \end{proof}
 
 \begin{proof}[Proof of Proposition \ref{prop:relaxed-optimal-contract}]
@@ -325,17 +314,18 @@ Tail safety is not needed for this lemma.
 
 \begin{proof}
 At $\mu_q(\lambda)$, scores weakly below $q$ receive $\underline u$.
-Centering as in \eqref{eq:I-centered} gives
+Centering the local-incentive expression at $\ell(\lambda)$ gives
 \[
- I(\lambda,\mu_q(\lambda))
+ \int[\ell(\lambda+\mu_q(\lambda)s(y))-\ell(\lambda)]s(y)
+ f(y\mid a_0)\,d\nu(y)
  \geq[\ell(\lambda)-\underline u]\Capq(q).
 \]
 The omitted contributions are nonnegative: on negative scores both the utility
 difference and the score are nonpositive, while on positive scores both are
 nonnegative.  As $\lambda\to\infty$, the right-hand side converges to
 $\Delta u\,\Capq(q)$ and therefore eventually exceeds $c'(a_0)$.  Monotonicity
-of $I$ and uniqueness of the LIC multiplier imply
-$\widetilde\mu\leq\mu_q$.  Since $m_0-\lambda<0$, division by the smaller
+of the local-incentive expression in $\mu$ and uniqueness of the LIC multiplier
+imply $\widetilde\mu\leq\mu_q$.  Since $m_0-\lambda<0$, division by the smaller
 positive multiplier moves the cutoff weakly to the left, proving the second
 inequality.
 \end{proof}
@@ -595,11 +585,13 @@ growth of $z^p$.  Both bounds are uniform
 for $\theta$ in compact sets.  After multiplication by $s$ and integration,
 the constant term vanishes because the score has mean zero, so
 \[
-    I(\lambda,\mu_\lambda(\theta))
-    \longrightarrow\theta\sigma_s^2.
+ \int \ell(\lambda+\mu_\lambda(\theta)s(y))s(y)
+ f(y\mid a_0)\,d\nu(y)
+ \longrightarrow\theta\sigma_s^2.
 \]
-Monotonicity of $I$ brackets its unique LIC solution between any two choices of
-$\theta$ surrounding $c'(a_0)/\sigma_s^2$.  This proves the first limit.  The
+Monotonicity of the left-hand side in $\mu$ brackets the unique LIC multiplier
+between any two choices of $\theta$ surrounding
+$c'(a_0)/\sigma_s^2$.  This proves the first limit.  The
 second follows after division by
 $\lambda\ell_0'(\lambda)\to\infty$.
 \end{proof}
