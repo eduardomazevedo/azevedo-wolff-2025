@@ -12,7 +12,8 @@ In the appendix we use the following additional notation. Let
 \]
 and $k:=u^{-1}$.
 
-It will also be convenient to parametrize contracts in utility units. Given a (payment) contract $w$, define the \textbf{utility contract} parametrization by
+It will be convenient to parametrize contracts in utility units because this makes the relaxed problem
+a convex program with linear constraints. Given a (payment) contract $w$, define the \textbf{utility contract} parametrization by
 $v(y):=u(w_0+w(y))$.  Conversely, a utility contract $v$ corresponds to the
 payment contract $w(y) = k(v)-w_0$. Define
 \begin{align*}
@@ -63,7 +64,7 @@ We now prove the characterization Proposition \ref{prop:relaxed-optimal-contract
 \begin{lemma}[Pointwise minimization]
 \label{lem:lagrangian}
 For $\lambda\geq0$ and $\mu\in\mathbb R$, the almost everywhere unique
-minimizer of $\widehat{\mathcal L}(v,\lambda,\mu)$ over $\mathcal V$ is
+minimizer of the lagrangian $\widehat{\mathcal L}(v,\lambda,\mu)$ over $\mathcal V$ is
 $v_{\lambda,\mu}$.
 \end{lemma}
 
@@ -127,7 +128,10 @@ $\mu=\widetilde\mu(\lambda)$ and the attained utility and cost by:
     \widetilde C(\lambda)&:=&\widehat C(v_\lambda,a_0).
 \end{eqnarray*}
 
-\begin{lemma}[Canonical relaxed contracts]
+The canonical contracts solving local incentive compatibility therefore form a one-dimensional path indexed by
+$\lambda$.  The next lemma shows that these contracts solve a Pareto problem indexed by $\lambda$.
+
+\begin{lemma}[Canonical contracts solve a Pareto problem]
 \label{lem:pareto-problem}
 For every $\lambda\geq0$, $v_\lambda$ is the almost everywhere unique
 minimizer of
@@ -166,43 +170,35 @@ convex Pareto problem and hence agree almost everywhere.  Continuity follows
 from Lemma \ref{lem:mu-tilde} and canonical-contract regularity.
 \end{proof}
 
-Let
+Define
 \[
-    U_L:=\widetilde U(0),
-    \qquad
-    U_R:=\lim_{\lambda\to\infty}\widetilde U(\lambda).
+    U_L:=\widetilde U(0).
 \]
-$U_R$ is well defined in $\mathbb R\cup\{\infty\}$ by
-monotonicity.  The next observation ensures that the supporting multipliers
-diverge at this frontier, even when utility is bounded above.
+Recall that $U_R$ is the supremum feasible reservation utility for the relaxed
+problem.  The next lemma shows that the Pareto path converges to this frontier
+and rules out a terminal flat portion.
 
-\begin{lemma}[No terminal flat portion]
+\begin{lemma}[The right utility frontier]
 \label{lem:no-terminal-flat}
-For every finite $M$, $\widetilde U(M)<U_R$.  In particular, $U_L<U_R$.
+We have
+\[
+    \lim_{\lambda\to\infty}\widetilde U(\lambda)=U_R.
+\]
+Moreover, for every finite $M$, $\widetilde U(M)<U_R$.
 \end{lemma}
 
 \begin{proof}
-Suppose instead that $\widetilde U(M)=U_R$ for some finite $M$.
-Monotonicity makes $\widetilde U$ constant on $[M,\infty)$, so Lemma
-\ref{lem:pareto-problem} implies that every $v_\lambda$, $\lambda\geq M$,
-agrees almost everywhere with a fixed contract $v$.
-
-Local implementability implies that $\{s(y)>0\}$ has positive measure.  On this
-set, since $\widetilde\mu(\lambda)>0$,
+Let
 \[
-    v(y)
-    =\ell\bigl(\lambda+\widetilde\mu(\lambda)s(y)\bigr)
-    \geq\ell(\lambda)
+    U_\infty:=\lim_{\lambda\to\infty}\widetilde U(\lambda),
 \]
-almost everywhere. Letting $\lambda\to\infty$ gives
-$v(y)\geq\bar u$ reaching a contradiction.
-\end{proof}
+which is well defined in $\mathbb R\cup\{\infty\}$ by monotonicity.  Since
+$v_\lambda$ is feasible for reservation utility $\widetilde U(\lambda)$, we
+have $\widetilde U(\lambda)\leq U_R$ for every $\lambda$, and hence
+$U_\infty\leq U_R$.
 
-\begin{proof}[Proof of Proposition \ref{prop:relaxed-optimal-contract}]
-We first verify that the definition of $U_R$ above agrees with the supremum
-feasible reservation utility defined in the main text.  For any contract $v$
-satisfying \eqref{LIC_hat}, Lemma \ref{lem:pareto-problem} gives, for every
-$\lambda>0$,
+Conversely, for any contract $v$ satisfying \eqref{LIC_hat}, Lemma
+\ref{lem:pareto-problem} gives, for every $\lambda>0$,
 \[
     \widehat U(v,a_0)
     \leq \widetilde U(\lambda)
@@ -210,16 +206,31 @@ $\lambda>0$,
     \leq \widetilde U(\lambda)
        +\frac{\widehat C(v,a_0)}{\lambda}.
 \]
-Letting $\lambda\to\infty$ gives $\widehat U(v,a_0)\leq U_R$.  Conversely,
-$v_0$ is feasible for every reservation utility below $U_L$, and continuity of
-$\widetilde U$ makes every utility in $(U_L,U_R)$ attainable.  Thus $U_R$ is
-indeed the supremum feasible reservation utility.  Lemma
-\ref{lem:no-terminal-flat} also gives $U_L<U_R$.
+Letting $\lambda\to\infty$ gives
+$\widehat U(v,a_0)\leq U_\infty$.  Thus no reservation utility above
+$U_\infty$ is feasible, so $U_R\leq U_\infty$.  Therefore
+$U_\infty=U_R$.
 
-\emph{Part (i).}  If $\bar U\leq U_L$, then $v_0$ is feasible, and Lemma
-\ref{lem:pareto-problem} with $\lambda=0$ says that it uniquely minimizes cost
-among all contracts satisfying \eqref{LIC_hat}.  Hence it uniquely solves the
-relaxed problem.
+Suppose that $\widetilde U(M)=U_R$ for some finite $M$.  Monotonicity makes
+$\widetilde U$ constant on $[M,\infty)$, so Lemma
+\ref{lem:pareto-problem} implies that every $v_\lambda$, $\lambda\geq M$,
+agrees almost everywhere with a fixed contract $v$.  Local implementability
+implies that $\{s(y)>0\}$ has positive measure.  On this set,
+\[
+    v(y)
+    =\ell\bigl(\lambda+\widetilde\mu(\lambda)s(y)\bigr)
+    \geq\ell(\lambda)
+\]
+almost everywhere.  Letting $\lambda\to\infty$ gives
+$v(y)\geq\bar u$, a contradiction with $v$ being feasible.
+\end{proof}
+
+\begin{proof}[Proof of Proposition \ref{prop:relaxed-optimal-contract}]
+\emph{Part (i).}  In utility units, the objective is strictly convex and the
+constraints are linear, so the relaxed problem has an almost everywhere unique solution.  We
+now construct it.  If $\bar U\leq U_L$, then $v_0$ is feasible, and Lemma
+\ref{lem:pareto-problem} with $\lambda=0$ says that it minimizes cost among all
+contracts satisfying \eqref{LIC_hat}.  Hence it solves the relaxed problem.
 
 Now suppose $\bar U\in(U_L,U_R)$.  Continuity of $\widetilde U$ gives
 $\lambda>0$ such that $\widetilde U(\lambda)=\bar U$.  For any relaxed-feasible
@@ -243,10 +254,14 @@ $\bar U\in(U_L,U_R)$.  On the latter region, let
     \Lambda(\bar U)
     :=\{\lambda\geq0:\widetilde U(\lambda)=\bar U\}.
 \]
-Lemmas \ref{lem:lagrangian} and \ref{lem:mu-tilde} show that these are exactly
-the associated IR multipliers.  Continuity and monotonicity of $\widetilde U$
-make $\Lambda(\bar U)$ a nonempty closed interval, and it is bounded because
-$\bar U<U_R$.  Hence it has a smallest element.
+Every $\lambda\in\Lambda(\bar U)$ supports the relaxed solution by the argument
+in part (i).  Conversely, Lemmas \ref{lem:lagrangian} and
+\ref{lem:mu-tilde} imply that a relaxed solution supported by an IR multiplier
+$\lambda$ is $v_\lambda$; binding IR then gives
+$\widetilde U(\lambda)=\bar U$.  Thus $\Lambda(\bar U)$ is exactly the set of
+associated IR multipliers.  Continuity and monotonicity of $\widetilde U$ make
+this set a nonempty closed interval, and it is bounded because $\bar U<U_R$.
+Hence it has a smallest element.
 
 If $U_L<T_1<T_2<U_R$, monotonicity of $\widetilde U$ gives
 \[
