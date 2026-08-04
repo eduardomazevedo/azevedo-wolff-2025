@@ -226,26 +226,33 @@ $v(y)\geq\bar u$, a contradiction with $v$ being feasible.
 \end{proof}
 
 \begin{proof}[Proof of Proposition \ref{prop:relaxed-optimal-contract}]
-\emph{Part (i).}  In utility units, the objective is strictly convex and the
-constraints are linear, so the relaxed problem has an almost everywhere unique solution.  We
-now construct it.  If $\bar U\leq U_L$, then $v_0$ is feasible, and Lemma
-\ref{lem:pareto-problem} with $\lambda=0$ says that it minimizes cost among all
-contracts satisfying \eqref{LIC_hat}.  Hence it solves the relaxed problem.
+\emph{Part (i).}  Suppose first that $\bar U\leq U_L$.  The contract $v_0$
+satisfies LIC and delivers utility $U_L$, so it is relaxed-feasible.  Lemma
+\ref{lem:pareto-problem} with $\lambda=0$ says that $v_0$ is the almost
+everywhere unique cost minimizer among all contracts satisfying LIC.  Hence it
+is the almost everywhere unique solution of the relaxed problem.
 
-Now suppose $\bar U\in(U_L,U_R)$.  Continuity of $\widetilde U$ gives
-$\lambda>0$ such that $\widetilde U(\lambda)=\bar U$.  For any relaxed-feasible
-contract $v$, Lemma \ref{lem:pareto-problem} gives
-\begin{align*}
+Now suppose $\bar U\in(U_L,U_R)$.  Continuity of $\widetilde U$ and Lemma
+\ref{lem:no-terminal-flat} give some $\lambda>0$ such that
+$\widetilde U(\lambda)=\bar U$.  The contract $v_\lambda$ satisfies LIC and
+makes IR bind, so it is relaxed-feasible.  For any relaxed-feasible contract
+$v$, Lemma \ref{lem:pareto-problem} gives
+\[
+    \widehat C(v,a_0)-\lambda\widehat U(v,a_0)
+    \geq \widetilde C(\lambda)-\lambda\bar U,
+\]
+with strict inequality unless $v=v_\lambda$ almost everywhere.  Since
+$\widehat U(v,a_0)\geq\bar U$, it follows that
+\[
     \widehat C(v,a_0)
-    &\geq \widetilde C(\lambda)
-      +\lambda[\widehat U(v,a_0)-\widetilde U(\lambda)]\\
-    &\geq \widetilde C(\lambda).
-\end{align*}
-Thus $v_\lambda$ solves the relaxed problem.  Equality requires $v$ to minimize
-the same strictly convex Pareto problem, so $v=v_\lambda$ almost everywhere.
-By construction,
-$v_\lambda=v_{\lambda,\widetilde\mu(\lambda)}$ is canonical.  Translating back
-through $w=k(v)-w_0$ proves part (i).
+    \geq \widetilde C(\lambda)
+      +\lambda[\widehat U(v,a_0)-\bar U]
+    \geq \widetilde C(\lambda),
+\]
+with strict inequality unless $v=v_\lambda$ almost everywhere.  Thus
+$v_\lambda$ is the almost everywhere unique solution of the relaxed problem.
+By construction, $v_\lambda=v_{\lambda,\widetilde\mu(\lambda)}$ is canonical.
+Translating back through $w=k(v)-w_0$ proves part (i).
 
 \emph{Part (ii).}  Part (i) shows that the relaxed-optimal contract is $v_0$
 for every $\bar U\leq U_L$, and that IR binds when
