@@ -199,65 +199,91 @@ $v(y)\geq\bar u$ reaching a contradiction.
 \end{proof}
 
 \begin{proof}[Proof of Proposition \ref{prop:relaxed-optimal-contract}]
-For $\bar U\in(U_L,U_R)$, continuity of $\widetilde U$ gives at least one
-$\lambda>0$ such that $\widetilde U(\lambda)=\bar U$.  Lemmas
-\ref{lem:lagrangian} and \ref{lem:pareto-problem}, together with the
-nonnegative IR multiplier $\lambda$, show that $v_\lambda$ solves the relaxed
-problem.  If $\bar U\leq U_L$, the same argument with $\lambda=0$ shows that
-$v_0$ solves it and that slack IR does not change the solution.  Pointwise
-strict convexity gives almost everywhere uniqueness in both cases.
-
-For completeness, let $\Lambda(\bar U)$ be the set of IR multipliers supporting
-the relaxed solution.  On $(U_L,U_R)$ it is the level set
+We first verify that the definition of $U_R$ above agrees with the supremum
+feasible reservation utility defined in the main text.  For any contract $v$
+satisfying \eqref{LIC_hat}, Lemma \ref{lem:pareto-problem} gives, for every
+$\lambda>0$,
 \[
-    \Lambda(\bar U)=\{\lambda\geq0:\widetilde U(\lambda)=\bar U\}.
+    \widehat U(v,a_0)
+    \leq \widetilde U(\lambda)
+       +\frac{\widehat C(v,a_0)-\widetilde C(\lambda)}{\lambda}
+    \leq \widetilde U(\lambda)
+       +\frac{\widehat C(v,a_0)}{\lambda}.
 \]
-Lemma \ref{lem:pareto-problem} shows that all multipliers in this set represent
-the same contract, even if the set is not a singleton.  It is a closed interval
-by continuity and monotonicity.  It is bounded by Lemma
-\ref{lem:no-terminal-flat}, and hence compact.  Below $U_L$, complementary
-slackness selects $\lambda=0$.
+Letting $\lambda\to\infty$ gives $\widehat U(v,a_0)\leq U_R$.  Conversely,
+$v_0$ is feasible for every reservation utility below $U_L$, and continuity of
+$\widetilde U$ makes every utility in $(U_L,U_R)$ attainable.  Thus $U_R$ is
+indeed the supremum feasible reservation utility.  Lemma
+\ref{lem:no-terminal-flat} also gives $U_L<U_R$.
 
-Let $C^*(T)$ denote the relaxed value at reservation utility $T$.  The value is
-strictly convex on $(U_L,U_R)$.  Indeed, take two distinct active utility
-levels and their distinct optimal utility contracts $v_1,v_2$.  A strict
-convex combination satisfies \eqref{LIC_hat} and delivers the corresponding convex
-combination of utilities, while strict convexity of $k$ makes its expected cost
-strictly smaller than the corresponding combination of costs.
+\emph{Part (i).}  If $\bar U\leq U_L$, then $v_0$ is feasible, and Lemma
+\ref{lem:pareto-problem} with $\lambda=0$ says that it uniquely minimizes cost
+among all contracts satisfying \eqref{LIC_hat}.  Hence it uniquely solves the
+relaxed problem.
 
-If $\lambda\in\Lambda(\bar U)$ and $T<U_R$, Pareto optimality gives the
-supporting inequality
-\begin{equation}
-    C^*(T)\geq C^*(\bar U)+\lambda(T-\bar U).
-    \label{eq:value-support}
-\end{equation}
-Every such $\lambda$ is positive on the active region.  The inequality therefore
-also shows that $C^*$ is strictly increasing there; it is constant below
-$U_L$.
+Now suppose $\bar U\in(U_L,U_R)$.  Continuity of $\widetilde U$ gives
+$\lambda>0$ such that $\widetilde U(\lambda)=\bar U$.  For any relaxed-feasible
+contract $v$, Lemma \ref{lem:pareto-problem} gives
+\begin{align*}
+    \widehat C(v,a_0)
+    &\geq \widetilde C(\lambda)
+      +\lambda[\widehat U(v,a_0)-\widetilde U(\lambda)]\\
+    &\geq \widetilde C(\lambda).
+\end{align*}
+Thus $v_\lambda$ solves the relaxed problem.  Equality requires $v$ to minimize
+the same strictly convex Pareto problem, so $v=v_\lambda$ almost everywhere.
+By construction,
+$v_\lambda=v_{\lambda,\widetilde\mu(\lambda)}$ is canonical.  Translating back
+through $w=k(v)-w_0$ proves part (i).
 
-Conversely, let $\rho$ be any supporting slope of $C^*$ at an active utility
-level $\bar U$.  Monotonicity of the value gives $\rho\geq0$.  Put
-$T:=\widetilde U(\rho)$.  The supporting inequality at $\bar U$ and Pareto
-optimality of $v_\rho$ give opposite inequalities between
-$C^*(T)-\rho T$ and $C^*(\bar U)-\rho\bar U$, so equality holds.  If
-$T\neq\bar U$, the same line supports $C^*$ at both utility levels, forcing
-the value to be affine between them and contradicting strict convexity.
-Therefore $T=\bar U$ and $\rho\in\Lambda(\bar U)$.  Thus
-$\Lambda(\bar U)$ is exactly the subdifferential of $C^*$ at every active
-utility level.
-
-Finally, strict convexity implies strict ordering of subgradients: if
-$U_L<T_1<T_2<U_R$, every element of $\Lambda(T_1)$ is smaller than every
-element of $\Lambda(T_2)$.  Lemma \ref{lem:no-terminal-flat} also implies that
-for every finite $M$, all multipliers supporting utility levels sufficiently
-close to $U_R$ exceed $M$.  Equivalently,
+\emph{Part (ii).}  Part (i) shows that the relaxed-optimal contract is $v_0$
+for every $\bar U\leq U_L$, and that IR binds when
+$\bar U\in(U_L,U_R)$.  On the latter region, let
 \[
-    \inf\Lambda(\bar U)\longrightarrow\infty
+    \Lambda(\bar U)
+    :=\{\lambda\geq0:\widetilde U(\lambda)=\bar U\}.
+\]
+Lemmas \ref{lem:lagrangian} and \ref{lem:mu-tilde} show that these are exactly
+the associated IR multipliers.  Continuity and monotonicity of $\widetilde U$
+make $\Lambda(\bar U)$ a nonempty closed interval, and it is bounded because
+$\bar U<U_R$.  Hence it has a smallest element.
+
+If $U_L<T_1<T_2<U_R$, monotonicity of $\widetilde U$ gives
+\[
+    \lambda_1<\lambda_2
+    \qquad
+    \text{for every }\lambda_i\in\Lambda(T_i).
+\]
+Moreover, for every finite $M$, Lemma \ref{lem:no-terminal-flat} gives
+$\widetilde U(M)<U_R$.  Hence, once $\bar U>\widetilde U(M)$, every
+$\lambda\in\Lambda(\bar U)$ exceeds $M$.  Therefore
+\[
+    \min\Lambda(\bar U)\longrightarrow\infty
     \quad\text{as }\bar U\uparrow U_R.
 \]
-Translating $v_\lambda$ back through $w=k(v)-w_0$ gives exactly
-\eqref{eq:relaxed-optimal-contract} and proves all three parts of the
-proposition.
+This proves part (ii).
+
+\emph{Part (iii).}  The value $C^*$ is constant below $U_L$ by part (ii).  To
+show strict convexity on $(U_L,U_R)$, take $T_1\neq T_2$ in this interval and
+let $v_1,v_2$ be their optimal contracts.  IR binds, so these contracts are
+distinct.  For $t\in(0,1)$, the contract
+$v_t:=tv_1+(1-t)v_2$ satisfies LIC and delivers utility
+$T_t:=tT_1+(1-t)T_2$.  Strict convexity of $k$ therefore gives
+\[
+    C^*(T_t)
+    \leq \widehat C(v_t,a_0)
+    <tC^*(T_1)+(1-t)C^*(T_2).
+\]
+
+Finally, suppose $U_L<T_1<T_2<U_R$ and take
+$\lambda_1\in\Lambda(T_1)$.  Lemma \ref{lem:pareto-problem} gives
+\[
+    C^*(T_2)-\lambda_1T_2
+    \geq C^*(T_1)-\lambda_1T_1.
+\]
+Since $T_1>U_L$, we have $\lambda_1>0$, and hence
+$C^*(T_2)>C^*(T_1)$.  Thus $C^*$ is strictly increasing and strictly convex on
+$(U_L,U_R)$, proving part (iii).
 \end{proof}
 
 \subsection{Safe tails and concavity}
