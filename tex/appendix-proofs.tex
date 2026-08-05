@@ -61,7 +61,7 @@ canonical contract is
 \subsection{Solution of the relaxed problem}
 \label{subsec:appendix-relaxed}
 
-We now prove the characterization Proposition \ref{prop:relaxed-optimal-contract}. This is a standard argument made in similar models \parencite{holmstrom1978incentives,jewitt2008moral} that we include for completeness.
+This section proves the characterization Proposition \ref{prop:relaxed-optimal-contract}. This is a standard argument made in similar models \parencite{holmstrom1978incentives,jewitt2008moral} that we include for completeness.
 
 \begin{lemma}[Pointwise minimization]
 \label{lem:lagrangian}
@@ -288,18 +288,16 @@ contradicting binding IR.  Hence $C^*$ is strictly increasing.
 Finally, consider two distinct reservation utilities in $(U_L,U_R)$.  Because
 IR binds, their optimal contracts are distinct.  A strict convex combination
 of these contracts satisfies LIC and delivers the corresponding convex
-combination of reservation utilities.  Strict convexity of expected cost
+combination of reservation utilities.  Strict convexity of expected cost pointwise in $y$
 therefore implies that $C^*$ is strictly convex on $(U_L,U_R)$.
 \end{proof}
 
 \subsection{Safe tails and concavity}
 \label{subsec:appendix-safe-tail}
 
-This subsection proves Proposition \ref{prop:concave}.  We retain the cutoff
-itself in the proof because doing so handles bounded supports, nonmonotone
-scores, and score atoms without separate arguments.
+This section proves Proposition \ref{prop:concave}.
 
-For a safe cutoff $q\in\mathcal Q_{\mathrm{safe}}$, define
+For any cutoff $q\leq0$, define
 \begin{align}
     \Capq(q)&:=-\int_{\{s(y)\leq q\}}s(y)f(y\mid a_0)\,d\nu(y),
     \label{eq:cutoff-capacity}\\
@@ -307,26 +305,22 @@ For a safe cutoff $q\in\mathcal Q_{\mathrm{safe}}$, define
     \int_{\{s(y)>q\}}[s(y)f_{aa}(y\mid a)]_+\,d\nu(y).
     \label{eq:cutoff-curvature}
 \end{align}
-The weak inequality assigns an atom at $q$ to the safe, no-payment side; the
-strict inequality in \eqref{eq:cutoff-curvature} is its complement.  As $q$
-increases through safe cutoffs, $\Capq(q)$ increases and $\Curvq(q)$ decreases.
+$\Capq(q)$ is weakly increasing in $q$, while
+$\Curvq(q)$ is weakly decreasing.
 Moreover,
-\[
- \sup_{q<\bar q_{\mathrm{safe}},\ q\in\mathcal Q_{\mathrm{safe}}}\Capq(q)
- =\mathrm{Cap}_{\mathrm{safe}},
- \qquad
+\begin{align*}
+ \sup_{q\in\operatorname{int}(\mathcal Q_{\mathrm{safe}})}\Capq(q)
+ &=\mathrm{Cap}_{\mathrm{safe}},\\
  \inf_{q\in\mathcal Q_{\mathrm{safe}}}\Curvq(q)
- =\mathrm{Curv}_{\mathrm{safe}}.
-\]
-The strict set in the definition of $\mathrm{Cap}_{\mathrm{safe}}$ is what
-makes the first identity valid even at a rightmost safe score atom.
+ &=\mathrm{Curv}_{\mathrm{safe}}.
+\end{align*}
 
-For $\lambda>m_0$ and $q<0$, define the trial multiplier
+For $\lambda>m_0$ and $q<0$, define
 \begin{equation}
     \mu_q(\lambda):=\frac{m_0-\lambda}{q}>0.
     \label{eq:trial-multiplier}
 \end{equation}
-It places the limited-liability kink exactly at $q$.
+as the multiplier that places the limited-liability kink exactly at $q$.
 
 \begin{lemma}[Kink placement]
 \label{lem:kink-placement}
