@@ -241,63 +241,55 @@ and
 \end{equation}
 Set $\mu=\widetilde\mu(\lambda)$ and
 $v^*_{\bar U}=v_\lambda$.  By construction, $v^*_{\bar U}$ is canonical and
-satisfies LIC, and IR.  By Lemma
+satisfies LIC and IR.  By Lemma
 \ref{lem:lagrangian}, $v^*_{\bar U}$ minimizes the Lagrangian (almost everywhere uniquely) and satisfies complementary slackness equation \eqref{eq:candidate-complementary-slackness}. The
 standard Lagrangian sufficiency argument implies that $v^*_{\bar U}$ is the almost
 everywhere unique solution of the relaxed problem.
 
-\emph{Part (ii).}  Part (i) shows that the relaxed-optimal contract is $v_0$
-for every $\bar U\leq U_L$, and that IR binds when
-$\bar U\in(U_L,U_R)$.  On the latter region, let
+\emph{Part (ii).}  If $\bar U\leq U_L$, then $\lambda=0$ satisfies
+\eqref{eq:candidate-ir} and
+\eqref{eq:candidate-complementary-slackness}, so part (i) gives
+$v^*_{\bar U}=v_0$.  Thus the relaxed-optimal contract is constant on this
+region.  If $\bar U\in(U_L,U_R)$, the multiplier constructed in part (i) is
+positive, so complementary slackness implies that IR binds.
+
+On $(U_L,U_R)$, the set of associated IR multipliers is
 \[
     \Lambda(\bar U)
-    :=\{\lambda\geq0:\widetilde U(\lambda)=\bar U\}.
+    =\widetilde U^{-1}(\bar U)
+    =\{\lambda\geq0:\widetilde U(\lambda)=\bar U\}.
 \]
-Every $\lambda\in\Lambda(\bar U)$ supports the relaxed solution by the argument
-in part (i).  Conversely, Lemmas \ref{lem:lagrangian} and
-\ref{lem:mu-tilde} imply that a relaxed solution supported by an IR multiplier
-$\lambda$ is $v_\lambda$; binding IR then gives
-$\widetilde U(\lambda)=\bar U$.  Thus $\Lambda(\bar U)$ is exactly the set of
-associated IR multipliers.  Continuity and monotonicity of $\widetilde U$ make
-this set a nonempty closed interval, and it is bounded because $\bar U<U_R$.
-Hence it has a smallest element.
+To see this, suppose first that $\lambda$ is an IR multiplier associated with
+the solution.  Lemmas \ref{lem:lagrangian} and \ref{lem:mu-tilde} imply that
+the solution is $v_\lambda$.  Binding IR gives
+$\widetilde U(\lambda)=\bar U$.  Conversely, if
+$\widetilde U(\lambda)=\bar U$, then part (i) shows that $v_\lambda$ is the
+relaxed solution with IR multiplier $\lambda$.
 
-If $U_L<T_1<T_2<U_R$, monotonicity of $\widetilde U$ gives
-\[
-    \lambda_1<\lambda_2
-    \qquad
-    \text{for every }\lambda_i\in\Lambda(T_i).
-\]
-Moreover, for every finite $M$, Lemma \ref{lem:no-terminal-flat} gives
-$\widetilde U(M)<U_R$.  Hence, once $\bar U>\widetilde U(M)$, every
-$\lambda\in\Lambda(\bar U)$ exceeds $M$.  Therefore
-\[
-    \min\Lambda(\bar U)\longrightarrow\infty
-    \quad\text{as }\bar U\uparrow U_R.
-\]
-This proves part (ii).
+Lemma \ref{lem:pareto-problem} shows that $\widetilde U$ is continuous and
+nondecreasing.  Together with part (i) and
+$\widetilde U(\lambda)\to U_R$, this implies that each $\Lambda(\bar U)$ is a
+nonempty compact interval and that the multipliers are strictly ordered by
+reservation utility as stated in the proposition.
 
-\emph{Part (iii).}  The value $C^*$ is constant below $U_L$ by part (ii).  To
-show strict convexity on $(U_L,U_R)$, take $T_1\neq T_2$ in this interval and
-let $v_1,v_2$ be their optimal contracts.  IR binds, so these contracts are
-distinct.  For $t\in(0,1)$, the contract
-$v_t:=tv_1+(1-t)v_2$ satisfies LIC and delivers utility
-$T_t:=tT_1+(1-t)T_2$.  Strict convexity of $k$ therefore gives
-\[
-    C^*(T_t)
-    \leq \widehat C(v_t,a_0)
-    <tC^*(T_1)+(1-t)C^*(T_2).
-\]
+Finally, fix any finite $M$.  Lemma \ref{lem:no-terminal-flat} gives
+$\widetilde U(M)<U_R$.  Hence, whenever
+$\bar U>\widetilde U(M)$, every element of
+$\widetilde U^{-1}(\bar U)$ exceeds $M$.  Therefore the smallest multiplier associated with $\bar U$ diverges to
+infinity as $\bar U\uparrow U_R$.
 
-Finally, suppose $U_L<T_1<T_2<U_R$ and take
-$\lambda_1\in\Lambda(T_1)$.  Lemma \ref{lem:pareto-problem} gives
-\[
-    C^*(T_2)-\lambda_1T_2
-    \geq C^*(T_1)-\lambda_1T_1.
-\]
-Since $T_1>U_L$, we have $\lambda_1>0$, and hence
-$C^*(T_2)>C^*(T_1)$.  Thus $C^*$ is strictly increasing and strictly convex on
-$(U_L,U_R)$, proving part (iii).
+\emph{Part (iii).}  The value $C^*$ is constant below $U_L$ by part (ii).
+On $(U_L,U_R)$, the feasible sets are nested in reservation utility, so
+$C^*$ is weakly increasing.  If $T_1<T_2$ and the two optimal costs were
+equal, the optimal contract at $T_2$ would also solve the problem at $T_1$.
+Almost everywhere uniqueness would then make the two optimal contracts equal,
+contradicting binding IR.  Hence $C^*$ is strictly increasing.
+
+Finally, consider two distinct reservation utilities in $(U_L,U_R)$.  Because
+IR binds, their optimal contracts are distinct.  A strict convex combination
+of these contracts satisfies LIC and delivers the corresponding convex
+combination of reservation utilities.  Strict convexity of expected cost
+therefore implies that $C^*$ is strictly convex on $(U_L,U_R)$.
 \end{proof}
 
 \subsection{Safe tails and concavity}
