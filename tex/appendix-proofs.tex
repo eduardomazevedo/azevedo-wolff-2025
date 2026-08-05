@@ -15,7 +15,9 @@ and $k:=u^{-1}$.
 It will be convenient to parametrize contracts in utility units because this makes the relaxed problem
 a convex program with linear constraints. Given a (payment) contract $w$, define the \textbf{utility contract} parametrization by
 $v(y):=u(w_0+w(y))$.  Conversely, a utility contract $v$ corresponds to the
-payment contract $w(y) = k(v)-w_0$. Define
+payment contract $w(y) = k(v)-w_0$. Henceforth, throughout the proofs appendix, we work with this equivalent utility parametrization and refer to utility contracts simply as contracts.
+
+Define
 \begin{align*}
     \widehat U(v,a)&:=\int v(y)f(y\mid a)\,d\nu(y)-c(a),\\
     \widehat C(v,a)&:=\int [k(v(y))-w_0]f(y\mid a)\,d\nu(y).
@@ -42,7 +44,7 @@ Define the feasible-contract set in utility units by
     k(v)-w_0\in\mathcal W\right\}.
 \]
 $\mathcal V$ is convex: differentiation is preserved by convex combinations, and
-convexity of $k$ preserves finiteness of expected compensation cost. In the remainder of the appendix, we work with this equivalent utility parametrization of contracts and refer to utility contracts simply as contracts.
+convexity of $k$ preserves finiteness of expected compensation cost.
 
 Define the utility links
 \begin{eqnarray*}
@@ -226,33 +228,23 @@ $v(y)\geq\bar u$, a contradiction with $v$ being feasible.
 \end{proof}
 
 \begin{proof}[Proof of Proposition \ref{prop:relaxed-optimal-contract}]
-\emph{Part (i).}  Suppose first that $\bar U\leq U_L$.  The contract $v_0$
-satisfies LIC and delivers utility $U_L$, so it is relaxed-feasible.  Lemma
-\ref{lem:pareto-problem} with $\lambda=0$ says that $v_0$ is the almost
-everywhere unique cost minimizer among all contracts satisfying LIC.  Hence it
-is the almost everywhere unique solution of the relaxed problem.
-
-Now suppose $\bar U\in(U_L,U_R)$.  Continuity of $\widetilde U$ and Lemma
-\ref{lem:no-terminal-flat} give some $\lambda>0$ such that
-$\widetilde U(\lambda)=\bar U$.  The contract $v_\lambda$ satisfies LIC and
-makes IR bind, so it is relaxed-feasible.  For any relaxed-feasible contract
-$v$, Lemma \ref{lem:pareto-problem} gives
-\[
-    \widehat C(v,a_0)-\lambda\widehat U(v,a_0)
-    \geq \widetilde C(\lambda)-\lambda\bar U,
-\]
-with strict inequality unless $v=v_\lambda$ almost everywhere.  Since
-$\widehat U(v,a_0)\geq\bar U$, it follows that
-\[
-    \widehat C(v,a_0)
-    \geq \widetilde C(\lambda)
-      +\lambda[\widehat U(v,a_0)-\bar U]
-    \geq \widetilde C(\lambda),
-\]
-with strict inequality unless $v=v_\lambda$ almost everywhere.  Thus
-$v_\lambda$ is the almost everywhere unique solution of the relaxed problem.
-By construction, $v_\lambda=v_{\lambda,\widetilde\mu(\lambda)}$ is canonical.
-Translating back through $w=k(v)-w_0$ proves part (i).
+\emph{Part (i).}  Fix $\bar U<U_R$.  Continuity of $\widetilde U$ and
+$\widetilde U(\lambda)\to U_R$ ensure that there is a $\lambda\geq0$ such that
+\begin{equation}
+    \widetilde U(\lambda)\geq\bar U,
+    \label{eq:candidate-ir}
+\end{equation}
+and
+\begin{equation}
+    \lambda[\widetilde U(\lambda)-\bar U]=0.
+    \label{eq:candidate-complementary-slackness}
+\end{equation}
+Set $\mu=\widetilde\mu(\lambda)$ and
+$v^*_{\bar U}=v_\lambda$.  By construction, $v^*_{\bar U}$ is canonical and
+satisfies LIC, and IR.  By Lemma
+\ref{lem:lagrangian}, $v^*_{\bar U}$ minimizes the Lagrangian (almost everywhere uniquely) and satisfies complementary slackness equation \eqref{eq:candidate-complementary-slackness}. The
+standard Lagrangian sufficiency argument implies that $v^*_{\bar U}$ is the almost
+everywhere unique solution of the relaxed problem.
 
 \emph{Part (ii).}  Part (i) shows that the relaxed-optimal contract is $v_0$
 for every $\bar U\leq U_L$, and that IR binds when
