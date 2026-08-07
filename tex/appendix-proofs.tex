@@ -508,42 +508,9 @@ The definition of $\Curvq(q)$ in \eqref{eq:cutoff-curvature} now yields
 \eqref{eq:curvature-split}.
 \end{proof}
 
-The two preceding lemmas imply the following finite-$\lambda$ bound, which is
-the precise version of the argument in the main text.
+To control the trial-multiplier term, we first record the following elementary
+limit.
 
-\begin{proposition}[Finite-$\lambda$ safe-tail bound]
-\label{prop:finite-lambda-bound}
-Suppose $\ell_0$ is concave.  Let $q_0<q_1\leq0$ be safe cutoffs such that
-\[
-    \Delta u\,\Capq(q_0)>c'(a_0),
-    \qquad \Curvq(q_1)<\infty.
-\]
-For all sufficiently large $\lambda$,
-\begin{equation}
- \sup_{a\in\mathcal A}U_{aa}(w_{\lambda,\widetilde\mu},a)
- \leq
- \mu_{q_0}(\lambda)
- \ell_0'\bigl(\lambda+\mu_{q_0}(\lambda)q_1\bigr)\Curvq(q_1)
- -\underline c''.
- \label{eq:finite-lambda-bound}
-\end{equation}
-\end{proposition}
-
-\begin{proof}
-Lemma \ref{lem:kink-placement} gives
-$q^{\mathrm{kink}}(\lambda)\leq q_0$ and
-$\widetilde\mu\leq\mu_{q_0}$.  Apply Lemma
-\ref{lem:curvature-split} at $q_1$.  Because $q_1\leq0$ and $\ell_0'$ is
-nonincreasing, the map
-\[
-    \mu\longmapsto \mu\ell_0'(\lambda+\mu q_1)
-\]
-is nondecreasing on the relevant nonbinding range.  Replacing
-$\widetilde\mu$ by $\mu_{q_0}$ and using
-$c''(a)\geq\underline c''$ gives \eqref{eq:finite-lambda-bound}.
-\end{proof}
-
-To bound the expression in the proposition, we will use the following lemma which follows from basic algebra.
 \begin{lemma}[Trial-multiplier slope limit]
 \label{lem:trial-multiplier-slope}
 Fix $q_0<q_1\leq0$ and suppose
@@ -579,13 +546,63 @@ $z_{01}(\lambda)\to\infty$ and
     &=&\frac{\mu_{q_0}(\lambda)}
     {m_0+\mu_{q_0}(\lambda)(q_1-q_0)}\\
     &\longrightarrow&\frac{1}{q_1-q_0}.
-\end{eqnarray*}  Therefore,
+\end{eqnarray*}
+Therefore,
 \begin{align*}
     \mu_{q_0}(\lambda)\ell_0'(z_{01}(\lambda))
     ={}&\frac{\mu_{q_0}(\lambda)}{z_{01}(\lambda)}
     \left[z_{01}(\lambda)\ell_0'(z_{01}(\lambda))\right]\\
     \longrightarrow{}&\frac{L}{q_1-q_0}.
 \end{align*}
+\end{proof}
+
+The preceding lemmas now yield both a finite-$\lambda$ bound and its
+asymptotic consequence.
+
+\begin{proposition}[Safe-tail curvature bound]
+\label{prop:finite-lambda-bound}
+Suppose $\ell_0$ is concave.  Let $q_0<q_1\leq0$ be safe cutoffs such that
+\[
+    \Delta u\,\Capq(q_0)>c'(a_0),
+    \qquad \Curvq(q_1)<\infty.
+\]
+For all sufficiently large $\lambda$,
+\begin{equation}
+ \sup_{a\in\mathcal A}U_{aa}(w_{\lambda,\widetilde\mu},a)
+ \leq
+ \mu_{q_0}(\lambda)
+ \ell_0'\bigl(\lambda+\mu_{q_0}(\lambda)q_1\bigr)\Curvq(q_1)
+ -\underline c''.
+ \label{eq:finite-lambda-bound}
+\end{equation}
+Moreover, if
+\[
+    \lim_{z\to\infty}z\ell_0'(z)=L<\infty,
+\]
+then
+\begin{equation}
+ \limsup_{\lambda\to\infty}\sup_{a\in\mathcal A}
+ U_{aa}(w_{\lambda,\widetilde\mu},a)
+ \leq
+ \frac{L\,\Curvq(q_1)}{q_1-q_0}-\underline c''.
+ \label{eq:asymptotic-safe-tail-bound}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Lemma \ref{lem:kink-placement} gives
+$q^{\mathrm{kink}}(\lambda)\leq q_0$ and
+$\widetilde\mu\leq\mu_{q_0}$.  Apply Lemma
+\ref{lem:curvature-split} at $q_1$.  Because $q_1\leq0$ and $\ell_0'$ is
+nonincreasing, the map
+\[
+    \mu\longmapsto \mu\ell_0'(\lambda+\mu q_1)
+\]
+is nondecreasing on the relevant nonbinding range.  Replacing
+$\widetilde\mu$ by $\mu_{q_0}$ and using
+$c''(a)\geq\underline c''$ gives \eqref{eq:finite-lambda-bound}.
+Equation \eqref{eq:asymptotic-safe-tail-bound} then follows from Lemma
+\ref{lem:trial-multiplier-slope}.
 \end{proof}
 
 We now show that $U_{aa}$ is negative under each branch of the
@@ -619,24 +636,16 @@ $q_0$ is an interior safe cutoff therefore allow us to choose a safe cutoff
 $q_1\in(q_0,0]$ with $\Curvq(q_1)<\infty$.
 
 Condition \eqref{condition:U2}, through Remark
-\ref{rem:link-flattening}, gives $z\ell_0'(z)\to0$.  Lemma
-\ref{lem:trial-multiplier-slope} therefore gives
+\ref{rem:link-flattening}, gives $z\ell_0'(z)\to0$.  The asymptotic conclusion
+of Proposition \ref{prop:finite-lambda-bound}, applied with $L=0$, therefore
+gives
 \[
- \mu_{q_0}(\lambda)
- \ell_0'\bigl(\lambda+\mu_{q_0}(\lambda)q_1\bigr)
- \longrightarrow0.
+ \limsup_{\lambda\to\infty}\sup_{a\in\mathcal A}
+ U_{aa}(w_{\lambda,\widetilde\mu},a)
+ \leq-\underline c''<0,
 \]
-Because $\Curvq(q_1)<\infty$, the same limit holds after multiplication by
-$\Curvq(q_1)$.
-
-Proposition \ref{prop:finite-lambda-bound} now implies
-\[
-    \sup_{a\in\mathcal A}
-    U_{aa}(w_{\lambda,\widetilde\mu},a)
-    \leq-\underline c''+o(1).
-\]
-Finally, branch (i) assumes $\underline c''>0$, so the right-hand side is
-strictly negative for all sufficiently large $\lambda$.
+where the strict inequality uses the assumption $\underline c''>0$ in branch
+(i).
 \end{proof}
 
 \begin{lemma}[Log-utility branch]
@@ -662,14 +671,9 @@ This remains true with score atoms: choose $q_0$ inside the essential support,
 and assign a cutoff atom to the weakly safe side as in
 \eqref{eq:cutoff-capacity}.  Since log utility is unbounded above, the first
 inequality is precisely the capacity condition in Lemma
-\ref{lem:kink-placement}.  Moreover, $z\ell_0'(z)=1$.  Lemma
-\ref{lem:trial-multiplier-slope} therefore gives
-\[
- \mu_{q_0}(\lambda)
- \ell_0'\bigl(\lambda+\mu_{q_0}(\lambda)q_1\bigr)
- \longrightarrow\frac1{q_1-q_0}.
-\]
-Proposition \ref{prop:finite-lambda-bound} now implies
+\ref{lem:kink-placement}.  Moreover, $z\ell_0'(z)=1$.  The asymptotic
+conclusion of Proposition \ref{prop:finite-lambda-bound}, applied with $L=1$,
+therefore gives
 \[
  \limsup_{\lambda\to\infty}\sup_{a\in\mathcal A}
  U_{aa}(w_{\lambda,\widetilde\mu},a)
