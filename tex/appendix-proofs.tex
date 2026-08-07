@@ -58,10 +58,11 @@ canonical contract is
 \]
 
 
-\subsection{Solution of the relaxed problem}
+
+\subsection{Proof of the characterization proposition \ref{prop:relaxed-optimal-contract}}
 \label{subsec:appendix-relaxed}
 
-This section proves the characterization Proposition \ref{prop:relaxed-optimal-contract}. This is a standard argument made in similar models \parencite{holmstrom1978incentives,jewitt2008moral} that we include for completeness.
+This section proves the characterization proposition \ref{prop:relaxed-optimal-contract}. This is a standard argument made in similar models \parencite{holmstrom1978incentives,jewitt2008moral}. We include it for completeness.
 
 \begin{lemma}[Pointwise minimization]
 \label{lem:lagrangian}
@@ -292,10 +293,10 @@ combination of reservation utilities.  Strict convexity of expected cost pointwi
 therefore implies that $C^*$ is strictly convex on $(U_L,U_R)$.
 \end{proof}
 
-\subsection{Safe tails and concavity}
+\subsection{Proof of asymptotic concavity proposition \ref{prop:concave}}
 \label{subsec:appendix-safe-tail}
 
-This section proves Proposition \ref{prop:concave}.
+This section proves proposition \ref{prop:concave}.
 
 For any cutoff $q\leq0$, define
 \begin{align}
@@ -315,12 +316,18 @@ Moreover,
  &=\mathrm{Curv}_{\mathrm{safe}}.
 \end{align*}
 
-For $\lambda>m_0$ and $q<0$, define
+For $\lambda>m_0$, define the \textbf{kink cutoff} by
+\[
+    q^{\mathrm{kink}}(\lambda)
+    :=\frac{m_0-\lambda}{\widetilde\mu(\lambda)}<0.
+\]
+Thus, limited liability binds exactly when
+$s(y)\leq q^{\mathrm{kink}}(\lambda)$.  For any trial cutoff $q<0$, define
 \begin{equation}
     \mu_q(\lambda):=\frac{m_0-\lambda}{q}>0.
     \label{eq:trial-multiplier}
 \end{equation}
-as the multiplier that places the limited-liability kink exactly at $q$.
+This is the multiplier that places the kink cutoff exactly at $q$.
 
 \begin{lemma}[Kink placement]
 \label{lem:kink-placement}
@@ -328,32 +335,43 @@ Fix $q<0$.  If
 \[
     \Delta u\,\Capq(q)>c'(a_0),
 \]
-where an infinite utility spread times positive capacity is interpreted as
-infinity, then, for all sufficiently large $\lambda$,
+then, for all sufficiently large $\lambda$, the kink cutoff is weakly below
+$q$:
 \[
-    \widetilde\mu(\lambda)\leq\mu_q(\lambda)=O(\lambda),
-    \qquad
-    \frac{m_0-\lambda}{\widetilde\mu(\lambda)}\leq q.
+    q^{\mathrm{kink}}(\lambda)\leq q.
 \]
-Tail safety is not needed for this lemma.
+Equivalently,
+\[
+    \widetilde\mu(\lambda)\leq\mu_q(\lambda).
+\]
 \end{lemma}
 
 \begin{proof}
-At $\mu_q(\lambda)$, scores weakly below $q$ receive $\underline u$.
-Centering the local-incentive expression at $\ell(\lambda)$ gives
-\[
- \int[\ell(\lambda+\mu_q(\lambda)s(y))-\ell(\lambda)]s(y)
- f(y\mid a_0)\,d\nu(y)
- \geq[\ell(\lambda)-\underline u]\Capq(q).
-\]
-The omitted contributions are nonnegative: on negative scores both the utility
-difference and the score are nonpositive, while on positive scores both are
-nonnegative.  As $\lambda\to\infty$, the right-hand side converges to
-$\Delta u\,\Capq(q)$ and therefore eventually exceeds $c'(a_0)$.  Monotonicity
-of the local-incentive expression in $\mu$ and uniqueness of the LIC multiplier
-imply $\widetilde\mu\leq\mu_q$.  Since $m_0-\lambda<0$, division by the smaller
-positive multiplier moves the cutoff weakly to the left, proving the second
-inequality.
+For $\lambda>m_0$, evaluate the LIC integral at the trial multiplier
+$\mu_q(\lambda)$:
+\begin{align*}
+ &\int \ell\bigl(\lambda+\mu_q(\lambda)s(y)\bigr)s(y)
+ f(y\mid a_0)\,d\nu(y)\\
+ &=\int\left[\ell\bigl(\lambda+\mu_q(\lambda)s(y)\bigr)
+              -\ell(\lambda)\right]s(y)f(y\mid a_0)\,d\nu(y)\\
+ &\geq\int_{\{s(y)\leq q\}}
+ \left[\ell\bigl(\lambda+\mu_q(\lambda)s(y)\bigr)
+              -\ell(\lambda)\right]s(y)f(y\mid a_0)\,d\nu(y)\\
+ &=\bigl[\ell(\lambda)-\underline u\bigr]\Capq(q).
+\end{align*}
+The first equality uses the mean-zero property of the score.  The inequality
+follows because $\ell$ is increasing, so the centered integrand is
+nonnegative.  On $\{s(y)\leq q\}$,
+$\lambda+\mu_q(\lambda)s(y)\leq m_0$, and hence
+$\ell(\lambda+\mu_q(\lambda)s(y))=\underline u$; the final equality then
+follows from the definition of $\Capq(q)$.
+
+As $\lambda\to\infty$, the final expression converges to
+$\Delta u\,\Capq(q)>c'(a_0)$.  Thus, for all sufficiently large $\lambda$, the LIC integral evaluated at
+$\mu_q(\lambda)$ exceeds $c'(a_0)$.  Monotonicity in $\mu$ and uniqueness of
+the LIC multiplier therefore imply
+$\widetilde\mu(\lambda)\leq\mu_q(\lambda)$.  Because $m_0-\lambda<0$, this
+is equivalent to $q^{\mathrm{kink}}(\lambda)\leq q$.
 \end{proof}
 
 Fix $\lambda>m_0$, abbreviate
@@ -384,9 +402,8 @@ then gives the identity.
 \begin{lemma}[Curvature split]
 \label{lem:curvature-split}
 Fix $\lambda>m_0$ and suppose \eqref{condition:U1} holds.  If
-$q\in\mathcal Q_{\mathrm{safe}}$, $\Curvq(q)<\infty$, and the
-limited-liability cutoff is weakly below $q$, then, for every
-$a\in\mathcal A$,
+$q\in\mathcal Q_{\mathrm{safe}}$, $\Curvq(q)<\infty$, and
+$q^{\mathrm{kink}}(\lambda)\leq q$, then, for every $a\in\mathcal A$,
 \begin{equation}
  U_{aa}(w_{\lambda,\widetilde\mu},a)
  \leq
@@ -438,7 +455,8 @@ For all sufficiently large $\lambda$,
 \end{proposition}
 
 \begin{proof}
-Lemma \ref{lem:kink-placement} puts the kink weakly below $q_0$ and gives
+Lemma \ref{lem:kink-placement} gives
+$q^{\mathrm{kink}}(\lambda)\leq q_0$ and
 $\widetilde\mu\leq\mu_{q_0}$.  Apply Lemma
 \ref{lem:curvature-split} at $q_1$.  Because $q_1\leq0$ and $\ell_0'$ is
 nonincreasing, the map
