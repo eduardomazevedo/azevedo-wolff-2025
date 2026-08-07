@@ -57,7 +57,76 @@ canonical contract is
     v_{\lambda,\mu}(y):=\ell(\lambda+\mu s(y)).
 \]
 
+\subsection{Utility Conditions in Link Form}
+\label{subsec:appendix-link-conditions}
 
+Our utility conditions imply the following properties of the utility link $\ell_0$.
+
+\begin{remark}[Concavity of the utility link]
+\label{rem:link-concavity}
+If condition \eqref{condition:U1} holds, then $\ell_0$ is concave on
+$[m_0,\infty)$.
+\end{remark}
+
+\begin{proof}
+For $z>m_0$, let $W=W(z)$ be determined by
+$z=1/u'(W)$, so that $\ell_0(z)=u(W(z))$.  Suppressing the argument
+$W(z)$ below, differentiation gives
+\[
+    W'(z)=-\frac{u'^2}{u''}>0.
+\]
+Hence
+\[
+    \ell_0'(z)=u'W'(z)
+    =-\frac{u'^3}{u''}>0.
+\]
+Differentiating again,
+\begin{eqnarray*}
+    \ell_0''(z)
+    &=&W'(z)\frac{d}{dW}
+       \left(-\frac{u'^3}{u''}\right)\\
+    &=&W'(z)u'^2
+       \left[\frac{u'u'''}{u''^2}-3\right]\\
+    &=&W'(z)u'^2
+       \left[\frac{P}{A}-3\right].
+\end{eqnarray*}
+Condition \eqref{condition:U1} implies $P>0$ and $P/A\leq3$.
+Therefore $\ell_0''(z)\leq0$.
+\end{proof}
+
+\begin{remark}[Asymptotic flattening of the utility link]
+\label{rem:link-flattening}
+Condition \eqref{condition:U2} is equivalent to
+\[
+    \lim_{z\to\infty}z\ell_0'(z)=0.
+\]
+\end{remark}
+
+\begin{proof}
+For $z>m_0$, let $W=W(z)$ be determined by
+$z=1/u'(W)$.  Since $u'$ is strictly decreasing to zero,
+$z\to\infty$ if and only if $W(z)\to\infty$.
+
+Implicit differentiation gives
+\[
+    W'(z)=\frac{u'(W)}{A(W)}.
+\]
+Consequently,
+\[
+    \ell_0'(z)
+    =u'(W)W'(z)
+    =\frac{u'(W)^2}{A(W)}.
+\]
+Using $z=1/u'(W)$,
+\[
+    z\ell_0'(z)
+    =\frac{u'(W)}{A(W)}
+    =\left[\frac{A(W)}{u'(W)}\right]^{-1}.
+\]
+The ratio in brackets is positive, so condition
+\eqref{condition:U2} is equivalent to
+$\lim_{z\to\infty}z\ell_0'(z)=0$.
+\end{proof}
 
 \subsection{Proof of the characterization proposition \ref{prop:relaxed-optimal-contract}}
 \label{subsec:appendix-relaxed}
@@ -395,13 +464,12 @@ For $\lambda>m_0$ and every $a\in\mathcal A$,
 
 \begin{proof}
 Add and subtract the constant $\ell(\lambda)$ and use
-$\int f_{aa}(y\mid a)d\nu(y)=0$.  The maintained differentiation condition
-then gives the identity.
+$\int f_{aa}(y\mid a)d\nu(y)=0$.
 \end{proof}
 
 \begin{lemma}[Curvature split]
 \label{lem:curvature-split}
-Fix $\lambda>m_0$ and suppose \eqref{condition:U1} holds.  If
+Fix $\lambda>m_0$ and suppose $\ell_0$ is concave.  If
 $q\in\mathcal Q_{\mathrm{safe}}$, $\Curvq(q)<\infty$, and
 $q^{\mathrm{kink}}(\lambda)\leq q$, then, for every $a\in\mathcal A$,
 \begin{equation}
@@ -414,15 +482,6 @@ At $m_0$, the derivative is the right derivative.
 \end{lemma}
 
 \begin{proof}
-Because $A>0$, condition \eqref{condition:U1} entails $P>0$ and is equivalent
-to $3A\geq P$.  On the nonbinding region,
-\[
-    \frac{d}{dW}\log\ell_0'(z(W))=P(W)-3A(W),
-    \qquad z(W)=\frac1{u'(W)}.
-\]
-Since $z$ is increasing in $W$, this proves that $\ell_0$ is concave; it is
-increasing because utility is strictly increasing.
-
 On $\{s\leq q\}$, tail safety gives $f_{aa}\geq0$, while $s\leq0$ and
 $D_\lambda\ell\geq0$.  This region therefore contributes weakly negatively
 to \eqref{eq:curvature-identity}.  On $\{s>q\}$ the contract is above the
@@ -437,8 +496,7 @@ the precise version of the argument in the main text.
 
 \begin{proposition}[Finite-$\lambda$ safe-tail bound]
 \label{prop:finite-lambda-bound}
-Suppose \eqref{condition:U1} holds.  Let
-$q_0<q_1\leq0$ be safe cutoffs such that
+Suppose $\ell_0$ is concave.  Let $q_0<q_1\leq0$ be safe cutoffs such that
 \[
     \Delta u\,\Capq(q_0)>c'(a_0),
     \qquad \Curvq(q_1)<\infty.
@@ -469,14 +527,7 @@ $c''(a)\geq\underline c''$ gives \eqref{eq:finite-lambda-bound}.
 \end{proof}
 
 We now verify that the right-hand side is negative under each branch of the
-main theorem.  On the nonbinding region, if $W=L_0(z)$, differentiation gives
-\begin{equation}
-    L_0'(z)=\frac{u'(W)}{A(W)},
-    \qquad z\ell_0'(z)=L_0'(z).
-    \label{eq:link-derivatives}
-\end{equation}
-Thus \eqref{condition:U2} is equivalent to
-$z\ell_0'(z)\to0$.
+main theorem.
 
 \begin{lemma}[Sufficient-risk-aversion branch]
 \label{lem:risk-aversion-branch}
@@ -488,8 +539,8 @@ for all sufficiently large $\lambda$.
 \end{lemma}
 
 \begin{proof}
-The strict aggregate capacity inequality and the endpoint convention provide a
-safe $q_0<0$ with
+By Remark \ref{rem:link-concavity}, $\ell_0$ is concave.  The strict aggregate
+capacity inequality and the endpoint convention provide a safe $q_0<0$ with
 $\Delta u\,\Capq(q_0)>c'(a_0)$.  Since safe cutoffs form a lower interval and
 $\mathrm{Curv}_{\mathrm{safe}}<\infty$, we may choose a safe
 $q_1\in(q_0,0]$ with $\Curvq(q_1)<\infty$.  Put
@@ -500,8 +551,9 @@ $z_{01}(\lambda)=\lambda+\mu_{q_0}(\lambda)q_1$.  Then
     z_{01}(\lambda)\sim
     \lambda\left(1-\frac{q_1}{q_0}\right),
 \]
-and the coefficient in parentheses is strictly positive.  By
-\eqref{eq:link-derivatives},
+and the coefficient in parentheses is strictly positive.  Remark
+\ref{rem:link-flattening} gives
+$z\ell_0'(z)\to0$, and hence
 \[
  \mu_{q_0}(\lambda)\ell_0'(z_{01}(\lambda))\Curvq(q_1)
  \longrightarrow0.
@@ -520,7 +572,8 @@ for all sufficiently large $\lambda$.
 \end{lemma}
 
 \begin{proof}
-For log utility, $\ell_0'(z)=1/z$ and $\Delta u=\infty$.  The strict
+For log utility, $\ell_0(z)=\log z$ is concave,
+$\ell_0'(z)=1/z$, and $\Delta u=\infty$.  The strict
 curvature--width inequality, together with the definitions as an infimum and a
 supremum, permits safe cutoffs $q_0<q_1\leq0$ such that
 \[

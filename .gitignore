@@ -36,6 +36,7 @@ Icon?
 .Trashes
 
 # Ignore other temp files
+tmp/
 *~
 *.swp
 *.bak
