@@ -378,12 +378,14 @@ For any cutoff $q\leq0$, define
 $\Capq(q)$ is weakly increasing in $q$, while
 $\Curvq(q)$ is weakly decreasing.
 Moreover,
-\begin{align*}
+\begin{align}
  \sup_{q\in\operatorname{int}(\mathcal Q_{\mathrm{safe}})}\Capq(q)
- &=\mathrm{Cap}_{\mathrm{safe}},\\
+ &=\mathrm{Cap}_{\mathrm{safe}},
+ \label{eq:cutoff-capacity-limit}\\
  \inf_{q\in\mathcal Q_{\mathrm{safe}}}\Curvq(q)
  &=\mathrm{Curv}_{\mathrm{safe}}.
-\end{align*}
+ \label{eq:cutoff-curvature-limit}
+\end{align}
 
 For $\lambda>m_0$, define the \textbf{kink cutoff} by
 \[
@@ -444,7 +446,7 @@ is equivalent to $q^{\mathrm{kink}}(\lambda)\leq q$.
 \end{proof}
 
 Fix $\lambda>m_0$, abbreviate
-$\widetilde\mu=\widetilde\mu(\lambda)$, and set
+$\widetilde\mu=\widetilde\mu(\lambda)$, and define the average slope of the link function as
 \[
     D_\lambda\ell(y):=
     \frac{\ell(\lambda+\widetilde\mu s(y))-\ell(\lambda)}
@@ -485,9 +487,24 @@ At $m_0$, the derivative is the right derivative.
 On $\{s\leq q\}$, tail safety gives $f_{aa}\geq0$, while $s\leq0$ and
 $D_\lambda\ell\geq0$.  This region therefore contributes weakly negatively
 to \eqref{eq:curvature-identity}.  On $\{s>q\}$ the contract is above the
-limited-liability floor.  Concavity of $\ell_0$ bounds every relevant secant
-slope by $\ell_0'(\lambda+\widetilde\mu q)$.  Keeping only the positive part
-of $s f_{aa}$ and using \eqref{eq:cutoff-curvature} proves
+limited-liability floor.  Concavity of $\ell_0$ gives, with the continuous
+extension at $s(y)=0$,
+\[
+    D_\lambda\ell(y)
+    \leq \ell_0'(\lambda+\widetilde\mu q)
+    \quad\text{for }s(y)>q.
+\]
+
+Therefore,
+\begin{eqnarray*}
+ U_{aa}(w_{\lambda,\widetilde\mu},a)
+ &=&\widetilde\mu\int D_\lambda\ell(y)s(y)f_{aa}(y\mid a)\,d\nu(y)-c''(a)\\
+ &\leq&\widetilde\mu\int_{\{s(y)>q\}}
+ D_\lambda\ell(y)s(y)f_{aa}(y\mid a)\,d\nu(y)-c''(a)\\
+ &\leq&\widetilde\mu\,\ell_0'(\lambda+\widetilde\mu q)
+ \int_{\{s(y)>q\}}[s(y)f_{aa}(y\mid a)]_+\,d\nu(y)-c''(a).
+\end{eqnarray*}
+The definition of $\Curvq(q)$ in \eqref{eq:cutoff-curvature} now yields
 \eqref{eq:curvature-split}.
 \end{proof}
 
@@ -526,7 +543,52 @@ $\widetilde\mu$ by $\mu_{q_0}$ and using
 $c''(a)\geq\underline c''$ gives \eqref{eq:finite-lambda-bound}.
 \end{proof}
 
-We now verify that the right-hand side is negative under each branch of the
+To bound the expression in the proposition, we will use the following lemma which follows from basic algebra.
+\begin{lemma}[Trial-multiplier slope limit]
+\label{lem:trial-multiplier-slope}
+Fix $q_0<q_1\leq0$ and suppose
+\[
+    \lim_{z\to\infty}z\ell_0'(z)=L<\infty.
+\]
+Then
+\[
+    \mu_{q_0}(\lambda)
+    \ell_0'\bigl(\lambda+\mu_{q_0}(\lambda)q_1\bigr)
+    \longrightarrow
+    \frac{L}{q_1-q_0}.
+\]
+\end{lemma}
+
+\begin{proof}
+By definition of the trial multiplier,
+\[
+    \lambda+\mu_{q_0}(\lambda)q_0=m_0.
+\]
+Set
+\begin{eqnarray*}
+    z_{01}(\lambda)
+    &:=&\lambda+\mu_{q_0}(\lambda)q_1\\
+    &=&\lambda+\mu_{q_0}(\lambda)q_0
+       +\mu_{q_0}(\lambda)(q_1-q_0)\\
+    &=&m_0+\mu_{q_0}(\lambda)(q_1-q_0).
+\end{eqnarray*}
+Because $q_0<0$, $\mu_{q_0}(\lambda)\to\infty$.  Since $q_1-q_0>0$,
+$z_{01}(\lambda)\to\infty$ and
+\begin{eqnarray*}
+    \frac{\mu_{q_0}(\lambda)}{z_{01}(\lambda)}
+    &=&\frac{\mu_{q_0}(\lambda)}
+    {m_0+\mu_{q_0}(\lambda)(q_1-q_0)}\\
+    &\longrightarrow&\frac{1}{q_1-q_0}.
+\end{eqnarray*}  Therefore,
+\begin{align*}
+    \mu_{q_0}(\lambda)\ell_0'(z_{01}(\lambda))
+    ={}&\frac{\mu_{q_0}(\lambda)}{z_{01}(\lambda)}
+    \left[z_{01}(\lambda)\ell_0'(z_{01}(\lambda))\right]\\
+    \longrightarrow{}&\frac{L}{q_1-q_0}.
+\end{align*}
+\end{proof}
+
+We now show that $U_{aa}$ is negative under each branch of the
 main theorem.
 
 \begin{lemma}[Sufficient-risk-aversion branch]
@@ -539,27 +601,42 @@ for all sufficiently large $\lambda$.
 \end{lemma}
 
 \begin{proof}
-By Remark \ref{rem:link-concavity}, $\ell_0$ is concave.  The strict aggregate
-capacity inequality and the endpoint convention provide a safe $q_0<0$ with
-$\Delta u\,\Capq(q_0)>c'(a_0)$.  Since safe cutoffs form a lower interval and
-$\mathrm{Curv}_{\mathrm{safe}}<\infty$, we may choose a safe
-$q_1\in(q_0,0]$ with $\Curvq(q_1)<\infty$.  Put
-$z_{01}(\lambda)=\lambda+\mu_{q_0}(\lambda)q_1$.  Then
+Branch (i) of Theorem \ref{thm:main} imposes condition
+\eqref{condition:U1}, so Remark \ref{rem:link-concavity} implies that
+$\ell_0$ is concave.  The capacity assumption in that branch is
 \[
-    \mu_{q_0}(\lambda)=O(\lambda),
-    \qquad
-    z_{01}(\lambda)\sim
-    \lambda\left(1-\frac{q_1}{q_0}\right),
+    \Delta u\,\mathrm{Cap}_{\mathrm{safe}}>c'(a_0).
 \]
-and the coefficient in parentheses is strictly positive.  Remark
-\ref{rem:link-flattening} gives
-$z\ell_0'(z)\to0$, and hence
+Together with \eqref{eq:cutoff-capacity-limit}, this strict inequality provides
+$q_0\in\operatorname{int}(\mathcal Q_{\mathrm{safe}})$ such that
 \[
- \mu_{q_0}(\lambda)\ell_0'(z_{01}(\lambda))\Curvq(q_1)
+    \Delta u\,\Capq(q_0)>c'(a_0).
+\]
+In particular, $q_0<0$.  The same branch assumes
+$\mathrm{Curv}_{\mathrm{safe}}<\infty$.  Equation
+\eqref{eq:cutoff-curvature-limit}, monotonicity of $\Curvq$, and the fact that
+$q_0$ is an interior safe cutoff therefore allow us to choose a safe cutoff
+$q_1\in(q_0,0]$ with $\Curvq(q_1)<\infty$.
+
+Condition \eqref{condition:U2}, through Remark
+\ref{rem:link-flattening}, gives $z\ell_0'(z)\to0$.  Lemma
+\ref{lem:trial-multiplier-slope} therefore gives
+\[
+ \mu_{q_0}(\lambda)
+ \ell_0'\bigl(\lambda+\mu_{q_0}(\lambda)q_1\bigr)
  \longrightarrow0.
 \]
-Proposition \ref{prop:finite-lambda-bound} and $\underline c''>0$ complete the
-proof.
+Because $\Curvq(q_1)<\infty$, the same limit holds after multiplication by
+$\Curvq(q_1)$.
+
+Proposition \ref{prop:finite-lambda-bound} now implies
+\[
+    \sup_{a\in\mathcal A}
+    U_{aa}(w_{\lambda,\widetilde\mu},a)
+    \leq-\underline c''+o(1).
+\]
+Finally, branch (i) assumes $\underline c''>0$, so the right-hand side is
+strictly negative for all sufficiently large $\lambda$.
 \end{proof}
 
 \begin{lemma}[Log-utility branch]
@@ -585,16 +662,19 @@ This remains true with score atoms: choose $q_0$ inside the essential support,
 and assign a cutoff atom to the weakly safe side as in
 \eqref{eq:cutoff-capacity}.  Since log utility is unbounded above, the first
 inequality is precisely the capacity condition in Lemma
-\ref{lem:kink-placement}.  Moreover,
+\ref{lem:kink-placement}.  Moreover, $z\ell_0'(z)=1$.  Lemma
+\ref{lem:trial-multiplier-slope} therefore gives
 \[
  \mu_{q_0}(\lambda)
- \ell_0'(\lambda+\mu_{q_0}(\lambda)q_1)
- =\frac{\mu_{q_0}(\lambda)}
- {\lambda+\mu_{q_0}(\lambda)q_1}
+ \ell_0'\bigl(\lambda+\mu_{q_0}(\lambda)q_1\bigr)
  \longrightarrow\frac1{q_1-q_0}.
 \]
-The limiting upper bound in Proposition \ref{prop:finite-lambda-bound} is
-strictly negative.
+Proposition \ref{prop:finite-lambda-bound} now implies
+\[
+ \limsup_{\lambda\to\infty}\sup_{a\in\mathcal A}
+ U_{aa}(w_{\lambda,\widetilde\mu},a)
+ \leq\frac{\Curvq(q_1)}{q_1-q_0}-\underline c''<0.
+\]
 \end{proof}
 
 \begin{proof}[Proof of Proposition \ref{prop:concave}]
