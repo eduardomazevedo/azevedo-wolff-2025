@@ -487,33 +487,46 @@ Lemma \ref{lem:kink-placement} gives, for all sufficiently large $\lambda$,
     \widetilde\mu(\lambda)\leq\mu_{q_0}(\lambda).
 \]
 Fix such a $\lambda$, abbreviate
-$\widetilde\mu=\widetilde\mu(\lambda)$, and define the average link slope
+$\widetilde\mu=\widetilde\mu(\lambda)$, and write
 \[
-    D_\lambda\ell(y):=
-    \frac{\ell(\lambda+\widetilde\mu s(y))-\ell(\lambda)}
-         {\widetilde\mu s(y)},
+    \delta_\lambda(s):=
+    \ell(\lambda+\widetilde\mu s)-\ell(\lambda).
 \]
-with its continuous extension at $s(y)=0$.
 
 \emph{Step 2: center and split the curvature.}
 Adding and subtracting $\ell(\lambda)$ and using
 $\int f_{aa}(y\mid a)\,d\nu(y)=0$ gives
 \begin{equation}
  U_{aa}(w_{\lambda,\widetilde\mu},a)
- =\widetilde\mu\int D_\lambda\ell(y)s(y)f_{aa}(y\mid a)\,d\nu(y)-c''(a).
+ =\int \delta_\lambda(s(y))f_{aa}(y\mid a)\,d\nu(y)-c''(a).
  \label{eq:curvature-identity}
 \end{equation}
-On $\{s\leq q_1\}$, tail safety gives $f_{aa}\geq0$, while $s\leq0$ and
-$D_\lambda\ell\geq0$.  This region therefore contributes weakly negatively.
-On $\{s>q_1\}$ the contract is above the limited-liability floor, and
-concavity of $\ell_0$ gives
+On $\{s\leq q_1\}$, monotonicity of $\ell$ gives
+$\delta_\lambda(s)\leq0$, while tail safety gives $f_{aa}\geq0$.  This
+region therefore contributes weakly negatively.
+
+On $\{s>q_1\}$, kink placement implies
+$\lambda+\widetilde\mu q_1>m_0$, so the interval between $\lambda$ and
+$\lambda+\widetilde\mu s$ lies entirely above the limited-liability floor.
+Since $\ell_0$ is increasing and concave,
 \[
-    D_\lambda\ell(y)
-    \leq \ell_0'(\lambda+\widetilde\mu q_1),
+    \operatorname{sgn}\delta_\lambda(s)=\operatorname{sgn}s,
+    \qquad
+    |\delta_\lambda(s)|
+    \leq
+    \widetilde\mu\,\ell_0'(\lambda+\widetilde\mu q_1)|s|.
 \]
-with the continuous extension at $s(y)=0$ and the right derivative if the
-argument equals $m_0$.  It follows from \eqref{eq:curvature-identity} and the
-definition of $\Curvq(q_1)$ that
+Indeed, $\ell_0'$ is nonnegative and bounded above by
+$\ell_0'(\lambda+\widetilde\mu q_1)$ throughout that interval.  Hence, for
+either sign of $f_{aa}(y\mid a)$,
+\[
+    \delta_\lambda(s(y))f_{aa}(y\mid a)
+    \leq
+    \widetilde\mu\,\ell_0'(\lambda+\widetilde\mu q_1)
+    [s(y)f_{aa}(y\mid a)]_+
+    \qquad\text{on }\{s>q_1\}.
+\]
+Combining the two regions and using the definition of $\Curvq(q_1)$ gives
 \begin{equation}
  U_{aa}(w_{\lambda,\widetilde\mu},a)
  \leq
