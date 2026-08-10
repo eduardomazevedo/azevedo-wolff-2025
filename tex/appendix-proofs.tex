@@ -704,15 +704,32 @@ $|s|\leq\lambda/(2\mu_\lambda)$ gives
  \qquad
  \int |r_\lambda(s)s|f(y\mid a_0)\,d\nu(y)\to0.
 \]
-To justify the last assertion, the central remainder is bounded by a constant
-times
+To justify the last assertion, put
+$T_\lambda:=\lambda/(2\mu_\lambda)$.  Uniformly for $\theta$ in compact
+subsets of $(0,\infty)$, $T_\lambda\asymp\lambda^p$.  On
+$\{|s|\leq T_\lambda\}$, Taylor's theorem bounds $|r_\lambda(s)s|$, for
+a constant $K$ independent of $\lambda$ and uniform over $\theta$ in the
+chosen compact set, by
 \[
-    \mu_\lambda^2|\ell_0''(\lambda/2)|s^2.
+    K\mu_\lambda^2|\ell_0''(\lambda/2)||s|^3
+    \leq K\lambda^{-p}|s|^3.
 \]
-Truncation of the complement uses the $(2+\eta)$ moment and the sublinear
-growth of $z^p$.  Both bounds are uniform
-for $\theta$ in compact sets.  After multiplication by $s$ and integration,
-the constant term vanishes because the score has mean zero, so
+The $(2+\eta)$ moment makes the integral of this bound
+$O(\lambda^{-p\min\{1,\eta\}})$.  Indeed, when $\eta<1$, use
+$|s|^3\leq T_\lambda^{1-\eta}|s|^{2+\eta}$ on the central region; when
+$\eta\geq1$, the third moment is finite.
+
+On $\{|s|>T_\lambda\}$, sublinear growth gives
+\[
+ |r_\lambda(s)s|
+ \leq K\left[(1+\lambda^p)|s|
+       +\mu_\lambda^p|s|^{p+1}+s^2\right].
+\]
+The $(2+\eta)$ moment and $T_\lambda\asymp\lambda^p$ imply that the
+integrals of all three terms are $O(\lambda^{-p\eta})$.  These estimates prove
+the asserted convergence, uniformly for $\theta$ in compact sets.  After
+multiplication by $s$ and integration, the constant term vanishes because the
+score has mean zero, so
 \[
  \int \ell(\lambda+\mu_\lambda(\theta)s(y))s(y)
  f(y\mid a_0)\,d\nu(y)
@@ -740,19 +757,39 @@ Under Assumption \ref{ass:affinity-moments},
 \end{lemma}
 
 \begin{proof}
-Split the integral at
-$|s|=\lambda/(2\widetilde\mu)$.  On the central region, Taylor's theorem and
-\eqref{eq:crra-link-affinity} bound the residual by a constant times
+Abbreviate $\widetilde\mu=\widetilde\mu(\lambda)$ and set
+$T_\lambda:=\lambda/(2\widetilde\mu)$.  Lemma
+\ref{lem:affinity-multiplier} gives
+$T_\lambda\asymp\lambda^p$ and
+$\widetilde\mu\ell_0'(\lambda)=O(1)$.  On $\{|s|\leq T_\lambda\}$,
+Taylor's theorem and \eqref{eq:crra-link-affinity} bound the absolute residual,
+for a constant $K$ independent of $\lambda$ and $a$, by
 \[
-    \widetilde\mu^2|\ell_0''(\lambda/2)|s^2.
+    K\widetilde\mu^2|\ell_0''(\lambda/2)|s^2
+    \leq K\lambda^{-p}s^2.
 \]
-Lemma \ref{lem:affinity-multiplier} makes the coefficient $O(\lambda^{-p})$.
-On the complement, use
-$|\ell(z)|\leq C(1+|z|^p)$, the fact that
-$\widetilde\mu/\lambda\to0$, and the uniform $(2+\eta)$ weighted moment in
-Assumption \ref{ass:affinity-moments}.  Markov's inequality (with threshold
-$\lambda/(2\widetilde\mu)$) makes every tail term vanish uniformly in $a$.
-Combining the two regions proves \eqref{eq:uniform-affine-residual}.
+Its integral against $|f_{aa}(y\mid a)|$ is therefore $O(\lambda^{-p})$
+uniformly in $a$.
+
+On $\{|s|>T_\lambda\}$, the bound
+\[
+    |\ell(\lambda+\widetilde\mu s)|
+    \leq K(1+\lambda^p+\widetilde\mu^p|s|^p)
+\]
+and $\widetilde\mu\ell_0'(\lambda)=O(1)$ bound the absolute residual by
+\[
+    K\left[1+\lambda^p+\widetilde\mu^p|s|^p+|s|\right].
+\]
+Using the uniform $(2+\eta)$ weighted moment in Assumption
+\ref{ass:affinity-moments}, its tail integral is bounded by a constant times
+\[
+ (1+\lambda^p)T_\lambda^{-(2+\eta)}
+ +\widetilde\mu^pT_\lambda^{-(2+\eta-p)}
+ +T_\lambda^{-(1+\eta)}
+ =O\bigl(\lambda^{-p(1+\eta)}\bigr),
+\]
+uniformly in $a$.  Combining the central and tail bounds proves
+\eqref{eq:uniform-affine-residual}.
 \end{proof}
 
 \begin{proposition}[Asymptotic-affinity extension]
@@ -771,7 +808,8 @@ feasible reservation utilities.
 \end{proposition}
 
 \begin{proof}
-Use $\int f_{aa}(y\mid a)d\nu(y)=0$ to remove $\ell(\lambda)$.  Lemma
+Abbreviate $\widetilde\mu=\widetilde\mu(\lambda)$.  Use
+$\int f_{aa}(y\mid a)d\nu(y)=0$ to remove $\ell(\lambda)$.  Lemma
 \ref{lem:uniform-affine-residual} gives, uniformly in $a$,
 \begin{align*}
  \int \ell(\lambda+\widetilde\mu s(y))f_{aa}(y\mid a)\,d\nu(y)
@@ -793,11 +831,12 @@ in Assumption \ref{ass:affinity-moments} hold and
     \int s(y)f_{aa}(y\mid a)\,d\nu(y)
     =\frac{d^2}{da^2}\E_a[s(Y)]=0.
 \]
-Hence Gaussian output with CRRA utility is covered by Theorem
-\ref{thm:main} for $\gamma>1$, by its log branch for $\gamma=1$, and by
-Proposition \ref{prop:asymptotic-affinity} for $\gamma\in(1/2,1)$, subject to
-the assumptions of the corresponding result.  No general claim is made here
-for $\gamma\leq1/2$.
+Hence, subject to the maintained assumptions, Gaussian output with CRRA
+utility is covered by Theorem \ref{thm:main} for $\gamma>1$ whenever its
+capacity condition holds (in particular, for sufficiently low initial
+wealth), by its log branch for $\gamma=1$, and by Proposition
+\ref{prop:asymptotic-affinity} for $\gamma\in(1/2,1)$.  No general claim is
+made here for $\gamma\leq1/2$.
 \end{corollary}
 
 \begin{proof}
