@@ -550,19 +550,19 @@ using $c''(a)\geq\underline c''$ proves
 
 \noindent\textbf{Step 5: take the limit.}\par
 Since $\lambda+\mu_{q_0}(\lambda)q_0=m_0$, the coefficient in
-\eqref{eq:finite-lambda-bound} can be written as
+\eqref{eq:finite-lambda-bound} can be written, ommiting dependency of $\mu_{q_0}$ on $\lambda$, as
 \begin{align*}
- &\mu_{q_0}(\lambda)
- \ell_0'\bigl(\lambda+\mu_{q_0}(\lambda)q_1\bigr)\\
+ &\mu_{q_0}
+ \ell_0'\bigl(\lambda+\mu_{q_0}q_1\bigr)\\
  &\quad=
- \frac{\mu_{q_0}(\lambda)}
- {m_0+\mu_{q_0}(\lambda)(q_1-q_0)}
- \Bigl[m_0+\mu_{q_0}(\lambda)(q_1-q_0)\Bigr]
- \ell_0'\Bigl(m_0+\mu_{q_0}(\lambda)(q_1-q_0)\Bigr).
+ \frac{\mu_{q_0}}
+ {m_0+\mu_{q_0}(q_1-q_0)}
+ \Bigl[m_0+\mu_{q_0}(q_1-q_0)\Bigr]
+ \ell_0'\Bigl(m_0+\mu_{q_0}(q_1-q_0)\Bigr).
 \end{align*}
-Because $q_0<0$, $\mu_{q_0}(\lambda)\to\infty$.  The fraction therefore
-converges to $1/(q_1-q_0)$, while the product in brackets with $\ell_0'$
-converges to $L$.  Taking the limsup in \eqref{eq:finite-lambda-bound} proves
+Because $q_0<0$, $\mu_{q_0}(\lambda)\to\infty$ by equation \eqref{eq:trial-multiplier}.  The fraction therefore
+converges to $1/(q_1-q_0)$.  The product in brackets with $\ell_0'$
+converges to $L$ by the assumption in the proposition statement.  Taking the limsup in \eqref{eq:finite-lambda-bound} proves
 \eqref{eq:asymptotic-safe-tail-bound}.
 \end{proof}
 
@@ -589,42 +589,57 @@ $\mathrm{Curv}_{\mathrm{safe}}<\infty$, equation
 to choose a safe cutoff $q_1\in(q_0,0]$ with $\Curvq(q_1)<\infty$.
 Condition \eqref{condition:U2} and Remark \ref{rem:link-flattening} give
 $z\ell_0'(z)\to0$.  Applying Proposition
-\ref{prop:finite-lambda-bound} with $L=0$ yields
+\ref{prop:finite-lambda-bound} equation \eqref{eq:asymptotic-safe-tail-bound} with $L=0$ yields
 \[
  \limsup_{\lambda\to\infty}\sup_{a\in\mathcal A}
  U_{aa}(w_{\lambda,\widetilde\mu(\lambda)},a)
- \leq-\underline c''<0,
+ \leq-\underline c''<0.
 \]
-where the strict inequality uses $\underline c''>0$.
 
 \emph{Branch (ii): log utility.}
-Here $\ell_0(z)=\log z$ is concave, $\ell_0'(z)=1/z$, and
-$\Delta u=\infty$.  The strict curvature--width inequality, together with the
-definitions as an infimum and a supremum, permits safe cutoffs
-$q_0<q_1\leq0$ such that
+For $u(W)=\log W$, we have $\ell_0(z)=\log z$, so $\ell_0$ is
+concave, $z\ell_0'(z)=1$, and $\Delta u=\infty$.
+Let
 \[
-    \Capq(q_0)>0,
-    \qquad
-    \frac{\Curvq(q_1)}{q_1-q_0}<\underline c''.
+    \underline s:=\operatorname*{ess\,inf}_{y\in\mathcal Y}s(y).
 \]
-This remains true with score atoms: choose $q_0$ inside the essential support
-and assign a cutoff atom to the weakly safe side as in
-\eqref{eq:cutoff-capacity}.  Since log utility is unbounded above, the first
-inequality is the capacity condition in Proposition
-\ref{prop:finite-lambda-bound}.  Moreover, $z\ell_0'(z)=1$.  Applying that
-proposition with $L=1$ gives
+The set $\mathcal Q_{\mathrm{safe}}$ is downward closed and hence is an
+interval.  The definitions \eqref{eq:safe-curvature} and
+\eqref{eq:safe-width} and the monotonicity of $\Curvq$ then imply
+\begin{equation}
+    \inf_{\substack{q_0,q_1\in\mathcal Q_{\mathrm{safe}}\\
+                    \underline s<q_0<q_1}}
+    \frac{\Curvq(q_1)}{q_1-q_0}
+    =
+    \frac{\mathrm{Curv}_{\mathrm{safe}}}
+         {\mathrm{Width}_{\mathrm{safe}}},
+    \label{eq:cutoff-ratio-limit}
+\end{equation}
+with the conventions following \eqref{eq:safe-width} when an endpoint
+is infinite.  The strict inequality
+\eqref{eq:log-curvature-width-condition} in Theorem \ref{thm:main} therefore
+provides safe cutoffs $\underline s<q_0<q_1\leq0$ such that
+\begin{equation}
+    \frac{\Curvq(q_1)}{q_1-q_0}<\underline c''.
+    \label{eq:log-cutoff-ratio}
+\end{equation}
+
+Because $\underline s<q_0<0$, the set $\{s<q_0\}$ has positive probability
+under $a_0$.  Hence \eqref{eq:cutoff-capacity} gives
+\[
+    \Capq(q_0)
+    \geq-\int_{\{s<q_0\}}s(y)f(y\mid a_0)\,d\nu(y)>0.
+\]
+Since $\Delta u=\infty$, it follows that
+$\Delta u\,\Capq(q_0)>c'(a_0)$.  Thus Proposition
+\ref{prop:finite-lambda-bound} applies, and its bound with $L=1$ yields
 \[
  \limsup_{\lambda\to\infty}\sup_{a\in\mathcal A}
  U_{aa}(w_{\lambda,\widetilde\mu(\lambda)},a)
  \leq\frac{\Curvq(q_1)}{q_1-q_0}-\underline c''<0.
 \]
 
-Thus, under either branch, there is a finite $\lambda_0$ such that
-\[
-    U_{aa}(w_{\lambda,\widetilde\mu(\lambda)},a)\leq0
-    \quad\text{for every }a\in\mathcal A
-\]
-whenever $\lambda\geq\lambda_0$, proving the claim.
+Thus, under either branch, there is a finite $\lambda_0$ satisfying the desired result.
 \end{proof}
 
 \subsection{An asymptotic-affinity extension}
