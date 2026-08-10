@@ -445,119 +445,8 @@ $\widetilde\mu(\lambda)\leq\mu_q(\lambda)$.  Because $m_0-\lambda<0$, this
 is equivalent to $q^{\mathrm{kink}}(\lambda)\leq q$.
 \end{proof}
 
-Fix $\lambda>m_0$, abbreviate
-$\widetilde\mu=\widetilde\mu(\lambda)$, and define the average slope of the link function as
-\[
-    D_\lambda\ell(y):=
-    \frac{\ell(\lambda+\widetilde\mu s(y))-\ell(\lambda)}
-         {\widetilde\mu s(y)},
-\]
-with the continuous extension at $s(y)=0$.
-
-\begin{lemma}[Curvature identity]
-\label{lem:curvature-identity}
-For $\lambda>m_0$ and every $a\in\mathcal A$,
-\begin{equation}
- U_{aa}(w_{\lambda,\widetilde\mu},a)
- =\widetilde\mu\int D_\lambda\ell(y)s(y)f_{aa}(y\mid a)\,d\nu(y)-c''(a).
- \label{eq:curvature-identity}
-\end{equation}
-\end{lemma}
-
-\begin{proof}
-Add and subtract the constant $\ell(\lambda)$ and use
-$\int f_{aa}(y\mid a)d\nu(y)=0$.
-\end{proof}
-
-\begin{lemma}[Curvature split]
-\label{lem:curvature-split}
-Fix $\lambda>m_0$ and suppose $\ell_0$ is concave.  If
-$q\in\mathcal Q_{\mathrm{safe}}$, $\Curvq(q)<\infty$, and
-$q^{\mathrm{kink}}(\lambda)\leq q$, then, for every $a\in\mathcal A$,
-\begin{equation}
- U_{aa}(w_{\lambda,\widetilde\mu},a)
- \leq
- \widetilde\mu\,\ell_0'(\lambda+\widetilde\mu q)\Curvq(q)-c''(a).
- \label{eq:curvature-split}
-\end{equation}
-At $m_0$, the derivative is the right derivative.
-\end{lemma}
-
-\begin{proof}
-On $\{s\leq q\}$, tail safety gives $f_{aa}\geq0$, while $s\leq0$ and
-$D_\lambda\ell\geq0$.  This region therefore contributes weakly negatively
-to \eqref{eq:curvature-identity}.  On $\{s>q\}$ the contract is above the
-limited-liability floor.  Concavity of $\ell_0$ gives, with the continuous
-extension at $s(y)=0$,
-\[
-    D_\lambda\ell(y)
-    \leq \ell_0'(\lambda+\widetilde\mu q)
-    \quad\text{for }s(y)>q.
-\]
-
-Therefore,
-\begin{eqnarray*}
- U_{aa}(w_{\lambda,\widetilde\mu},a)
- &=&\widetilde\mu\int D_\lambda\ell(y)s(y)f_{aa}(y\mid a)\,d\nu(y)-c''(a)\\
- &\leq&\widetilde\mu\int_{\{s(y)>q\}}
- D_\lambda\ell(y)s(y)f_{aa}(y\mid a)\,d\nu(y)-c''(a)\\
- &\leq&\widetilde\mu\,\ell_0'(\lambda+\widetilde\mu q)
- \int_{\{s(y)>q\}}[s(y)f_{aa}(y\mid a)]_+\,d\nu(y)-c''(a).
-\end{eqnarray*}
-The definition of $\Curvq(q)$ in \eqref{eq:cutoff-curvature} now yields
-\eqref{eq:curvature-split}.
-\end{proof}
-
-To control the trial-multiplier term, we first record the following elementary
-limit.
-
-\begin{lemma}[Trial-multiplier slope limit]
-\label{lem:trial-multiplier-slope}
-Fix $q_0<q_1\leq0$ and suppose
-\[
-    \lim_{z\to\infty}z\ell_0'(z)=L<\infty.
-\]
-Then
-\[
-    \mu_{q_0}(\lambda)
-    \ell_0'\bigl(\lambda+\mu_{q_0}(\lambda)q_1\bigr)
-    \longrightarrow
-    \frac{L}{q_1-q_0}.
-\]
-\end{lemma}
-
-\begin{proof}
-By definition of the trial multiplier,
-\[
-    \lambda+\mu_{q_0}(\lambda)q_0=m_0.
-\]
-Set
-\begin{eqnarray*}
-    z_{01}(\lambda)
-    &:=&\lambda+\mu_{q_0}(\lambda)q_1\\
-    &=&\lambda+\mu_{q_0}(\lambda)q_0
-       +\mu_{q_0}(\lambda)(q_1-q_0)\\
-    &=&m_0+\mu_{q_0}(\lambda)(q_1-q_0).
-\end{eqnarray*}
-Because $q_0<0$, $\mu_{q_0}(\lambda)\to\infty$.  Since $q_1-q_0>0$,
-$z_{01}(\lambda)\to\infty$ and
-\begin{eqnarray*}
-    \frac{\mu_{q_0}(\lambda)}{z_{01}(\lambda)}
-    &=&\frac{\mu_{q_0}(\lambda)}
-    {m_0+\mu_{q_0}(\lambda)(q_1-q_0)}\\
-    &\longrightarrow&\frac{1}{q_1-q_0}.
-\end{eqnarray*}
-Therefore,
-\begin{align*}
-    \mu_{q_0}(\lambda)\ell_0'(z_{01}(\lambda))
-    ={}&\frac{\mu_{q_0}(\lambda)}{z_{01}(\lambda)}
-    \left[z_{01}(\lambda)\ell_0'(z_{01}(\lambda))\right]\\
-    \longrightarrow{}&\frac{L}{q_1-q_0}.
-\end{align*}
-\end{proof}
-
-The preceding lemmas now yield both a finite-$\lambda$ bound and its
-asymptotic consequence.
+Kink placement and the curvature argument combine in the following
+finite-$\lambda$ bound and its asymptotic consequence.
 
 \begin{proposition}[Safe-tail curvature bound]
 \label{prop:finite-lambda-bound}
@@ -590,108 +479,143 @@ then
 \end{proposition}
 
 \begin{proof}
-Lemma \ref{lem:kink-placement} gives
-$q^{\mathrm{kink}}(\lambda)\leq q_0$ and
-$\widetilde\mu\leq\mu_{q_0}$.  Apply Lemma
-\ref{lem:curvature-split} at $q_1$.  Because $q_1\leq0$ and $\ell_0'$ is
-nonincreasing, the map
+\emph{Step 1: place the kink.}
+Lemma \ref{lem:kink-placement} gives, for all sufficiently large $\lambda$,
+\[
+    q^{\mathrm{kink}}(\lambda)\leq q_0<q_1,
+    \qquad
+    \widetilde\mu(\lambda)\leq\mu_{q_0}(\lambda).
+\]
+Fix such a $\lambda$, abbreviate
+$\widetilde\mu=\widetilde\mu(\lambda)$, and define the average link slope
+\[
+    D_\lambda\ell(y):=
+    \frac{\ell(\lambda+\widetilde\mu s(y))-\ell(\lambda)}
+         {\widetilde\mu s(y)},
+\]
+with its continuous extension at $s(y)=0$.
+
+\emph{Step 2: center and split the curvature.}
+Adding and subtracting $\ell(\lambda)$ and using
+$\int f_{aa}(y\mid a)\,d\nu(y)=0$ gives
+\begin{equation}
+ U_{aa}(w_{\lambda,\widetilde\mu},a)
+ =\widetilde\mu\int D_\lambda\ell(y)s(y)f_{aa}(y\mid a)\,d\nu(y)-c''(a).
+ \label{eq:curvature-identity}
+\end{equation}
+On $\{s\leq q_1\}$, tail safety gives $f_{aa}\geq0$, while $s\leq0$ and
+$D_\lambda\ell\geq0$.  This region therefore contributes weakly negatively.
+On $\{s>q_1\}$ the contract is above the limited-liability floor, and
+concavity of $\ell_0$ gives
+\[
+    D_\lambda\ell(y)
+    \leq \ell_0'(\lambda+\widetilde\mu q_1),
+\]
+with the continuous extension at $s(y)=0$ and the right derivative if the
+argument equals $m_0$.  It follows from \eqref{eq:curvature-identity} and the
+definition of $\Curvq(q_1)$ that
+\begin{equation}
+ U_{aa}(w_{\lambda,\widetilde\mu},a)
+ \leq
+ \widetilde\mu\,\ell_0'(\lambda+\widetilde\mu q_1)\Curvq(q_1)-c''(a).
+ \label{eq:curvature-split}
+\end{equation}
+
+\emph{Step 3: use the trial multiplier.}
+Because $q_1\leq0$ and $\ell_0'$ is nonincreasing, the map
 \[
     \mu\longmapsto \mu\ell_0'(\lambda+\mu q_1)
 \]
 is nondecreasing on the relevant nonbinding range.  Replacing
-$\widetilde\mu$ by $\mu_{q_0}$ and using
-$c''(a)\geq\underline c''$ gives \eqref{eq:finite-lambda-bound}.
-Equation \eqref{eq:asymptotic-safe-tail-bound} then follows from Lemma
-\ref{lem:trial-multiplier-slope}.
+$\widetilde\mu$ in \eqref{eq:curvature-split} by $\mu_{q_0}(\lambda)$ and
+using $c''(a)\geq\underline c''$ proves
+\eqref{eq:finite-lambda-bound}.
+
+\emph{Step 4: take the limit.}
+Let
+\[
+ z_{01}(\lambda):=\lambda+\mu_{q_0}(\lambda)q_1
+ =m_0+\mu_{q_0}(\lambda)(q_1-q_0),
+\]
+where the second equality follows from
+$\lambda+\mu_{q_0}(\lambda)q_0=m_0$.  Since $q_0<0$,
+$\mu_{q_0}(\lambda)\to\infty$, and hence
+\[
+ z_{01}(\lambda)\to\infty,
+ \qquad
+ \frac{\mu_{q_0}(\lambda)}{z_{01}(\lambda)}
+ \longrightarrow\frac{1}{q_1-q_0}.
+\]
+Therefore,
+\[
+ \mu_{q_0}(\lambda)\ell_0'(z_{01}(\lambda))
+ =\frac{\mu_{q_0}(\lambda)}{z_{01}(\lambda)}
+   \bigl[z_{01}(\lambda)\ell_0'(z_{01}(\lambda))\bigr]
+ \longrightarrow\frac{L}{q_1-q_0}.
+\]
+Taking the limsup in \eqref{eq:finite-lambda-bound} proves
+\eqref{eq:asymptotic-safe-tail-bound}.
 \end{proof}
 
-We now show that $U_{aa}$ is negative under each branch of the
-main theorem.
+\begin{proof}[Proof of Proposition \ref{prop:concave}]
+Lemma \ref{lem:mu-tilde} shows that every canonical contract satisfying
+\eqref{LIC_hat} at a given $\lambda\geq0$ uses the unique multiplier
+$\widetilde\mu(\lambda)$.  It remains to apply Proposition
+\ref{prop:finite-lambda-bound} under each branch of Theorem \ref{thm:main}.
 
-\begin{lemma}[Sufficient-risk-aversion branch]
-\label{lem:risk-aversion-branch}
-Under branch (i) of Theorem \ref{thm:main},
+\emph{Branch (i): sufficient risk aversion.}
+Condition \eqref{condition:U1} and Remark \ref{rem:link-concavity} imply that
+$\ell_0$ is concave.  The capacity assumption
 \[
-    \sup_{a\in\mathcal A}U_{aa}(w_{\lambda,\widetilde\mu},a)<0
+    \Delta u\,\mathrm{Cap}_{\mathrm{safe}}>c'(a_0),
 \]
-for all sufficiently large $\lambda$.
-\end{lemma}
-
-\begin{proof}
-Branch (i) of Theorem \ref{thm:main} imposes condition
-\eqref{condition:U1}, so Remark \ref{rem:link-concavity} implies that
-$\ell_0$ is concave.  The capacity assumption in that branch is
-\[
-    \Delta u\,\mathrm{Cap}_{\mathrm{safe}}>c'(a_0).
-\]
-Together with \eqref{eq:cutoff-capacity-limit}, this strict inequality provides
+together with \eqref{eq:cutoff-capacity-limit}, provides
 $q_0\in\operatorname{int}(\mathcal Q_{\mathrm{safe}})$ such that
 \[
     \Delta u\,\Capq(q_0)>c'(a_0).
 \]
-In particular, $q_0<0$.  The same branch assumes
-$\mathrm{Curv}_{\mathrm{safe}}<\infty$.  Equation
-\eqref{eq:cutoff-curvature-limit}, monotonicity of $\Curvq$, and the fact that
-$q_0$ is an interior safe cutoff therefore allow us to choose a safe cutoff
-$q_1\in(q_0,0]$ with $\Curvq(q_1)<\infty$.
-
-Condition \eqref{condition:U2}, through Remark
-\ref{rem:link-flattening}, gives $z\ell_0'(z)\to0$.  The asymptotic conclusion
-of Proposition \ref{prop:finite-lambda-bound}, applied with $L=0$, therefore
-gives
+In particular, $q_0<0$.  The assumption
+$\mathrm{Curv}_{\mathrm{safe}}<\infty$, equation
+\eqref{eq:cutoff-curvature-limit}, and monotonicity of $\Curvq$ then allow us
+to choose a safe cutoff $q_1\in(q_0,0]$ with $\Curvq(q_1)<\infty$.
+Condition \eqref{condition:U2} and Remark \ref{rem:link-flattening} give
+$z\ell_0'(z)\to0$.  Applying Proposition
+\ref{prop:finite-lambda-bound} with $L=0$ yields
 \[
  \limsup_{\lambda\to\infty}\sup_{a\in\mathcal A}
- U_{aa}(w_{\lambda,\widetilde\mu},a)
+ U_{aa}(w_{\lambda,\widetilde\mu(\lambda)},a)
  \leq-\underline c''<0,
 \]
-where the strict inequality uses the assumption $\underline c''>0$ in branch
-(i).
-\end{proof}
+where the strict inequality uses $\underline c''>0$.
 
-\begin{lemma}[Log-utility branch]
-\label{lem:log-branch}
-Under branch (ii) of Theorem \ref{thm:main},
-\[
-    \sup_{a\in\mathcal A}U_{aa}(w_{\lambda,\widetilde\mu},a)<0
-\]
-for all sufficiently large $\lambda$.
-\end{lemma}
-
-\begin{proof}
-For log utility, $\ell_0(z)=\log z$ is concave,
-$\ell_0'(z)=1/z$, and $\Delta u=\infty$.  The strict
-curvature--width inequality, together with the definitions as an infimum and a
-supremum, permits safe cutoffs $q_0<q_1\leq0$ such that
+\emph{Branch (ii): log utility.}
+Here $\ell_0(z)=\log z$ is concave, $\ell_0'(z)=1/z$, and
+$\Delta u=\infty$.  The strict curvature--width inequality, together with the
+definitions as an infimum and a supremum, permits safe cutoffs
+$q_0<q_1\leq0$ such that
 \[
     \Capq(q_0)>0,
     \qquad
     \frac{\Curvq(q_1)}{q_1-q_0}<\underline c''.
 \]
-This remains true with score atoms: choose $q_0$ inside the essential support,
+This remains true with score atoms: choose $q_0$ inside the essential support
 and assign a cutoff atom to the weakly safe side as in
 \eqref{eq:cutoff-capacity}.  Since log utility is unbounded above, the first
-inequality is precisely the capacity condition in Lemma
-\ref{lem:kink-placement}.  Moreover, $z\ell_0'(z)=1$.  The asymptotic
-conclusion of Proposition \ref{prop:finite-lambda-bound}, applied with $L=1$,
-therefore gives
+inequality is the capacity condition in Proposition
+\ref{prop:finite-lambda-bound}.  Moreover, $z\ell_0'(z)=1$.  Applying that
+proposition with $L=1$ gives
 \[
  \limsup_{\lambda\to\infty}\sup_{a\in\mathcal A}
- U_{aa}(w_{\lambda,\widetilde\mu},a)
+ U_{aa}(w_{\lambda,\widetilde\mu(\lambda)},a)
  \leq\frac{\Curvq(q_1)}{q_1-q_0}-\underline c''<0.
 \]
-\end{proof}
 
-\begin{proof}[Proof of Proposition \ref{prop:concave}]
-Lemma \ref{lem:mu-tilde} shows that every canonical contract satisfying
-\eqref{LIC_hat} at
-a given $\lambda\geq0$ uses the unique multiplier
-$\widetilde\mu(\lambda)$.  Lemma \ref{lem:risk-aversion-branch} or Lemma
-\ref{lem:log-branch} therefore supplies a finite $\lambda_0$ such that
+Thus, under either branch, there is a finite $\lambda_0$ such that
 \[
     U_{aa}(w_{\lambda,\widetilde\mu(\lambda)},a)\leq0
     \quad\text{for every }a\in\mathcal A
 \]
-whenever $\lambda\geq\lambda_0$.  This is the claim.
+whenever $\lambda\geq\lambda_0$, proving the claim.
 \end{proof}
 
 \subsection{An asymptotic-affinity extension}
