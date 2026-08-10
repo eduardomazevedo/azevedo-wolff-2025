@@ -431,8 +431,8 @@ $\mu_q(\lambda)$:
  &=\bigl[\ell(\lambda)-\underline u\bigr]\Capq(q).
 \end{align*}
 The first equality uses the mean-zero property of the score.  The inequality
-follows because $\ell$ is increasing, so the centered integrand is
-nonnegative.  On $\{s(y)\leq q\}$,
+follows because $\ell$ is nondecreasing: the centered difference has the same
+weak sign as $s(y)$, so the centered integrand is nonnegative.  On $\{s(y)\leq q\}$,
 $\lambda+\mu_q(\lambda)s(y)\leq m_0$, and hence
 $\ell(\lambda+\mu_q(\lambda)s(y))=\underline u$; the final equality then
 follows from the definition of $\Capq(q)$.
@@ -479,7 +479,7 @@ then
 \end{proposition}
 
 \begin{proof}
-\emph{Step 1: place the kink.}
+\emph{Step 1: The kink is eventually left of $q_0:$.}
 Lemma \ref{lem:kink-placement} gives, for all sufficiently large $\lambda$,
 \[
     q^{\mathrm{kink}}(\lambda)\leq q_0<q_1,
@@ -489,44 +489,51 @@ Lemma \ref{lem:kink-placement} gives, for all sufficiently large $\lambda$,
 Fix such a $\lambda$, abbreviate
 $\widetilde\mu=\widetilde\mu(\lambda)$, and write
 \[
-    \delta_\lambda(s):=
-    \ell(\lambda+\widetilde\mu s)-\ell(\lambda).
+    \delta_\lambda(t):=
+    \ell(\lambda+\widetilde\mu t)-\ell(\lambda),
+    \qquad t\in\mathbb R.
 \]
 
 \emph{Step 2: center and split the curvature.}
-Adding and subtracting $\ell(\lambda)$ and using
-$\int f_{aa}(y\mid a)\,d\nu(y)=0$ gives
+We have
 \begin{equation}
  U_{aa}(w_{\lambda,\widetilde\mu},a)
  =\int \delta_\lambda(s(y))f_{aa}(y\mid a)\,d\nu(y)-c''(a).
  \label{eq:curvature-identity}
 \end{equation}
-On $\{s\leq q_1\}$, monotonicity of $\ell$ gives
-$\delta_\lambda(s)\leq0$, while tail safety gives $f_{aa}\geq0$.  This
-region therefore contributes weakly negatively.
+because the integral of $f_{aa}$ is zero, so that we can add and subtract
+$\ell(\lambda)$ without changing the integral.
 
-On $\{s>q_1\}$, kink placement implies
-$\lambda+\widetilde\mu q_1>m_0$, so the interval between $\lambda$ and
-$\lambda+\widetilde\mu s$ lies entirely above the limited-liability floor.
-Since $\ell_0$ is increasing and concave,
+On $\{s\leq q_1\}$, monotonicity of $\ell$ gives
+$\delta_\lambda(s(y))\leq0$, while tail safety gives $f_{aa}\geq0$.  This
+region therefore contributes weakly negatively. Therefore,
+\begin{equation}
+ U_{aa}(w_{\lambda,\widetilde\mu},a)
+ \leq\int_{\{s(y)>q_1\}}
+ \delta_\lambda(s(y))f_{aa}(y\mid a)\,d\nu(y)-c''(a).
+ \label{eq:curvature-right-region}
+\end{equation}
+
+\emph{Step 3: bound the right region.}
+
+Kink placement implies
+$\lambda+\widetilde\mu q_1>m_0$.  Since $\ell_0$ is increasing and concave,
+for all $t>q_1$,
 \[
-    \operatorname{sgn}\delta_\lambda(s)=\operatorname{sgn}s,
-    \qquad
-    |\delta_\lambda(s)|
-    \leq
-    \widetilde\mu\,\ell_0'(\lambda+\widetilde\mu q_1)|s|.
+    0\leq\delta_\lambda'(t)
+    =\widetilde\mu\,\ell_0'(\lambda+\widetilde\mu t)
+    \leq\widetilde\mu\,\ell_0'(\lambda+\widetilde\mu q_1).
 \]
-Indeed, $\ell_0'$ is nonnegative and bounded above by
-$\ell_0'(\lambda+\widetilde\mu q_1)$ throughout that interval.  Hence, for
-either sign of $f_{aa}(y\mid a)$,
+Since $\delta_\lambda(0)=0$, the mean-value theorem gives, on
+$\{s>q_1\}$,
 \[
     \delta_\lambda(s(y))f_{aa}(y\mid a)
     \leq
     \widetilde\mu\,\ell_0'(\lambda+\widetilde\mu q_1)
-    [s(y)f_{aa}(y\mid a)]_+
-    \qquad\text{on }\{s>q_1\}.
+    [s(y)f_{aa}(y\mid a)]_+.
 \]
-Combining the two regions and using the definition of $\Curvq(q_1)$ gives
+Substituting this bound into \eqref{eq:curvature-right-region} and using the
+definition of $\Curvq(q_1)$ gives
 \begin{equation}
  U_{aa}(w_{\lambda,\widetilde\mu},a)
  \leq
@@ -534,39 +541,27 @@ Combining the two regions and using the definition of $\Curvq(q_1)$ gives
  \label{eq:curvature-split}
 \end{equation}
 
-\emph{Step 3: use the trial multiplier.}
-Because $q_1\leq0$ and $\ell_0'$ is nonincreasing, the map
-\[
-    \mu\longmapsto \mu\ell_0'(\lambda+\mu q_1)
-\]
-is nondecreasing on the relevant nonbinding range.  Replacing
+\emph{Step 4: use the trial multiplier.}
+Because $q_1\leq0$ and $\ell_0'$ is nonincreasing, $\ell_0'(\lambda+\mu q_1)$ is nondecreasing in $\mu$.  Therefore, $\mu\ell_0'(\lambda+\mu q_1)$ is nondecreasing in $\mu$ on the relevant nonbinding range.  Hence, replacing
 $\widetilde\mu$ in \eqref{eq:curvature-split} by $\mu_{q_0}(\lambda)$ and
 using $c''(a)\geq\underline c''$ proves
 \eqref{eq:finite-lambda-bound}.
 
-\emph{Step 4: take the limit.}
-Let
-\[
- z_{01}(\lambda):=\lambda+\mu_{q_0}(\lambda)q_1
- =m_0+\mu_{q_0}(\lambda)(q_1-q_0),
-\]
-where the second equality follows from
-$\lambda+\mu_{q_0}(\lambda)q_0=m_0$.  Since $q_0<0$,
-$\mu_{q_0}(\lambda)\to\infty$, and hence
-\[
- z_{01}(\lambda)\to\infty,
- \qquad
- \frac{\mu_{q_0}(\lambda)}{z_{01}(\lambda)}
- \longrightarrow\frac{1}{q_1-q_0}.
-\]
-Therefore,
-\[
- \mu_{q_0}(\lambda)\ell_0'(z_{01}(\lambda))
- =\frac{\mu_{q_0}(\lambda)}{z_{01}(\lambda)}
-   \bigl[z_{01}(\lambda)\ell_0'(z_{01}(\lambda))\bigr]
- \longrightarrow\frac{L}{q_1-q_0}.
-\]
-Taking the limsup in \eqref{eq:finite-lambda-bound} proves
+\emph{Step 5: take the limit.}
+Since $\lambda+\mu_{q_0}(\lambda)q_0=m_0$, the coefficient in
+\eqref{eq:finite-lambda-bound} can be written as
+\begin{align*}
+ &\mu_{q_0}(\lambda)
+ \ell_0'\bigl(\lambda+\mu_{q_0}(\lambda)q_1\bigr)\\
+ &\quad=
+ \frac{\mu_{q_0}(\lambda)}
+ {m_0+\mu_{q_0}(\lambda)(q_1-q_0)}
+ \Bigl[m_0+\mu_{q_0}(\lambda)(q_1-q_0)\Bigr]
+ \ell_0'\Bigl(m_0+\mu_{q_0}(\lambda)(q_1-q_0)\Bigr).
+\end{align*}
+Because $q_0<0$, $\mu_{q_0}(\lambda)\to\infty$.  The fraction therefore
+converges to $1/(q_1-q_0)$, while the product in brackets with $\ell_0'$
+converges to $L$.  Taking the limsup in \eqref{eq:finite-lambda-bound} proves
 \eqref{eq:asymptotic-safe-tail-bound}.
 \end{proof}
 
