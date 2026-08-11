@@ -32,7 +32,7 @@ bind,
 The first order condition pins down the optimal contract $w^*_{\bar U}(y)$.
 The solution is best described with the following notation.  Let
 $m_0:=1/u'(w_0)$ be the marginal cost of utility at zero payment.  On the
-nonbinding region, the solution to the first-order condition is calculated by taking $\lambda + \mu s(y)$ and applying the \textbf{wealth base link function}
+nonbinding region, the solution to the first-order condition is calculated by taking $\lambda + \mu s(y)$ and applying the \textbf{base link function}
 \[
     L_0(z):=(u')^{-1}(1/z).
 \]
@@ -101,10 +101,9 @@ cost--utility frontier.
     \caption*{\textit{Note:} This figure displays the Pareto frontier of the cost minimization problem and the relaxed cost minimization problem in the Gaussian-log utility example. The first-order approach is valid for all reservation utilities where the two sets coincide. Parameters are as in figure \ref{fig:gaussian-log-pp}.}
 \end{figure}
 
-\subsection{High Reservation Utility} 
+\subsection{Validity of the First-Order Approach with High Reservation Utility}
 
-We now explain why the relaxed-optimal contract satisfies global incentive
-compatibility at sufficiently high feasible reservation utility.  We prove the
+We prove the
 stronger property that the agent's objective is concave in action.
 
 \begin{proposition}[Concavity at High Reservation Utility]
@@ -118,61 +117,84 @@ satisfies local incentive compatibility and has $\lambda\geq\lambda_0$ obeys
 \]
 \end{proposition}
 
-The proof has two ideas.  First, high reservation utility moves the
-limited-liability kink into a safe low-score region.  For $\mu>0$, limited
-liability binds exactly when
-\[
-    s(y)\leq q^{\mathrm{LL}}(\lambda,\mu)
-    :=\frac{m_0-\lambda}{\mu}.
-\]
-The safe-capacity condition ensures that, once $\lambda$ is large, local
-incentive compatibility can be satisfied with this cutoff below a fixed safe
-cutoff.  This argument also bounds $\mu$ by a constant multiple of $\lambda$.
-It does not require the score or output to have an unbounded lower tail.
-
-Second, curvature from the remaining paid region becomes small.  Since
-$\int f_{aa}(y\mid a)\,d\nu(y)=0$, the curvature of the agent's objective can be
-written as
-\begin{equation}
-\begin{split}
-    U_{aa}(w_{\lambda,\mu},a)
-    ={}&\int
-    \left[u\bigl(L(\lambda+\mu s(y))\bigr)-u\bigl(L(\lambda)\bigr)\right]
-    f_{aa}(y\mid a)\,d\nu(y)\\
-    &{}-c''(a).
-\end{split}
-\label{eq:agent-curvature}
-\end{equation}
-On the safe low-score region, the utility difference is nonpositive and
-$f_{aa}\geq0$, so this region weakly lowers curvature.  Outside it, only the
-positive curvature measured by $\mathrm{Curv}_{\mathrm{safe}}$ can work against
-concavity.
-
-The utility assumptions control this remaining term.  Under the sufficient
-risk aversion condition, $z\mapsto u(L_0(z))$ is concave and the wealth link
-becomes asymptotically flat.  Together with $\mu=O(\lambda)$, this makes the
-paid-region curvature vanish as $\lambda$ grows.  For log utility,
-$L_0(z)=z$, so the term need not vanish.  Its limiting upper bound is instead
-$\mathrm{Curv}_{\mathrm{safe}}/\mathrm{Width}_{\mathrm{safe}}$, which is
-strictly smaller than $\underline c''$ by assumption.  In either case, effort
-cost curvature eventually dominates, proving Proposition \ref{prop:concave}.
+Theorem \ref{thm:main} follows directly from Proposition
+\ref{prop:concave}:
 
 \begin{proof}[Proof of Theorem \ref{thm:main}]
-Proposition \ref{prop:concave} supplies $\lambda_0$.  Proposition
+Take $\lambda_0$ as in proposition \ref{prop:concave}.  Proposition
 \ref{prop:relaxed-optimal-contract} implies that the smallest multiplier
 supporting the relaxed-optimal contract converges to infinity as
 $\bar U\uparrow U_R$.  Hence there is $U^*<U_R$ such that every multiplier
 supporting the relaxed solution has $\lambda\geq\lambda_0$ whenever
 $\bar U\in[U^*,U_R)$.  The agent's objective is then concave by Proposition
-\ref{prop:concave}.  Local incentive compatibility at the interior action
-$a_0$ therefore implies global incentive compatibility.  Thus the unique
+\ref{prop:concave}.  Local incentive compatibility implies global incentive compatibility so the unique
 relaxed solution also uniquely solves the original cost-minimization problem.
 \end{proof}
 
+The proof of Proposition \ref{prop:concave} is essentially a three-line
+argument.  The first step is to show that, as $\lambda$ grows, the
+limited-liability kink in a locally incentive-compatible canonical contract
+moves into a low-score region (Lemma \ref{lem:kink-placement}).  To see this,
+consider the local incentive-compatibility condition
+\[
+    c'(a_0)
+    =\int u\bigl(L(\lambda+\mu s(y))\bigr)s(y)
+      f(y\mid a_0)\,d\nu(y).
+\]
+Because the score has mean zero, we can add and subtract $u(L(\lambda))$ to
+obtain
+\[
+    c'(a_0)
+    =\int\bigl[u\bigl(L(\lambda+\mu s(y))\bigr)
+                       -u\bigl(L(\lambda)\bigr)\bigr]s(y)
+      f(y\mid a_0)\,d\nu(y).
+\]
+Suppose that a cutoff $q_0<0$ lies weakly to the left of the limited-liability
+kink, so wages are
+zero whenever $s(y)\leq q_0$.  The local incentive multiplier satisfies
+$\mu>0$, and the link function is nondecreasing, so the utility difference and
+the score have the same weak sign.  The centered integrand is therefore
+nonnegative at every score, and
+\begin{align*}
+    c'(a_0)
+    &\geq \int_{\{s(y)\leq q_0\}}
+       \bigl[u(w_0)-u\bigl(L(\lambda)\bigr)\bigr]s(y)
+       f(y\mid a_0)\,d\nu(y)\\
+    &=\bigl[u\bigl(L(\lambda)\bigr)-u(w_0)\bigr]
+      \left[-\int_{\{s(y)\leq q_0\}}s(y)f(y\mid a_0)\,d\nu(y)\right].
+\end{align*}
+As $\lambda$ grows, the first factor on the right grows.  The capacity
+assumptions on the theorem then guarantee that we can find a safe cutoff $q_0$
+for which the right-hand side exceeds $c'(a_0)$ for all sufficiently large
+$\lambda$.  Thus, the limited-liability kink must eventually lie to the left
+of $q_0$.
+
+The second step is to show that only curvature above a safe cutoff $q_1 > q_0$ can
+work against concavity.  Since $f_{aa}$ has integral zero, we can center
+the agent's objective to obtain
+\[
+    U_{aa}(w_{\lambda,\mu},a)
+    =\int\!\left[u\bigl(L(\lambda+\mu s(y))\bigr)
+                  -u\bigl(L(\lambda)\bigr)\right]
+      f_{aa}(y\mid a)\,d\nu(y)-c''(a).
+\]
+On $\{s(y)\leq q_1\}$, where $q_1\leq0$ is safe, the utility difference is
+nonpositive and $f_{aa}(y\mid a)\geq0$.  This region therefore contributes
+weakly negatively and can be dropped when deriving an upper bound.  It remains
+only to bound the integral over $\{s(y)>q_1\}$.
+
+The third step bounds this remaining curvature.  The fact that the kink is left of $q_0$ prevents the
+incentive multiplier $\mu$ from growing too quickly relative to $\lambda$.
+The utility conditions then tame the sensitivity of utility to the score on
+the region above $q_1$, while the safe-curvature bound limits the positive
+distributional curvature in that region. Using these facts, Proposition \ref{prop:finite-lambda-bound} shows that the remaining curvature is small, and eventually dominated by $\ubar c''$.
+
 Figure \ref{fig:gaussian-log-cm} illustrates the argument.  At low reservation
 utility, the limited-liability kink creates multiple local maxima.  As
-reservation utility rises, the kink moves into the safe left tail and the
-agent's objective becomes concave.
+reservation utility rises, the kink moves into the safe left tail as predicted
+by Lemma \ref{lem:kink-placement}. As the kink moves far to the left, the agent's objective becomes concave
+as predicted by Proposition \ref{prop:finite-lambda-bound}.  Appendix
+\ref{subsec:appendix-safe-tail} gives the proof.
 
 % Gaussian - log utility cost minimization problem figure
 \begin{figure}[p]
@@ -189,6 +211,3 @@ agent's objective becomes concave.
     indicates indifference between local maxima. Other parameters are as in
     Figure \ref{fig:gaussian-log-pp}.}
 \end{figure}
-
-The appendix proves Proposition \ref{prop:concave} by making the kink-placement
-and curvature bounds precise, including endpoint and discrete-score cases.
