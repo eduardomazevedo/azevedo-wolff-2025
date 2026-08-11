@@ -8,7 +8,10 @@
     \resizebox{\textwidth}{!}{ % Ensures table fits within page width
     \begin{tabular}{l p{5.5cm} p{3.8cm} p{3.8cm}} % Keep all columns aligned and tight
         \toprule
-        \textbf{Distribution} & \textbf{Probability Density or Mass Function \(f(y\mid a)\)} & \textbf{Action Score \(\partial_a\log f(y\mid a)\)} & \textbf{Mean} \\
+        \textbf{Distribution}
+        & \multicolumn{1}{l}{\textbf{\(f(y\mid a)\)}}
+        & \multicolumn{1}{l}{\textbf{Score} \(\partial_a\log f(y\mid a)\)}
+        & \textbf{Mean} \\
         \midrule
         Gaussian
         & \( \mathcal{N}(a, \sigma^2) \)
@@ -88,6 +91,6 @@
     \end{tabular}
     } % End resizebox
     \captionsetup{font=footnotesize} % Match figure's note formatting
-    \caption*{\textit{Note:} The table reports the probability density function (or probability mass function for discrete distributions), action score, and mean as functions of the agent's action $a$.  The score used in the body of the paper is obtained by evaluating the listed action score at the intended action: $s(y)=\partial_a\log f(y\mid a_0)$.}
+    \caption*{\textit{Note:} The table reports the probability density function (or probability mass function for discrete distributions), action score, and mean as functions of the agent's action $a$.}
 \end{table}
 
