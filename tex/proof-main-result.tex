@@ -104,7 +104,7 @@ cost--utility frontier.
 \subsection{Validity of the First-Order Approach with High Reservation Utility}
 
 We prove the
-stronger property that the agent's objective is concave in action.
+stronger result that the agent's objective is concave in $a$.
 
 \begin{proposition}[Concavity at High Reservation Utility]
 \label{prop:concave}
@@ -132,7 +132,7 @@ relaxed solution also uniquely solves the original cost-minimization problem.
 \end{proof}
 
 The proof of Proposition \ref{prop:concave} is essentially a three-line
-argument.  The first step is to show that, as $\lambda$ grows, the
+argument that we outline here.  The first step is to show that, as $\lambda$ grows, the
 limited-liability kink in a locally incentive-compatible canonical contract
 moves into a low-score region (Lemma \ref{lem:kink-placement}).  To see this,
 consider the local incentive-compatibility condition
@@ -189,12 +189,12 @@ The utility conditions then tame the sensitivity of utility to the score on
 the region above $q_1$, while the safe-curvature bound limits the positive
 distributional curvature in that region. Using these facts, Proposition \ref{prop:finite-lambda-bound} shows that the remaining curvature is small, and eventually dominated by $\ubar c''$.
 
-Figure \ref{fig:gaussian-log-cm} illustrates the argument.  At low reservation
+Figure \ref{fig:gaussian-log-cm} illustrates the argument in the log-Gaussian example.  At low reservation
 utility, the limited-liability kink creates multiple local maxima.  As
 reservation utility rises, the kink moves into the safe left tail as predicted
 by Lemma \ref{lem:kink-placement}. As the kink moves far to the left, the agent's objective becomes concave
 as predicted by Proposition \ref{prop:finite-lambda-bound}.  Appendix
-\ref{subsec:appendix-safe-tail} gives the proof.
+\ref{subsec:appendix-safe-tail} gives the proof. While care is needed to deal with the continuous and discrete cases, and the two branches of Theorem \ref{thm:main}, the gist is the three line argument above.
 
 % Gaussian - log utility cost minimization problem figure
 \begin{figure}[p]
