@@ -5,47 +5,47 @@ Theorem \ref{thm:main} and the closed-form solutions yield efficient algorithms 
 Consider a relaxed cost minimization problem where we also include a finite number of global incentive compatibility constraints at a vector of actions $\boldsymbol{\hat a} = (\hat a_1, \ldots, \hat a_n)$. The Lagrangian from equation (\ref{eq:lagrangian}) becomes
 \[
     \begin{aligned}
-    \mathcal{L}(v,\lambda,\mu, \boldsymbol{\hat \mu}, \boldsymbol{\hat a})
+    \mathcal{L}(w,\lambda,\mu, \boldsymbol{\hat \mu}, \boldsymbol{\hat a})
     &:=
-    W(v, a_0)
-    +\lambda\left(\bar{U}-U(v, a_0)\right)
-    +\mu(-U_{a}(v, a_0))\\
-    &\quad+\sum \hat \mu_i \left(U(v, \hat a_i) - U(v, a_0)\right)
+    C(w, a_0)
+    +\lambda\left(\bar{U}-U(w, a_0)\right)
+    +\mu(-U_{a}(w, a_0))\\
+    &\quad+\sum \hat \mu_i \left(U(w, \hat a_i) - U(w, a_0)\right)
     \text{.}
     \end{aligned}
 \]
 
-Heuristically differentiating pointwise with respect to $v(y)$ and setting the derivative to zero gives
+Heuristically differentiating pointwise with respect to $w(y)$ and setting the derivative to zero gives
 \[
-    k'(v(y)) f(y | a_0)
+    \frac{f(y \mid a_0)}{u'\bigl(w_0+w(y)\bigr)}
     =
-    \lambda f(y | a_0)
-    + \mu f_{a}(y|a_0)
-    + \sum \hat \mu_i [f(y | a_0) - f(y | \hat a_i)]
+    \lambda f(y \mid a_0)
+    + \mu f_{a}(y\mid a_0)
+    + \sum \hat \mu_i [f(y \mid a_0) - f(y \mid \hat a_i)]
     \text{.}
 \]
 
-The solution $v$ equals
+The solution $w$ equals
 \[
-    V(y | \lambda, \mu, \boldsymbol{\hat \mu}, \boldsymbol{\hat a})
+    w(y \mid \lambda, \mu, \boldsymbol{\hat \mu}, \boldsymbol{\hat a})
     :=
-    g\biggl(
-        \lambda + \mu S(y|a_0) + \sum \hat \mu_i \left(1 - \frac{f(y | \hat a_i)}{f(y | a_0)}\right)
-    \biggr)
+    L\biggl(
+        \lambda + \mu s(y) + \sum \hat \mu_i \left(1 - \frac{f(y \mid \hat a_i)}{f(y \mid a_0)}\right)
+    \biggr)-w_0
     \text{.}
 \]
 
 Define the Lagrange dual function as
 \[
     \mathcal{D}(\lambda, \mu, \boldsymbol{\hat \mu}, \boldsymbol{\hat a})
-    := \inf_{v} 
-    \mathcal{L}(v, \lambda, \mu, \boldsymbol{\hat \mu}, \boldsymbol{\hat a})
+    := \inf_{w}
+    \mathcal{L}(w, \lambda, \mu, \boldsymbol{\hat \mu}, \boldsymbol{\hat a})
     =
-    \mathcal{L}(V(\cdot | \lambda, \mu, \boldsymbol{\hat \mu}, \boldsymbol{\hat a}), \lambda, \mu, \boldsymbol{\hat \mu}, \boldsymbol{\hat a})
+    \mathcal{L}\bigl(w(\cdot \mid \lambda, \mu, \boldsymbol{\hat \mu}, \boldsymbol{\hat a}), \lambda, \mu, \boldsymbol{\hat \mu}, \boldsymbol{\hat a}\bigr)
     \text{.}
 \]
 
-For any parametric example, the dual can be computed efficiently with the analytical formulas from section \ref{sec:calculus}. It also has an analytic gradient by Danskin's envelope theorem. Moreover, given a grid of outputs $\mathbf{y}_{\mathrm{grid}}$, we can cache $f(y | a_0)$, $S(y | a_0)$, and $1 - {f(y | \hat a_i)}/{f(y | a_0)}$. This is enough to perform the numerical integrations needed for $\mathcal D$, so that $\mathcal D$ only involves matrix multiplications and applications of $g$ and $k$.
+For any parametric example, the dual can be computed efficiently with the analytical formulas from section \ref{sec:calculus}. It also has an analytic gradient by Danskin's envelope theorem. Moreover, given a grid of outputs $\mathbf{y}_{\mathrm{grid}}$, we can cache $f(y \mid a_0)$, $s(y)$, and $1 - {f(y \mid \hat a_i)}/{f(y \mid a_0)}$. This is enough to perform the numerical integrations needed for $\mathcal D$, so that $\mathcal D$ only involves matrix multiplications and applications of $L$ and $u$.
 
 This suggests the following algorithm \ref{alg:cost-minimization}:
 
@@ -78,11 +78,11 @@ This suggests the following algorithm \ref{alg:cost-minimization}:
         \tcp*[r]{use warm start}
 
 
-        $v(\mathbf{y}_{\mathrm{grid}}) \gets V(\mathbf{y}_{\mathrm{grid}} \mid \lambda, \mu, \boldsymbol{\hat\mu}, \boldsymbol{\hat a})$\;
+        $w(\mathbf{y}_{\mathrm{grid}}) \gets w(\mathbf{y}_{\mathrm{grid}} \mid \lambda, \mu, \boldsymbol{\hat\mu}, \boldsymbol{\hat a})$\;
 
         $\mathtt{best\_deviation},\;\mathtt{deviation\_gain}
         \gets
-        \FindBest{$v,\, a_0$}$\;
+        \FindBest{$w,\, a_0$}$\;
 
         \If{$\mathtt{deviation\_gain} > \mathtt{tolerance}$}{
             $\boldsymbol{\hat a} \gets \boldsymbol{\hat a} \cup \{\mathtt{best\_deviation}\}$\;
@@ -90,7 +90,7 @@ This suggests the following algorithm \ref{alg:cost-minimization}:
         }
     }
 
-    \Return{$v$}
+    \Return{$w$}
 
     \caption{Cost minimization via active–set}
     \label{alg:cost-minimization}
@@ -98,11 +98,11 @@ This suggests the following algorithm \ref{alg:cost-minimization}:
 
 Algorithm \ref{alg:cost-minimization} solves all the examples in the paper. In our benchmarks, each run takes in the order of 3 to 14 milliseconds (see supplementary material). Performance seems to be due to three factors. First, the algorithm often ends in the first iteration because of Theorem \ref{thm:main}. Second, dual calls are fast because of the analytic formulas and caching. Third, dual maximization is fast because of low dimensionality, analytic gradients and warm starts.
 
-Algorithm \ref{alg:cost-minimization} has two main drawbacks. The dual is not convex, so that the optimization step can get stuck in a local maximum. And the heuristic to add constraints might also get stuck.
+Algorithm \ref{alg:cost-minimization} has one main drawback. Although the dual is concave for any fixed vector of deviation actions, the heuristic to add constraints might get stuck.
 
-To overcome these drawbacks, we implement a straightforward convex optimization solver. We discretize both the outcome and action spaces, which yields a problem with a convex objective and linear constraints. We solve this discretized problem using \texttt{CVXPY} with the \texttt{Clarabel} solver. This approach is computationally more expensive—taking between 230 and 240 milliseconds in our benchmarks—because it solves for the contract $v$ at every point of the outcome grid. However, it provides a global optimality guarantee. In our implementation, Algorithm~\ref{alg:cost-minimization} uses this convex solver as a fallback.
+To overcome this drawback, we implement a straightforward convex optimization solver. We discretize both the outcome and action spaces and formulate the problem using the utility contract $v(y)=u(w_0+w(y))$ from Appendix \ref{subsec:appendix-notation}. In this parametrization, the objective is convex and the constraints are linear. We solve this discretized problem using \texttt{CVXPY} with the \texttt{Clarabel} solver. This approach is computationally more expensive—taking between 230 and 240 milliseconds in our benchmarks—because it solves for the contract $v$ at every point of the outcome grid. However, it provides a global optimality guarantee. In our implementation, Algorithm~\ref{alg:cost-minimization} uses this convex solver as a fallback.
 
-The main drawback of the convex solver is that the numerical optimal contract $v(y)$ is numerically unstable at points where the density $f(y | a_0)$ is small. This is illustrated in Figure \ref{fig:convex-solver-stability}. The figure shows that both solvers reach essentially the same objective value. In the middle of the distribution, they reach essentially the same optimal contract. However, in the tails of the distribution, the convex solver optimal contract is numerically unstable.
+The main drawback of the convex solver is that the numerical optimal contract $w(y)$ is numerically unstable at points where the density $f(y \mid a_0)$ is small. This is illustrated in Figure \ref{fig:convex-solver-stability}. The figure shows that both solvers reach essentially the same objective value. In the middle of the distribution, they reach essentially the same optimal contract. However, in the tails of the distribution, the convex solver optimal contract is numerically unstable.
 
 \begin{figure}[p]
     \centering
@@ -110,6 +110,5 @@ The main drawback of the convex solver is that the numerical optimal contract $v
     \captionsetup{font=footnotesize}
     \caption{Comparison of Algorithm 1 and convex program solvers.}
     \label{fig:convex-solver-stability}
-    \caption*{\textit{Note:} Top panel: optimal wage function $w(y)$. Bottom panel: agent's expected utility $U(w^*_{\bar U},a)$. Both solvers reach essentially the same expected wage cost. The convex program solution is numerically unstable in the tails where the density $f(y | a_0)$ is small. Parameters are as in Figure \ref{fig:gaussian-log-pp} with $\sigma = 10$. The convex solver uses a grid of 201 points for the outcomes and 200 points for the actions.}
+    \caption*{\textit{Note:} Top panel: optimal wage function $w(y)$. Bottom panel: agent's expected utility $U(w^*_{\bar U},a)$. Both solvers reach essentially the same expected wage cost. The convex program solution is numerically unstable in the tails where the density $f(y \mid a_0)$ is small. Parameters are as in Figure \ref{fig:gaussian-log-pp} with $\sigma = 10$. The convex solver uses a grid of 201 points for the outcomes and 200 points for the actions.}
 \end{figure}
-
