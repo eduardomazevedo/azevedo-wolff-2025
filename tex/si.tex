@@ -8,195 +8,319 @@
 \usepackage{xr}
 \externaldocument{"manuscript"}
 
-\begin{document}  
+\begin{document}
 
 \title{Online Appendix for ``Broad Validity of the First-Order Approach in Moral Hazard''}
 \author{Eduardo M. Azevedo and Ilan Wolff}
 \date{\today}
 \maketitle
 
-This online appendix contains the derivation of particular functional forms from section \ref{sec:applications}.
+This online appendix derives the functional forms reported in Tables
+\ref{tab:utility_functions} and \ref{tab:dists} and provides additional
+information on the numerical benchmarks.
 
-\section{Derivations of the Score Function for Particular Distributions}  
+\section{Derivations of Scores for Particular Distributions}
 
-\subsection{Normal}
+For each distribution, the action score is
+\[
+    S(y\mid a):=\partial_a\log f(y\mid a)
+    =\frac{f_a(y\mid a)}{f(y\mid a)}.
+\]
+Evaluating this expression at the intended action gives the score used in the
+body of the paper, $s(y)=S(y\mid a_0)$.
 
-The PDF is $$f(y | a, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp \left( -\frac{(y-a)^2}{2\sigma^2} \right).$$ The derivative with respect to $a$ is $$f_a(y | a, \sigma^2) = f(y | a, \sigma^2) \frac{y - a}{\sigma^2} $$ The score is $$S(y | a) = \frac{f(y | a, \sigma^2) \frac{y - a}{\sigma^2}}{f(y | a, \sigma^2)} = \frac{y - a}{\sigma^2} .$$
+\subsection{Gaussian}
 
-\subsection{Log Normal}
+For Gaussian output with mean $a$ and variance $\sigma^2$,
+\[
+    f(y\mid a)
+    =\frac{1}{\sqrt{2\pi\sigma^2}}
+      \exp\left(-\frac{(y-a)^2}{2\sigma^2}\right).
+\]
+Therefore
+\[
+    S(y\mid a)
+    =\partial_a\log f(y\mid a)
+    =\frac{y-a}{\sigma^2}.
+\]
 
-The PDF is $$ f(y | a, \sigma^2) =\frac{1}{y \sqrt{2\pi\sigma^2}} \exp \left( -\frac{(\log(y)-a)^2}{2\sigma^2} \right). $$ The derivative with respect to $a$ is $$ f_a(y | a, \sigma^2) = f(y | a, \sigma^2) \frac{log(y) - a}{\sigma^2}.$$ 
-The score is $$ S(y|a) = \frac{f(y | a, \sigma^2) \frac{log(y) - a}{\sigma^2}}{f(y | a, \sigma^2)} = \frac{log(y) - a}{\sigma^2} .$$ 
+\subsection{Lognormal}
 
-\subsection{Poisson} 
+Suppose $\log y$ is Gaussian with mean $a$ and variance $\sigma^2$.  For
+$y>0$,
+\[
+    f(y\mid a)
+    =\frac{1}{y\sqrt{2\pi\sigma^2}}
+      \exp\left(-\frac{(\log y-a)^2}{2\sigma^2}\right).
+\]
+Differentiating its log gives
+\[
+    S(y\mid a)=\frac{\log y-a}{\sigma^2}.
+\]
 
-The PMF is $$ P(y | a) = \frac{a^y e^{-a}}{y!}. $$ The derivative with respect to $a$ is $$ P_a(y | a) = \frac{ya^{y-1} e^{-a}}{y!} - \frac{a^y e^{-a}}{y!} .$$ Simplifying yields $$ P_a(y | a) = P(y | a)(\frac{y}{a} - 1) = f(a) \frac{y-a}{a} .$$ The score is $$ S(y|a) = \frac{f(a) \frac{y-a}{a}}{f(a)} = \frac{y-a}{a} .$$ 
+\subsection{Poisson}
 
-\subsection{Exponential} 
+For $a>0$ and $y\in\{0,1,\ldots\}$,
+\[
+    f(y\mid a)=\frac{a^y e^{-a}}{y!}.
+\]
+Thus
+\[
+    S(y\mid a)
+    =\partial_a\bigl[y\log a-a-\log(y!)\bigr]
+    =\frac{y}{a}-1
+    =\frac{y-a}{a}.
+\]
 
-The PDF is $$f(y|a) = \frac{1}{a} e^{-\frac{y}{a}}.$$ Observe that $\frac{\partial a}{\partial} \frac{1}{a} = -\frac{1}{a^2}$, and $\frac{\partial a}{\partial} e^{-\frac{y}{a}} = \frac{y}{a^2} e^{-\frac{y}{a}}$. Using the product rule, $$ f_a(y|a) = \frac{y}{a^3} e^{-\frac{y}{a}} -\frac{1}{a^2} e^{-\frac{y}{a}} .$$ 
-Simplifying yields 
-$$ f_a(y|a) = \frac{y-a}{a^2} f(y | a) .$$ 
+\subsection{Exponential}
 
-The score is 
-$$ S(y|a) = \frac{y-a}{a^2} . $$ 
+For the exponential distribution parametrized by its mean $a>0$,
+\[
+    f(y\mid a)=\frac{1}{a}\exp\left(-\frac{y}{a}\right),
+    \qquad y\geq0.
+\]
+Hence
+\[
+    S(y\mid a)
+    =\partial_a\left[-\log a-\frac{y}{a}\right]
+    =-\frac{1}{a}+\frac{y}{a^2}
+    =\frac{y-a}{a^2}.
+\]
 
-\subsection{Bernoulli} 
+\subsection{Bernoulli}
 
-The PMF is $$ P(y | a) = a^y (1 - a)^{1 - y}, \; \text{where} \, y \in \{0, 1\} .$$ 
-The derivative with respect to $a$ is 
-$$ P_a(y | a) = y a^{y-1}(1 - a)^{1 - y} - (1-y) a^y (1 - a)^{-y} .$$ 
-Simplifying yields 
-$$ P_a(y | a) = P(y | a) (\frac{y}{a} - \frac{1-y}{1-a}) = P (y | a) \frac{y-a}{a-a^2}  .$$  
-The score is $$  S(y|a) = \frac{P (y | a) \frac{y-a}{a-a^2}}{P (y | a)} = \frac{y-a}{a-a^2} .$$ 
+For $a\in(0,1)$ and $y\in\{0,1\}$,
+\[
+    f(y\mid a)=a^y(1-a)^{1-y}.
+\]
+Therefore
+\[
+    S(y\mid a)
+    =\frac{y}{a}-\frac{1-y}{1-a}
+    =\frac{y-a}{a-a^2}.
+\]
 
-\subsection{Geometric} 
+\subsection{Geometric}
 
-The PMF is $$ P(y | a) = (1 - \frac{1}{a})^{y - 1} (\frac{1}{a}) .$$ 
-The derivative with respect to $a$ is 
-$$ P_a(y | a) = (y-1) (\frac{a-1}{a})^{y-2}(\frac{1}{a^3}) - (1 - \frac{1}{a})^{y - 1} (\frac{1}{a^2}) .$$ 
-Simplifying yields
-$$ P_a(y | a) = \frac{(y-1)a}{a-1} (\frac{a-1}{a})^{y-1} \frac{1}{a^3} - P (y | a) \frac{1}{a}. $$ 
-We simplify further 
-$$ P_a(y | a) = \frac{(y-1)}{(a-1)a} P (y|a) - P(y | a) \frac{1}{a}. $$ 
-We factor out $P(y|a)$
-$$ P_a(y | a) =  P(y|a) \frac{(y-a)}{(a^2-a)} . $$ 
-The score is 
-$$ S(y|a) = \frac{P(y|a) \frac{(y-a)}{(a^2-a)}}{P(y|a)} = \frac{y-a}{a^2-a} $$
+Consider the geometric distribution on $\{1,2,\ldots\}$ parametrized by its
+mean $a>1$:
+\[
+    f(y\mid a)
+    =\left(1-\frac{1}{a}\right)^{y-1}\frac{1}{a}.
+\]
+Its log density is
+\[
+    \log f(y\mid a)
+    =(y-1)\bigl[\log(a-1)-\log a\bigr]-\log a.
+\]
+Consequently,
+\[
+    S(y\mid a)
+    =(y-1)\left(\frac{1}{a-1}-\frac{1}{a}\right)-\frac{1}{a}
+    =\frac{y-a}{a^2-a}.
+\]
 
-\subsection{Binomial} 
+\subsection{Binomial}
 
-The PMF is 
-$$ P(y | a, n) = \binom{n}{y} a^y (1 - a)^{n - y} .$$ 
-The derivative with respect to $a$ is 
-$$ P_a(y | a) = y \binom{n}{y} a^{y-1} (1 - a)^{n - y} - (n-y) \binom{n}{y} a^y (1-a)^{n-y-1} . $$ 
-Simplifying yields 
-$$ P_a(y | a) =  \frac{y}{a} P(y | a, n) - \frac{n-y}{1-a} P(y | a, n) . $$
-I factor out $P(y|a)$ and simplify further
-$$ P_a(y | a) = P(y | a, n) \frac{y-na}{a-a^2} . $$ 
-The score is 
-$$ S(y|a) = \frac{P(y|a) \frac{(y-na)}{(a-a^2)}}{P(y|a)} = \frac{y-na}{a-a^2} . $$
+For $a\in(0,1)$, a fixed number of trials $n$, and
+$y\in\{0,\ldots,n\}$,
+\[
+    f(y\mid a)=\binom{n}{y}a^y(1-a)^{n-y}.
+\]
+It follows that
+\[
+    S(y\mid a)
+    =\frac{y}{a}-\frac{n-y}{1-a}
+    =\frac{y-na}{a-a^2}.
+\]
 
 \subsection{Gamma}
 
-The PDF is
-$$ f(y|n, a) = \frac{y^{n - 1} e^{-y/a}}{\Gamma(n) a^n} .$$ 
-The derivative with respect to $a$ is 
-$$ f_a(y|n, a) = \frac{y}{a^2}  f(y|n, a) - \frac{n}{a}  f(y|n, a) .$$
-I factor out $f(y|n, a)$ and simplify 
-$$ f_a(y|n, a) = f(y|n,a) \frac{y-na}{a^2} .$$
-The score is 
-$$ S(y|a) = \frac{f(y|n,a)\frac{y - n a}{a^2}}{f(y|n,a)} = \frac{y-na}{a^2} . $$
+For a fixed shape parameter $n>0$ and scale parameter $a>0$,
+\[
+    f(y\mid a)
+    =\frac{y^{n-1}e^{-y/a}}{\Gamma(n)a^n},
+    \qquad y>0.
+\]
+Thus
+\[
+    S(y\mid a)
+    =\partial_a\left[-\frac{y}{a}-n\log a\right]
+    =\frac{y}{a^2}-\frac{n}{a}
+    =\frac{y-na}{a^2}.
+\]
 
-\subsection{t} 
+\subsection{Student's $t$}
 
-The PDF is 
-$$ f(y | \nu, a, \sigma) = \frac{\Gamma\left(\frac{\nu + 1}{2}\right)}{\Gamma\left(\frac{\nu}{2}\right) \sqrt{\pi \nu} \sigma} \left(1 + \frac{1}{\nu} \frac{(y - a)^2}{\sigma^2}\right)^{-\frac{\nu + 1}{2}} $$ 
-The derivative with respect to $a$ is 
-$$ f_a(y | \nu, a, \sigma) = \frac{\Gamma\left(\frac{\nu + 1}{2}\right)}{\Gamma\left(\frac{\nu}{2}\right) \sqrt{\pi \nu} \sigma}\frac{\nu+1}{2}\left(1 + \frac{1}{\nu} \frac{(y - a)^2}{\sigma^2}\right)^{-\frac{\nu + 3}{2}} \frac{2(y-a)}{\nu \sigma^2} .$$ 
-Simplifying yields 
-$$ f_a(y | \nu, a, \sigma) = f(y | \nu, a, \sigma) \frac{(\nu+1)(y-a)}{\nu \sigma^2\left(1 + \frac{1}{\nu} \frac{(y - a)^2}{\sigma^2}\right)}  = f(y | \nu, a, \sigma) \frac{(\nu+1)(y-a)}{\nu \sigma^2 + (y-a)^2} .$$ 
-The score is 
-$$ S(y|a) = \frac{f(y|n,a)\frac{(\nu+1)(y-a)}{\nu \sigma^2 + (y-a)^2}}{f(y|n,a)} = \frac{(\nu+1)(y-a)}{\nu \sigma^2 + (y-a)^2} . $$  
+For location parameter $a$, scale parameter $\sigma>0$, and degrees of
+freedom $\nu>0$,
+\[
+    f(y\mid a)
+    =\frac{\Gamma\left(\frac{\nu+1}{2}\right)}
+           {\Gamma\left(\frac{\nu}{2}\right)\sqrt{\pi\nu}\,\sigma}
+      \left(1+\frac{(y-a)^2}{\nu\sigma^2}\right)^{-(\nu+1)/2}.
+\]
+Differentiating the log density gives
+\[
+    S(y\mid a)
+    =\frac{(\nu+1)(y-a)}{\nu\sigma^2+(y-a)^2}.
+\]
 
 \subsection{Exponential Family}
 
-The  PDF is
-$$ f(y|a) = h(y) \exp\left( \eta(a) T(y) - A(a) \right), $$
-where \( h(y) \) is the base measure, \( \eta(a) \) is the natural parameter, \( T(y) \) is the sufficient statistic, and \( A(a) \) is the log-partition function.
-The derivative with respect to \( a \) is
-$$ f_a(y|a) = h(y) \exp\left( \eta(a) T(y) - A(a) \right) \left[ T(y) \frac{d\eta(a)}{da} - \frac{dA(a)}{da} \right]. $$
-Simplifying yields 
-$$ f_a(y|a) = f(y|a) \left[ T(y) \frac{d\eta(a)}{da} - \frac{dA(a)}{da} \right]. $$
-The score is
-$$ S(y|a) = \frac{f_a(y|a)}{f(y|a)} = T(y) \frac{d\eta(a)}{da} - \frac{dA(a)}{da}. $$ 
+Consider
+\[
+    f(y\mid a)
+    =h(y)\exp\bigl(\eta(a)T(y)-A(a)\bigr),
+\]
+where $h$ is the base density or mass function, $\eta$ is the natural
+parameter, $T$ is the sufficient statistic, and $A$ is the log-normalizing
+term expressed as a function of action.  Then
+\[
+    S(y\mid a)
+    =\partial_a\log f(y\mid a)
+    =\eta'(a)T(y)-A'(a).
+\]
 
-\subsection{Additive} 
+\subsection{Additive Model}
 
-Let $y = a + y$, where $y$ is a random variable with PDF $g(y)$. The PDF of y is 
-$$ f(y|a) = g(y-a) .$$
-The derivative with respect to $a$ is 
-$$ f_a(y|a) = - g'(y-a). $$
-The score is 
-$$ S(y|a) =  \frac{g'(y-a)}{g(y-a)}. $$ 
+Let $Y=a+X$, where $X$ has differentiable density $h$.  Then
+\[
+    f(y\mid a)=h(y-a),
+    \qquad
+    f_a(y\mid a)=-h'(y-a).
+\]
+Therefore
+\[
+    S(y\mid a)=-\frac{h'(y-a)}{h(y-a)}.
+\]
 
-\subsection{Multiplicative} 
+\subsection{Multiplicative Model}
 
-Let $y = ay$ where $y$ is a random variable with PDF $g(y)$. The PDF of y is 
-$$ f(y|a) = \frac{1}{a} g(\frac{y}{a}) .$$ 
-The derivative with respect to $a$ is 
-$$ -\frac{1}{a^2} g(\frac{y}{a}) - \frac{1}{a^3} g'(\frac{y}{a})y . $$
-The score is 
-$$ S(y|a) = -\frac{1}{a} - \frac{1}{a^2} \frac{g'(\frac{y}{a})}{g(\frac{y}{a})} y$$ 
+Let $Y=aX$, where $a>0$ and $X$ has differentiable density $h$.  A change of
+variables gives
+\[
+    f(y\mid a)=\frac{1}{a}h\left(\frac{y}{a}\right).
+\]
+Differentiating with respect to $a$ yields
+\[
+    f_a(y\mid a)
+    =-\frac{1}{a^2}h\left(\frac{y}{a}\right)
+     -\frac{y}{a^3}h'\left(\frac{y}{a}\right).
+\]
+Hence
+\[
+    S(y\mid a)
+    =-\frac{1}{a}
+     -\frac{y}{a^2}\frac{h'(y/a)}{h(y/a)}.
+\]
 
-\section{Derivation of Link Functions for Particular Utility Functions} 
+\section{Derivations of Links for Particular Utility Functions}
 
-\subsection{Log}  
+The body of the paper defines utility over total wealth $W$.  Let
+\[
+    m_0:=\frac{1}{u'(w_0)}.
+\]
+On the region where limited liability does not bind, the first-order condition
+is $u'(W)=1/z$.  The base wealth link and limited-liability wealth link are
+therefore
+\[
+    L_0(z):=(u')^{-1}(1/z),
+    \qquad
+    L(z):=L_0(z\vee m_0).
+\]
+For $z(y)=\lambda+\mu s(y)$, the canonical total wealth and wage are
+\[
+    W_{\lambda,\mu}(y)=L(z(y)),
+    \qquad
+    w_{\lambda,\mu}(y)=L(z(y))-w_0.
+\]
+The proofs appendix also uses the corresponding utility link
+$\ell(z):=u(L(z))$.  We report it below to distinguish it from the wealth link
+$L$ used in the body.
 
-This section derives results for the utility function $$u(x) = log(w_0 + x).$$ 
-The derivative of utility with respect to consumption is 
-$$ u'(x) = \frac{1}{w_0 + x} $$ 
-The cost of utility is the inverse of the utility function 
-$$ u = log(w_0 + x) \rightarrow exp(u) = x \rightarrow k(u) = exp(u) - w_0 . $$
-The marginal cost of utility is 
-$$ \frac{1}{u'(k(u))} = \frac{1}{\frac{1}{exp(u)}} = exp(u). $$ 
-The inverse of the marginal cost of utility is 
-$$ x = exp(u) \rightarrow k'^{-1}(x) = log(x). $$ 
-The link function, $g(z)$, is 
-$$ g(z) = k'^{-1}\left(\max\left(\frac{1}{u'(w_0)}, z\right)\right) 
-= \log\left(\max(w_0, z)\right) .$$ 
-The canonical wage function given $z = \lambda + \mu S(y|a_0)$ is 
-\begin{align*}
-w(z) &= k(g(z)) \\
-     &= \exp\big(\log(max(w_0,z))\big) - w_0  \\
-     &= \left( z - w_0 \right)^+.
-\end{align*}
+\subsection{Log}
 
-\subsection{CRRA}  
+Let
+\[
+    u(W)=\log W,
+    \qquad W>0,
+\]
+with $w_0>0$.  Since $u'(W)=1/W$, the equation $u'(W)=1/z$ gives
+$L_0(z)=z$.  Moreover,
+\[
+    m_0=\frac{1}{u'(w_0)}=w_0.
+\]
+Thus
+\[
+    L(z)=z\vee w_0,
+    \qquad
+    \ell(z)=\log(z\vee w_0).
+\]
+The associated canonical wage is
+\[
+    w_{\lambda,\mu}(y)
+    =\bigl[\lambda+\mu s(y)-w_0\bigr]^+.
+\]
 
-This section derives results for the utility function $$u(x) = \frac{(w_0+x)^{1-\gamma}}{1-\gamma} . $$ 
-The derivative of utility with respect to consumption is 
-$$ u'(x) = (w_0 + x)^{-\gamma}. $$
-The cost of utility is the inverse of the utility function 
-$$ u = \frac{(w_0+x)^{1-\gamma}}{1-\gamma} \rightarrow k(u) = ((1-\gamma)u)^{\frac{1}{1-\gamma}}-w_0. $$
-The marginal cost of utility is 
-$$ \frac{1}{u'(k(u))} = \frac{1}{((1-\gamma)u)^{\frac{-\gamma}{1-\gamma}}} = ((1-\gamma)u)^{\frac{\gamma}{1-\gamma}}. $$
-The inverse of the marginal cost of utility is 
-$$ x = ((1-\gamma)u)^{\frac{\gamma}{1-\gamma}} \rightarrow k'^{-1}(x) = \frac{x^{\frac{1-\gamma}{\gamma}}}{1-\gamma}. $$
-The link function, $g(z)$, is 
-$$ g(z) = k'^{-1}\left(\max\left(\frac{1}{u'(w_0)}, z\right)\right) 
-= \frac{\max\left(w_0^\gamma, z\right)^{\frac{1-\gamma}{\gamma}}}{1-\gamma}.$$ 
-The canonical wage function given $z = \lambda + \mu S(y|a_0)$ is 
-\begin{align*}
-w(z) &= k(g(z)) \\
-     &=  \left( \frac{1-\gamma}{1-\gamma} \cdot \max(w_0^\gamma, z)^{\frac{1-\gamma}{1-\gamma}} \right)^{\frac{1}{1-\gamma}} - w_0  \\
-     &=  max(w_0^\gamma,z)^{\frac{1}{\gamma}} - w_0 \\ 
-     &= \left( (z^+)^{\frac{1}{\gamma}} - w_0 \right)^+.
-\end{align*}
+\subsection{CRRA}
+
+Let
+\[
+    u(W)=\frac{W^{1-\gamma}}{1-\gamma},
+    \qquad W>0,
+\]
+where $\gamma>0$ and $\gamma\neq1$.  Since $u'(W)=W^{-\gamma}$, the equation
+$u'(W)=1/z$ gives
+\[
+    L_0(z)=z^{1/\gamma}.
+\]
+Also,
+\[
+    m_0=\frac{1}{u'(w_0)}=w_0^\gamma.
+\]
+Consequently,
+\[
+    L(z)=\bigl(z\vee w_0^\gamma\bigr)^{1/\gamma},
+    \qquad
+    \ell(z)
+    =\frac{\bigl(z\vee w_0^\gamma\bigr)^{(1-\gamma)/\gamma}}
+           {1-\gamma}.
+\]
+The associated canonical wage is
+\[
+    w_{\lambda,\mu}(y)
+    =\Bigl(\bigl[\lambda+\mu s(y)\bigr]\vee w_0^\gamma\Bigr)^{1/\gamma}-w_0.
+\]
 
 \subsection{CARA}
-This section derives results for the utility function $$ u(x) = \frac{-\exp(-\alpha (x+w_0))}{\alpha}.$$ 
-The derivative of utility with respect to consumption is 
-$$ u'(x) = exp(-\alpha (x+w_0)) .$$
-The cost of utility is the inverse of the utility function 
-$$ u = \frac{-\exp(-\alpha (x+w_0))}{\alpha} \rightarrow -\alpha u = exp(-\alpha (x+w_0)) \rightarrow k(u) = -\frac{log(-\alpha u)}{\alpha} - w_0 .$$
-The marginal cost of utility is 
-$$ \frac{1}{u'(k(u))} = \frac{1}{exp(\alpha \frac{log(-\alpha u)}{\alpha}) } \rightarrow k'(u) = -\frac{1}{\alpha u} .$$ 
-The inverse of the marginal cost of utility is 
-$$ x = -\frac{1}{\alpha u} \rightarrow k'^{-1}(x) = -\frac{1}{\alpha x} .$$
-The link function, \( g(z) \), is 
-$$ g(z) = k'^{-1}\left(\max\left(\frac{1}{u'(w_0)}, z\right)\right) 
-= -\frac{1}{\alpha \max\left(\exp(\alpha w_0), z\right)}. $$
-The canonical wage function given $z = \lambda + \mu S(y|a_0)$ is 
-\begin{align*}
-w(z) &= k(g(z)) \\
-     &= k\left(-\frac{1}{\alpha \max\left(\exp(\alpha w_0), z\right)}\right) \\
-     &= -\frac{\log\left(-\alpha \cdot \left(-\frac{1}{\alpha \max\left(\exp(\alpha w_0), z\right)}\right)\right)}{\alpha} - w_0 \\ 
-     &= -\frac{(log(1) - \log\left(\max\left(\exp(\alpha w_0), z\right)\right))}{\alpha} - w_0 \\ 
-     &= \frac{\log\left(\max\left(\exp(\alpha w_0), z\right)\right)}{\alpha} - w_0 \\ 
-     &= \frac{(\log^+ z - \alpha w_0)^+}{\alpha}. 
-\end{align*}
 
+Let
+\[
+    u(W)=-\frac{\exp(-\alpha W)}{\alpha},
+\]
+where $\alpha>0$.  Since $u'(W)=\exp(-\alpha W)$, the equation
+$u'(W)=1/z$ gives
+\[
+    L_0(z)=\frac{\log z}{\alpha}.
+\]
+Furthermore,
+\[
+    m_0=\frac{1}{u'(w_0)}=\exp(\alpha w_0).
+\]
+It follows that
+\[
+    L(z)=\frac{\log\bigl(z\vee\exp(\alpha w_0)\bigr)}{\alpha},
+    \qquad
+    \ell(z)=-\frac{1}{\alpha\bigl(z\vee\exp(\alpha w_0)\bigr)}.
+\]
+The associated canonical wage is
+\[
+    w_{\lambda,\mu}(y)
+    =\frac{\log\Bigl(\bigl[\lambda+\mu s(y)\bigr]
+                       \vee\exp(\alpha w_0)\Bigr)}{\alpha}
+     -w_0.
+\]
 
 \section{Benchmarking Numerical Solvers}
 \label{sec:benchmarks}
