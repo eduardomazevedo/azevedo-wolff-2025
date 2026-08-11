@@ -391,7 +391,7 @@ This section proves proposition \ref{prop:concave}.  By
 Moreover, Lemma \ref{lem:mu-tilde} implies that every canonical contract
 satisfying equation \eqref{LIC_hat} at a given $\lambda$ is $v_\lambda$.  It therefore suffices to
 show that $\widehat U_{aa}(v_\lambda,a)\leq0$ for every $a$ when $\lambda$ is
-sufficiently large.
+sufficiently large. We begin with notation and preliminary results.
 
 For any cutoff $q\leq0$, define
 \begin{align}
@@ -593,6 +593,8 @@ converges to $L$ by the assumption in the proposition statement.  Taking the lim
 \eqref{eq:asymptotic-safe-tail-bound}.
 \end{proof}
 
+We can now prove proposition \ref{prop:concave}.
+
 \begin{proof}[Proof of Proposition \ref{prop:concave}]
 By the equivalence established at the beginning of this subsection, it remains
 to apply Proposition \ref{prop:finite-lambda-bound} under each branch of
@@ -671,13 +673,31 @@ $a\in\mathcal A$ and all sufficiently large $\lambda$.  Equation
 payment-contract form.
 \end{proof}
 
-\subsection{An asymptotic-affinity extension}
+\subsection{First-Order Approach with CRRA and $\gamma\in(1/2,1)$}
 \label{subsec:asymptotic-affinity}
 
 The safe-tail proof is not the only route to eventual concavity.  This
-appendix-only extension covers CRRA coefficients between $1/2$ and $1$ under a
-moment condition and concavity of the expected score.  It is stated separately
-because its mechanism differs from Proposition \ref{prop:concave}.
+appendix-only extension uses a moment condition and concavity of the expected
+score.  It is stated separately because its mechanism differs from Proposition
+\ref{prop:concave}.
+
+\begin{assumption}[CRRA utility]
+\label{ass:crra-affinity}
+Utility is
+\[
+    u(W)=\frac{W^{1-\gamma}}{1-\gamma},
+    \qquad w_0>0,
+    \qquad \gamma\in(1/2,1).
+\]
+\end{assumption}
+
+Put $p:=(1-\gamma)/\gamma\in(0,1)$.  On the nonbinding region,
+\begin{equation}
+    \ell_0(z)=\frac{z^p}{1-\gamma},
+    \qquad
+    \ell_0'(z)=\frac1\gamma z^{p-1}.
+    \label{eq:crra-link-affinity}
+\end{equation}
 
 \begin{assumption}[Affine-score curvature]
 \label{ass:affine-score}
@@ -693,26 +713,17 @@ Equivalently, $a\mapsto\E_a[s(Y)]$ is concave.
 \label{ass:affinity-moments}
 For some $\eta>0$,
 \begin{align*}
- 0<\sigma_s^2&:=\int s(y)^2f(y\mid a_0)\,d\nu(y)<\infty,\\
+ 0<\sigma_s^2:=\int s(y)^2f(y\mid a_0)\,d\nu(y)&<\infty,\\
  \int |s(y)|^{2+\eta}f(y\mid a_0)\,d\nu(y)&<\infty,\\
  \sup_{a\in\mathcal A}\int
  (1+|s(y)|^{2+\eta})|f_{aa}(y\mid a)|\,d\nu(y)&<\infty.
 \end{align*}
 \end{assumption}
 
-Suppose $u(W)=W^{1-\gamma}/(1-\gamma)$, $w_0>0$, and
-$\gamma\in(1/2,1)$.  Put $p:=(1-\gamma)/\gamma\in(0,1)$.  On the nonbinding
-region,
-\begin{equation}
-    \ell_0(z)=\frac{z^p}{1-\gamma},
-    \qquad
-    \ell_0'(z)=\frac1\gamma z^{p-1}.
-    \label{eq:crra-link-affinity}
-\end{equation}
-
 \begin{lemma}[Local incentive compatibility multiplier asymptotics]
 \label{lem:affinity-multiplier}
-Under Assumption \ref{ass:affinity-moments},
+Under Assumptions \ref{ass:crra-affinity} and
+\ref{ass:affinity-moments},
 \[
     \widetilde\mu(\lambda)\ell_0'(\lambda)
     \longrightarrow \frac{c'(a_0)}{\sigma_s^2},
@@ -774,7 +785,8 @@ $\lambda\ell_0'(\lambda)\to\infty$.
 
 \begin{lemma}[Uniform affine residual]
 \label{lem:uniform-affine-residual}
-Under Assumption \ref{ass:affinity-moments},
+Under Assumptions \ref{ass:crra-affinity} and
+\ref{ass:affinity-moments},
 \begin{align}
  \sup_{a\in\mathcal A}\Bigg|\int
  &\left[\ell(\lambda+\widetilde\mu(\lambda)s(y))-\ell(\lambda)
@@ -824,9 +836,8 @@ uniformly in $a$.  Combining the central and tail bounds proves
 
 \begin{proposition}[Asymptotic-affinity extension]
 \label{prop:asymptotic-affinity}
-Suppose $\underline c''>0$, Assumptions \ref{ass:affine-score} and
-\ref{ass:affinity-moments} hold, and utility is CRRA with
-$\gamma\in(1/2,1)$.  Then
+Suppose $\underline c''>0$ and Assumptions \ref{ass:crra-affinity},
+\ref{ass:affine-score}, and \ref{ass:affinity-moments} hold.  Then
 \[
     \sup_{a\in\mathcal A}
     \widehat U_{aa}(v_\lambda,a)
