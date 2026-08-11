@@ -12,16 +12,25 @@ In the appendix we use the following additional notation. Let
 \]
 and $k:=u^{-1}$.
 
-It will be convenient to parametrize contracts in utility units because this makes the relaxed problem
-a convex program with linear constraints. Given a (payment) contract $w$, define the \textbf{utility contract} parametrization by
+It will be convenient to parametrize contracts in utility units because this
+makes the relaxed problem a convex program with linear constraints.  Given a
+payment contract $w$, define its \textbf{utility contract} by
 $v(y):=u(w_0+w(y))$.  Conversely, a utility contract $v$ corresponds to the
-payment contract $w(y) = k(v)-w_0$. Henceforth, throughout the proofs appendix, we work with this equivalent utility parametrization and refer to utility contracts simply as contracts.
-
-Define
+payment contract $w(y)=k(v(y))-w_0$.  Define
 \begin{align*}
     \widehat U(v,a)&:=\int v(y)f(y\mid a)\,d\nu(y)-c(a),\\
     \widehat C(v,a)&:=\int [k(v(y))-w_0]f(y\mid a)\,d\nu(y).
 \end{align*}
+For corresponding utility and payment contracts,
+\begin{equation}
+    \widehat U(v,a)=U(w,a),
+    \qquad
+    \widehat C(v,a)=C(w,a).
+    \label{eq:utility-payment-equivalence}
+\end{equation}
+Henceforth, throughout the proofs appendix, we work in utility units and refer
+to utility contracts simply as contracts.
+
 Local incentive compatibility in utility units is
 \begin{equation}
     \widehat U_a(v,a_0)
@@ -51,10 +60,11 @@ Define the utility links
     \ell_0(z)&:=&u(L_0(z))=(k')^{-1}(z),\\
     \ell(z)&:=&\ell_0(z\vee m_0).
 \end{eqnarray*}
-The utility parametrization of a
-canonical contract is
+The utility representation of the canonical payment contract is
 \[
-    v_{\lambda,\mu}(y):=\ell(\lambda+\mu s(y)).
+    v_{\lambda,\mu}(y)
+    :=u\bigl(w_0+w_{\lambda,\mu}(y)\bigr)
+    =\ell(\lambda+\mu s(y)).
 \]
 
 \subsection{Utility Conditions in Link Form}
@@ -153,11 +163,11 @@ The assumption that canonical contracts are feasible ensures that this solution 
 everywhere uniqueness.
 \end{proof}
 
-\begin{lemma}[The LIC multiplier]
+\begin{lemma}[The local incentive compatibility multiplier]
 \label{lem:mu-tilde}
 For each $\lambda\geq0$, there is a unique $\widetilde\mu(\lambda)>0$ such
 that the canonical contract $v_{\lambda,\widetilde\mu(\lambda)}$ satisfies
-\eqref{LIC_hat}.  Moreover, $\widetilde\mu$ is continuous.
+equation \eqref{LIC_hat}.  Moreover, $\widetilde\mu$ is continuous.
 \end{lemma}
 
 \begin{proof}
@@ -187,15 +197,15 @@ This limit exceeds $c'(a_0)$ by
 solution.
 
 Whenever $I(\lambda,\mu)>0$, it is strictly increasing in $\mu$.
-Therefore the multiplier satisfying \eqref{LIC_hat} is unique.  Finally, joint continuity
+Therefore the multiplier satisfying equation \eqref{LIC_hat} is unique.  Finally, joint continuity
 of $I$ and this strict crossing imply continuity of
 $\widetilde\mu(\lambda)$.
 \end{proof}
 
-For each $\lambda\geq0$, define the canonical contract obtained by setting
-$\mu=\widetilde\mu(\lambda)$ and the attained utility and cost by:
+For each $\lambda\geq0$, define the canonical contract satisfying equation
+\eqref{LIC_hat} and its attained utility and cost by
 \begin{eqnarray*}
-    v_\lambda(y)&:=&\ell\bigl(\lambda+\widetilde\mu(\lambda)s(y)\bigr),\\
+    v_\lambda&:=&v_{\lambda,\widetilde\mu(\lambda)},\\
     \widetilde U(\lambda)&:=&\widehat U(v_\lambda,a_0),\\
     \widetilde C(\lambda)&:=&\widehat C(v_\lambda,a_0).
 \end{eqnarray*}
@@ -210,7 +220,7 @@ minimizer of
 \[
     \widehat C(v,a_0)-\lambda\widehat U(v,a_0)
 \]
-among contracts in $\mathcal V$ satisfying \eqref{LIC_hat}.  The function
+among contracts in $\mathcal V$ satisfying equation \eqref{LIC_hat}.  The function
 $\widetilde U$ is
 continuous and nondecreasing.  If $\lambda_1<\lambda_2$ and
 $\widetilde U(\lambda_1)=\widetilde U(\lambda_2)$, then
@@ -218,7 +228,7 @@ $v_{\lambda_1}=v_{\lambda_2}$ almost everywhere.
 \end{lemma}
 
 \begin{proof}
-On the constraint \eqref{LIC_hat}, the displayed objective differs by a constant from the
+Under equation \eqref{LIC_hat}, the displayed objective differs by a constant from the
 Lagrangian with $\mu=\widetilde\mu(\lambda)$.  Lemma
 \ref{lem:lagrangian} therefore proves optimality and uniqueness.
 
@@ -269,7 +279,7 @@ $v_\lambda$ is feasible for reservation utility $\widetilde U(\lambda)$, we
 have $\widetilde U(\lambda)\leq U_R$ for every $\lambda$, and hence
 $U_\infty\leq U_R$.
 
-Conversely, for any contract $v$ satisfying \eqref{LIC_hat}, Lemma
+Conversely, for any contract $v$ satisfying equation \eqref{LIC_hat}, Lemma
 \ref{lem:pareto-problem} gives, for every $\lambda>0$,
 \[
     \widehat U(v,a_0)
@@ -298,6 +308,13 @@ $v(y)\geq\bar u$, a contradiction with $v$ being feasible.
 \end{proof}
 
 \begin{proof}[Proof of Proposition \ref{prop:relaxed-optimal-contract}]
+By \eqref{eq:utility-payment-equivalence}, the relaxed problem in payment
+contracts is equivalent to the transformed problem in utility contracts.  We
+prove the result for its utility-contract solution $v^*_{\bar U}$; applying
+$w(y)=k(v(y))-w_0$ then gives the stated payment-contract solution.  By the
+definition of $U_L$ and Lemma \ref{lem:no-terminal-flat} with $M=0$, we have
+$U_L<U_R$.
+
 \emph{Part (i).}  Fix $\bar U<U_R$.  Continuity of $\widetilde U$ and
 $\widetilde U(\lambda)\to U_R$ ensure that there is a $\lambda\geq0$ such that
 \begin{equation}
@@ -311,7 +328,7 @@ and
 \end{equation}
 Set $\mu=\widetilde\mu(\lambda)$ and
 $v^*_{\bar U}=v_\lambda$.  By construction, $v^*_{\bar U}$ is canonical and
-satisfies LIC and IR.  By Lemma
+satisfies equation \eqref{LIC_hat} and IR.  By Lemma
 \ref{lem:lagrangian}, $v^*_{\bar U}$ minimizes the Lagrangian (almost everywhere uniquely) and satisfies complementary slackness equation \eqref{eq:candidate-complementary-slackness}. The
 standard Lagrangian sufficiency argument implies that $v^*_{\bar U}$ is the almost
 everywhere unique solution of the relaxed problem.
@@ -357,7 +374,7 @@ contradicting binding IR.  Hence $C^*$ is strictly increasing.
 
 Finally, consider two distinct reservation utilities in $(U_L,U_R)$.  Because
 IR binds, their optimal contracts are distinct.  A strict convex combination
-of these contracts satisfies LIC and delivers the corresponding convex
+of these contracts satisfies local incentive compatibility and delivers the corresponding convex
 combination of reservation utilities.  Strict convexity of expected cost pointwise in $y$
 therefore implies that $C^*$ is strictly convex on $(U_L,U_R)$.
 \end{proof}
@@ -365,7 +382,16 @@ therefore implies that $C^*$ is strictly convex on $(U_L,U_R)$.
 \subsection{Proof of asymptotic concavity proposition \ref{prop:concave}}
 \label{subsec:appendix-safe-tail}
 
-This section proves proposition \ref{prop:concave}.
+This section proves proposition \ref{prop:concave}.  By
+\eqref{eq:utility-payment-equivalence},
+\[
+    \widehat U_{aa}(v_{\lambda,\mu},a)
+    =U_{aa}(w_{\lambda,\mu},a).
+\]
+Moreover, Lemma \ref{lem:mu-tilde} implies that every canonical contract
+satisfying equation \eqref{LIC_hat} at a given $\lambda$ is $v_\lambda$.  It therefore suffices to
+show that $\widehat U_{aa}(v_\lambda,a)\leq0$ for every $a$ when $\lambda$ is
+sufficiently large.
 
 For any cutoff $q\leq0$, define
 \begin{align}
@@ -418,7 +444,7 @@ Equivalently,
 \end{lemma}
 
 \begin{proof}
-For $\lambda>m_0$, evaluate the LIC integral at the trial multiplier
+For $\lambda>m_0$, evaluate the left-hand side of equation \eqref{LIC_hat} at the trial multiplier
 $\mu_q(\lambda)$:
 \begin{align*}
  &\int \ell\bigl(\lambda+\mu_q(\lambda)s(y)\bigr)s(y)
@@ -438,9 +464,10 @@ $\ell(\lambda+\mu_q(\lambda)s(y))=\underline u$; the final equality then
 follows from the definition of $\Capq(q)$.
 
 As $\lambda\to\infty$, the final expression converges to
-$\Delta u\,\Capq(q)>c'(a_0)$.  Thus, for all sufficiently large $\lambda$, the LIC integral evaluated at
-$\mu_q(\lambda)$ exceeds $c'(a_0)$.  Monotonicity in $\mu$ and uniqueness of
-the LIC multiplier therefore imply
+$\Delta u\,\Capq(q)>c'(a_0)$.  Thus, for all sufficiently large $\lambda$, the
+left-hand side of equation \eqref{LIC_hat} evaluated at $\mu_q(\lambda)$
+exceeds $c'(a_0)$.  Monotonicity in $\mu$ and uniqueness of the local
+incentive compatibility multiplier therefore imply
 $\widetilde\mu(\lambda)\leq\mu_q(\lambda)$.  Because $m_0-\lambda<0$, this
 is equivalent to $q^{\mathrm{kink}}(\lambda)\leq q$.
 \end{proof}
@@ -457,7 +484,7 @@ Suppose $\ell_0$ is concave.  Let $q_0<q_1\leq0$ be safe cutoffs such that
 \]
 For all sufficiently large $\lambda$,
 \begin{equation}
- \sup_{a\in\mathcal A}U_{aa}(w_{\lambda,\widetilde\mu},a)
+ \sup_{a\in\mathcal A}\widehat U_{aa}(v_\lambda,a)
  \leq
  \mu_{q_0}(\lambda)
  \ell_0'\bigl(\lambda+\mu_{q_0}(\lambda)q_1\bigr)\Curvq(q_1)
@@ -471,7 +498,7 @@ Moreover, if
 then
 \begin{equation}
  \limsup_{\lambda\to\infty}\sup_{a\in\mathcal A}
- U_{aa}(w_{\lambda,\widetilde\mu},a)
+ \widehat U_{aa}(v_\lambda,a)
  \leq
  \frac{L\,\Curvq(q_1)}{q_1-q_0}-\underline c''.
  \label{eq:asymptotic-safe-tail-bound}
@@ -495,21 +522,21 @@ $\widetilde\mu=\widetilde\mu(\lambda)$, and write
     \qquad t\in\mathbb R.
 \]
 
-\noindent\textbf{Step 2: center and split the curvature.}\par
+\noindent\textbf{Step 2: center and split the curvature integral.}\par
 We have
 \begin{equation}
- U_{aa}(w_{\lambda,\widetilde\mu},a)
+ \widehat U_{aa}(v_\lambda,a)
  =\int \delta_\lambda(s(y))f_{aa}(y\mid a)\,d\nu(y)-c''(a).
  \label{eq:curvature-identity}
 \end{equation}
 because the integral of $f_{aa}$ is zero, so that we can add and subtract
 $\ell(\lambda)$ without changing the integral.
 
-On $\{s\leq q_1\}$, monotonicity of $\ell$ gives
+On $\{s(y) \leq q_1\}$, monotonicity of $\ell$ gives
 $\delta_\lambda(s(y))\leq0$, while tail safety gives $f_{aa}\geq0$.  This
 region therefore contributes weakly negatively. Therefore,
 \begin{equation}
- U_{aa}(w_{\lambda,\widetilde\mu},a)
+ \widehat U_{aa}(v_\lambda,a)
  \leq\int_{\{s(y)>q_1\}}
  \delta_\lambda(s(y))f_{aa}(y\mid a)\,d\nu(y)-c''(a).
  \label{eq:curvature-right-region}
@@ -536,7 +563,7 @@ $\{s>q_1\}$,
 Substituting this bound into \eqref{eq:curvature-right-region} and using the
 definition of $\Curvq(q_1)$ gives
 \begin{equation}
- U_{aa}(w_{\lambda,\widetilde\mu},a)
+ \widehat U_{aa}(v_\lambda,a)
  \leq
  \widetilde\mu\,\ell_0'(\lambda+\widetilde\mu q_1)\Curvq(q_1)-c''(a).
  \label{eq:curvature-split}
@@ -567,10 +594,9 @@ converges to $L$ by the assumption in the proposition statement.  Taking the lim
 \end{proof}
 
 \begin{proof}[Proof of Proposition \ref{prop:concave}]
-Lemma \ref{lem:mu-tilde} shows that every canonical contract satisfying
-\eqref{LIC_hat} at a given $\lambda\geq0$ uses the unique multiplier
-$\widetilde\mu(\lambda)$.  It remains to apply Proposition
-\ref{prop:finite-lambda-bound} under each branch of Theorem \ref{thm:main}.
+By the equivalence established at the beginning of this subsection, it remains
+to apply Proposition \ref{prop:finite-lambda-bound} under each branch of
+Theorem \ref{thm:main}.
 
 \emph{Branch (i): sufficient risk aversion.}
 Condition \eqref{condition:U1} and Remark \ref{rem:link-concavity} imply that
@@ -592,7 +618,7 @@ $z\ell_0'(z)\to0$.  Applying Proposition
 \ref{prop:finite-lambda-bound} equation \eqref{eq:asymptotic-safe-tail-bound} with $L=0$ yields
 \[
  \limsup_{\lambda\to\infty}\sup_{a\in\mathcal A}
- U_{aa}(w_{\lambda,\widetilde\mu(\lambda)},a)
+ \widehat U_{aa}(v_\lambda,a)
  \leq-\underline c''<0.
 \]
 
@@ -635,11 +661,14 @@ $\Delta u\,\Capq(q_0)>c'(a_0)$.  Thus Proposition
 \ref{prop:finite-lambda-bound} applies, and its bound with $L=1$ yields
 \[
  \limsup_{\lambda\to\infty}\sup_{a\in\mathcal A}
- U_{aa}(w_{\lambda,\widetilde\mu(\lambda)},a)
+ \widehat U_{aa}(v_\lambda,a)
  \leq\frac{\Curvq(q_1)}{q_1-q_0}-\underline c''<0.
 \]
 
-Thus, under either branch, there is a finite $\lambda_0$ satisfying the desired result.
+Thus, under either branch, $\widehat U_{aa}(v_\lambda,a)\leq0$ for every
+$a\in\mathcal A$ and all sufficiently large $\lambda$.  Equation
+\eqref{eq:utility-payment-equivalence} proves the proposition in its stated
+payment-contract form.
 \end{proof}
 
 \subsection{An asymptotic-affinity extension}
@@ -681,7 +710,7 @@ region,
     \label{eq:crra-link-affinity}
 \end{equation}
 
-\begin{lemma}[LIC multiplier asymptotics]
+\begin{lemma}[Local incentive compatibility multiplier asymptotics]
 \label{lem:affinity-multiplier}
 Under Assumption \ref{ass:affinity-moments},
 \[
@@ -735,7 +764,8 @@ score has mean zero, so
  f(y\mid a_0)\,d\nu(y)
  \longrightarrow\theta\sigma_s^2.
 \]
-Monotonicity of the left-hand side in $\mu$ brackets the unique LIC multiplier
+Monotonicity of the left-hand side in $\mu$ brackets the unique local
+incentive compatibility multiplier
 between any two choices of $\theta$ surrounding
 $c'(a_0)/\sigma_s^2$.  This proves the first limit.  The
 second follows after division by
@@ -799,7 +829,7 @@ Suppose $\underline c''>0$, Assumptions \ref{ass:affine-score} and
 $\gamma\in(1/2,1)$.  Then
 \[
     \sup_{a\in\mathcal A}
-    U_{aa}(w_{\lambda,\widetilde\mu(\lambda)},a)
+    \widehat U_{aa}(v_\lambda,a)
     \leq-\underline c''+o(1).
 \]
 Consequently, the agent's objective is concave for all sufficiently large
@@ -808,17 +838,18 @@ feasible reservation utilities.
 \end{proposition}
 
 \begin{proof}
-Abbreviate $\widetilde\mu=\widetilde\mu(\lambda)$.  Use
-$\int f_{aa}(y\mid a)d\nu(y)=0$ to remove $\ell(\lambda)$.  Lemma
+Abbreviate $\widetilde\mu=\widetilde\mu(\lambda)$.  Using
+$\int f_{aa}(y\mid a)d\nu(y)=0$ to remove $\ell(\lambda)$, Lemma
 \ref{lem:uniform-affine-residual} gives, uniformly in $a$,
 \begin{align*}
- \int \ell(\lambda+\widetilde\mu s(y))f_{aa}(y\mid a)\,d\nu(y)
+ \widehat U_{aa}(v_\lambda,a)
  ={}&\widetilde\mu\ell_0'(\lambda)
- \int s(y)f_{aa}(y\mid a)\,d\nu(y)+o(1).
+ \int s(y)f_{aa}(y\mid a)\,d\nu(y)-c''(a)+o(1).
 \end{align*}
-The leading term is nonpositive by Assumption \ref{ass:affine-score}.  After
-subtracting $c''(a)\geq\underline c''$, the asserted bound follows.  LIC at the
-interior action $a_0$ and concavity imply global incentive compatibility.  The
+The leading term is nonpositive by Assumption \ref{ass:affine-score}, and
+$c''(a)\geq\underline c''$, proving the asserted bound.  Local incentive
+compatibility at the interior action $a_0$ and concavity imply global
+incentive compatibility.  The
 last conclusion then follows from the divergence of the smallest supporting
 multiplier in Proposition \ref{prop:relaxed-optimal-contract}.
 \end{proof}
