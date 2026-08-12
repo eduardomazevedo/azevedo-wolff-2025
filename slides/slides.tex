@@ -60,7 +60,7 @@
 \begin{frame}{What is actually true}
   \begin{itemize}
     \item The FOA holds except for very low reservation utility.
-    \item Key theorem assumptions: some risk aversion and $f_aa(y|a) > 0$ in a large enough region of low scores.
+    \item Key theorem assumptions: at least moderate risk aversion and $f_{aa}(y|a) \geq 0$ in a large enough region of low scores.
     \item Side effects:
     \begin{itemize}
       \item \textcolor{accentred}{Tractable} (analytically and computationally trivial).
@@ -88,24 +88,22 @@
 \end{frame}
 
 \begin{frame}{Model}
-  Agent utility $u(x) - c(a)$ from payment $x \geq 0$ and action $a \in \mathcal{A}$. Reservation utility $\bar{U}$.
-  
-  Output $y$ has density $f(y|a)$.
+  Agent has initial wealth $w_0$, utility $u(w_0+w)-c(a)$ from payment $w\geq 0$ and action $a\in\mathcal A$. Reservation utility $\bar U$.
 
-  Contract is $v \colon \mathbb{R} \to u(\mathbb{R}_+)$.
-  
-  Let $k = u^{-1}$. Feasible contracts: $\mathcal{C}$.
+  Output $y$ has density $f(y\mid a)$.
+
+  Contract is $w\colon\mathcal Y\to\mathbb R_+$. Feasible contracts: $\mathcal W$.
 
   \begin{align}
-    U(v, a) &= \int \phantom{k(}v(y)\phantom{)} \cdot f(y|a)\,\mathrm{d}y - c(a) \\
-    W(v, a) &= \int k(v(y)) \cdot f(y|a)\,\mathrm{d}y
+    U(w, a) &= \int u\bigl(w_0+w(y)\bigr) \cdot f(y\mid a)\,\mathrm{d}y - c(a) \\
+    C(w, a) &= \int w(y) \cdot f(y\mid a)\,\mathrm{d}y
   \end{align}
 \end{frame}
 
 \begin{frame}{Definitions: FOA}
   \textbf{GIC} (global incentive compatibility): choosing $a_0$ is optimal for the agent.
 
-  \textbf{LIC} (local incentive compatibility): $\partial_a U(v, a_0) = 0$.
+  \textbf{LIC} (local incentive compatibility): $U_a(w, a_0) = 0$.
 
   \textbf{Cost minimization problem:} minimize expected wage subject to IR and GIC.
 
@@ -114,13 +112,35 @@
   \textbf{FOA holds for $(a_0, \bar{U})$} if the solution to the relaxed cmp solves the cmp.
 \end{frame}
 
-\begin{frame}{Key Assumptions}
+\begin{frame}{Definitions}
   \begin{itemize}
-    \item Increasing score $S(y|a) := \frac{\partial}{\partial a} \log f(y|a)$.
-    \item Limited liability + limits to punishments: $u(0)$ and $u'(0)$ are finite.
-    \item Need some risk aversion: $k'^{-1}$ is concave.
-    \item Support of $f(y|a)$ is the real line and image of the score is the real line.
+    \item Score $s(y) := f_a(y\mid a_0)/f(y\mid a_0)$.
+    \item Sufficient risk aversion: with absolute risk aversion $A$ and absolute prudence $P$,
+    \[
+      \frac{A(W)}{P(W)}\geq\frac{1}{3}
+      \qquad\text{and}\qquad
+      \lim_{W\to\infty}\frac{A(W)}{u'(W)}=\infty.
+    \]
+    Includes CARA and CRRA with $\gamma>1$.
   \end{itemize}
+\end{frame}
+
+\begin{frame}{Safe capacity and curvature}
+  A cutoff $q\leq 0$ is \textbf{safe} if $f_{aa}\geq 0$ on $\{s\leq q\}$ for every $a$.
+  Let $\mathcal Q_{\mathrm{safe}}$ be the set of safe cutoffs, and $\bar q_{\mathrm{safe}}:=\sup\mathcal Q_{\mathrm{safe}}$.
+  \[
+    \mathrm{Cap}_{\mathrm{safe}}
+    :=-
+    \int_{\{s(y)<\bar q_{\mathrm{safe}}\}}
+    s(y)f(y\mid a_0)\,d\nu(y).
+  \]
+  \[
+    \mathrm{Curv}_{\mathrm{safe}}
+    :=\inf_{q\in\mathcal Q_{\mathrm{safe}}}
+      \sup_{a\in\mathcal A}
+      \int_{\{s(y)>q\}}
+      \bigl[s(y)f_{aa}(y\mid a)\bigr]_+\,d\nu(y).
+  \]
 \end{frame}
 
 \begin{frame}{Outline}
@@ -132,50 +152,58 @@
 \end{frame}
 
 \begin{frame}{Theorem 1}
-
-  Given an action $a_0 > 0$, the first-order approach is valid for $(a_0, \bar{U})$ for any sufficiently high reservation utility $\bar{U}$.
+  Suppose either:
+  \begin{enumerate}
+    \item[(i)] sufficient risk aversion, $\underline c''>0$, $\mathrm{Curv}_{\mathrm{safe}}<\infty$, and
+    \[
+      \bigl[\lim_{W\to\infty}u(W)-u(w_0)\bigr]\mathrm{Cap}_{\mathrm{safe}}>c'(a_0);
+    \]
+    \item[(ii)] log utility and $\mathrm{Curv}_{\mathrm{safe}}/\mathrm{Width}_{\mathrm{safe}}<\underline c''$.
+  \end{enumerate}
+  Then there exists $U^*<U_R$ such that, for every $\bar U\in[U^*,U_R)$, the first-order approach is valid.
 \end{frame}
 
 \begin{frame}{Proof part 1: Relaxed problem}
   Write Lagrangian:
   \[
-    \mathcal{L}(v, \lambda, \mu) = W(v) + \lambda (\bar{U} - U(v)) + \mu (-U_a(v))
+    \mathcal{L}(w, \lambda, \mu) = C(w,a_0) + \lambda (\bar{U} - U(w,a_0)) - \mu U_a(w,a_0)
   \]
   \begin{align}
-    W(v)   &= \int k(v(y)) \cdot f\phantom{_a}(y|a_0)\,\mathrm{d}y \\
-    U(v)   &= \int \phantom{k(}v(y)\phantom{)} \cdot f\phantom{_a}(y|a_0)\,\mathrm{d}y - c(a_0) \\
-    U_a(v) &= \int \phantom{k(}v(y)\phantom{)} \cdot f_a(y|a_0)\,\mathrm{d}y - c'(a_0)
+    C(w,a_0)   &= \int w(y) \cdot f\phantom{_a}(y\mid a_0)\,\mathrm{d}y \\
+    U(w,a_0)   &= \int u\bigl(w_0+w(y)\bigr) \cdot f\phantom{_a}(y\mid a_0)\,\mathrm{d}y - c(a_0) \\
+    U_a(w,a_0) &= \int u\bigl(w_0+w(y)\bigr) \cdot f_a(y\mid a_0)\,\mathrm{d}y - c'(a_0)
   \end{align}
 \end{frame}
 
 \begin{frame}{Proof part 1: Relaxed problem}
   FOC:
   \[
-    k'(v(y)) = \lambda + \mu S(y|a_0)
+    \frac{1}{u'\bigl(w_0+w(y)\bigr)} = \lambda + \mu s(y)
   \]
-  Solve for $v(y)$:
+  Solve for $w(y)$:
   \[
-    v(y) = g\left(\lambda + \mu S(y|a_0)\vphantom{\frac{1}{1}}\right),
+    w(y) = L\bigl(\lambda + \mu s(y)\bigr) - w_0,
   \]
-  where
+  where $m_0:=1/u'(w_0)$, $L_0(z):=(u')^{-1}(1/z)$, and
   \[
-    g(z) := k'^{-1}\left(\max\left\{\frac{1}{u'(0)}, z\right\}\right).
+    L(z) := L_0(z\vee m_0).
   \]
 \end{frame}
 
 \begin{frame}{Proposition 1 ($\approx$ Holmstrom 78)}
-  The relaxed problem has an almost everywhere unique solution $v^*(y|\bar{U})$. There exist $\lambda^*(\bar{U})$, $\mu^*(\bar{U})$ such that
+  The relaxed problem has an almost everywhere unique solution $w^*_{\bar U}$. There exist $\lambda$, $\mu$ such that
   \[
-    v^*\bigl(y|\bar{U}\bigr) = g\left(\lambda^*(\bar{U}) + \mu^*(\bar{U}) S(y|a_0)\vphantom{\frac{1}{1}}\right)
+    w^*_{\bar U}(y) = L\bigl(\lambda + \mu s(y)\bigr) - w_0.
   \]
 \end{frame}
 
 \begin{frame}{Proof part 2: concavity}
   \textbf{Proposition 2:}
 
-  There exists $U^* \in \mathbb{R}$ such that, for all $\bar{U} \geq U^*$ and all $a \in \mathcal{A}$,
+  Under either set of conditions in Theorem~1, there exists $\lambda_0<\infty$ such that every locally incentive-compatible canonical contract with $\lambda\geq\lambda_0$ obeys
   \[
-    U_{aa}\bigl(v^*\bigl(y|\bar{U}\bigr), a\bigr) \leq 0.
+    U_{aa}\bigl(w_{\lambda,\mu}, a\bigr) \leq 0
+    \qquad\text{for every }a\in\mathcal A.
   \]
 \end{frame}
 
@@ -192,31 +220,30 @@
 
 \begin{frame}{Heuristic derivation}
   \[
-    U(v, a) = g(\lambda) + \mu \int \Delta g(y|\lambda) \cdot S(y|a_0) \cdot f(y|a)\,\mathrm{d}y - c(a),
+    c'(a_0)
+    =\int\bigl[u\bigl(L(\lambda+\mu s(y))\bigr)
+                       -u\bigl(L(\lambda)\bigr)\bigr]s(y)
+      f(y\mid a_0)\,\mathrm{d}y.
   \]
-  where
+  If the kink is to the right of a cutoff $q_0<0$, then
   \[
-    \Delta g(y|\lambda) = \frac{g(\lambda + \mu S(y|a_0)) - g(\lambda)}{\mu S(y|a_0)}.
+    c'(a_0)
+    \geq \bigl[u\bigl(L(\lambda)\bigr)-u(w_0)\bigr]
+      \Bigl(-\!\int_{\{s\leq q_0\}}s\,f\,\mathrm{d}y\Bigr).
   \]
-  So
-  \[
-    c'(a_0) = \mu \int \Delta g(y|\lambda) \cdot S(y|a_0) \cdot f_a(y|a_0)\,\mathrm{d}y.
-  \]
-  $S$ and $f_a$ have the same sign. So
-  \[
-    c'(a_0) \geq \mu \int_{\text{left of the kink}} \Delta g \cdot S \cdot f_a\,\mathrm{d}y.
-  \]
+  As $\lambda\to\infty$, the right-hand side exceeds $c'(a_0)$ for a safe cutoff, so the kink must move into the safe low-score region.
 \end{frame}
 
 \begin{frame}{Heuristic derivation}
-  Substituting $\Delta g$ we get
-  \begin{align*}
-    c'(a_0) &\geq \int_{\text{left of the kink}} \bigl(g(\lambda + \mu S(y|a_0)) - g(\lambda)\bigr) \cdot f_a(y|a_0)\,\mathrm{d}y \\
-    &= \bigl(u(0) - g(\lambda)\bigr) \int_{\text{left of the kink}} f_a(y|a_0)\,\mathrm{d}y \\
-    &= \bigl(u(0) - g(\lambda)\bigr) \cdot \frac{\partial F(\underline{y}|a_0)}{\partial a}.
-  \end{align*}
-
-  Thus, as $\lambda \to \infty$, the left of the kink approaches $-\infty$. Concavity then follows with argument similar to \textcolor{deepteal}{(Jewitt 88)}.
+  Centering $U_{aa}$ and dropping the safe region (where the integrand is $\leq 0$),
+  \[
+    U_{aa}
+    \leq\int_{\{s>q_1\}}
+      \bigl[u\bigl(L(\lambda+\mu s)\bigr)-u\bigl(L(\lambda)\bigr)\bigr]
+      f_{aa}\,\mathrm{d}y
+      -c''(a).
+  \]
+  The kink-left-of-$q_0$ bound keeps $\mu$ from growing too fast relative to $\lambda$. Utility conditions tame sensitivity above $q_1$, and $\mathrm{Curv}_{\mathrm{safe}}$ bounds positive distributional curvature. Remaining curvature is eventually dominated by $\underline c''$.
 \end{frame}
 
 \begin{frame}{Outline}
@@ -230,7 +257,7 @@
 \begin{frame}{Calculus}
   \begin{itemize}
     \item Optimal contracts have simple and intuitive closed-form solutions.
-    \item Calculus of moral hazard has two parts: link function and score.
+    \item Calculus of moral hazard has two parts: wage link function and score.
   \end{itemize}
 \end{frame}
 
@@ -296,7 +323,7 @@
     \item Consider a finite set of GIC constraints at $\boldsymbol{\hat a} = (\hat a_1,\ldots,\hat a_n)$.
     \item With multipliers $\theta := (\lambda,\mu,\boldsymbol{\hat\mu})$, the optimal contract is
     \[
-      V(y | \theta, \hat a) = g\left(\lambda + \mu S(y|a_0) + \sum_i \hat\mu_i\left(1-\frac{f(y|\hat a_i)}{f(y|a_0)}\right)\right).
+      w(y | \theta, \hat a) = L\left(\lambda + \mu s(y) + \sum_i \hat\mu_i\left(1-\frac{f(y|\hat a_i)}{f(y|a_0)}\right)\right)-w_0.
     \]
     \item Lagrange dual $\mathcal D(\theta, \hat a)$ is fast to compute if we cache these terms.
     \item Analytic gradient from Danskin's envelope theorem.
@@ -337,13 +364,13 @@
 \begin{frame}
   \begin{columns}[T,onlytextwidth]
     \column{0.40\textwidth}
-    \textbf{Key assumption:} monotone score.
+    \textbf{Key assumption:} existence of a safe score region.
     \medskip
 
     Example: $t$-distributed outcome, tail coefficient $\nu = 1.15$.
     \medskip
 
-    Score is not monotone, and FOA often fails even for high reservation utility.
+    No nonempty safe low-score region, and FOA often fails even for high reservation utility.
 
     \column{0.56\textwidth}
     \centering
