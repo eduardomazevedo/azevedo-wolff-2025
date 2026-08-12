@@ -37,10 +37,10 @@ However, as \emph{reservation utility increases, the first-order approach become
 
 Theorem \ref{thm:main} does not contradict existing results in the literature. The low reservation utility case confirms the literature consensus that it is hard to guarantee that the first-order approach is valid is correct \emph{if we insist that the first-order approach is valid for all reservation utilities}. We see that, even in the Gaussian-log utility case, the first-order approach fails. Thus, any condition guaranteeing the first-order approach for all reservation utilities rules out basic examples and is therefore quite restrictive. The examples formally demonstrate the point made by \textcite{chaigneau2022should} and \textcite{conlon2009two}, that requiring the first-order approach to be valid for all reservation utilities excludes many interesting cases.
 
-As a corollary to Theorem \ref{thm:main}, the problem is often tractable because we can use standard first-order approach arguments dating back to \textcite{holmstrom1978incentives}. We show that an optimal contract exists, is unique, and optimal wages have a simple formula:
+As a corollary to Theorem \ref{thm:main}, the problem is often tractable because we can use standard first-order approach arguments dating back to \textcite{holmstrom1978incentives}. An optimal contract exists, is unique, and given by a simple formula:
 \begin{equation}
     \label{eq:optimal-wage}
-    w^*_{\bar U}(y)=L\bigl(\lambda+\mu s(y)\bigr)-w_0.
+    w(y)=L\bigl(\lambda+\mu s(y)\bigr)-w_0.
 \end{equation}
 
 The link function $L$ is determined by the utility function and the limited liability constraint. The score $s(y)$ is determined by the distribution of output at the intended action $a_0$. The optimal action is $a_0$, and $\lambda$ and $\mu$ are Lagrange multipliers. We give closed-form solutions for these functions for a wide range of examples, and use these formulas to develop an algorithm to compute optimal contracts.
