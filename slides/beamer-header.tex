@@ -1,7 +1,8 @@
 \defaultfontfeatures{Ligatures=TeX}
 
 \usepackage{unicode-math}
-\setmathfont{Latin Modern Math}
+% Use filename so XeLaTeX finds the TeX Live font without fontconfig.
+\setmathfont{latinmodern-math.otf}
 
 % High-contrast text colors shared with the manuscript link palette.
 \definecolor{deepteal}{RGB}{40,72,82}
