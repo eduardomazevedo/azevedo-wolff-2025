@@ -1,10 +1,10 @@
-\ProvidesPackage{custom}
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{custom}[2026/08/12 Azevedo--Wolff manuscript style]
 
 % -------------------------------------------------------------------
 % 1. Character encoding & Fonts
 % -------------------------------------------------------------------
 \RequirePackage[T1]{fontenc}
-\RequirePackage[utf8]{inputenc}
 \RequirePackage{mathpazo}
 
 % -------------------------------------------------------------------
@@ -30,6 +30,11 @@
 \definecolor{ghibli_palette_muted_green}{RGB}{132, 165, 157}
 \definecolor{ghibli_palette_warm_red}{RGB}{242, 132, 130}
 
+% Dark, high-contrast colors for text and hyperlinks. Keep these separate
+% from the lighter plotting palette above.
+\definecolor{linkred}{RGB}{123, 0, 0}
+\definecolor{linkteal}{RGB}{40, 72, 82}
+
 % -------------------------------------------------------------------
 % 4. Essential packages
 % -------------------------------------------------------------------
@@ -37,7 +42,7 @@
 \RequirePackage{amsmath}
 \RequirePackage{amsthm}
 \RequirePackage{amssymb}
-\RequirePackage{subcaption}
+\RequirePackage{caption}
 \RequirePackage{booktabs}
 \RequirePackage[ruled, vlined, linesnumbered]{algorithm2e}
 
@@ -56,9 +61,9 @@
 % Added pdfborder={0 0 0} to ensure Chrome doesn't draw magenta boxes.
 \hypersetup{
     colorlinks=true,
-    linkcolor=ghibli_palette_red,
-    citecolor=ghibli_palette_deep_teal,
-    urlcolor=ghibli_palette_deep_teal,
+    linkcolor=linkred,
+    citecolor=linkteal,
+    urlcolor=linkteal,
     pdfborder={0 0 0},      % Crucial for Chrome/Acrobat to hide boxes
     breaklinks=true         % Allows links to break across lines
 }

@@ -16,7 +16,7 @@ uv sync
 ./make.sh
 ```
 
-This runs the benchmark, main figure, and solver comparison scripts used to generate the replication outputs.
+This runs only the benchmark, main-figure, and solver-comparison scripts used to generate the replication assets. It does not compile the LaTeX manuscript; the manuscript is built separately from `tex/manuscript.tex`.
 
 ## Algorithm 1 Implementation
 

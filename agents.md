@@ -17,16 +17,16 @@ This repository contains the reproduction code for the academic paper "Azevedo-W
     - `main_figures.py`: Script to generate the main figures for the paper.
     - `solver_comparison.py`: Scripts for comparing different numerical solvers.
 - `tex/`: Contains the LaTeX source code for the paper manuscript, including chapters, appendices, and figures/tables subdirectories.
-- `make.sh`: A shell script to automate the entire reproduction process (running all Python scripts and compiling the LaTeX manuscript).
+- `make.sh`: A shell script that regenerates the benchmark outputs and figure assets. It does not compile LaTeX.
 - `pyproject.toml`: Project configuration file for Python, including dependencies managed by `uv`.
 - `readme.md`: This file.
 - `uv.lock`: Lock file for Python dependencies, ensuring reproducible environments.
 
-## Basic Instructions for Reproduction
+## Basic Instructions for Reproducing the Assets
 
-All numerical algorithms are implemented in the external `moralhazard` Python package. This repository uses that package to generate the results for the paper.
+All numerical algorithms are implemented in the external `moralhazard` Python package. This repository uses that package to generate the results for the paper. The LaTeX manuscript is built separately.
 
-To reproduce the results and compile the manuscript, follow these steps:
+To reproduce the numerical results and figure assets, follow these steps:
 
 1.  **Install `uv`:** If you don't have `uv` installed, you can install it using pip:
     ```bash
@@ -49,10 +49,7 @@ To reproduce the results and compile the manuscript, follow these steps:
     ```bash
     ./make.sh
     ```
-    This script will:
-    - Activate the `uv` virtual environment.
-    - Execute all Python scripts in the `py/` directory to generate numerical results, figures, and tables.
-    - Compile the LaTeX manuscript located in `tex/` to produce the final PDF.
+    This script executes the benchmark, main-figure, and solver-comparison scripts to generate numerical results, figures, and tables. It does not compile the LaTeX manuscript.
 
     All generated figures will adhere to the consistent style defined in `py/figure_maker.py`.
 
@@ -61,4 +58,4 @@ To reproduce the results and compile the manuscript, follow these steps:
 - **Python:** Used for all numerical computations and data generation.
 - **`uv`:** A fast Python package installer and dependency resolver used to manage the project's virtual environment and dependencies.
 - **LaTeX:** Used for typesetting the academic manuscript.
-- **`make.sh`:** A simple shell script orchestrating the entire reproduction workflow.
+- **`make.sh`:** A simple shell script that regenerates the numerical and figure assets.
