@@ -63,16 +63,16 @@
 
         Student's \(t\)
         & \( 
-        \frac{\Gamma\!\bigl(\tfrac{\nu + 1}{2}\bigr)}{\Gamma\!\bigl(\tfrac{\nu}{2}\bigr)\,\sqrt{\pi\nu}\,\sigma}
-        \left(1 + \frac{1}{\nu} \,\frac{(y - a)^2}{\sigma^2}\right)^{-\tfrac{\nu + 1}{2}} 
+        \frac{\Gamma\!\bigl(\tfrac{d + 1}{2}\bigr)}{\Gamma\!\bigl(\tfrac{d}{2}\bigr)\,\sqrt{\pi d}\,\sigma}
+        \left(1 + \frac{1}{d} \,\frac{(y - a)^2}{\sigma^2}\right)^{-\tfrac{d + 1}{2}}
         \) 
-        & \( \frac{(\nu+1)(y-a)}{\nu\,\sigma^2 + (y-a)^2} \) 
+        & \( \frac{(d+1)(y-a)}{d\,\sigma^2 + (y-a)^2} \)
         & \( a \) 
         \\ 
 
         Exponential Family
-        & \( h(y)\,\exp\Bigl(\eta(a)\,T(y) - A(a)\Bigr) \) 
-        & \( T(y)\,\frac{d\eta(a)}{da} \;-\; \frac{dA(a)}{da} \) 
+        & \( h(y)\,\exp\Bigl(\eta(a)\,T(y) - \psi(a)\Bigr) \)
+        & \( T(y)\,\frac{d\eta(a)}{da} \;-\; \frac{d\psi(a)}{da} \)
         & \textit{(Not specified)} 
         \\ 
 
@@ -91,6 +91,6 @@
     \end{tabular}
     } % End resizebox
     \captionsetup{font=footnotesize} % Match figure's note formatting
-    \caption*{\textit{Note:} The table reports the probability density function (or probability mass function for discrete distributions), action score, and mean as functions of the agent's action $a$.}
+    \caption*{\textit{Note:} The table reports the probability density function (or probability mass function for discrete distributions), action score, and mean as functions of the agent's action $a$.  For Student's $t$, $d$ denotes degrees of freedom.}
 \end{table}
 

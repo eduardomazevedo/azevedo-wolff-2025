@@ -11,12 +11,12 @@ includes an exponential family with a linear sufficient statistic.  That is,
 suppose $f(y\mid a)$ is of the form
 \begin{equation}
     f(y\mid a)
-    =h(y)\exp\bigl(\eta(a)y-A(a)\bigr).
+    =h(y)\exp\bigl(\eta(a)y-\psi(a)\bigr).
     \label{eq:linear-exponential-family}
 \end{equation}
 Its score at the intended action is
 \[
-    s(y)=\eta'(a_0)y-A'(a_0),
+    s(y)=\eta'(a_0)y-\psi'(a_0),
 \]
 which is affine in $y$.  If $\eta'(a_0)>0$, the canonical wage is zero below a
 strike point and increases linearly above it.

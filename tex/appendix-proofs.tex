@@ -55,11 +55,15 @@ Define the feasible-contract set in utility units by
 $\mathcal V$ is convex: differentiation is preserved by convex combinations, and
 convexity of $k$ preserves finiteness of expected compensation cost.
 
-Define the utility links
+Define the base utility link function and limited-liability utility link function by
 \begin{eqnarray*}
     \ell_0(z)&:=&u(L_0(z))=(k')^{-1}(z),\\
     \ell(z)&:=&\ell_0(z\vee m_0).
 \end{eqnarray*}
+The body uses the wage link function $L$, whereas the proofs below use only the
+utility link functions $\ell_0$ and $\ell$.  To reduce terminology, throughout
+the remainder of this appendix ``link function'' means utility link function
+unless explicitly stated otherwise.
 The utility representation of the canonical payment contract is
 \[
     v_{\lambda,\mu}(y)
@@ -67,12 +71,12 @@ The utility representation of the canonical payment contract is
     =\ell(\lambda+\mu s(y)).
 \]
 
-\subsection{Utility Conditions in Link Form}
+\subsection{Utility Conditions in Link-Function Form}
 \label{subsec:appendix-link-conditions}
 
-Our utility conditions imply the following properties of the utility link $\ell_0$.
+Our utility conditions imply the following properties of the base link function $\ell_0$.
 
-\begin{remark}[Concavity of the utility link]
+\begin{remark}[Concavity of the link function]
 \label{rem:link-concavity}
 If condition \eqref{condition:U1} holds, then $\ell_0$ is concave on
 $[m_0,\infty)$.
@@ -104,7 +108,7 @@ Condition \eqref{condition:U1} implies $P>0$ and $P/A\leq3$.
 Therefore $\ell_0''(z)\leq0$.
 \end{proof}
 
-\begin{remark}[Asymptotic flattening of the utility link]
+\begin{remark}[Asymptotic flattening of the link function]
 \label{rem:link-flattening}
 Condition \eqref{condition:U2} is equivalent to
 \[
@@ -493,14 +497,14 @@ For all sufficiently large $\lambda$,
 \end{equation}
 Moreover, if
 \[
-    \lim_{z\to\infty}z\ell_0'(z)=L<\infty,
+    \lim_{z\to\infty}z\ell_0'(z)=\rho<\infty,
 \]
 then
 \begin{equation}
  \limsup_{\lambda\to\infty}\sup_{a\in\mathcal A}
  \widehat U_{aa}(v_\lambda,a)
  \leq
- \frac{L\,\Curvq(q_1)}{q_1-q_0}-\underline c''.
+ \frac{\rho\,\Curvq(q_1)}{q_1-q_0}-\underline c''.
  \label{eq:asymptotic-safe-tail-bound}
 \end{equation}
 \end{proposition}
@@ -589,7 +593,7 @@ Since $\lambda+\mu_{q_0}(\lambda)q_0=m_0$, the coefficient in
 \end{align*}
 Because $q_0<0$, $\mu_{q_0}(\lambda)\to\infty$ by equation \eqref{eq:trial-multiplier}.  The fraction therefore
 converges to $1/(q_1-q_0)$.  The product in brackets with $\ell_0'$
-converges to $L$ by the assumption in the proposition statement.  Taking the limsup in \eqref{eq:finite-lambda-bound} proves
+converges to $\rho$ by the assumption in the proposition statement.  Taking the limsup in \eqref{eq:finite-lambda-bound} proves
 \eqref{eq:asymptotic-safe-tail-bound}.
 \end{proof}
 
@@ -617,7 +621,7 @@ $\mathrm{Curv}_{\mathrm{safe}}<\infty$, equation
 to choose a safe cutoff $q_1\in(q_0,0]$ with $\Curvq(q_1)<\infty$.
 Condition \eqref{condition:U2} and Remark \ref{rem:link-flattening} give
 $z\ell_0'(z)\to0$.  Applying Proposition
-\ref{prop:finite-lambda-bound} equation \eqref{eq:asymptotic-safe-tail-bound} with $L=0$ yields
+\ref{prop:finite-lambda-bound} equation \eqref{eq:asymptotic-safe-tail-bound} with $\rho=0$ yields
 \[
  \limsup_{\lambda\to\infty}\sup_{a\in\mathcal A}
  \widehat U_{aa}(v_\lambda,a)
@@ -660,7 +664,7 @@ under $a_0$.  Hence \eqref{eq:cutoff-capacity} gives
 \]
 Since $\Delta u=\infty$, it follows that
 $\Delta u\,\Capq(q_0)>c'(a_0)$.  Thus Proposition
-\ref{prop:finite-lambda-bound} applies, and its bound with $L=1$ yields
+\ref{prop:finite-lambda-bound} applies, and its bound with $\rho=1$ yields
 \[
  \limsup_{\lambda\to\infty}\sup_{a\in\mathcal A}
  \widehat U_{aa}(v_\lambda,a)

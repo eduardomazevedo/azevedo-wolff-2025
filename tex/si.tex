@@ -192,17 +192,17 @@ Thus
 \subsection{Student's $t$}
 
 For location parameter $a$, scale parameter $\sigma>0$, and degrees of
-freedom $\nu>0$,
+freedom $d>0$,
 \[
     f(y\mid a)
-    =\frac{\Gamma\left(\frac{\nu+1}{2}\right)}
-           {\Gamma\left(\frac{\nu}{2}\right)\sqrt{\pi\nu}\,\sigma}
-      \left(1+\frac{(y-a)^2}{\nu\sigma^2}\right)^{-(\nu+1)/2}.
+    =\frac{\Gamma\left(\frac{d+1}{2}\right)}
+           {\Gamma\left(\frac{d}{2}\right)\sqrt{\pi d}\,\sigma}
+      \left(1+\frac{(y-a)^2}{d\sigma^2}\right)^{-(d+1)/2}.
 \]
 Differentiating the log density gives
 \[
     S(y\mid a)
-    =\frac{(\nu+1)(y-a)}{\nu\sigma^2+(y-a)^2}.
+    =\frac{(d+1)(y-a)}{d\sigma^2+(y-a)^2}.
 \]
 
 \subsection{Exponential Family}
@@ -210,7 +210,7 @@ Differentiating the log density gives
 Consider
 \[
     f(y\mid a)
-    =h(y)\exp\bigl(\eta(a)T(y)-A(a)\bigr),
+    =h(y)\exp\bigl(\eta(a)T(y)-\psi(a)\bigr),
 \]
 where $h$ is the base density or mass function, $\eta$ is the natural
 parameter, $T$ is the sufficient statistic, and $A$ is the log-normalizing
@@ -218,7 +218,7 @@ term expressed as a function of action.  Then
 \[
     S(y\mid a)
     =\partial_a\log f(y\mid a)
-    =\eta'(a)T(y)-A'(a).
+    =\eta'(a)T(y)-\psi'(a).
 \]
 
 \subsection{Additive Model}
@@ -254,14 +254,14 @@ Hence
      -\frac{y}{a^2}\frac{h'(y/a)}{h(y/a)}.
 \]
 
-\section{Derivations of Links for Particular Utility Functions}
+\section{Derivations of Link Functions for Particular Utility Functions}
 
 The body of the paper defines utility over total wealth $W$.  Let
 \[
     m_0:=\frac{1}{u'(w_0)}.
 \]
 On the region where limited liability does not bind, the first-order condition
-is $u'(W)=1/z$.  The base wealth link and limited-liability wealth link are
+is $u'(W)=1/z$.  The base wage link function and limited-liability wage link function are
 therefore
 \[
     L_0(z):=(u')^{-1}(1/z),
@@ -274,9 +274,9 @@ For $z(y)=\lambda+\mu s(y)$, the canonical total wealth and wage are
     \qquad
     w_{\lambda,\mu}(y)=L(z(y))-w_0.
 \]
-The proofs appendix also uses the corresponding utility link
-$\ell(z):=u(L(z))$.  We report it below to distinguish it from the wealth link
-$L$ used in the body.
+The proofs appendix also uses the corresponding utility link function
+$\ell(z):=u(L(z))$.  We report it below to distinguish it from the wage link
+function $L$ used in the body.
 
 \subsection{Log}
 
@@ -443,12 +443,12 @@ for the named distributions.
 
 For completeness, consider the regular exponential family in the remark:
 \[
- f(y\mid a)=h(y)\exp\bigl(\eta(a)T(y)-A(a)\bigr).
+ f(y\mid a)=h(y)\exp\bigl(\eta(a)T(y)-\psi(a)\bigr).
 \]
 Direct differentiation gives
 \begin{equation}
  \frac{f_{aa}}f
- =\bigl(\eta'(a)T-A'(a)\bigr)^2+\eta''(a)T-A''(a).
+ =\bigl(\eta'(a)T-\psi'(a)\bigr)^2+\eta''(a)T-\psi''(a).
  \label{eq:exponential-family-faa}
 \end{equation}
 The positive quadratic term dominates uniformly as $T\to-\infty$ because
@@ -523,12 +523,12 @@ Equivalently, $a\mapsto\E_a[s(Y)]$ is concave.
 
 \begin{assumption}[Moments for asymptotic affinity]
 \label{ass:affinity-moments}
-For some $m>\max\{2,p+1\}$,
+For some $r>\max\{2,p+1\}$,
 \begin{align*}
  0<\sigma_s^2:=\int s(y)^2f(y\mid a_0)\,d\nu(y)&<\infty,\\
- \int |s(y)|^m f(y\mid a_0)\,d\nu(y)&<\infty,\\
+ \int |s(y)|^r f(y\mid a_0)\,d\nu(y)&<\infty,\\
  \sup_{a\in\mathcal A}\int
- (1+|s(y)|^m)|f_{aa}(y\mid a)|\,d\nu(y)&<\infty.
+ (1+|s(y)|^r)|f_{aa}(y\mid a)|\,d\nu(y)&<\infty.
 \end{align*}
 \end{assumption}
 
@@ -566,10 +566,10 @@ chosen compact set, by
     K\mu_\lambda^2|\ell_0''(\lambda/2)||s|^3
     \leq K\lambda^{-p}|s|^3.
 \]
-The $m$ moment makes the integral of this bound vanish.  If $m\geq3$, this is
-$O(\lambda^{-p})$.  If $m<3$, use
-$|s|^3\leq T_\lambda^{3-m}|s|^m$ on the central region to obtain
-$O(\lambda^{-p(m-2)})$.
+The $r$ moment makes the integral of this bound vanish.  If $r\geq3$, this is
+$O(\lambda^{-p})$.  If $r<3$, use
+$|s|^3\leq T_\lambda^{3-r}|s|^r$ on the central region to obtain
+$O(\lambda^{-p(r-2)})$.
 
 On $\{|s|>T_\lambda\}$, polynomial growth gives
 \[
@@ -577,14 +577,14 @@ On $\{|s|>T_\lambda\}$, polynomial growth gives
  \leq K\left[(1+\lambda^p)|s|
        +\mu_\lambda^p|s|^{p+1}+s^2\right].
 \]
-The $m$ moment, $m>\max\{2,p+1\}$, and
+The $r$ moment, $r>\max\{2,p+1\}$, and
 $T_\lambda\asymp\lambda^p$ imply that the integrals of all three terms vanish.
 Indeed,
 \[
- (1+\lambda^p)T_\lambda^{-(m-1)}
- +\mu_\lambda^pT_\lambda^{-(m-p-1)}
- +T_\lambda^{-(m-2)}
- =O\bigl(\lambda^{-p(m-2)}\bigr),
+ (1+\lambda^p)T_\lambda^{-(r-1)}
+ +\mu_\lambda^pT_\lambda^{-(r-p-1)}
+ +T_\lambda^{-(r-2)}
+ =O\bigl(\lambda^{-p(r-2)}\bigr),
 \]
 using $\mu_\lambda^p=O(\lambda^{p(1-p)})$.  These estimates prove the
 asserted convergence, uniformly for $\theta$ in compact sets.  After
@@ -642,13 +642,13 @@ and $\widetilde\mu\ell_0'(\lambda)=O(1)$ bound the absolute residual by
 \[
     K\left[1+\lambda^p+\widetilde\mu^p|s|^p+|s|\right].
 \]
-Using the uniform $m$ weighted moment in Assumption
+Using the uniform $r$ weighted moment in Assumption
 \ref{ass:affinity-moments}, its tail integral is bounded by a constant times
 \[
- (1+\lambda^p)T_\lambda^{-m}
- +\widetilde\mu^pT_\lambda^{-(m-p)}
- +T_\lambda^{-(m-1)}
- =O\bigl(\lambda^{-p(m-1)}\bigr),
+ (1+\lambda^p)T_\lambda^{-r}
+ +\widetilde\mu^pT_\lambda^{-(r-p)}
+ +T_\lambda^{-(r-1)}
+ =O\bigl(\lambda^{-p(r-1)}\bigr),
 \]
 uniformly in $a$.  Combining the central and tail bounds proves
 \eqref{eq:uniform-affine-residual}.
@@ -783,12 +783,13 @@ conditions used by Theorem~\ref{thm:main}, but risk-neutral utility violates
 the maintained strict-concavity and sufficient-risk-aversion assumptions.
 
 Let the agent be risk neutral, $u(W)=W$, with initial wealth $w_0=0$.  Let
-output have three states $\mathcal Y=\{L,M,H\}$, let
-$\mathcal A=[1/4,3/4]$, and let the intended action be $a_0=1/2$.  Define
+output have low, middle, and high states
+$\mathcal Y=\{y_-,y_0,y_+\}$, let $\mathcal A=[1/4,3/4]$, and let the
+intended action be $a_0=1/2$.  Define
 \[
-    f(H\mid a)=a^3,\qquad
-    f(L\mid a)=\frac{9}{10}-a,\qquad
-    f(M\mid a)=\frac{1}{10}+a-a^3.
+    f(y_+\mid a)=a^3,\qquad
+    f(y_-\mid a)=\frac{9}{10}-a,\qquad
+    f(y_0\mid a)=\frac{1}{10}+a-a^3.
 \]
 These probabilities are strictly positive on $\mathcal A$ and sum to one.
 Let the effort cost be
@@ -798,29 +799,28 @@ Let the effort cost be
 Then $c'(a_0)=5$ and $\underline c''=10$.
 
 At $a_0=1/2$, the probabilities and scores are
-\[
-    f(H\mid a_0)=\frac18,\quad s(H)=6,
-    \qquad
-    f(M\mid a_0)=\frac{19}{40},\quad s(M)=\frac{10}{19},
-    \qquad
-    f(L\mid a_0)=\frac25,\quad s(L)=-\frac52.
-\]
-The only low-score state is $L$, and $f_{aa}(L\mid a)=0$ for every
+\begin{align*}
+    f(y_+\mid a_0)&=\frac18, & s(y_+)&=6,\\
+    f(y_0\mid a_0)&=\frac{19}{40}, & s(y_0)&=\frac{10}{19},\\
+    f(y_-\mid a_0)&=\frac25, & s(y_-)&=-\frac52.
+\end{align*}
+The only low-score state is $y_-$, and $f_{aa}(y_-\mid a)=0$ for every
 $a\in\mathcal A$.  Thus every cutoff
-$q\in[-5/2,10/19)$ generates the safe low-score region $\{L\}$, and
+$q\in[-5/2,10/19)$ generates the safe low-score region $\{y_-\}$, and
 \[
     \mathrm{Cap}_{\mathrm{safe}}
-    =-s(L)f(L\mid a_0)=1>0,
+    =-s(y_-)f(y_-\mid a_0)=1>0,
     \qquad
     \mathrm{Width}_{\mathrm{safe}}
     =\frac{10}{19}+\frac52=\frac{115}{38}>0.
 \]
 The safe curvature is finite.  Since
-$f_{aa}(H\mid a)=6a$, $f_{aa}(M\mid a)=-6a$, and $f_{aa}(L\mid a)=0$,
+$f_{aa}(y_+\mid a)=6a$, $f_{aa}(y_0\mid a)=-6a$, and
+$f_{aa}(y_-\mid a)=0$,
 \[
     \mathrm{Curv}_{\mathrm{safe}}
     =
-    \sup_{a\in[1/4,3/4]} s(H)f_{aa}(H\mid a)
+    \sup_{a\in[1/4,3/4]} s(y_+)f_{aa}(y_+\mid a)
     =
     \sup_{a\in[1/4,3/4]}36a
     =
@@ -839,7 +839,7 @@ neutrality.
 
 For any reservation utility $\bar U\geq -5/12$, consider the contract
 \[
-    w(L)=w(M)=t,\qquad w(H)=t+\frac{20}{3},
+    w(y_-)=w(y_0)=t,\qquad w(y_+)=t+\frac{20}{3},
     \qquad
     t=\bar U+\frac{5}{12}.
 \]
@@ -848,9 +848,9 @@ The local incentive constraint at $a_0$ is
     \sum_y w(y)f_a(y\mid a_0)=c'(a_0).
 \]
 The flat transfer $t$ contributes nothing because
-$\sum_y f_a(y\mid a_0)=0$, while the bonus on $H$ contributes
+$\sum_y f_a(y\mid a_0)=0$, while the bonus on $y_+$ contributes
 \[
-    \frac{20}{3}f_a(H\mid a_0)
+    \frac{20}{3}f_a(y_+\mid a_0)
     =
     \frac{20}{3}\cdot\frac34
     =
@@ -859,7 +859,7 @@ $\sum_y f_a(y\mid a_0)=0$, while the bonus on $H$ contributes
 Thus the contract satisfies local incentive compatibility.  Individual
 rationality binds at $a_0$ because
 \[
-    t+\frac{20}{3}f(H\mid a_0)-c(a_0)
+    t+\frac{20}{3}f(y_+\mid a_0)-c(a_0)
     =
     \bar U+\frac{5}{12}+\frac56-\frac54
     =

@@ -6,14 +6,14 @@ A key assumption of Theorem \ref{thm:main} is the availability of a sufficiently
 In many common distributions, the score is increasing in $y$, and $f_{aa}(y\mid a)\geq0$ in the left tail.  This is true for Gaussian, Poisson, exponential, gamma, geometric, Bernoulli, and binomial distributions under the parameter restrictions in Remark \ref{rem:safe-tails-common-distributions}.  Thus, although the theorem does not formally require monotonicity of the score, many common examples with a nontrivial safe low-score region have increasing scores.
 
 To see the importance of this region, consider the Student-$t$ distribution.  The $t$ distribution resembles a Gaussian but has fatter tails.  Consequently, its score resembles the Gaussian score near the mean but approaches zero in both tails (Table \ref{tab:dists}).  The score is not monotone and there may be no nonempty safe low-score region.%
-\footnote{Let $y^*:=a_0-\sigma\sqrt{\nu}$, where the intended-action score attains its minimum; every nonempty score sublevel set contains $y^*$.  Moreover,
+\footnote{Let $y^*:=a_0-\sigma\sqrt{d}$, where the intended-action score attains its minimum; every nonempty score sublevel set contains $y^*$.  Moreover,
 \[
  \frac{f_{aa}(y\mid a)}{f(y\mid a)}
- =\frac{(\nu+1)[(\nu+2)(y-a)^2-\nu\sigma^2]}
- {[\nu\sigma^2+(y-a)^2]^2}.
+ =\frac{(d+1)[(d+2)(y-a)^2-d\sigma^2]}
+ {[d\sigma^2+(y-a)^2]^2}.
 \]
 If $y^*\in\mathcal A$, evaluating at $a=y^*$ gives
-$f_{aa}(y^*\mid y^*)/f(y^*\mid y^*)=-(\nu+1)/(\nu\sigma^2)<0$, independently of the parameter values.}
+$f_{aa}(y^*\mid y^*)/f(y^*\mid y^*)=-(d+1)/(d\sigma^2)<0$, independently of the parameter values.}
 
 % Student-t - log utility figure
 \begin{figure}[p]
@@ -22,7 +22,7 @@ $f_{aa}(y^*\mid y^*)/f(y^*\mid y^*)=-(\nu+1)/(\nu\sigma^2)<0$, independently of 
     \captionsetup{font=footnotesize} % Makes the note footnote-sized
     \caption{Optimal contracts with Student-$t$ distribution and log utility.}
     \label{fig:t-log-pp}
-    \caption*{\textit{Note:} Top panel: optimal wage function $w(y)$. Bottom panel: agent's expected utility $U(w^*_{\bar U},a)$ given the optimal contract and action $a$. Colors represent reservation utility. Dashed lines indicate that the first-order approach is invalid at that reservation utility. Dots indicate the recommended action. The thin horizontal line indicates indifference between local maxima. Output has Student-$t$ distribution with mean $a$, scale parameter $\sigma = 20.0$, tail parameter $\nu = 1.15$, initial wealth is $50$ (both in thousands of dollars), and the cost function is $c(a) = a^2 / 30000$.}
+    \caption*{\textit{Note:} Top panel: optimal wage function $w(y)$. Bottom panel: agent's expected utility $U(w^*_{\bar U},a)$ given the optimal contract and action $a$. Colors represent reservation utility. Dashed lines indicate that the first-order approach is invalid at that reservation utility. Dots indicate the recommended action. The thin horizontal line indicates indifference between local maxima. Output has Student-$t$ distribution with mean $a$, scale parameter $\sigma = 20.0$, degrees of freedom $d = 1.15$, initial wealth is $50$ (both in thousands of dollars), and the cost function is $c(a) = a^2 / 30000$.}
 \end{figure}
 
 While distributions with zero probability $\mathcal Q_{\mathrm{safe}}$ lead to common failures of the first-order approach, we note that the theorem's exact conditions on $\mathrm{Curv}_{\mathrm{safe}}$ and $\mathrm{Cap}_{\mathrm{safe}}$ are sufficient but not necessary, and often not tight. For example, in the CRRA and CARA cases covered by corollary \ref{cor:common-utilities} part (i) the first order approach holds for values of initial wealth $w_0$ that are not low enough to satisfy the capacity condition in theorem \ref{thm:main} part (i). The reason is that the theorem only gives sufficient conditions, and moreover relies on the concavity of $U(w,a)$ in $a$, whereas sometimes the first-order approach is valid even if $U(w,a)$ is not concave in $a$.

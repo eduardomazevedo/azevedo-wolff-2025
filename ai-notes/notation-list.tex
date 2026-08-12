@@ -1,0 +1,309 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,booktabs,longtable,array}
+\usepackage[hidelinks]{hyperref}
+
+\newcommand{\E}{\mathbb E}
+\newcommand{\R}{\mathbb R}
+
+\title{Notation List and Consistency Guide}
+\author{Azevedo--Wolff (working document)}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Notation policy}
+
+This document records the notation currently used in the paper, regular
+appendix, and online supplementary appendix.  The guiding rules are:
+\begin{enumerate}
+    \item A symbol has one substantive role throughout the project whenever
+    possible.
+    \item Lowercase $w$ is payment (the wage), while uppercase $W$ is final
+    wealth.  Utility is always written as a function of final wealth, $u(W)$.
+    \item $L$ is reserved for the \emph{wage link function}; $\ell$ is
+    reserved for the \emph{utility link function}.  A subscript $0$ denotes
+    the corresponding nonbinding/base link function.
+    \item In the body, ``wage link function'' is used when $L$ is introduced
+    or discussed.  The proofs appendix states once that only utility link
+    functions are used there and then says simply ``link function'' for
+    brevity.
+    \item Uppercase $S(y\mid a)$ is the action score at an arbitrary action;
+    lowercase $s(y)$ is the score after evaluation at the intended action
+    $a_0$.
+    \item A vertical bar is reserved for conditioning, as in $f(y\mid a)$.
+    Parameters of contracts are therefore subscripts, as in
+    $w_{\lambda,\mu}$.
+\end{enumerate}
+
+The notation $u(W)$ in the closed-form table is intentional and consistent:
+$W$ is total wealth.  The table now makes explicit that the wage link function $L$
+returns canonical total wealth and that the payment is obtained by subtracting
+$w_0$.
+
+\section{Economic primitives and contract problem}
+
+\begin{longtable}{>{$}l<{$} p{0.77\textwidth}}
+\toprule
+\text{Symbol} & \text{Definition and use} \\
+\midrule
+\endhead
+\mathcal A & Compact action set, $\mathcal A\subseteq\R_+$. \\
+a & Agent's action. \\
+a_0 & Fixed interior intended action. \\
+y & Realized output. \\
+Y & Output random variable, used when expectation notation is convenient. \\
+\mathcal Y & Common output support/state space. \\
+\nu & Common dominating measure.  Integrals cover densities and probability
+masses; $\nu$ is counting measure in discrete examples. \\
+f(y\mid a) & Density or probability mass function of output conditional on
+action.  It is strictly positive on the common support. \\
+f_a,\ f_{aa} & First and second derivatives of $f(y\mid a)$ with respect to
+action. \\
+c(a) & Agent's action cost. \\
+\underline c'' & Uniform lower curvature of cost,
+$\inf_{a\in\mathcal A}c''(a)$. \\
+w_0 & Agent's initial wealth. \\
+w(y) & Nonnegative contractual payment (wage) after output $y$. \\
+\mathcal W & Set of feasible payment contracts. \\
+W & Final wealth, with $W=w_0+w(y)$ when induced by a contract. \\
+u(W) & Bernoulli utility over final wealth. \\
+\bar U & Reservation utility.  Uppercase $U$ distinguishes this economic
+utility level from the utility ceiling $\bar u$. \\
+\bar w & Certainty-equivalent reservation wage, used in the motivating
+figures to express $\bar U$ in monetary units. \\
+U(w,a) & Agent's expected utility net of action cost under payment contract
+$w$: $\int u(w_0+w(y))f(y\mid a)d\nu(y)-c(a)$. \\
+C(w,a) & Principal's expected compensation cost:
+$\int w(y)f(y\mid a)d\nu(y)$. \\
+w^*_{\bar U} & Relaxed-optimal (and, when the FOA is valid, globally optimal)
+payment contract at reservation utility $\bar U$. \\
+\mathcal L & Lagrangian in payment-contract coordinates.  Calligraphic
+$\mathcal L$ is not the wage link function $L$. \\
+\text{IR} & Individual rationality, $U(w,a_0)\geq\bar U$. \\
+\text{GIC} & Global incentive compatibility,
+$U(w,a_0)\geq U(w,a)$ for all $a\in\mathcal A$. \\
+\text{LIC} & Local incentive compatibility, $U_a(w,a_0)=0$. \\
+\bottomrule
+\end{longtable}
+
+\section{Scores and distribution notation}
+
+\begin{longtable}{>{$}l<{$} p{0.77\textwidth}}
+\toprule
+\text{Symbol} & \text{Definition and use} \\
+\midrule
+\endhead
+S(y\mid a) & Action score at arbitrary $a$:
+$\partial_a\log f(y\mid a)=f_a(y\mid a)/f(y\mid a)$. \\
+s(y) & Score at the intended action, $S(y\mid a_0)$.  It has mean zero
+under $f(\cdot\mid a_0)$. \\
+\sigma & Scale or standard deviation in parametric distributions. \\
+\sigma_s^2 & Second moment of the intended-action score,
+$\int s(y)^2f(y\mid a_0)d\nu(y)$. \\
+h(y) & Base density/mass in an exponential family, or the density of a shock
+in additive and multiplicative models. \\
+\eta(a) & Natural parameter in an exponential family. \\
+T(y) & Sufficient statistic in an exponential family. \\
+\psi(a) & Log-normalizing term in an exponential family.  The symbol $\psi$
+is used rather than $A$ to avoid collision with absolute risk aversion
+$A(W)$. \\
+n & Number of binomial trials or fixed gamma shape; the context identifies
+the distribution. \\
+d & Degrees of freedom for Student's $t$.  This avoids overloading the
+dominating measure $\nu$. \\
+X & Exogenous shock in additive or multiplicative output models. \\
+\E_a & Expectation under $f(\cdot\mid a)$. \\
+y_-,y_0,y_+ & Low, middle, and high states in the supplementary discrete
+counterexample.  These replace $L,M,H$, reserving $L$ for the wage link function. \\
+\bottomrule
+\end{longtable}
+
+\section{Link functions and canonical contracts}
+
+Let $z$ denote the scalar index to which a link function is applied.
+
+\begin{longtable}{>{$}l<{$} p{0.77\textwidth}}
+\toprule
+\text{Symbol} & \text{Definition and use} \\
+\midrule
+\endhead
+m_0 & Marginal-cost threshold at zero payment,
+$m_0=1/u'(w_0)$. \\
+L_0(z) & Base (nonbinding) wage link function,
+$L_0(z)=(u')^{-1}(1/z)$.  It returns total wealth. \\
+L(z) & Limited-liability wage link function,
+$L(z)=L_0(z\vee m_0)$.  The canonical payment is therefore $L(z)-w_0$. \\
+\ell_0(z) & Base utility link function,
+$\ell_0(z)=u(L_0(z))=(k')^{-1}(z)$. \\
+\ell(z) & Limited-liability utility link function,
+$\ell(z)=\ell_0(z\vee m_0)=u(L(z))$. \\
+k & Inverse utility, $k=u^{-1}$. \\
+\lambda & Lagrange multiplier on individual rationality; also the parameter
+indexing the locally incentive-compatible Pareto path. \\
+\mu & Lagrange multiplier on local incentive compatibility. \\
+w_{\lambda,\mu}(y) & Canonical payment contract,
+$L(\lambda+\mu s(y))-w_0$. \\
+W_{\lambda,\mu}(y) & Canonical final wealth,
+$L(\lambda+\mu s(y))$; used in the supplementary link-function derivations. \\
+v_{\lambda,\mu}(y) & Canonical utility contract,
+$\ell(\lambda+\mu s(y))$. \\
+\widetilde\mu(\lambda) & Unique positive LIC multiplier for a fixed
+$\lambda$. \\
+v_\lambda & LIC-path contract
+$v_{\lambda,\widetilde\mu(\lambda)}$. \\
+I(\lambda,\mu) & Local-incentive functional,
+$\int\ell(\lambda+\mu s(y))s(y)f(y\mid a_0)d\nu(y)$. \\
+\rho & Finite asymptotic link-function coefficient
+$\lim_{z\to\infty}z\ell_0'(z)$ in the safe-tail bound.  This was changed from
+$L$ so that $L$ remains reserved for the wage link function. \\
+\bottomrule
+\end{longtable}
+
+For the utility specifications used in the paper:
+\[
+\begin{array}{c|c|c}
+ u(W) & L(z) & \ell(z)\\ \hline
+ \log W & z\vee w_0 & \log(z\vee w_0)\\[2pt]
+ \dfrac{W^{1-\gamma}}{1-\gamma}
+ & (z\vee w_0^\gamma)^{1/\gamma}
+ & \dfrac{(z\vee w_0^\gamma)^{(1-\gamma)/\gamma}}{1-\gamma}\\[7pt]
+ -\dfrac{e^{-\alpha W}}{\alpha}
+ & \dfrac{\log(z\vee e^{\alpha w_0})}{\alpha}
+ & -\dfrac{1}{\alpha(z\vee e^{\alpha w_0})}
+\end{array}
+\]
+Here $\gamma$ is relative risk aversion for CRRA and $\alpha$ is absolute risk
+aversion for CARA.
+
+\section{Utility-contract coordinates used in the proofs}
+
+\begin{longtable}{>{$}l<{$} p{0.77\textwidth}}
+\toprule
+\text{Symbol} & \text{Definition and use} \\
+\midrule
+\endhead
+\underline u & Limited-liability utility floor, $u(w_0)$. \\
+\bar u & Utility ceiling, $\lim_{W\to\infty}u(W)$, possibly infinite. \\
+\Delta u & Available utility range, $\bar u-\underline u$. \\
+v(y) & Utility contract, $u(w_0+w(y))$. \\
+\mathcal V & Feasible utility-contract set. \\
+\widehat U(v,a) & Expected utility in utility-contract coordinates,
+$\int v(y)f(y\mid a)d\nu(y)-c(a)$. \\
+\widehat C(v,a) & Expected payment cost in utility-contract coordinates,
+$\int[k(v(y))-w_0]f(y\mid a)d\nu(y)$. \\
+\widehat{\mathcal L} & Lagrangian in utility-contract coordinates. \\
+\widetilde U(\lambda) & Utility attained along the LIC path,
+$\widehat U(v_\lambda,a_0)$. \\
+\widetilde C(\lambda) & Compensation cost along the LIC path,
+$\widehat C(v_\lambda,a_0)$. \\
+U_L & Lower reservation-utility frontier, $\widetilde U(0)$.  The subscript
+means ``lower'' and is not a use of the standalone wage-link-function symbol $L$. \\
+U_R & Supremum feasible reservation utility for the relaxed problem. \\
+U^* & Reservation-utility threshold above which the main theorem validates
+the first-order approach. \\
+C^*(\bar U) & Optimal expected compensation cost at reservation utility
+$\bar U$. \\
+\Lambda(\bar U) & Set of IR multipliers associated with reservation utility
+$\bar U$. \\
+\bottomrule
+\end{longtable}
+
+\section{Safe low-score notation}
+
+\begin{longtable}{>{$}l<{$} p{0.77\textwidth}}
+\toprule
+\text{Symbol} & \text{Definition and use} \\
+\midrule
+\endhead
+q & Generic nonpositive score cutoff. \\
+\mathcal Q_{\mathrm{safe}} & Cutoffs $q\leq0$ for which
+$f_{aa}(y\mid a)\geq0$ for every action on $\{s(y)\leq q\}$. \\
+\bar q_{\mathrm{safe}} & Supremum of safe cutoffs. \\
+\mathrm{Cap}(q) & Cutoff incentive capacity,
+$-\int_{\{s(y)\leq q\}}s(y)f(y\mid a_0)d\nu(y)$. \\
+\mathrm{Curv}(q) & Positive curvature above cutoff $q$:
+$\sup_{a\in\mathcal A}\int_{\{s(y)>q\}}[s(y)f_{aa}(y\mid a)]_+d\nu(y)$. \\
+\mathrm{Cap}_{\mathrm{safe}} & Aggregate safe incentive capacity, expressed
+in the body as the limiting safe-tail integral. \\
+\mathrm{Curv}_{\mathrm{safe}} & Infimum of $\mathrm{Curv}(q)$ over safe
+cutoffs. \\
+\underline s & Essential infimum of $s(y)$ under the intended-action output
+distribution. \\
+\mathrm{Width}_{\mathrm{safe}} & Maximum score width covered by a safe
+low-score region. \\
+q_0,q_1 & Two safe cutoffs in the proof, with $q_0<q_1\leq0$; $q_0$ controls
+kink placement and $q_1$ controls positive curvature. \\
+q^{\mathrm{kink}}(\lambda) & Limited-liability score cutoff along the LIC
+path, $(m_0-\lambda)/\widetilde\mu(\lambda)$. \\
+\mu_q(\lambda) & Trial multiplier placing the kink at $q$,
+$(m_0-\lambda)/q$. \\
+\delta_\lambda(t) & Centered utility-link-function increment,
+$\ell(\lambda+\widetilde\mu(\lambda)t)-\ell(\lambda)$. \\
+\lbrack x\rbrack_+ & Positive part, $\max\{x,0\}$. \\
+x\vee y & Maximum of $x$ and $y$. \\
+\bottomrule
+\end{longtable}
+
+\section{Risk aversion and supplementary asymptotics}
+
+\begin{longtable}{>{$}l<{$} p{0.77\textwidth}}
+\toprule
+\text{Symbol} & \text{Definition and use} \\
+\midrule
+\endhead
+A(W) & Absolute risk aversion, $-u''(W)/u'(W)$. \\
+P(W) & Absolute prudence, $-u'''(W)/u''(W)$. \\
+\alpha & CARA coefficient. \\
+\gamma & CRRA coefficient.  Log utility is the limiting $\gamma=1$ case. \\
+p & Transformed CRRA exponent in the low-risk-aversion supplement,
+$p=(1-\gamma)/\gamma$. \\
+r & Moment order in the asymptotic-affinity argument.  This avoids collision
+with the limited-liability threshold $m_0$. \\
+\theta & Positive scaling argument used to bracket the LIC multiplier. \\
+T_\lambda & Score truncation threshold in the asymptotic-affinity proof. \\
+K & Generic positive finite bound, allowed to change between displays. \\
+\widehat a_i & Candidate global-deviation action in the numerical active set. \\
+\widehat\mu_i & Multiplier on the global incentive constraint at
+$\widehat a_i$. \\
+\boldsymbol{\widehat a},\boldsymbol{\widehat\mu} & Vectors of active
+deviation actions and their multipliers. \\
+\mathcal D & Lagrange dual function in the numerical method. \\
+\mathbf y_{\mathrm{grid}} & Numerical output grid. \\
+\bottomrule
+\end{longtable}
+
+\section{Audit decisions and remaining cautions}
+
+The current review made the following consistency changes in the manuscript:
+\begin{itemize}
+    \item standardized the names \emph{wage link function} $L$ and
+    \emph{utility link function} $\ell$;
+    \item stated the proofs-appendix convention that ``link function'' alone
+    means utility link function;
+    \item changed the discrete counterexample states from $L,M,H$ to
+    $y_-,y_0,y_+$;
+    \item changed the safe-tail asymptotic constant from $L$ to $\rho$;
+    \item changed Student's-$t$ degrees of freedom from $\nu$ to $d$, leaving
+    $\nu$ exclusively as the dominating measure;
+    \item changed the exponential-family log normalizer from $A(a)$ to
+    $\psi(a)$, leaving $A(W)$ for absolute risk aversion;
+    \item changed the supplementary moment order from $m$ to $r$, avoiding
+    proximity to the threshold $m_0$; and
+    \item removed the introductory example's old payment-domain notation
+    $u(x)=\log(w_0+x)$ in favor of utility over final wealth, $u(W)=\log W$.
+\end{itemize}
+
+Two benign context-dependent reuses remain.  The symbol $n$ denotes binomial
+trials or gamma shape in separate distribution rows.  The letter $L$ appears as
+a subscript in $U_L$ meaning ``lower frontier,'' but never as a standalone
+state or scalar.  Calligraphic $\mathcal L$ remains the conventional
+Lagrangian and is visually distinct from the wage link function $L$.
+
+When adding material, do not use standalone $L$ for a state, limit, loss, or
+likelihood; do not use $\ell$ for anything other than the utility link function; and do
+not revert to $u(w)$ or $u(x)$ when utility is over final wealth.
+
+\end{document}
