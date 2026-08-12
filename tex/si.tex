@@ -52,8 +52,7 @@
 \tableofcontents
 \newpage
 
-This online appendix derives the functional forms reported in Tables
-\ref{tab:utility_functions} and \ref{tab:dists}, verifies the common-distribution
+This online appendix derives the functional forms reported in Tables~\ref{tab:utility_functions} and \ref{tab:dists}, verifies the common-distribution
 and common-utility claims used in Corollary~\ref{cor:common-utilities}, develops
 the low-risk-aversion CRRA extension, gives a risk-neutral counterexample, and
 provides additional information on the numerical benchmarks.
@@ -390,8 +389,7 @@ Consequently, a sufficiently far-left half-line is safe uniformly in
 $a\in\mathcal A$.  Since the Gaussian score is affine in $y$ and is
 unbounded below, the safe width is infinite.
 
-For the continuous nonnegative-output families, equation
-\eqref{eq:faa-score-identity} gives, at the lower endpoint $y=0$,
+For the continuous nonnegative-output families, equation~\eqref{eq:faa-score-identity} gives, at the lower endpoint $y=0$,
 \[
  \left.\frac{f_{aa}}f\right|_{y=0}
  =\frac{2}{a^2}\quad\text{for exponential output},
@@ -456,13 +454,11 @@ $\inf_a\eta'(a)>0$.  Hence a sufficiently low-score tail is safe.  Essential
 unboundedness of $T$ below makes its safe width infinite and gives that tail
 positive probability, hence positive capacity.  Finally, because the compact
 set $\eta(\mathcal A)$ lies in the interior of the natural-parameter space,
-the required polynomial moments of $T$ are uniformly finite.  Equation
-\eqref{eq:exponential-family-faa} then gives finite safe curvature.
+the required polynomial moments of $T$ are uniformly finite.  Equation~\eqref{eq:exponential-family-faa} then gives finite safe curvature.
 
 \subsection{Sufficient risk aversion for common utilities}
 
-We next verify the utility remark following Condition
-\ref{condition:sufficient-risk-aversion}.  For CARA utility,
+We next verify the utility remark following Condition~\ref{condition:sufficient-risk-aversion}.  For CARA utility,
 \[
  A(W)=\alpha,\qquad P(W)=\alpha,
  \qquad \frac{A(W)}{u'(W)}=\alpha e^{\alpha W}\longrightarrow\infty.
@@ -477,8 +473,7 @@ hold.  For CRRA utility with coefficient $\gamma$,
  \frac{A(W)}{u'(W)}=\gamma W^{\gamma-1}.
 \]
 When $\gamma>1$, the first ratio exceeds $1/2$ and the final expression tends
-to infinity.  Hence CARA and CRRA with $\gamma>1$ satisfy Condition
-\ref{condition:sufficient-risk-aversion}, as claimed.
+to infinity.  Hence CARA and CRRA with $\gamma>1$ satisfy Condition~\ref{condition:sufficient-risk-aversion}, as claimed.
 
 \section{First-Order Approach with CRRA and
 \texorpdfstring{$\gamma\in(0,1)$}{gamma in (0, 1)}}
@@ -534,7 +529,7 @@ For some $r>\max\{2,p+1\}$,
 
 \begin{lemma}[Local incentive compatibility multiplier asymptotics]
 \label{lem:affinity-multiplier}
-Under Assumptions \ref{ass:crra-affinity} and
+Under Assumptions~\ref{ass:crra-affinity} and
 \ref{ass:affinity-moments},
 \[
     \widetilde\mu(\lambda)\ell_0'(\lambda)
@@ -605,7 +600,7 @@ $\lambda\ell_0'(\lambda)\to\infty$.
 
 \begin{lemma}[Uniform affine residual]
 \label{lem:uniform-affine-residual}
-Under Assumptions \ref{ass:crra-affinity} and
+Under Assumptions~\ref{ass:crra-affinity} and
 \ref{ass:affinity-moments},
 \begin{align}
  \sup_{a\in\mathcal A}\Bigg|\int
@@ -620,8 +615,7 @@ Under Assumptions \ref{ass:crra-affinity} and
 
 \begin{proof}
 Abbreviate $\widetilde\mu=\widetilde\mu(\lambda)$ and set
-$T_\lambda:=\lambda/(2\widetilde\mu)$.  Lemma
-\ref{lem:affinity-multiplier} gives
+$T_\lambda:=\lambda/(2\widetilde\mu)$.  Lemma~\ref{lem:affinity-multiplier} gives
 $T_\lambda\asymp\lambda^p$ and
 $\widetilde\mu\ell_0'(\lambda)=O(1)$.  On $\{|s|\leq T_\lambda\}$,
 Taylor's theorem and \eqref{eq:crra-link-affinity} bound the absolute residual,
@@ -642,8 +636,7 @@ and $\widetilde\mu\ell_0'(\lambda)=O(1)$ bound the absolute residual by
 \[
     K\left[1+\lambda^p+\widetilde\mu^p|s|^p+|s|\right].
 \]
-Using the uniform $r$ weighted moment in Assumption
-\ref{ass:affinity-moments}, its tail integral is bounded by a constant times
+Using the uniform $r$ weighted moment in Assumption~\ref{ass:affinity-moments}, its tail integral is bounded by a constant times
 \[
  (1+\lambda^p)T_\lambda^{-r}
  +\widetilde\mu^pT_\lambda^{-(r-p)}
@@ -656,7 +649,7 @@ uniformly in $a$.  Combining the central and tail bounds proves
 
 \begin{proposition}[Asymptotic-affinity extension]
 \label{prop:asymptotic-affinity}
-Suppose $\underline c''>0$ and Assumptions \ref{ass:crra-affinity},
+Suppose $\underline c''>0$ and Assumptions~\ref{ass:crra-affinity},
 \ref{ass:affine-score}, and \ref{ass:affinity-moments} hold.  Then
 \[
     \sup_{a\in\mathcal A}
@@ -670,19 +663,18 @@ feasible reservation utilities.
 
 \begin{proof}
 Abbreviate $\widetilde\mu=\widetilde\mu(\lambda)$.  Using
-$\int f_{aa}(y\mid a)d\nu(y)=0$ to remove $\ell(\lambda)$, Lemma
-\ref{lem:uniform-affine-residual} gives, uniformly in $a$,
+$\int f_{aa}(y\mid a)d\nu(y)=0$ to remove $\ell(\lambda)$, Lemma~\ref{lem:uniform-affine-residual} gives, uniformly in $a$,
 \begin{align*}
  \widehat U_{aa}(v_\lambda,a)
  ={}&\widetilde\mu\ell_0'(\lambda)
  \int s(y)f_{aa}(y\mid a)\,d\nu(y)-c''(a)+o(1).
 \end{align*}
-The leading term is nonpositive by Assumption \ref{ass:affine-score}, and
+The leading term is nonpositive by Assumption~\ref{ass:affine-score}, and
 $c''(a)\geq\underline c''$, proving the asserted bound.  Local incentive
 compatibility at the interior action $a_0$ and concavity imply global
 incentive compatibility.  The
 last conclusion then follows from the divergence of the smallest supporting
-multiplier in Proposition \ref{prop:relaxed-optimal-contract}.
+multiplier in Proposition~\ref{prop:relaxed-optimal-contract}.
 \end{proof}
 
 \begin{corollary}[Common linear-score CRRA extension]
@@ -692,20 +684,18 @@ output with $\mathcal A$ compact and bounded away from $0$; gamma output with
 fixed positive shape and $\mathcal A$ compact and bounded away from $0$;
 geometric output with $\mathcal A$ compact and contained in $(1,\infty)$; and
 Bernoulli and binomial output with $\mathcal A$ compact and contained in
-$(0,1)$, the moment conditions in Assumption
-\ref{ass:affinity-moments} hold for every $\gamma\in(0,1)$ and
+$(0,1)$, the moment conditions in Assumption~\ref{ass:affinity-moments} hold for every $\gamma\in(0,1)$ and
 \[
     \int s(y)f_{aa}(y\mid a)\,d\nu(y)
     =\frac{d^2}{da^2}\E_a[s(Y)]=0.
 \]
 Hence, subject to the maintained assumptions, all the listed output
-distributions with CRRA utility are covered by Theorem \ref{thm:main} for
+distributions with CRRA utility are covered by Theorem~\ref{thm:main} for
 $\gamma>1$ whenever their capacity conditions hold (in particular, for
-sufficiently low initial wealth), and by Proposition
-\ref{prop:asymptotic-affinity} for $\gamma\in(0,1)$.  At $\gamma=1$, the log
-branch of Theorem \ref{thm:main} applies automatically to Gaussian output and,
+sufficiently low initial wealth), and by Proposition~\ref{prop:asymptotic-affinity} for $\gamma\in(0,1)$.  At $\gamma=1$, the log
+branch of Theorem~\ref{thm:main} applies automatically to Gaussian output and,
 more generally, to the essentially-unbounded-below regular exponential
-families in Remark \ref{rem:safe-tails-common-distributions}.  It does not
+families in Remark~\ref{rem:safe-tails-common-distributions}.  It does not
 automatically cover the other listed families, which must satisfy the
 curvature--width inequality \eqref{eq:log-curvature-width-condition}.
 \end{corollary}
@@ -738,8 +728,7 @@ cases now follow from the corresponding results.
 
 \begin{proof}
 For part (i), the preceding utility verification shows that CARA and CRRA with
-$\gamma>1$ satisfy Condition
-\ref{condition:sufficient-risk-aversion}.  Their available utility ranges
+$\gamma>1$ satisfy Condition~\ref{condition:sufficient-risk-aversion}.  Their available utility ranges
 above limited liability are, respectively,
 \[
  \Delta u=\frac{e^{-\alpha w_0}}{\alpha},
@@ -892,7 +881,7 @@ $\bar U\geq -5/12$, including arbitrarily high reservation utilities.
 
 This section reports benchmarks comparing Algorithm~\ref{alg:cost-minimization} (``Algorithm 1'') with the convex optimization solver described in Section~\ref{sec:numerical-methods}. \input{../output/specs_description.tex}
 
-We benchmark three cases: (i) Gaussian (easy), with parameters as in Figure~\ref{fig:gaussian-log-pp} where the first-order approach holds; (ii) Gaussian (hard), with a low reservation utility where the first-order approach fails; and (iii) the Student-$t$ distribution from Figure \ref{fig:t-log-pp}, where the score is not monotone and there are many binding incentive compatibility constraints. For each case, we solve both the cost minimization problem with intended action $a_0=100$ (CMP) and the principal's problem (PP). Each benchmark reports the median time over 20 runs, after discarding one warmup run. The convex solver uses a grid of 201 points for the outcomes and 101 points for the actions.
+We benchmark three cases: (i) Gaussian (easy), with parameters as in Figure~\ref{fig:gaussian-log-pp} where the first-order approach holds; (ii) Gaussian (hard), with a low reservation utility where the first-order approach fails; and (iii) the Student-$t$ distribution from Figure~\ref{fig:t-log-pp}, where the score is not monotone and there are many binding incentive compatibility constraints. For each case, we solve both the cost minimization problem with intended action $a_0=100$ (CMP) and the principal's problem (PP). Each benchmark reports the median time over 20 runs, after discarding one warmup run. The convex solver uses a grid of 201 points for the outcomes and 101 points for the actions.
 
 Table~\ref{tab:benchmarks} reports the results. Algorithm~1 is substantially faster than the convex solver for the cost minimization problem, typically by a factor of 17--90. The advantage is especially pronounced for the principal's problem, where Algorithm~1 is 2--200 times faster.
 

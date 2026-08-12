@@ -1,6 +1,5 @@
-The proof has two steps.  First, Proposition
-\ref{prop:relaxed-optimal-contract} characterizes the solution of the relaxed
-problem.  Second, we show that, under the conditions of Theorem \ref{thm:main},
+The proof has two steps.  First, Proposition~\ref{prop:relaxed-optimal-contract} characterizes the solution of the relaxed
+problem.  Second, we show that, under the conditions of Theorem~\ref{thm:main},
 the agent's objective under that contract is concave in action at every
 sufficiently high feasible reservation utility.  Local incentive compatibility
 then implies global incentive compatibility.
@@ -80,15 +79,13 @@ There exists $U_L<U_R$ such that, for every $\bar U<U_R$:
 \end{enumerate}
 \end{proposition}
 
-The Gaussian-log utility example illustrates Proposition
-\ref{prop:relaxed-optimal-contract}.  Here
+The Gaussian-log utility example illustrates Proposition~\ref{prop:relaxed-optimal-contract}.  Here
 $s(y)=(y-a_0)/\sigma^2$ and $L(z)=z\vee w_0$, so the relaxed-optimal wage is
 \[
     w^*_{\bar U}(y)
     =\left[\lambda+\mu\frac{y-a_0}{\sigma^2}-w_0\right]_+.
 \]
-This is the piecewise-linear solution seen in Figure
-\ref{fig:gaussian-log-pp}.  Figure \ref{fig:pf} illustrates the associated
+This is the piecewise-linear solution seen in Figure~\ref{fig:gaussian-log-pp}.  Figure~\ref{fig:pf} illustrates the associated
 cost--utility frontier.
 
 % Pareto frontier figure
@@ -98,7 +95,7 @@ cost--utility frontier.
     \caption{Pareto frontier in the Gaussian-log utility example}
     \label{fig:pf}
     \captionsetup{font=footnotesize} % Makes the note footnote-sized
-    \caption*{\textit{Note:} This figure displays the Pareto frontier of the cost minimization problem and the relaxed cost minimization problem in the Gaussian-log utility example. The first-order approach is valid for all reservation utilities where the two sets coincide. Parameters are as in Figure \ref{fig:gaussian-log-pp}.}
+    \caption*{\textit{Note:} This figure displays the Pareto frontier of the cost minimization problem and the relaxed cost minimization problem in the Gaussian-log utility example. The first-order approach is valid for all reservation utilities where the two sets coincide. Parameters are as in Figure~\ref{fig:gaussian-log-pp}.}
 \end{figure}
 
 \subsection{Validity of the First-Order Approach with High Reservation Utility}
@@ -108,7 +105,7 @@ stronger result that the agent's objective is concave in $a$.
 
 \begin{proposition}[Concavity at High Reservation Utility]
 \label{prop:concave}
-Under either set of conditions in Theorem \ref{thm:main}, there exists
+Under either set of conditions in Theorem~\ref{thm:main}, there exists
 $\lambda_0<\infty$ such that every canonical contract $w_{\lambda,\mu}$ that
 satisfies local incentive compatibility and has $\lambda\geq\lambda_0$ obeys
 \[
@@ -117,24 +114,21 @@ satisfies local incentive compatibility and has $\lambda\geq\lambda_0$ obeys
 \]
 \end{proposition}
 
-Theorem \ref{thm:main} follows directly from Proposition
-\ref{prop:concave}:
+Theorem~\ref{thm:main} follows directly from Proposition~\ref{prop:concave}:
 
-\begin{proof}[Proof of Theorem \ref{thm:main}]
-Take $\lambda_0$ as in proposition \ref{prop:concave}.  Proposition
-\ref{prop:relaxed-optimal-contract} implies that the smallest multiplier
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+Take $\lambda_0$ as in Proposition~\ref{prop:concave}.  Proposition~\ref{prop:relaxed-optimal-contract} implies that the smallest multiplier
 supporting the relaxed-optimal contract converges to infinity as
 $\bar U\uparrow U_R$.  Hence there is $U^*<U_R$ such that every multiplier
 supporting the relaxed solution has $\lambda\geq\lambda_0$ whenever
-$\bar U\in[U^*,U_R)$.  The agent's objective is then concave by Proposition
-\ref{prop:concave}.  Local incentive compatibility implies global incentive compatibility, so the unique
+$\bar U\in[U^*,U_R)$.  The agent's objective is then concave by Proposition~\ref{prop:concave}.  Local incentive compatibility implies global incentive compatibility, so the unique
 relaxed solution also uniquely solves the original cost-minimization problem.
 \end{proof}
 
-The proof of Proposition \ref{prop:concave} is essentially a three-line
+The proof of Proposition~\ref{prop:concave} is essentially a three-line
 argument that we outline here.  The first step is to show that, as $\lambda$ grows, the
 limited-liability kink in a locally incentive-compatible canonical contract
-moves into a low-score region (Lemma \ref{lem:kink-placement}).  To see this,
+moves into a low-score region (Lemma~\ref{lem:kink-placement}).  To see this,
 consider the local incentive-compatibility condition
 \[
     c'(a_0)
@@ -187,14 +181,13 @@ The third step bounds this remaining curvature.  The fact that the kink is left 
 incentive multiplier $\mu$ from growing too quickly relative to $\lambda$.
 The utility conditions then tame the sensitivity of utility to the score on
 the region above $q_1$, while the safe-curvature bound limits the positive
-distributional curvature in that region.  Using these facts, Proposition \ref{prop:finite-lambda-bound} shows that the remaining curvature is small, and is eventually dominated by $\underline c''$.
+distributional curvature in that region.  Using these facts, Proposition~\ref{prop:finite-lambda-bound} shows that the remaining curvature is small, and is eventually dominated by $\underline c''$.
 
-Figure \ref{fig:gaussian-log-cm} illustrates the argument in the log-Gaussian example.  At low reservation
+Figure~\ref{fig:gaussian-log-cm} illustrates the argument in the log-Gaussian example.  At low reservation
 utility, the limited-liability kink creates multiple local maxima.  As
 reservation utility rises, the kink moves into the safe left tail as predicted
-by Lemma \ref{lem:kink-placement} (top panel of the figure).  As the kink moves far to the left, the agent's objective becomes concave
-as predicted by Proposition \ref{prop:finite-lambda-bound} (bottom panel of the figure).  Appendix
-\ref{subsec:appendix-safe-tail} gives the proof.  While care is needed to deal with the continuous and discrete cases, and the two branches of Theorem \ref{thm:main}, the gist is the three-line argument above.
+by Lemma~\ref{lem:kink-placement} (top panel of the figure).  As the kink moves far to the left, the agent's objective becomes concave
+as predicted by Proposition~\ref{prop:finite-lambda-bound} (bottom panel of the figure).  Appendix~\ref{subsec:appendix-safe-tail} gives the proof.  While care is needed to deal with the continuous and discrete cases, and the two branches of Theorem~\ref{thm:main}, the gist is the three-line argument above.
 
 % Gaussian - log utility cost minimization problem figure
 \begin{figure}[p]
@@ -209,5 +202,5 @@ as predicted by Proposition \ref{prop:finite-lambda-bound} (bottom panel of the 
     reservation utility. Dashed lines indicate that the first-order approach is
     invalid. Dots indicate the intended action. The thin horizontal line
     indicates indifference between local maxima. Other parameters are as in
-    Figure \ref{fig:gaussian-log-pp}.}
+    Figure~\ref{fig:gaussian-log-pp}.}
 \end{figure}

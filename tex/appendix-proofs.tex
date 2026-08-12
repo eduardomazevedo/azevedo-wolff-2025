@@ -78,7 +78,7 @@ Our utility conditions imply the following properties of the base link function 
 
 \begin{remark}[Concavity of the link function]
 \label{rem:link-concavity}
-If condition \eqref{condition:U1} holds, then $\ell_0$ is concave on
+If Condition~\eqref{condition:U1} holds, then $\ell_0$ is concave on
 $[m_0,\infty)$.
 \end{remark}
 
@@ -104,13 +104,13 @@ Differentiating again,
     &=&W'(z)u'^2
        \left[\frac{P}{A}-3\right].
 \end{eqnarray*}
-Condition \eqref{condition:U1} implies $P>0$ and $P/A\leq3$.
+Condition~\eqref{condition:U1} implies $P>0$ and $P/A\leq3$.
 Therefore $\ell_0''(z)\leq0$.
 \end{proof}
 
 \begin{remark}[Asymptotic flattening of the link function]
 \label{rem:link-flattening}
-Condition \eqref{condition:U2} is equivalent to
+Condition~\eqref{condition:U2} is equivalent to
 \[
     \lim_{z\to\infty}z\ell_0'(z)=0.
 \]
@@ -137,15 +137,14 @@ Using $z=1/u'(W)$,
     =\frac{u'(W)}{A(W)}
     =\left[\frac{A(W)}{u'(W)}\right]^{-1}.
 \]
-The ratio in brackets is positive, so condition
-\eqref{condition:U2} is equivalent to
+The ratio in brackets is positive, so Condition~\eqref{condition:U2} is equivalent to
 $\lim_{z\to\infty}z\ell_0'(z)=0$.
 \end{proof}
 
-\subsection{Proof of the characterization proposition \ref{prop:relaxed-optimal-contract}}
+\subsection{Proof of Proposition~\ref{prop:relaxed-optimal-contract}}
 \label{subsec:appendix-relaxed}
 
-This section proves the characterization proposition \ref{prop:relaxed-optimal-contract}. This is a standard argument made in similar models \parencite{holmstrom1978incentives,jewitt2008moral}. We include it for completeness.
+This section proves Proposition~\ref{prop:relaxed-optimal-contract}. This is a standard argument made in similar models \parencite{holmstrom1978incentives,jewitt2008moral}. We include it for completeness.
 
 \begin{lemma}[Pointwise minimization]
 \label{lem:lagrangian}
@@ -171,7 +170,7 @@ everywhere uniqueness.
 \label{lem:mu-tilde}
 For each $\lambda\geq0$, there is a unique $\widetilde\mu(\lambda)>0$ such
 that the canonical contract $v_{\lambda,\widetilde\mu(\lambda)}$ satisfies
-equation \eqref{LIC_hat}.  Moreover, $\widetilde\mu$ is continuous.
+equation~\eqref{LIC_hat}.  Moreover, $\widetilde\mu$ is continuous.
 \end{lemma}
 
 \begin{proof}
@@ -187,9 +186,9 @@ Because the score has mean zero, this can equivalently be written as
  f(y\mid a_0)\,d\nu(y).
  \label{eq:I-centered}
 \end{equation}
-Equation \eqref{LIC_hat} is the same as $I(\lambda,\mu)=c'(a_0)$.
+Equation~\eqref{LIC_hat} is the same as $I(\lambda,\mu)=c'(a_0)$.
 
-Equation \eqref{eq:I-centered} shows that $I(\lambda,0)=0$ and that
+Equation~\eqref{eq:I-centered} shows that $I(\lambda,0)=0$ and that
 $I(\lambda,\mu)$ is weakly increasing in $\mu$ because the term in brackets has the same sign as the score.  As $\mu\to\infty$,
 monotone convergence yields
 \[
@@ -201,13 +200,12 @@ This limit exceeds $c'(a_0)$ by
 solution.
 
 Whenever $I(\lambda,\mu)>0$, it is strictly increasing in $\mu$.
-Therefore the multiplier satisfying equation \eqref{LIC_hat} is unique.  Finally, joint continuity
+Therefore the multiplier satisfying equation~\eqref{LIC_hat} is unique.  Finally, joint continuity
 of $I$ and this strict crossing imply continuity of
 $\widetilde\mu(\lambda)$.
 \end{proof}
 
-For each $\lambda\geq0$, define the canonical contract satisfying equation
-\eqref{LIC_hat} and its attained utility and cost by
+For each $\lambda\geq0$, define the canonical contract satisfying equation~\eqref{LIC_hat} and its attained utility and cost by
 \begin{eqnarray*}
     v_\lambda&:=&v_{\lambda,\widetilde\mu(\lambda)},\\
     \widetilde U(\lambda)&:=&\widehat U(v_\lambda,a_0),\\
@@ -224,7 +222,7 @@ minimizer of
 \[
     \widehat C(v,a_0)-\lambda\widehat U(v,a_0)
 \]
-among contracts in $\mathcal V$ satisfying equation \eqref{LIC_hat}.  The function
+among contracts in $\mathcal V$ satisfying equation~\eqref{LIC_hat}.  The function
 $\widetilde U$ is
 continuous and nondecreasing.  If $\lambda_1<\lambda_2$ and
 $\widetilde U(\lambda_1)=\widetilde U(\lambda_2)$, then
@@ -232,9 +230,8 @@ $v_{\lambda_1}=v_{\lambda_2}$ almost everywhere.
 \end{lemma}
 
 \begin{proof}
-Under equation \eqref{LIC_hat}, the displayed objective differs by a constant from the
-Lagrangian with $\mu=\widetilde\mu(\lambda)$.  Lemma
-\ref{lem:lagrangian} therefore proves optimality and uniqueness.
+Under equation~\eqref{LIC_hat}, the displayed objective differs by a constant from the
+Lagrangian with $\mu=\widetilde\mu(\lambda)$.  Lemma~\ref{lem:lagrangian} therefore proves optimality and uniqueness.
 
 For $\lambda_1<\lambda_2$, optimality of $v_{\lambda_1}$ at
 $\lambda_1$ and of $v_{\lambda_2}$ at $\lambda_2$ gives
@@ -253,7 +250,7 @@ Adding these inequalities gives
 \]
 If the utility levels are equal, both contracts minimize the same strictly
 convex Pareto problem and hence agree almost everywhere.  Continuity follows
-from Lemma \ref{lem:mu-tilde} and canonical-contract regularity.
+from Lemma~\ref{lem:mu-tilde} and canonical-contract regularity.
 \end{proof}
 
 Define
@@ -283,8 +280,7 @@ $v_\lambda$ is feasible for reservation utility $\widetilde U(\lambda)$, we
 have $\widetilde U(\lambda)\leq U_R$ for every $\lambda$, and hence
 $U_\infty\leq U_R$.
 
-Conversely, for any contract $v$ satisfying equation \eqref{LIC_hat}, Lemma
-\ref{lem:pareto-problem} gives, for every $\lambda>0$,
+Conversely, for any contract $v$ satisfying equation~\eqref{LIC_hat}, Lemma~\ref{lem:pareto-problem} gives, for every $\lambda>0$,
 \[
     \widehat U(v,a_0)
     \leq \widetilde U(\lambda)
@@ -298,8 +294,7 @@ $U_\infty$ is feasible, so $U_R\leq U_\infty$.  Therefore
 $U_\infty=U_R$.
 
 Suppose that $\widetilde U(M)=U_R$ for some finite $M$.  Monotonicity makes
-$\widetilde U$ constant on $[M,\infty)$, so Lemma
-\ref{lem:pareto-problem} implies that every $v_\lambda$, $\lambda\geq M$,
+$\widetilde U$ constant on $[M,\infty)$, so Lemma~\ref{lem:pareto-problem} implies that every $v_\lambda$, $\lambda\geq M$,
 agrees almost everywhere with a fixed contract $v$.  Local implementability
 implies that $\{s(y)>0\}$ has positive measure.  On this set,
 \[
@@ -311,12 +306,12 @@ almost everywhere.  Letting $\lambda\to\infty$ gives
 $v(y)\geq\bar u$, a contradiction with $v$ being feasible.
 \end{proof}
 
-\begin{proof}[Proof of Proposition \ref{prop:relaxed-optimal-contract}]
+\begin{proof}[Proof of Proposition~\ref{prop:relaxed-optimal-contract}]
 By \eqref{eq:utility-payment-equivalence}, the relaxed problem in payment
 contracts is equivalent to the transformed problem in utility contracts.  We
 prove the result for its utility-contract solution $v^*_{\bar U}$; applying
 $w(y)=k(v(y))-w_0$ then gives the stated payment-contract solution.  By the
-definition of $U_L$ and Lemma \ref{lem:no-terminal-flat} with $M=0$, we have
+definition of $U_L$ and Lemma~\ref{lem:no-terminal-flat} with $M=0$, we have
 $U_L<U_R$.
 
 \emph{Part (i).}  Fix $\bar U<U_R$.  Continuity of $\widetilde U$ and
@@ -332,8 +327,7 @@ and
 \end{equation}
 Set $\mu=\widetilde\mu(\lambda)$ and
 $v^*_{\bar U}=v_\lambda$.  By construction, $v^*_{\bar U}$ is canonical and
-satisfies equation \eqref{LIC_hat} and IR.  By Lemma
-\ref{lem:lagrangian}, $v^*_{\bar U}$ minimizes the Lagrangian (almost everywhere uniquely) and satisfies complementary slackness equation \eqref{eq:candidate-complementary-slackness}. The
+satisfies equation~\eqref{LIC_hat} and IR.  By Lemma~\ref{lem:lagrangian}, $v^*_{\bar U}$ minimizes the Lagrangian (almost everywhere uniquely) and satisfies complementary slackness equation~\eqref{eq:candidate-complementary-slackness}. The
 standard Lagrangian sufficiency argument implies that $v^*_{\bar U}$ is the almost
 everywhere unique solution of the relaxed problem.
 
@@ -351,19 +345,19 @@ On $(U_L,U_R)$, the set of associated IR multipliers is
     =\{\lambda\geq0:\widetilde U(\lambda)=\bar U\}.
 \]
 To see this, suppose first that $\lambda$ is an IR multiplier associated with
-the solution.  Lemmas \ref{lem:lagrangian} and \ref{lem:mu-tilde} imply that
+the solution.  Lemmas~\ref{lem:lagrangian} and \ref{lem:mu-tilde} imply that
 the solution is $v_\lambda$.  Binding IR gives
 $\widetilde U(\lambda)=\bar U$.  Conversely, if
 $\widetilde U(\lambda)=\bar U$, then part (i) shows that $v_\lambda$ is the
 relaxed solution with IR multiplier $\lambda$.
 
-Lemma \ref{lem:pareto-problem} shows that $\widetilde U$ is continuous and
+Lemma~\ref{lem:pareto-problem} shows that $\widetilde U$ is continuous and
 nondecreasing.  Together with part (i) and
 $\widetilde U(\lambda)\to U_R$, this implies that each $\Lambda(\bar U)$ is a
 nonempty compact interval and that the multipliers are strictly ordered by
 reservation utility as stated in the proposition.
 
-Finally, fix any finite $M$.  Lemma \ref{lem:no-terminal-flat} gives
+Finally, fix any finite $M$.  Lemma~\ref{lem:no-terminal-flat} gives
 $\widetilde U(M)<U_R$.  Hence, whenever
 $\bar U>\widetilde U(M)$, every element of
 $\widetilde U^{-1}(\bar U)$ exceeds $M$.  Therefore the smallest multiplier associated with $\bar U$ diverges to
@@ -383,17 +377,17 @@ combination of reservation utilities.  Strict convexity of expected cost pointwi
 therefore implies that $C^*$ is strictly convex on $(U_L,U_R)$.
 \end{proof}
 
-\subsection{Proof of asymptotic concavity proposition \ref{prop:concave}}
+\subsection{Proof of Proposition~\ref{prop:concave}}
 \label{subsec:appendix-safe-tail}
 
-This section proves proposition \ref{prop:concave}.  By
+This section proves Proposition~\ref{prop:concave}.  By
 \eqref{eq:utility-payment-equivalence},
 \[
     \widehat U_{aa}(v_{\lambda,\mu},a)
     =U_{aa}(w_{\lambda,\mu},a).
 \]
-Moreover, Lemma \ref{lem:mu-tilde} implies that every canonical contract
-satisfying equation \eqref{LIC_hat} at a given $\lambda$ is $v_\lambda$.  It therefore suffices to
+Moreover, Lemma~\ref{lem:mu-tilde} implies that every canonical contract
+satisfying equation~\eqref{LIC_hat} at a given $\lambda$ is $v_\lambda$.  It therefore suffices to
 show that $\widehat U_{aa}(v_\lambda,a)\leq0$ for every $a$ when $\lambda$ is
 sufficiently large. We begin with notation and preliminary results.
 
@@ -448,7 +442,7 @@ Equivalently,
 \end{lemma}
 
 \begin{proof}
-For $\lambda>m_0$, evaluate the left-hand side of equation \eqref{LIC_hat} at the trial multiplier
+For $\lambda>m_0$, evaluate the left-hand side of equation~\eqref{LIC_hat} at the trial multiplier
 $\mu_q(\lambda)$:
 \begin{align*}
  &\int \ell\bigl(\lambda+\mu_q(\lambda)s(y)\bigr)s(y)
@@ -469,7 +463,7 @@ follows from the definition of $\Capq(q)$.
 
 As $\lambda\to\infty$, the final expression converges to
 $\Delta u\,\Capq(q)>c'(a_0)$.  Thus, for all sufficiently large $\lambda$, the
-left-hand side of equation \eqref{LIC_hat} evaluated at $\mu_q(\lambda)$
+left-hand side of equation~\eqref{LIC_hat} evaluated at $\mu_q(\lambda)$
 exceeds $c'(a_0)$.  Monotonicity in $\mu$ and uniqueness of the local
 incentive compatibility multiplier therefore imply
 $\widetilde\mu(\lambda)\leq\mu_q(\lambda)$.  Because $m_0-\lambda<0$, this
@@ -512,7 +506,7 @@ then
 \begin{proof}
 \mbox{}\par
 \noindent\textbf{Step 1: The kink is eventually left of $q_0$.}\par
-Lemma \ref{lem:kink-placement} gives, for all sufficiently large $\lambda$,
+Lemma~\ref{lem:kink-placement} gives, for all sufficiently large $\lambda$,
 \[
     q^{\mathrm{kink}}(\lambda)\leq q_0<q_1,
     \qquad
@@ -591,21 +585,21 @@ Since $\lambda+\mu_{q_0}(\lambda)q_0=m_0$, the coefficient in
  \Bigl[m_0+\mu_{q_0}(q_1-q_0)\Bigr]
  \ell_0'\Bigl(m_0+\mu_{q_0}(q_1-q_0)\Bigr).
 \end{align*}
-Because $q_0<0$, $\mu_{q_0}(\lambda)\to\infty$ by equation \eqref{eq:trial-multiplier}.  The fraction therefore
+Because $q_0<0$, $\mu_{q_0}(\lambda)\to\infty$ by equation~\eqref{eq:trial-multiplier}.  The fraction therefore
 converges to $1/(q_1-q_0)$.  The product in brackets with $\ell_0'$
 converges to $\rho$ by the assumption in the proposition statement.  Taking the limsup in \eqref{eq:finite-lambda-bound} proves
 \eqref{eq:asymptotic-safe-tail-bound}.
 \end{proof}
 
-We can now prove proposition \ref{prop:concave}.
+We can now prove Proposition~\ref{prop:concave}.
 
-\begin{proof}[Proof of Proposition \ref{prop:concave}]
+\begin{proof}[Proof of Proposition~\ref{prop:concave}]
 By the equivalence established at the beginning of this subsection, it remains
-to apply Proposition \ref{prop:finite-lambda-bound} under each branch of
-Theorem \ref{thm:main}.
+to apply Proposition~\ref{prop:finite-lambda-bound} under each branch of
+Theorem~\ref{thm:main}.
 
 \emph{Branch (i): sufficient risk aversion.}
-Condition \eqref{condition:U1} and Remark \ref{rem:link-concavity} imply that
+Condition~\eqref{condition:U1} and Remark~\ref{rem:link-concavity} imply that
 $\ell_0$ is concave.  The capacity assumption
 \[
     \Delta u\,\mathrm{Cap}_{\mathrm{safe}}>c'(a_0),
@@ -616,12 +610,10 @@ $q_0\in\operatorname{int}(\mathcal Q_{\mathrm{safe}})$ such that
     \Delta u\,\Capq(q_0)>c'(a_0).
 \]
 In particular, $q_0<0$.  The assumption
-$\mathrm{Curv}_{\mathrm{safe}}<\infty$, equation
-\eqref{eq:cutoff-curvature-limit}, and monotonicity of $\Curvq$ then allow us
+$\mathrm{Curv}_{\mathrm{safe}}<\infty$, equation~\eqref{eq:cutoff-curvature-limit}, and monotonicity of $\Curvq$ then allow us
 to choose a safe cutoff $q_1\in(q_0,0]$ with $\Curvq(q_1)<\infty$.
-Condition \eqref{condition:U2} and Remark \ref{rem:link-flattening} give
-$z\ell_0'(z)\to0$.  Applying Proposition
-\ref{prop:finite-lambda-bound} equation \eqref{eq:asymptotic-safe-tail-bound} with $\rho=0$ yields
+Condition~\eqref{condition:U2} and Remark~\ref{rem:link-flattening} give
+$z\ell_0'(z)\to0$.  Applying equation~\eqref{eq:asymptotic-safe-tail-bound} from Proposition~\ref{prop:finite-lambda-bound} with $\rho=0$ yields
 \[
  \limsup_{\lambda\to\infty}\sup_{a\in\mathcal A}
  \widehat U_{aa}(v_\lambda,a)
@@ -649,7 +641,7 @@ interval.  The definitions \eqref{eq:safe-curvature} and
 \end{equation}
 with the conventions following \eqref{eq:safe-width} when an endpoint
 is infinite.  The strict inequality
-\eqref{eq:log-curvature-width-condition} in Theorem \ref{thm:main} therefore
+\eqref{eq:log-curvature-width-condition} in Theorem~\ref{thm:main} therefore
 provides safe cutoffs $\underline s<q_0<q_1\leq0$ such that
 \begin{equation}
     \frac{\Curvq(q_1)}{q_1-q_0}<\underline c''.
@@ -663,8 +655,7 @@ under $a_0$.  Hence \eqref{eq:cutoff-capacity} gives
     \geq-\int_{\{s<q_0\}}s(y)f(y\mid a_0)\,d\nu(y)>0.
 \]
 Since $\Delta u=\infty$, it follows that
-$\Delta u\,\Capq(q_0)>c'(a_0)$.  Thus Proposition
-\ref{prop:finite-lambda-bound} applies, and its bound with $\rho=1$ yields
+$\Delta u\,\Capq(q_0)>c'(a_0)$.  Thus Proposition~\ref{prop:finite-lambda-bound} applies, and its bound with $\rho=1$ yields
 \[
  \limsup_{\lambda\to\infty}\sup_{a\in\mathcal A}
  \widehat U_{aa}(v_\lambda,a)
@@ -672,7 +663,6 @@ $\Delta u\,\Capq(q_0)>c'(a_0)$.  Thus Proposition
 \]
 
 Thus, under either branch, $\widehat U_{aa}(v_\lambda,a)\leq0$ for every
-$a\in\mathcal A$ and all sufficiently large $\lambda$.  Equation
-\eqref{eq:utility-payment-equivalence} proves the proposition in its stated
+$a\in\mathcal A$ and all sufficiently large $\lambda$.  Equation~\eqref{eq:utility-payment-equivalence} proves the proposition in its stated
 payment-contract form.
 \end{proof}
