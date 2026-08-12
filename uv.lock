@@ -16,7 +16,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "matplotlib", specifier = ">=3.10.7" },
-    { name = "moralhazard", git = "https://github.com/eduardomazevedo/moralhazard.git?rev=dd3770410017feb9491cfc8479e1f01d1d9c4a96" },
+    { name = "moralhazard", git = "https://github.com/eduardomazevedo/moralhazard.git?rev=7b63ab66e841b71e7213477d5a5486192fc8baf8" },
     { name = "numpy", specifier = ">=2.3.5" },
     { name = "pandas", specifier = ">=2.3.3" },
 ]
@@ -450,7 +450,7 @@ wheels = [
 [[package]]
 name = "moralhazard"
 version = "0.1.0"
-source = { git = "https://github.com/eduardomazevedo/moralhazard.git?rev=dd3770410017feb9491cfc8479e1f01d1d9c4a96#dd3770410017feb9491cfc8479e1f01d1d9c4a96" }
+source = { git = "https://github.com/eduardomazevedo/moralhazard.git?rev=7b63ab66e841b71e7213477d5a5486192fc8baf8#7b63ab66e841b71e7213477d5a5486192fc8baf8" }
 dependencies = [
     { name = "cvxpy" },
     { name = "numpy" },
