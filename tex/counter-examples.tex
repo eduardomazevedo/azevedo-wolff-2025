@@ -1,10 +1,19 @@
 \subsection{Discussion of Assumptions, Limitations, and Counter-Examples}
 \label{sec:counter-examples}
 \medskip\noindent\textit{\textbf{Safe Score Region.}}
-Another crucial assumption is that there exists a large enough region of safe scores, where $f_{aa}(y|a) \geq 0$ for all $y$ with scores below a threshold. The theorem makes this requirement precise with the capacity and convexity conditions.
+A key assumption of Theorem \ref{thm:main} is the availability of a sufficiently large safe low-score region, encoded by $\mathcal Q_{\mathrm{safe}}$.  The region must be large enough for the required conditions on $\mathrm{Curv}_{\mathrm{safe}}$ and $\mathrm{Cap}_{\mathrm{safe}}$ to hold.
 
+In many common distributions, the score is increasing in $y$, and $f_{aa}(y\mid a)\geq0$ in the left tail.  This is true for Gaussian, Poisson, exponential, gamma, geometric, Bernoulli, and binomial distributions under the parameter restrictions in Remark \ref{rem:safe-tails-common-distributions}.  Thus, although the theorem does not formally require monotonicity of the score, many common examples with a nontrivial safe low-score region have increasing scores.
 
-Increasing score (also known as monotone likelihood ratio property) is a critical assumption, without which the first-order approach often fails. The importance of the assumption is easy to see with the fat-tailed Student-$t$ distribution. The $t$ distribution is similar to a Gaussian, but has fatter tails. As a consequence, the score is similar to the Gaussian score close to the mean, but approaches zero in both tails (table \ref{tab:dists}). Figure \ref{fig:t-log-pp} displays an example where the first-order approach is invalid for any reservation wage where principal profits are positive.
+To see the importance of this region, consider the Student-$t$ distribution.  The $t$ distribution resembles a Gaussian but has fatter tails.  Consequently, its score resembles the Gaussian score near the mean but approaches zero in both tails (Table \ref{tab:dists}).  The score is not monotone and there may be no nonempty safe low-score region.%
+\footnote{Let $y^*:=a_0-\sigma\sqrt{\nu}$, where the intended-action score attains its minimum; every nonempty score sublevel set contains $y^*$.  Moreover,
+\[
+ \frac{f_{aa}(y\mid a)}{f(y\mid a)}
+ =\frac{(\nu+1)[(\nu+2)(y-a)^2-\nu\sigma^2]}
+ {[\nu\sigma^2+(y-a)^2]^2}.
+\]
+If $y^*\in\mathcal A$, evaluating at $a=y^*$ gives
+$f_{aa}(y^*\mid y^*)/f(y^*\mid y^*)=-(\nu+1)/(\nu\sigma^2)<0$, independently of the parameter values.}
 
 % Student-t - log utility figure
 \begin{figure}[p]
@@ -15,6 +24,8 @@ Increasing score (also known as monotone likelihood ratio property) is a critica
     \label{fig:t-log-pp}
     \caption*{\textit{Note:} Top panel: optimal wage function $w(y)$. Bottom panel: agent's expected utility $U(w^*_{\bar U},a)$ given the optimal contract and action $a$. Colors represent reservation utility. Dashed lines indicate that the first-order approach is invalid at that reservation utility. Dots indicate the recommended action. The thin horizontal line indicates indifference between local maxima. Output has Student-$t$ distribution with mean $a$, scale parameter $\sigma = 20.0$, tail parameter $\nu = 1.15$, initial wealth is $50$ (both in thousands of dollars), and the cost function is $c(a) = a^2 / 30000$.}
 \end{figure}
+
+While distributions with zero probability $\mathcal Q_{\mathrm{safe}}$ lead to common failures of the first-order approach, we note that the theorem's exact conditions on $\mathrm{Curv}_{\mathrm{safe}}$ and $\mathrm{Cap}_{\mathrm{safe}}$ are sufficient but not necessary, and often not tight. For example, in the CRRA and CARA cases covered by corollary \ref{cor:common-utilities} part (i) the first order approach holds for values of initial wealth $w_0$ that are not low enough to satisfy the capacity condition in theorem \ref{thm:main} part (i). The reason is that the theorem only gives sufficient conditions, and moreover relies on the concavity of $U(w,a)$ in $a$, whereas sometimes the first-order approach is valid even if $U(w,a)$ is not concave in $a$.
 
 
 \medskip\noindent\textit{\textbf{Sufficient Risk Aversion.}}
