@@ -29,7 +29,7 @@ bind,
     \tag{FOC}\label{eq:foc}
 \end{equation}
 
-The first order condition pins down the optimal contract $w^*_{\bar U}(y)$.
+The first-order condition pins down the optimal contract $w^*_{\bar U}(y)$.
 The solution is best described with the following notation.  Let
 $m_0:=1/u'(w_0)$ be the marginal cost of utility at zero payment.  On the
 nonbinding region, the solution to the first-order condition is calculated by taking $\lambda + \mu s(y)$ and applying the \textbf{base wage link function}
@@ -98,7 +98,7 @@ cost--utility frontier.
     \caption{Pareto frontier in the Gaussian-log utility example}
     \label{fig:pf}
     \captionsetup{font=footnotesize} % Makes the note footnote-sized
-    \caption*{\textit{Note:} This figure displays the Pareto frontier of the cost minimization problem and the relaxed cost minimization problem in the Gaussian-log utility example. The first-order approach is valid for all reservation utilities where the two sets coincide. Parameters are as in figure \ref{fig:gaussian-log-pp}.}
+    \caption*{\textit{Note:} This figure displays the Pareto frontier of the cost minimization problem and the relaxed cost minimization problem in the Gaussian-log utility example. The first-order approach is valid for all reservation utilities where the two sets coincide. Parameters are as in Figure \ref{fig:gaussian-log-pp}.}
 \end{figure}
 
 \subsection{Validity of the First-Order Approach with High Reservation Utility}
@@ -127,7 +127,7 @@ supporting the relaxed-optimal contract converges to infinity as
 $\bar U\uparrow U_R$.  Hence there is $U^*<U_R$ such that every multiplier
 supporting the relaxed solution has $\lambda\geq\lambda_0$ whenever
 $\bar U\in[U^*,U_R)$.  The agent's objective is then concave by Proposition
-\ref{prop:concave}.  Local incentive compatibility implies global incentive compatibility so the unique
+\ref{prop:concave}.  Local incentive compatibility implies global incentive compatibility, so the unique
 relaxed solution also uniquely solves the original cost-minimization problem.
 \end{proof}
 
@@ -164,7 +164,7 @@ nonnegative at every score, and
       \left[-\int_{\{s(y)\leq q_0\}}s(y)f(y\mid a_0)\,d\nu(y)\right].
 \end{align*}
 As $\lambda$ grows, the first factor on the right grows.  The capacity
-assumptions on the theorem then guarantee that we can find a safe cutoff $q_0$
+assumptions of the theorem then guarantee that we can find a safe cutoff $q_0$
 for which the right-hand side exceeds $c'(a_0)$ for all sufficiently large
 $\lambda$.  Thus, the limited-liability kink must eventually lie to the left
 of $q_0$.
@@ -187,14 +187,14 @@ The third step bounds this remaining curvature.  The fact that the kink is left 
 incentive multiplier $\mu$ from growing too quickly relative to $\lambda$.
 The utility conditions then tame the sensitivity of utility to the score on
 the region above $q_1$, while the safe-curvature bound limits the positive
-distributional curvature in that region. Using these facts, Proposition \ref{prop:finite-lambda-bound} shows that the remaining curvature is small, and eventually dominated by $\ubar c''$.
+distributional curvature in that region.  Using these facts, Proposition \ref{prop:finite-lambda-bound} shows that the remaining curvature is small, and is eventually dominated by $\underline c''$.
 
 Figure \ref{fig:gaussian-log-cm} illustrates the argument in the log-Gaussian example.  At low reservation
 utility, the limited-liability kink creates multiple local maxima.  As
 reservation utility rises, the kink moves into the safe left tail as predicted
-by Lemma \ref{lem:kink-placement} (top panel of the figure). As the kink moves far to the left, the agent's objective becomes concave
+by Lemma \ref{lem:kink-placement} (top panel of the figure).  As the kink moves far to the left, the agent's objective becomes concave
 as predicted by Proposition \ref{prop:finite-lambda-bound} (bottom panel of the figure).  Appendix
-\ref{subsec:appendix-safe-tail} gives the proof. While care is needed to deal with the continuous and discrete cases, and the two branches of Theorem \ref{thm:main}, the gist is the three line argument above.
+\ref{subsec:appendix-safe-tail} gives the proof.  While care is needed to deal with the continuous and discrete cases, and the two branches of Theorem \ref{thm:main}, the gist is the three-line argument above.
 
 % Gaussian - log utility cost minimization problem figure
 \begin{figure}[p]
