@@ -6,7 +6,41 @@
 
 % External references for any separately compiled online appendix.
 \usepackage{xr}
-\externaldocument{"manuscript"}
+\externaldocument{pdf/manuscript}
+
+% Prefix all supplementary numbering to distinguish it from the paper and its
+% regular appendix.
+\renewcommand{\thesection}{S.\arabic{section}}
+\renewcommand{\theequation}{S.\arabic{equation}}
+\renewcommand{\thefigure}{S.\arabic{figure}}
+\renewcommand{\thetable}{S.\arabic{table}}
+\renewcommand{\theproposition}{S.\arabic{proposition}}
+\renewcommand{\theassumption}{S.\arabic{assumption}}
+\renewcommand{\thecondition}{S.\arabic{condition}}
+\renewcommand{\thetheorem}{S.\arabic{theorem}}
+\renewcommand{\thelemma}{S.\arabic{lemma}}
+\renewcommand{\thecorollary}{S.\arabic{corollary}}
+\renewcommand{\thedefinition}{S.\arabic{definition}}
+\renewcommand{\theremark}{S.\arabic{remark}}
+
+% Give hyperref destinations the same supplement-specific namespace.
+\renewcommand{\theHsection}{S.\arabic{section}}
+\renewcommand{\theHequation}{S.\arabic{equation}}
+\renewcommand{\theHfigure}{S.\arabic{figure}}
+\renewcommand{\theHtable}{S.\arabic{table}}
+\renewcommand{\theHproposition}{S.\arabic{proposition}}
+\renewcommand{\theHassumption}{S.\arabic{assumption}}
+\renewcommand{\theHcondition}{S.\arabic{condition}}
+\renewcommand{\theHtheorem}{S.\arabic{theorem}}
+\renewcommand{\theHlemma}{S.\arabic{lemma}}
+\renewcommand{\theHcorollary}{S.\arabic{corollary}}
+\renewcommand{\theHdefinition}{S.\arabic{definition}}
+\renewcommand{\theHremark}{S.\arabic{remark}}
+
+% Leave enough room for subsection numbers such as S.1.12 in the contents.
+\makeatletter
+\renewcommand*{\l@subsection}{\@dottedtocline{2}{1.5em}{3.2em}}
+\makeatother
 
 \begin{document}
 
@@ -19,8 +53,10 @@
 \newpage
 
 This online appendix derives the functional forms reported in Tables
-\ref{tab:utility_functions} and \ref{tab:dists} and provides additional
-information on the numerical benchmarks.
+\ref{tab:utility_functions} and \ref{tab:dists}, verifies the common-distribution
+and common-utility claims used in Corollary~\ref{cor:common-utilities}, develops
+the low-risk-aversion CRRA extension, gives a risk-neutral counterexample, and
+provides additional information on the numerical benchmarks.
 
 \section{Derivations of Scores for Particular Distributions}
 
@@ -325,6 +361,125 @@ The associated canonical wage is
      -w_0.
 \]
 
+\section{Verification of the Common-Distribution and Common-Utility Remarks}
+\label{sec:common-regularity-verification}
+
+This section verifies the two remarks following the maintained assumptions in
+the body of the paper.  These verifications supply the distributional and
+utility calculations used in Corollary~\ref{cor:common-utilities}.
+
+\subsection{Safe tails in common distributions}
+
+We first verify Remark~\ref{rem:safe-tails-common-distributions}.  Recall the
+identity
+\begin{equation}
+    \frac{f_{aa}(y\mid a)}{f(y\mid a)}
+    =S(y\mid a)^2+\partial_a S(y\mid a).
+    \label{eq:faa-score-identity}
+\end{equation}
+Because the action set is compact and lies in the interior of the parameter
+space under the restrictions in the remark, all parameter-dependent
+coefficients below are uniformly bounded.
+
+For Gaussian output,
+\[
+ \frac{f_{aa}(y\mid a)}{f(y\mid a)}
+ =\frac{(y-a)^2}{\sigma^4}-\frac1{\sigma^2}.
+\]
+Consequently, a sufficiently far-left half-line is safe uniformly in
+$a\in\mathcal A$.  Since the Gaussian score is affine in $y$ and is
+unbounded below, the safe width is infinite.
+
+For the continuous nonnegative-output families, equation
+\eqref{eq:faa-score-identity} gives, at the lower endpoint $y=0$,
+\[
+ \left.\frac{f_{aa}}f\right|_{y=0}
+ =\frac{2}{a^2}\quad\text{for exponential output},
+ \qquad
+ \left.\frac{f_{aa}}f\right|_{y=0}
+ =\frac{n(n+1)}{a^2}\quad\text{for gamma output}.
+\]
+These expressions are uniformly positive.  Continuity and compactness
+therefore give an $\varepsilon>0$ such that $f_{aa}(y\mid a)\geq0$ for every
+$a\in\mathcal A$ and $0<y\leq\varepsilon$.  Because the score is increasing
+and strictly negative near zero, this interval contains a safe low-score
+region of positive width and positive probability.
+
+For the discrete families, it is enough to consider the lowest outcome.  Its
+probability and second action derivative are
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Family & lowest-outcome probability & second derivative \\
+\midrule
+Poisson & $f(0\mid a)=e^{-a}$ & $f_{aa}(0\mid a)=e^{-a}$ \\
+Geometric & $f(1\mid a)=a^{-1}$ & $f_{aa}(1\mid a)=2a^{-3}$ \\
+Bernoulli & $f(0\mid a)=1-a$ & $f_{aa}(0\mid a)=0$ \\
+Binomial & $f(0\mid a)=(1-a)^n$ &
+$n(n-1)(1-a)^{n-2}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+Thus the lowest outcome is safe and has a strictly negative score and positive
+probability.  Choose a negative cutoff strictly between its score and the
+score of the next outcome.  The resulting safe region consists only of the
+lowest outcome, proving positive safe capacity and positive safe width.
+
+It remains to verify finite safe curvature.  In the Gaussian, Poisson,
+exponential, and gamma cases, $f_{aa}/f$ is a polynomial of degree at most two
+in the output, while the score is affine in the output.  Compactness of the
+parameter set and the standard uniform moment bounds therefore imply
+\[
+ \sup_{a\in\mathcal A}\int |s(y)f_{aa}(y\mid a)|\,d\nu(y)<\infty.
+\]
+The same conclusion is immediate for Bernoulli and binomial output.  For
+geometric output, $f_{aa}/f$ is also at most quadratic in the outcome and the
+geometric moments are uniformly bounded when the compact action set is
+contained in $(1,\infty)$.  This bound implies
+$\mathrm{Curv}_{\mathrm{safe}}<\infty$ in every case.  The safe regions just
+constructed have positive probability and contain only negative scores, so
+they also imply $\mathrm{Cap}_{\mathrm{safe}}>0$.  This proves all the claims
+for the named distributions.
+
+For completeness, consider the regular exponential family in the remark:
+\[
+ f(y\mid a)=h(y)\exp\bigl(\eta(a)T(y)-A(a)\bigr).
+\]
+Direct differentiation gives
+\begin{equation}
+ \frac{f_{aa}}f
+ =\bigl(\eta'(a)T-A'(a)\bigr)^2+\eta''(a)T-A''(a).
+ \label{eq:exponential-family-faa}
+\end{equation}
+The positive quadratic term dominates uniformly as $T\to-\infty$ because
+$\inf_a\eta'(a)>0$.  Hence a sufficiently low-score tail is safe.  Essential
+unboundedness of $T$ below makes its safe width infinite and gives that tail
+positive probability, hence positive capacity.  Finally, because the compact
+set $\eta(\mathcal A)$ lies in the interior of the natural-parameter space,
+the required polynomial moments of $T$ are uniformly finite.  Equation
+\eqref{eq:exponential-family-faa} then gives finite safe curvature.
+
+\subsection{Sufficient risk aversion for common utilities}
+
+We next verify the utility remark following Condition
+\ref{condition:sufficient-risk-aversion}.  For CARA utility,
+\[
+ A(W)=\alpha,\qquad P(W)=\alpha,
+ \qquad \frac{A(W)}{u'(W)}=\alpha e^{\alpha W}\longrightarrow\infty.
+\]
+Thus $A/P=1\geq1/3$ and both parts of the sufficient-risk-aversion condition
+hold.  For CRRA utility with coefficient $\gamma$,
+\[
+ A(W)=\frac{\gamma}{W},\qquad
+ P(W)=\frac{\gamma+1}{W},\qquad
+ \frac{A(W)}{P(W)}=\frac{\gamma}{\gamma+1},
+ \qquad
+ \frac{A(W)}{u'(W)}=\gamma W^{\gamma-1}.
+\]
+When $\gamma>1$, the first ratio exceeds $1/2$ and the final expression tends
+to infinity.  Hence CARA and CRRA with $\gamma>1$ satisfy Condition
+\ref{condition:sufficient-risk-aversion}, as claimed.
+
 \section{First-Order Approach with CRRA and
 \texorpdfstring{$\gamma\in(0,1)$}{gamma in (0, 1)}}
 \label{sec:asymptotic-affinity}
@@ -543,11 +698,16 @@ $(0,1)$, the moment conditions in Assumption
     \int s(y)f_{aa}(y\mid a)\,d\nu(y)
     =\frac{d^2}{da^2}\E_a[s(Y)]=0.
 \]
-Hence, subject to the maintained assumptions, these output distributions with CRRA
-utility are covered by Theorem \ref{thm:main} for $\gamma>1$ whenever their
-capacity conditions hold (in particular, for sufficiently low initial
-wealth), by its log branch for $\gamma=1$, and by Proposition
-\ref{prop:asymptotic-affinity} for $\gamma\in(0,1)$.
+Hence, subject to the maintained assumptions, all the listed output
+distributions with CRRA utility are covered by Theorem \ref{thm:main} for
+$\gamma>1$ whenever their capacity conditions hold (in particular, for
+sufficiently low initial wealth), and by Proposition
+\ref{prop:asymptotic-affinity} for $\gamma\in(0,1)$.  At $\gamma=1$, the log
+branch of Theorem \ref{thm:main} applies automatically to Gaussian output and,
+more generally, to the essentially-unbounded-below regular exponential
+families in Remark \ref{rem:safe-tails-common-distributions}.  It does not
+automatically cover the other listed families, which must satisfy the
+curvature--width inequality \eqref{eq:log-curvature-width-condition}.
 \end{corollary}
 
 \begin{proof}
@@ -571,6 +731,47 @@ standard polynomial moment bounds for Gaussian, Poisson, exponential,
 geometric, and gamma families, together with the same bounds applied to the
 polynomial multiples of densities that make up $f_{aa}$.  The stated
 cases now follow from the corresponding results.
+\end{proof}
+
+\section{Proof of Corollary~\ref{cor:common-utilities}}
+\label{sec:proof-common-utilities}
+
+\begin{proof}
+For part (i), the preceding utility verification shows that CARA and CRRA with
+$\gamma>1$ satisfy Condition
+\ref{condition:sufficient-risk-aversion}.  Their available utility ranges
+above limited liability are, respectively,
+\[
+ \Delta u=\frac{e^{-\alpha w_0}}{\alpha},
+ \qquad
+ \Delta u=\frac{w_0^{1-\gamma}}{\gamma-1}.
+\]
+The first tends to infinity as $w_0\to-\infty$, and the second tends to
+infinity as $w_0\downarrow0$.  If
+$\mathrm{Cap}_{\mathrm{safe}}>0$, sufficiently low initial wealth therefore
+ensures
+\[
+ \Delta u\,\mathrm{Cap}_{\mathrm{safe}}>c'(a_0).
+\]
+Theorem~\ref{thm:main}(i) proves the claim.  The named distributions satisfy
+the required capacity and curvature properties by the verification above.
+
+For part (ii), essential unboundedness of the score below and the existence of
+a safe cutoff imply
+$\mathrm{Width}_{\mathrm{safe}}=\infty$.  Consequently,
+\[
+ \frac{\mathrm{Curv}_{\mathrm{safe}}}
+      {\mathrm{Width}_{\mathrm{safe}}}=0<\underline c'',
+\]
+where the equality uses the finiteness of safe curvature.  The log branch,
+Theorem~\ref{thm:main}(ii), proves the claim.  The Gaussian and regular
+exponential-family cases satisfy these distributional hypotheses by the
+verification above.
+
+Part (iii) follows from Proposition~\ref{prop:asymptotic-affinity} and
+Corollary~\ref{cor:gaussian-crra-extension}, whose proof verifies both the
+affine-score curvature and uniform moment requirements for every named
+family.
 \end{proof}
 
 \section{Risk-Neutral Counterexample to Theorem~\ref{thm:main}}
