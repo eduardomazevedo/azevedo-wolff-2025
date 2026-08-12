@@ -323,10 +323,17 @@ The associated canonical wage is
 \]
 
 \section{First-Order Approach with CRRA and
-\texorpdfstring{$\gamma\in(1/2,1)$}{gamma in (1/2, 1)}}
+\texorpdfstring{$\gamma\in(0,1)$}{gamma in (0, 1)}}
 \label{sec:asymptotic-affinity}
 
-We extend the main theorem to CRRA utility with $\gamma\in(1/2,1)$ under additional assumptions. We use the payment- and utility-contract notation introduced in Appendix~\ref{subsec:appendix-notation}. The main additional restriction is that the expected score is concave in the agent's action. The argument splits the curvature integral into a left tail, which can be ignored asymptotically, and a main region. On the main region, the utility contract is asymptotically affine; by contrast, the main theorem establishes that curvature on this region is small.
+We extend the main theorem to CRRA utility with $\gamma\in(0,1)$ under
+additional assumptions. We use the payment- and utility-contract notation
+introduced in Appendix~\ref{subsec:appendix-notation}. The main additional
+restriction is that the expected score is concave in the agent's action. The
+argument is that, at high reservation utility, the utility contract is
+asymptotically affine in the score. The leading curvature term is then
+proportional to the curvature of the expected score and is dominated by the
+strict convexity of effort cost.
 
 \begin{assumption}[CRRA utility]
 \label{ass:crra-affinity}
@@ -334,11 +341,11 @@ Utility is
 \[
     u(W)=\frac{W^{1-\gamma}}{1-\gamma},
     \qquad w_0>0,
-    \qquad \gamma\in(1/2,1).
+    \qquad \gamma\in(0,1).
 \]
 \end{assumption}
 
-Put $p:=(1-\gamma)/\gamma\in(0,1)$.  On the nonbinding region,
+Put $p:=(1-\gamma)/\gamma>0$.  On the nonbinding region,
 \begin{equation}
     \ell_0(z)=\frac{z^p}{1-\gamma},
     \qquad
@@ -358,12 +365,12 @@ Equivalently, $a\mapsto\E_a[s(Y)]$ is concave.
 
 \begin{assumption}[Moments for asymptotic affinity]
 \label{ass:affinity-moments}
-For some $\eta>0$,
+For some $m>\max\{2,p+1\}$,
 \begin{align*}
  0<\sigma_s^2:=\int s(y)^2f(y\mid a_0)\,d\nu(y)&<\infty,\\
- \int |s(y)|^{2+\eta}f(y\mid a_0)\,d\nu(y)&<\infty,\\
+ \int |s(y)|^m f(y\mid a_0)\,d\nu(y)&<\infty,\\
  \sup_{a\in\mathcal A}\int
- (1+|s(y)|^{2+\eta})|f_{aa}(y\mid a)|\,d\nu(y)&<\infty.
+ (1+|s(y)|^m)|f_{aa}(y\mid a)|\,d\nu(y)&<\infty.
 \end{align*}
 \end{assumption}
 
@@ -401,20 +408,28 @@ chosen compact set, by
     K\mu_\lambda^2|\ell_0''(\lambda/2)||s|^3
     \leq K\lambda^{-p}|s|^3.
 \]
-The $(2+\eta)$ moment makes the integral of this bound
-$O(\lambda^{-p\min\{1,\eta\}})$.  Indeed, when $\eta<1$, use
-$|s|^3\leq T_\lambda^{1-\eta}|s|^{2+\eta}$ on the central region; when
-$\eta\geq1$, the third moment is finite.
+The $m$ moment makes the integral of this bound vanish.  If $m\geq3$, this is
+$O(\lambda^{-p})$.  If $m<3$, use
+$|s|^3\leq T_\lambda^{3-m}|s|^m$ on the central region to obtain
+$O(\lambda^{-p(m-2)})$.
 
-On $\{|s|>T_\lambda\}$, sublinear growth gives
+On $\{|s|>T_\lambda\}$, polynomial growth gives
 \[
  |r_\lambda(s)s|
  \leq K\left[(1+\lambda^p)|s|
        +\mu_\lambda^p|s|^{p+1}+s^2\right].
 \]
-The $(2+\eta)$ moment and $T_\lambda\asymp\lambda^p$ imply that the
-integrals of all three terms are $O(\lambda^{-p\eta})$.  These estimates prove
-the asserted convergence, uniformly for $\theta$ in compact sets.  After
+The $m$ moment, $m>\max\{2,p+1\}$, and
+$T_\lambda\asymp\lambda^p$ imply that the integrals of all three terms vanish.
+Indeed,
+\[
+ (1+\lambda^p)T_\lambda^{-(m-1)}
+ +\mu_\lambda^pT_\lambda^{-(m-p-1)}
+ +T_\lambda^{-(m-2)}
+ =O\bigl(\lambda^{-p(m-2)}\bigr),
+\]
+using $\mu_\lambda^p=O(\lambda^{p(1-p)})$.  These estimates prove the
+asserted convergence, uniformly for $\theta$ in compact sets.  After
 multiplication by $s$ and integration, the constant term vanishes because the
 score has mean zero, so
 \[
@@ -469,13 +484,13 @@ and $\widetilde\mu\ell_0'(\lambda)=O(1)$ bound the absolute residual by
 \[
     K\left[1+\lambda^p+\widetilde\mu^p|s|^p+|s|\right].
 \]
-Using the uniform $(2+\eta)$ weighted moment in Assumption
+Using the uniform $m$ weighted moment in Assumption
 \ref{ass:affinity-moments}, its tail integral is bounded by a constant times
 \[
- (1+\lambda^p)T_\lambda^{-(2+\eta)}
- +\widetilde\mu^pT_\lambda^{-(2+\eta-p)}
- +T_\lambda^{-(1+\eta)}
- =O\bigl(\lambda^{-p(1+\eta)}\bigr),
+ (1+\lambda^p)T_\lambda^{-m}
+ +\widetilde\mu^pT_\lambda^{-(m-p)}
+ +T_\lambda^{-(m-1)}
+ =O\bigl(\lambda^{-p(m-1)}\bigr),
 \]
 uniformly in $a$.  Combining the central and tail bounds proves
 \eqref{eq:uniform-affine-residual}.
@@ -512,29 +527,161 @@ last conclusion then follows from the divergence of the smallest supporting
 multiplier in Proposition \ref{prop:relaxed-optimal-contract}.
 \end{proof}
 
-\begin{corollary}[Gaussian CRRA extension]
+\begin{corollary}[Common linear-score CRRA extension]
 \label{cor:gaussian-crra-extension}
-For a Gaussian location family on a compact action set, the moment conditions
-in Assumption \ref{ass:affinity-moments} hold and
+For Gaussian output with fixed positive variance; Poisson and exponential
+output with $\mathcal A$ compact and bounded away from $0$; gamma output with
+fixed positive shape and $\mathcal A$ compact and bounded away from $0$;
+geometric output with $\mathcal A$ compact and contained in $(1,\infty)$; and
+Bernoulli and binomial output with $\mathcal A$ compact and contained in
+$(0,1)$, the moment conditions in Assumption
+\ref{ass:affinity-moments} hold for every $\gamma\in(0,1)$ and
 \[
     \int s(y)f_{aa}(y\mid a)\,d\nu(y)
     =\frac{d^2}{da^2}\E_a[s(Y)]=0.
 \]
-Hence, subject to the maintained assumptions, Gaussian output with CRRA
-utility is covered by Theorem \ref{thm:main} for $\gamma>1$ whenever its
-capacity condition holds (in particular, for sufficiently low initial
+Hence, subject to the maintained assumptions, these output distributions with CRRA
+utility are covered by Theorem \ref{thm:main} for $\gamma>1$ whenever their
+capacity conditions hold (in particular, for sufficiently low initial
 wealth), by its log branch for $\gamma=1$, and by Proposition
-\ref{prop:asymptotic-affinity} for $\gamma\in(1/2,1)$.  No general claim is
-made here for $\gamma\leq1/2$.
+\ref{prop:asymptotic-affinity} for $\gamma\in(0,1)$.
 \end{corollary}
 
 \begin{proof}
-For Gaussian location output, $s(y)=(y-a_0)/\sigma^2$ is affine in $y$ and all
-of its moments against $f(y\mid a_0)$ and the Gaussian derivatives
-$f_{aa}(y\mid a)$ are finite uniformly on compact action sets.  Moreover,
-$\E_a[s(Y)]=(a-a_0)/\sigma^2$ is affine in $a$, proving the displayed
-identity.  The stated cases now follow from the corresponding results.
+In each case the score at $a_0$ is affine in a statistic whose expectation is
+affine in $a$.  For Gaussian, Poisson, exponential, Bernoulli, binomial,
+geometric, and gamma output, respectively,
+\[
+    \E_a[s(Y)]
+    =
+    \frac{a-a_0}{\sigma^2},\quad
+    \frac{a-a_0}{a_0},\quad
+    \frac{a-a_0}{a_0^2},\quad
+    \frac{a-a_0}{a_0-a_0^2},\quad
+    \frac{n(a-a_0)}{a_0-a_0^2},\quad
+    \frac{a-a_0}{a_0^2-a_0},\quad
+    \frac{n(a-a_0)}{a_0^2}.
+\]
+This proves the displayed identity.  The required moments are finite uniformly
+on the stated compact action sets: trivially for finite support, and by the
+standard polynomial moment bounds for Gaussian, Poisson, exponential,
+geometric, and gamma families, together with the same bounds applied to the
+polynomial multiples of densities that make up $f_{aa}$.  The stated
+cases now follow from the corresponding results.
 \end{proof}
+
+\section{Risk-Neutral Counterexample}
+\label{sec:risk-neutral-counterexample}
+
+This section gives a simple example showing that risk aversion cannot be
+removed from the main result.  The example satisfies the distributional
+conditions used by Theorem~\ref{thm:main}, but risk-neutral utility violates
+the maintained strict-concavity and sufficient-risk-aversion assumptions.
+
+Let the agent be risk neutral, $u(W)=W$, with initial wealth $w_0=0$.  Let
+output have three states $\mathcal Y=\{L,M,H\}$, let
+$\mathcal A=[1/4,3/4]$, and let the intended action be $a_0=1/2$.  Define
+\[
+    f(H\mid a)=a^3,\qquad
+    f(L\mid a)=\frac{9}{10}-a,\qquad
+    f(M\mid a)=\frac{1}{10}+a-a^3.
+\]
+These probabilities are strictly positive on $\mathcal A$ and sum to one.
+Let the effort cost be
+\[
+    c(a)=5a^2.
+\]
+Then $c'(a_0)=5$ and $\underline c''=10$.
+
+At $a_0=1/2$, the probabilities and scores are
+\[
+    f(H\mid a_0)=\frac18,\quad s(H)=6,
+    \qquad
+    f(M\mid a_0)=\frac{19}{40},\quad s(M)=\frac{10}{19},
+    \qquad
+    f(L\mid a_0)=\frac25,\quad s(L)=-\frac52.
+\]
+The only low-score state is $L$, and $f_{aa}(L\mid a)=0$ for every
+$a\in\mathcal A$.  Thus every cutoff
+$q\in[-5/2,10/19)$ generates the safe low-score region $\{L\}$, and
+\[
+    \mathrm{Cap}_{\mathrm{safe}}
+    =-s(L)f(L\mid a_0)=1>0,
+    \qquad
+    \mathrm{Width}_{\mathrm{safe}}
+    =\frac{10}{19}+\frac52=\frac{115}{38}>0.
+\]
+The safe curvature is finite.  Since
+$f_{aa}(H\mid a)=6a$, $f_{aa}(M\mid a)=-6a$, and $f_{aa}(L\mid a)=0$,
+\[
+    \mathrm{Curv}_{\mathrm{safe}}
+    =
+    \sup_{a\in[1/4,3/4]} s(H)f_{aa}(H\mid a)
+    =
+    \sup_{a\in[1/4,3/4]}36a
+    =
+    27.
+\]
+In particular,
+\[
+    \frac{\mathrm{Curv}_{\mathrm{safe}}}
+         {\mathrm{Width}_{\mathrm{safe}}}
+    =
+    \frac{1026}{115}<10=\underline c''.
+\]
+Thus, if utility were log with positive initial wealth, the log branch of
+Theorem~\ref{thm:main} would apply.  The failure below is due to risk
+neutrality.
+
+For any reservation utility $\bar U\geq -5/12$, consider the contract
+\[
+    w(L)=w(M)=t,\qquad w(H)=t+\frac{20}{3},
+    \qquad
+    t=\bar U+\frac{5}{12}.
+\]
+The local incentive constraint at $a_0$ is
+\[
+    \sum_y w(y)f_a(y\mid a_0)=c'(a_0).
+\]
+The flat transfer $t$ contributes nothing because
+$\sum_y f_a(y\mid a_0)=0$, while the bonus on $H$ contributes
+\[
+    \frac{20}{3}f_a(H\mid a_0)
+    =
+    \frac{20}{3}\cdot\frac34
+    =
+    5=c'(a_0).
+\]
+Thus the contract satisfies local incentive compatibility.  Individual
+rationality binds at $a_0$ because
+\[
+    t+\frac{20}{3}f(H\mid a_0)-c(a_0)
+    =
+    \bar U+\frac{5}{12}+\frac56-\frac54
+    =
+    \bar U.
+\]
+The contract is feasible under limited liability because
+$t\geq0$.  It is also a relaxed optimum: under risk neutrality, minimizing
+expected compensation is the same as minimizing the agent's expected transfer,
+and every relaxed-feasible contract with binding individual rationality has
+expected cost $\bar U+c(a_0)$.
+
+However, the agent's expected payoff under this contract is
+\[
+    t+\frac{20}{3}a^3-5a^2.
+\]
+Its derivative is $20a^2-10a$, so it is stationary at $a_0=1/2$.  But
+\[
+    \left(t+\frac{20}{3}(3/4)^3-5(3/4)^2\right)
+    -
+    \left(t+\frac{20}{3}(1/2)^3-5(1/2)^2\right)
+    =
+    \frac{5}{12}>0.
+\]
+The agent strictly prefers $a=3/4$ to the intended action.  Therefore the
+first-order approach is not valid for any reservation utility
+$\bar U\geq -5/12$, including arbitrarily high reservation utilities.
 
 \section{Benchmarking Numerical Solvers}
 \label{sec:benchmarks}
