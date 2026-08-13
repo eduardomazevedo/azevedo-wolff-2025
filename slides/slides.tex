@@ -246,6 +246,28 @@
   The kink-left-of-$q_0$ bound keeps $\mu$ from growing too fast relative to $\lambda$. Utility conditions tame sensitivity above $q_1$, and $\mathrm{Curv}_{\mathrm{safe}}$ bounds positive distributional curvature. Remaining curvature is eventually dominated by $\underline c''$.
 \end{frame}
 
+\begin{frame}{Heuristic derivation}
+  With utility link $\ell(z):=u(L(z))$ and $L:=\lim_{z\to\infty}z\ell_0'(z)$,
+  \begin{eqnarray*}
+    U_{aa}
+    &\leq&
+    \displaystyle\int_{\{s>q_1\}}
+      \bigl[\ell(\lambda+\widetilde\mu s)-\ell(\lambda)\bigr]
+      f_{aa}\,\mathrm{d}y
+      -c''(a) \\
+    &\leq&
+    \widetilde\mu\,\ell_0'(\lambda+\widetilde\mu q_1)\,\mathrm{Curv}(q_1)-\underline c'' \\
+    &\leq&
+    \mu_{q_0}\,\ell_0'(\lambda+\mu_{q_0}q_1)\,\mathrm{Curv}(q_1)-\underline c'' \\
+    &=&
+    \frac{\mu_{q_0}}{m_0+\mu_{q_0}(q_1-q_0)}
+    \bigl[(m_0+\mu_{q_0}(q_1-q_0))\ell_0'(m_0+\mu_{q_0}(q_1-q_0))\bigr]
+    \mathrm{Curv}(q_1)-\underline c'' \\
+    &\to&
+    \dfrac{L\,\mathrm{Curv}(q_1)}{q_1-q_0}-\underline c''.
+  \end{eqnarray*}
+\end{frame}
+
 \begin{frame}{Outline}
   \begin{itemize}
     \item Model
