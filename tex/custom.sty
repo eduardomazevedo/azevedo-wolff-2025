@@ -58,14 +58,22 @@
 % 5. Link Configuration (FIXED)
 % -------------------------------------------------------------------
 % MOVED OUT of \AtBeginDocument to ensure Mac Preview sees the colors.
-% Added pdfborder={0 0 0} to ensure Chrome doesn't draw magenta boxes.
+% pdfborder={0 0 0} hides boxes in Evince/Acrobat/Preview. Chrome's PDF
+% viewer still draws an underline using the annotation color /C, and
+% hyperref's defaults are bright red/green/cyan. White /C makes that
+% underline invisible while colorlinks keeps the text colors.
 \hypersetup{
     colorlinks=true,
     linkcolor=linkred,
     citecolor=linkteal,
     urlcolor=linkteal,
-    pdfborder={0 0 0},      % Crucial for Chrome/Acrobat to hide boxes
-    breaklinks=true         % Allows links to break across lines
+    pdfborder={0 0 0},
+    linkbordercolor=white,
+    citebordercolor=white,
+    urlbordercolor=white,
+    filebordercolor=white,
+    runbordercolor=white,
+    breaklinks=true
 }
 
 % -------------------------------------------------------------------
