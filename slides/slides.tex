@@ -92,18 +92,18 @@
 
   Output $y$ has density $f(y\mid a)$.
 
-  Contract is $w\colon\mathcal Y\to\mathbb R_+$. Feasible contracts: $\mathcal W$.
+  Parametrize contracts in utility units: $v(y):=u(w_0+w(y))$, equivalently $w(y)=k(v(y))-w_0$ with $k:=u^{-1}$. Feasible contracts: $\mathcal V$.
 
   \begin{align}
-    U(w, a) &= \int u\bigl(w_0+w(y)\bigr) \cdot f(y\mid a)\,\mathrm{d}y - c(a) \\
-    C(w, a) &= \int w(y) \cdot f(y\mid a)\,\mathrm{d}y
+    U(v, a) &= \int v(y) \cdot f(y\mid a)\,\mathrm{d}y - c(a) \\
+    C(v, a) &= \int \bigl[k(v(y))-w_0\bigr] \cdot f(y\mid a)\,\mathrm{d}y
   \end{align}
 \end{frame}
 
 \begin{frame}{Definitions: FOA}
   \textbf{GIC} (global incentive compatibility): choosing $a_0$ is optimal for the agent.
 
-  \textbf{LIC} (local incentive compatibility): $U_a(w, a_0) = 0$.
+  \textbf{LIC} (local incentive compatibility): $U_a(v, a_0) = 0$.
 
   \textbf{Cost minimization problem:} minimize expected wage subject to IR and GIC.
 
@@ -163,37 +163,47 @@
   Then there exists $U^*<U_R$ such that, for every $\bar U\in[U^*,U_R)$, the first-order approach is valid.
 \end{frame}
 
+\begin{frame}{Corollary 1}
+  For standard utilities and distributions, FOA is valid at high reservation utility:
+  \begin{itemize}
+    \item CARA, or CRRA with $\gamma>1$: if initial wealth is sufficiently low.
+    \item Log utility: if the score is unbounded below.
+    \item CRRA with $\gamma\in(0,1)$.
+  \end{itemize}
+  Applies to Gaussian, Poisson, exponential, gamma, geometric, Bernoulli, and binomial output.
+\end{frame}
+
 \begin{frame}{Proof part 1: Relaxed problem}
   Write Lagrangian:
   \[
-    \mathcal{L}(w, \lambda, \mu) = C(w,a_0) + \lambda (\bar{U} - U(w,a_0)) - \mu U_a(w,a_0)
+    \mathcal{L}(v, \lambda, \mu) = C(v,a_0) + \lambda (\bar{U} - U(v,a_0)) - \mu U_a(v,a_0)
   \]
   \begin{align}
-    C(w,a_0)   &= \int w(y) \cdot f\phantom{_a}(y\mid a_0)\,\mathrm{d}y \\
-    U(w,a_0)   &= \int u\bigl(w_0+w(y)\bigr) \cdot f\phantom{_a}(y\mid a_0)\,\mathrm{d}y - c(a_0) \\
-    U_a(w,a_0) &= \int u\bigl(w_0+w(y)\bigr) \cdot f_a(y\mid a_0)\,\mathrm{d}y - c'(a_0)
+    C(v,a_0)   &= \int \bigl[k(v(y))-w_0\bigr] \cdot f\phantom{_a}(y\mid a_0)\,\mathrm{d}y \\
+    U(v,a_0)   &= \int v(y) \cdot f\phantom{_a}(y\mid a_0)\,\mathrm{d}y - c(a_0) \\
+    U_a(v,a_0) &= \int v(y) \cdot f_a(y\mid a_0)\,\mathrm{d}y - c'(a_0)
   \end{align}
 \end{frame}
 
 \begin{frame}{Proof part 1: Relaxed problem}
   FOC:
   \[
-    \frac{1}{u'\bigl(w_0+w(y)\bigr)} = \lambda + \mu s(y)
+    k'\bigl(v(y)\bigr) = \lambda + \mu s(y)
   \]
-  Solve for $w(y)$:
+  Solve for $v(y)$:
   \[
-    w(y) = L\bigl(\lambda + \mu s(y)\bigr) - w_0,
+    v(y) = \ell\bigl(\lambda + \mu s(y)\bigr),
   \]
-  where $m_0:=1/u'(w_0)$, $L_0(z):=(u')^{-1}(1/z)$, and
+  where $m_0:=1/u'(w_0)$, $\ell_0(z):=(k')^{-1}(z)$, and
   \[
-    L(z) := L_0(z\vee m_0).
+    \ell(z) := \ell_0(z\vee m_0).
   \]
 \end{frame}
 
 \begin{frame}{Proposition 1 ($\approx$ Holmstrom 78)}
-  The relaxed problem has an almost everywhere unique solution $w^*_{\bar U}$. There exist $\lambda$, $\mu$ such that
+  The relaxed problem has an almost everywhere unique solution $v^*_{\bar U}$. There exist $\lambda$, $\mu$ such that
   \[
-    w^*_{\bar U}(y) = L\bigl(\lambda + \mu s(y)\bigr) - w_0.
+    v^*_{\bar U}(y) = \ell\bigl(\lambda + \mu s(y)\bigr).
   \]
 \end{frame}
 
@@ -202,7 +212,7 @@
 
   Under either set of conditions in Theorem~1, there exists $\lambda_0<\infty$ such that every locally incentive-compatible canonical contract with $\lambda\geq\lambda_0$ obeys
   \[
-    U_{aa}\bigl(w_{\lambda,\mu}, a\bigr) \leq 0
+    U_{aa}\bigl(v_{\lambda,\mu}, a\bigr) \leq 0
     \qquad\text{for every }a\in\mathcal A.
   \]
 \end{frame}
@@ -221,14 +231,14 @@
 \begin{frame}{Heuristic derivation}
   \[
     c'(a_0)
-    =\int\bigl[u\bigl(L(\lambda+\mu s(y))\bigr)
-                       -u\bigl(L(\lambda)\bigr)\bigr]s(y)
+    =\int\bigl[\ell(\lambda+\mu s(y))
+                       -\ell(\lambda)\bigr]s(y)
       f(y\mid a_0)\,\mathrm{d}y.
   \]
   If the kink is to the right of a cutoff $q_0<0$, then
   \[
     c'(a_0)
-    \geq \bigl[u\bigl(L(\lambda)\bigr)-u(w_0)\bigr]
+    \geq \bigl[\ell(\lambda)-u(w_0)\bigr]
       \Bigl(-\!\int_{\{s\leq q_0\}}s\,f\,\mathrm{d}y\Bigr).
   \]
   As $\lambda\to\infty$, the right-hand side exceeds $c'(a_0)$ for a safe cutoff, so the kink must move into the safe low-score region.
@@ -239,7 +249,7 @@
   \[
     U_{aa}
     \leq\int_{\{s>q_1\}}
-      \bigl[u\bigl(L(\lambda+\mu s)\bigr)-u\bigl(L(\lambda)\bigr)\bigr]
+      \bigl[\ell(\lambda+\mu s)-\ell(\lambda)\bigr]
       f_{aa}\,\mathrm{d}y
       -c''(a).
   \]
@@ -247,7 +257,7 @@
 \end{frame}
 
 \begin{frame}{Heuristic derivation}
-  With utility link $\ell(z):=u(L(z))$ and $L:=\lim_{z\to\infty}z\ell_0'(z)$,
+  With $\rho:=\lim_{z\to\infty}z\ell_0'(z)$,
   \begin{eqnarray*}
     U_{aa}
     &\leq&
@@ -264,7 +274,7 @@
     \bigl[(m_0+\mu_{q_0}(q_1-q_0))\ell_0'(m_0+\mu_{q_0}(q_1-q_0))\bigr]
     \mathrm{Curv}(q_1)-\underline c'' \\
     &\to&
-    \dfrac{L\,\mathrm{Curv}(q_1)}{q_1-q_0}-\underline c''.
+    \dfrac{\rho\,\mathrm{Curv}(q_1)}{q_1-q_0}-\underline c''.
   \end{eqnarray*}
 \end{frame}
 
@@ -279,13 +289,13 @@
 \begin{frame}{Calculus}
   \begin{itemize}
     \item Optimal contracts have simple and intuitive closed-form solutions.
-    \item Calculus of moral hazard has two parts: wage link function and score.
+    \item Calculus of moral hazard has two parts: utility link function and score.
   \end{itemize}
 \end{frame}
 
 \begin{frame}[plain]
   \centering
-  \input{../tex/tables/utility_functions}
+  \input{utility_functions}
 \end{frame}
 
 \begin{frame}[plain]
@@ -345,7 +355,7 @@
     \item Consider a finite set of GIC constraints at $\boldsymbol{\hat a} = (\hat a_1,\ldots,\hat a_n)$.
     \item With multipliers $\theta := (\lambda,\mu,\boldsymbol{\hat\mu})$, the optimal contract is
     \[
-      w(y | \theta, \hat a) = L\left(\lambda + \mu s(y) + \sum_i \hat\mu_i\left(1-\frac{f(y|\hat a_i)}{f(y|a_0)}\right)\right)-w_0.
+      v(y | \theta, \hat a) = \ell\left(\lambda + \mu s(y) + \sum_i \hat\mu_i\left(1-\frac{f(y|\hat a_i)}{f(y|a_0)}\right)\right).
     \]
     \item Lagrange dual $\mathcal D(\theta, \hat a)$ is fast to compute if we cache these terms.
     \item Analytic gradient from Danskin's envelope theorem.

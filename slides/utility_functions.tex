@@ -1,0 +1,36 @@
+\begin{table}[ht]
+    \centering
+    \caption{Utility Functions and Link Functions}
+    \label{tab:utility_functions}
+    \renewcommand{\arraystretch}{1.5}
+    \setlength{\tabcolsep}{6pt}
+    \small
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccc}
+        \toprule
+        & \multicolumn{1}{c}{Utility Function}
+        & \multicolumn{1}{c}{Wage Link Function}
+        & \multicolumn{1}{c}{Utility Link Function} \\
+        & \(u(W)\) & \(L(z)\) & \(\ell(z)\) \\
+        \midrule
+        Log
+        & \(\log W\)
+        & \(z\vee w_0\)
+        & \(\log(z\vee w_0)\) \\
+        CRRA
+        & \(\dfrac{W^{1-\gamma}}{1-\gamma}\)
+        & \(\bigl(z\vee w_0^\gamma\bigr)^{1/\gamma}\)
+        & \(\dfrac{\bigl(z\vee w_0^\gamma\bigr)^{(1-\gamma)/\gamma}}{1-\gamma}\) \\
+        CARA
+        & \(-\dfrac{\exp(-\alpha W)}{\alpha}\)
+        & \(\dfrac{\log\bigl(z\vee\exp(\alpha w_0)\bigr)}{\alpha}\)
+        & \(-\dfrac{1}{\alpha\bigl(z\vee\exp(\alpha w_0)\bigr)}\) \\
+        \bottomrule
+    \end{tabular*}
+    \captionsetup{font=footnotesize}
+    \caption*{\textit{Note:} Utility $u$ is defined over total wealth $W$.  The
+    wage link function $L$ gives canonical total wealth,
+    $w_{\lambda,\mu}(y)=L(\lambda+\mu s(y))-w_0$.  The utility link function
+    $\ell$ gives the canonical utility contract,
+    $v_{\lambda,\mu}(y)=\ell(\lambda+\mu s(y))$.  For CRRA,
+    $\gamma>0$ and $\gamma\neq1$; for CARA, $\alpha>0$.}
+\end{table}
