@@ -12,4 +12,4 @@ dependencies = [
 ]
 
 [tool.uv.sources]
-moralhazard = { git = "https://github.com/eduardomazevedo/moralhazard.git", rev = "7b63ab66e841b71e7213477d5a5486192fc8baf8" }
+moralhazard = { git = "https://github.com/eduardomazevedo/moralhazard.git", rev = "96659e080ed6bbd2e8c63d14746114f0362da52f" }
