@@ -2,6 +2,7 @@
 \usetheme[numbering=none,progressbar=none]{metropolis}
 \usepackage{booktabs}
 \usepackage[compatibility=false]{caption}
+\usepackage{tikz}
 
 \input{beamer-header.tex}
 
@@ -228,54 +229,103 @@
   \end{columns}
 \end{frame}
 
-\begin{frame}{Heuristic derivation}
-  \[
-    c'(a_0)
-    =\int\bigl[\ell(\lambda+\mu s(y))
-                       -\ell(\lambda)\bigr]s(y)
-      f(y\mid a_0)\,\mathrm{d}y.
-  \]
-  If the kink is to the right of a cutoff $q_0<0$, then
-  \[
-    c'(a_0)
-    \geq \bigl[\ell(\lambda)-u(w_0)\bigr]
-      \Bigl(-\!\int_{\{s\leq q_0\}}s\,f\,\mathrm{d}y\Bigr).
-  \]
-  As $\lambda\to\infty$, the right-hand side exceeds $c'(a_0)$ for a safe cutoff, so the kink must move into the safe low-score region.
+\begin{frame}{Proof idea}
+  \vspace{0.4cm}
+
+  \begin{itemize}
+    \item Easiest case: log utility and score unbounded below.
+
+    \item The utility link is
+      \[
+        \ell(z)=\log(z\vee w_0).
+      \]
+
+    \item Limited liability creates a kink at
+      \[
+        q^{\mathrm{kink}}
+        :=\frac{w_0-\lambda}{\mu}.
+      \]
+  \end{itemize}
 \end{frame}
 
-\begin{frame}{Heuristic derivation}
-  Centering $U_{aa}$ and dropping the safe region (where the integrand is $\leq 0$),
+\begin{frame}{Step 1: The kink moves far into the left tail}
+  The first-order condition gives
+  \begin{align*}
+    c'(a_0)
+    &= \int
+      [\ell(\lambda+\mu s)-\ell(\lambda)]s\,dF_0(s) \\
+    &\geq \int_{-\infty}^{q^{\mathrm{kink}}}
+      [\ell(\lambda+\mu s)-\ell(\lambda)]s\,dF_0(s) \\
+    &= [\log \lambda - \log w_0]
+      \int_{-\infty}^{q^{\mathrm{kink}}}(-s)\,dF_0(s).
+  \end{align*}
+
+  Therefore,
   \[
-    U_{aa}
-    \leq\int_{\{s>q_1\}}
-      \bigl[\ell(\lambda+\mu s)-\ell(\lambda)\bigr]
-      f_{aa}\,\mathrm{d}y
-      -c''(a).
+    q^{\mathrm{kink}}\to-\infty,
+    \qquad
+    \frac{\mu}{\lambda}\to0.
   \]
-  The kink-left-of-$q_0$ bound keeps $\mu$ from growing too fast relative to $\lambda$. Utility conditions tame sensitivity above $q_1$, and $\mathrm{Curv}_{\mathrm{safe}}$ bounds positive distributional curvature. Remaining curvature is eventually dominated by $\underline c''$.
 \end{frame}
 
-\begin{frame}{Heuristic derivation}
-  With $\rho:=\lim_{z\to\infty}z\ell_0'(z)$,
-  \begin{eqnarray*}
-    U_{aa}
-    &\leq&
-    \displaystyle\int_{\{s>q_1\}}
-      \bigl[\ell(\lambda+\widetilde\mu s)-\ell(\lambda)\bigr]
-      f_{aa}\,\mathrm{d}y
-      -c''(a) \\
-    &\leq&
-    \widetilde\mu\,\ell_0'(\lambda+\widetilde\mu q_1)\,\mathrm{Curv}(q_1)-\underline c'' \\
-    &\leq&
-    \mu_{q_0}\,\ell_0'(\lambda+\mu_{q_0}q_1)\,\mathrm{Curv}(q_1)-\underline c'' \\
-    &=&
-    \frac{\mu_{q_0}}{m_0+\mu_{q_0}(q_1-q_0)}
-    \bigl[(m_0+\mu_{q_0}(q_1-q_0))\ell_0'(m_0+\mu_{q_0}(q_1-q_0))\bigr]
-    \mathrm{Curv}(q_1)-\underline c'' \\
-    &\to&
-    \dfrac{\rho\,\mathrm{Curv}(q_1)}{q_1-q_0}-\underline c''.
-  \end{eqnarray*}
+\begin{frame}{Step 2: Split the curvature integral}
+  \[
+  \begin{aligned}
+    U_{aa}(a)
+    &= \int
+      [\ell(\lambda+\mu s(y))-\log\lambda]
+      f_{aa}(y\mid a)\,d\nu-c''(a) \\
+    &\leq \int_{\{s>\bar q\}}
+      [\ell(\lambda+\mu s(y))-\log\lambda]
+      f_{aa}(y\mid a)\,d\nu-c''(a) \\
+    &\leq \mu\ell'(\lambda+\mu\bar q)
+      \int_{\{s>\bar q\}}[s(y)f_{aa}(y\mid a)]_+\,d\nu-c''(a) \\
+    &= \frac{\mu}{\lambda+\mu\bar q}
+      \int_{\{s>\bar q\}}[s(y)f_{aa}(y\mid a)]_+\,d\nu-c''(a)
+  \end{aligned}
+  \]
+\end{frame}
+
+\begin{frame}{Putting it together}
+  \centering
+  \begin{tikzpicture}[x=1.24cm,y=1.06cm,>=stealth,
+      every node/.style={font=\small}]
+    % Safe left tail
+    \fill[deepteal!10] (-5.65,-0.75) rectangle (-1.2,4.75);
+
+    % Score axis and cutoffs
+    \draw[->,thick] (-5.65,0) -- (5.15,0) node[right] {$s$};
+    \draw[accentred,very thick] (-4.15,-0.11) -- (-4.15,0.11);
+    \draw[deepteal,very thick] (-1.2,-0.11) -- (-1.2,0.11);
+    \draw[thick] (1.15,-0.11) -- (1.15,0.11);
+    \node[below,accentred] at (-4.15,-0.12) {$q^{\mathrm{kink}}$};
+    \node[below,deepteal] at (-1.2,-0.12) {$\bar q$};
+    \node[below] at (1.15,-0.12) {$0$};
+
+    % Tangent at the safe cutoff
+    \draw[deepteal!75,densely dotted]
+      (-1.2,0) -- (-1.2,2.214);
+    \draw[deepteal!75,thick,densely dashed,domain=-1.2:4.75]
+      plot (\x,{2.214+0.258*(\x+1.2)});
+
+    % Utility link
+    \draw[accentred,very thick] (-5.35,1.15) -- (-4.15,1.15);
+    \draw[accentred,very thick,domain=-4.15:4.75,samples=80,smooth]
+      plot (\x,{1.15+1.50*ln(1+0.35*(\x+4.15))});
+    \fill[accentred] (-4.15,1.15) circle (1.6pt);
+    \fill[deepteal] (-1.2,2.214) circle (1.6pt);
+    \node[below,accentred] at (4.0,3.18)
+      {$\ell(\lambda+\mu s)$};
+
+    % Minimal annotations
+    \node[deepteal,font=\normalsize\bfseries] at (-3.05,4.15)
+      {left tail helps};
+    \node[align=center,fill=white,inner sep=4pt] at (2.0,1.25)
+      {right tail controlled by\\[2pt]
+       $\displaystyle
+       \left.\frac{d}{ds}\ell(\lambda+\mu s)\right|_{s=\bar q}
+       =\frac{\mu}{\lambda+\mu\bar q}$};
+  \end{tikzpicture}
 \end{frame}
 
 \begin{frame}{Outline}
