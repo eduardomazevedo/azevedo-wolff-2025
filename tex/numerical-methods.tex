@@ -108,7 +108,7 @@ The main drawback of the convex solver is that the numerical optimal contract $w
     \centering
     \includegraphics[width=\textwidth]{figures/solver_comparison/stacked_comparison.pdf}
     \captionsetup{font=footnotesize}
-    \caption{Comparison of Algorithm 1 and a convex-program solver.}
+    \caption{Comparison of solvers for the cost-minimization problem.}
     \label{fig:convex-solver-stability}
-    \caption*{\textit{Note:} Top panel: optimal wage function $w(y)$. Bottom panel: agent's expected utility $U(w^*_{\bar U},a)$. Both solvers reach essentially the same expected wage cost. The convex program solution is numerically unstable in the tails where the density $f(y \mid a_0)$ is small. Parameters are as in Figure~\ref{fig:gaussian-log-pp} with $\sigma = 10$. The convex solver uses a grid of 201 points for the outcomes and 200 points for the actions.}
+    \caption*{\textit{Note:} Both solvers address the cost-minimization problem with fixed intended action $a_0=\$100{,}000$; the individual-rationality constraint does not bind. Top panel: optimal wage function $w(y)$. Bottom panel: agent's expected utility $U(w^*_{\bar U},a)$. Both solvers reach essentially the same expected wage cost. The convex-program solution is numerically unstable in the tails where the density $f(y \mid a_0)$ is small. Parameters are as in Figure~\ref{fig:gaussian-log-pp} with $\sigma=10$. The convex solver uses a grid of 201 points for outcomes and 200 points for actions.}
 \end{figure}
