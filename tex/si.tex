@@ -620,27 +620,25 @@ This proves $\widetilde\mu(\lambda)\ell_0'(\lambda)=O(1)$.  Finally,
 \label{lem:uniform-affine-residual}
 Under Assumptions~\ref{ass:crra-affinity} and
 \ref{ass:affinity-moments},
-\begin{align}
+\begin{equation}
  \sup_{a\in\mathcal A}\Bigg|\int
- &\left[\ell(\lambda+\widetilde\mu(\lambda)s(y))-\ell(\lambda)
+ \left[\ell(\lambda+\widetilde\mu(\lambda)s(y))-\ell(\lambda)
  -\widetilde\mu(\lambda)\ell_0'(\lambda)s(y)\right]
- \nonumber\\[-2pt]
- &\hspace{35mm}\times f_{aa}(y\mid a)\,d\nu(y)\Bigg|
- \longrightarrow0.
+ f_{aa}(y\mid a)\,d\nu(y)\Bigg|\longrightarrow0.
  \label{eq:uniform-affine-residual}
-\end{align}
+\end{equation}
 \end{lemma}
 
 \begin{proof}
 Abbreviate $\widetilde\mu=\widetilde\mu(\lambda)$.  By
 Lemma~\ref{lem:affinity-multiplier}, there is a constant $B>0$ such that
 $\widetilde\mu\leq B\lambda^{1-p}$ for all sufficiently large $\lambda$.
-Set
+Define the tail threshold
 \[
-    T_\lambda:=\frac{\lambda^p}{2B},
+    \tau_\lambda:=\frac{\lambda^p}{2B}.
 \]
-so that $\widetilde\mu T_\lambda\leq\lambda/2$ and
-$T_\lambda\asymp\lambda^p$.  On $\{|s|\leq T_\lambda\}$, Taylor's theorem and
+Then $\widetilde\mu\tau_\lambda\leq\lambda/2$ and
+$\tau_\lambda\asymp\lambda^p$.  On $\{|s|\leq\tau_\lambda\}$, Taylor's theorem and
 \eqref{eq:crra-link-affinity} bound the absolute residual, for a constant $K$
 independent of $\lambda$ and $a$, by
 \[
@@ -650,7 +648,7 @@ independent of $\lambda$ and $a$, by
 Its integral against $|f_{aa}(y\mid a)|$ is therefore $O(\lambda^{-p})$
 uniformly in $a$.
 
-On $\{|s|>T_\lambda\}$, the bound
+On $\{|s|>\tau_\lambda\}$, the bound
 \[
     |\ell(\lambda+\widetilde\mu s)|
     \leq K(1+\lambda^p+\widetilde\mu^p|s|^p)
@@ -661,9 +659,9 @@ and $\widetilde\mu\ell_0'(\lambda)=O(1)$ bound the absolute residual by
 \]
 Using the uniform $r$ weighted moment in Assumption~\ref{ass:affinity-moments}, its tail integral is bounded by a constant times
 \[
- (1+\lambda^p)T_\lambda^{-r}
- +\widetilde\mu^pT_\lambda^{-(r-p)}
- +T_\lambda^{-(r-1)}
+ (1+\lambda^p)\tau_\lambda^{-r}
+ +\widetilde\mu^p\tau_\lambda^{-(r-p)}
+ +\tau_\lambda^{-(r-1)}
  =O\bigl(\lambda^{-p(r-1)}\bigr),
 \]
 uniformly in $a$.  Combining the central and tail bounds proves
