@@ -737,20 +737,16 @@ output with $\mathcal A$ compact and bounded away from $0$; gamma output with
 fixed positive shape and $\mathcal A$ compact and bounded away from $0$;
 geometric output with $\mathcal A$ compact and contained in $(1,\infty)$; and
 Bernoulli and binomial output with $\mathcal A$ compact and contained in
-$(0,1)$, the moment conditions in Assumption~\ref{ass:affinity-moments} hold for every $\gamma\in(0,1)$ and
+$(0,1)$, Assumption~\ref{ass:affine-score} holds with equality:
 \[
     \int s(y)f_{aa}(y\mid a)\,d\nu(y)
     =\frac{d^2}{da^2}\E_a[s(Y)]=0.
 \]
-Hence, subject to the maintained assumptions, all the listed output
-distributions with CRRA utility are covered by Theorem~\ref{thm:main} for
-$\gamma>1$ whenever their capacity conditions hold (in particular, for
-sufficiently low initial wealth), and by Corollary~\ref{cor:asymptotic-affinity-foa} for $\gamma\in(0,1)$.  At $\gamma=1$, the log
-branch of Theorem~\ref{thm:main} applies automatically to Gaussian output and,
-more generally, to the essentially-unbounded-below regular exponential
-families in Remark~\ref{rem:safe-tails-common-distributions}.  It does not
-automatically cover the other listed families, which must satisfy the
-curvature--width inequality \eqref{eq:log-curvature-width-condition}.
+Assumption~\ref{ass:affinity-moments} also holds for every
+$\gamma\in(0,1)$.  Consequently, under Assumption~\ref{ass:crra-affinity},
+$\underline c''>0$, and the maintained assumptions, the first-order approach
+is valid at all sufficiently high feasible reservation utilities for each of
+the listed output distributions.
 \end{corollary}
 
 \begin{proof}
@@ -772,8 +768,8 @@ This proves the displayed identity.  The required moments are finite uniformly
 on the stated compact action sets: trivially for finite support, and by the
 standard polynomial moment bounds for Gaussian, Poisson, exponential,
 geometric, and gamma families, together with the same bounds applied to the
-polynomial multiples of densities that make up $f_{aa}$.  The stated
-cases now follow from the corresponding results.
+polynomial multiples of densities that make up $f_{aa}$.  The result now
+follows from Corollary~\ref{cor:asymptotic-affinity-foa}.
 \end{proof}
 
 \section{Proof of Corollary~\ref{cor:common-utilities}}
@@ -810,10 +806,8 @@ Theorem~\ref{thm:main}(ii), proves the claim.  The Gaussian and regular
 exponential-family cases satisfy these distributional hypotheses by the
 verification above.
 
-Part (iii) follows from Corollaries~\ref{cor:asymptotic-affinity-foa} and
-\ref{cor:gaussian-crra-extension}, the latter of whose proof verifies both the
-affine-score curvature and uniform moment requirements for every named
-family.
+Part (iii) follows directly from
+Corollary~\ref{cor:gaussian-crra-extension}.
 \end{proof}
 
 \section{Risk-Neutral Counterexample to Theorem~\ref{thm:main}}
