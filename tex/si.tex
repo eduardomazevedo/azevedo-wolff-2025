@@ -548,7 +548,7 @@ $\mu_\lambda:=\theta/\ell_0'(\lambda)$.  Since
 \[
     \lambda\ell_0'(\lambda)=\frac1\gamma\lambda^p\longrightarrow\infty,
 \]
-we have $\mu_\lambda M/\lambda\to0$.  Hence limited liability does not bind on $\{|s|\leq M\}$ for all
+we have $\mu_\lambda M/\lambda\to0$.  Hence limited liability does not bind on $\{|s(y)|\leq M\}$ for all
 sufficiently large $\lambda$.  Fix $y$ in this set.  Apply the mean-value
 theorem to the function $z\mapsto\ell_0(z)$ between $\lambda$ and
 $\lambda+\mu_\lambda s(y)$.  There is a point $\xi_\lambda(y)$ between these
@@ -564,7 +564,7 @@ $\lambda+\mu_\lambda s(y)$,
  \left|\frac{\xi_\lambda(y)}{\lambda}-1\right|
  \leq\frac{\mu_\lambda M}{\lambda}\longrightarrow0.
 \]
-Thus $\xi_\lambda(y)/\lambda\to1$ uniformly on $\{|s|\leq M\}$.  The explicit
+Thus $\xi_\lambda(y)/\lambda\to1$ uniformly on $\{|s(y)|\leq M\}$.  The explicit
 formula $\ell_0'(z)=z^{p-1}/\gamma$ therefore implies
 \[
  \frac{\ell_0'(\xi_\lambda(y))}{\ell_0'(\lambda)}
@@ -579,7 +579,7 @@ $\mu_\lambda=\theta/\ell_0'(\lambda)$, we obtain
  \frac{\ell_0'(\xi_\lambda(y))}{\ell_0'(\lambda)}.
 \]
 
-To apply this estimate, write the local-incentive expression directly as
+To apply this estimate, write
 \[
  I(\lambda,\mu)
  :=\int \ell(\lambda+\mu s(y))s(y)f(y\mid a_0)\,d\nu(y)
@@ -637,8 +637,8 @@ Define the tail threshold
 \[
     \tau_\lambda:=\frac{\lambda^p}{2B}.
 \]
-Then $\widetilde\mu\tau_\lambda\leq\lambda/2$ and
-$\tau_\lambda\asymp\lambda^p$.  On $\{|s|\leq\tau_\lambda\}$, Taylor's theorem and
+Then $\widetilde\mu\tau_\lambda\leq\lambda/2$.
+On $\{|s|\leq\tau_\lambda\}$, Taylor's theorem and
 \eqref{eq:crra-link-affinity} bound the absolute residual, for a constant $K$
 independent of $\lambda$ and $a$, by
 \[
@@ -683,15 +683,22 @@ feasible reservation utilities.
 \end{proposition}
 
 \begin{proof}
-Abbreviate $\widetilde\mu=\widetilde\mu(\lambda)$.  Using
-$\int f_{aa}(y\mid a)d\nu(y)=0$ to remove $\ell(\lambda)$, Lemma~\ref{lem:uniform-affine-residual} gives, uniformly in $a$,
-\begin{align*}
+Abbreviate $\widetilde\mu=\widetilde\mu(\lambda)$.  By
+Lemma~\ref{lem:uniform-affine-residual}, uniformly in $a$,
+\begin{eqnarray*}
  \widehat U_{aa}(v_\lambda,a)
- ={}&\widetilde\mu\ell_0'(\lambda)
- \int s(y)f_{aa}(y\mid a)\,d\nu(y)-c''(a)+o(1).
-\end{align*}
+ &=& \int \ell(\lambda+\widetilde\mu s(y))
+ f_{aa}(y\mid a)\,d\nu(y)-c''(a)\\
+ &=& \int\left[\ell(\lambda)
+ +\widetilde\mu\ell_0'(\lambda)s(y)\right]
+ f_{aa}(y\mid a)\,d\nu(y)-c''(a)+o(1)\\
+ &=& \widetilde\mu\ell_0'(\lambda)
+ \int s(y)f_{aa}(y\mid a)\,d\nu(y)-c''(a)+o(1),
+\end{eqnarray*}
+where the last equality uses
+$\int f_{aa}(y\mid a)\,d\nu(y)=0$.
 The leading term is nonpositive by Assumption~\ref{ass:affine-score}, and
-$c''(a)\geq\underline c''$, proving the asserted bound.  Local incentive
+$c''(a)\geq\underline c''$, proving the desired bound.  Local incentive
 compatibility at the interior action $a_0$ and concavity imply global
 incentive compatibility.  The
 last conclusion then follows from the divergence of the smallest supporting
