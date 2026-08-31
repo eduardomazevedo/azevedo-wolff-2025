@@ -482,11 +482,7 @@ to infinity.  Hence CARA and CRRA with $\gamma>1$ satisfy Condition~\ref{conditi
 We extend the main theorem to CRRA utility with $\gamma\in(0,1)$ under
 additional assumptions. We use the payment- and utility-contract notation
 introduced in Appendix~\ref{subsec:appendix-notation}. The main additional
-restriction is that the expected score is concave in the agent's action. The
-argument is that, at high reservation utility, the utility contract is
-asymptotically affine in the score. The leading curvature term is then
-proportional to the curvature of the expected score and is dominated by the
-strict convexity of effort cost.
+Assumption (\ref{ass:affine-score}) is that the expected score is concave in the agent's action. Our assumptions are as follows:
 
 \begin{assumption}[CRRA utility]
 \label{ass:crra-affinity}
@@ -527,75 +523,97 @@ For some $r>\max\{2,p+1\}$,
 \end{align*}
 \end{assumption}
 
-\begin{lemma}[Local incentive compatibility multiplier asymptotics]
+The overall idea is to show that the optimal contract is approximately affine in the non-safe region, then use the concavity of the expected score to establish concavity of the agent's expected utility in action. We begin by bounding the local incentive compatibility multiplier, as in the proof of the main theorem.
+
+\begin{lemma}[Local incentive compatibility multiplier bound]
 \label{lem:affinity-multiplier}
 Under Assumptions~\ref{ass:crra-affinity} and
-\ref{ass:affinity-moments},
+\ref{ass:affinity-moments}, as $\lambda\to\infty$,
 \[
-    \widetilde\mu(\lambda)\ell_0'(\lambda)
-    \longrightarrow \frac{c'(a_0)}{\sigma_s^2},
+    \widetilde\mu(\lambda)\ell_0'(\lambda)=O(1),
     \qquad
     \frac{\widetilde\mu(\lambda)}{\lambda}\longrightarrow0.
 \]
 \end{lemma}
 
 \begin{proof}
-For fixed $\theta>0$, set
-$\mu_\lambda(\theta):=\theta/\ell_0'(\lambda)$.  Since
-$\lambda\ell_0'(\lambda)\to\infty$,
-$\mu_\lambda(\theta)/\lambda\to0$.  Taylor expansion on
-$|s|\leq\lambda/(2\mu_\lambda)$ gives
+Choose $M<\infty$ such that
 \[
- \ell(\lambda+\mu_\lambda(\theta)s)
- =\ell(\lambda)+\theta s+r_\lambda(s),
- \qquad
- \int |r_\lambda(s)s|f(y\mid a_0)\,d\nu(y)\to0.
+    \sigma_M^2:=\int_{\{|s|\leq M\}}s(y)^2
+    f(y\mid a_0)\,d\nu(y)>0,
 \]
-To justify the last assertion, put
-$T_\lambda:=\lambda/(2\mu_\lambda)$.  Uniformly for $\theta$ in compact
-subsets of $(0,\infty)$, $T_\lambda\asymp\lambda^p$.  On
-$\{|s|\leq T_\lambda\}$, Taylor's theorem bounds $|r_\lambda(s)s|$, for
-a constant $K$ independent of $\lambda$ and uniform over $\theta$ in the
-chosen compact set, by
+which is possible because $\sigma_s^2>0$.  Fix $\theta>0$ such that
+$\theta\sigma_M^2>c'(a_0)$, and set
+$\mu_\lambda:=\theta/\ell_0'(\lambda)$.  Since
 \[
-    K\mu_\lambda^2|\ell_0''(\lambda/2)||s|^3
-    \leq K\lambda^{-p}|s|^3.
+    \lambda\ell_0'(\lambda)=\frac1\gamma\lambda^p\longrightarrow\infty,
 \]
-The $r$ moment makes the integral of this bound vanish.  If $r\geq3$, this is
-$O(\lambda^{-p})$.  If $r<3$, use
-$|s|^3\leq T_\lambda^{3-r}|s|^r$ on the central region to obtain
-$O(\lambda^{-p(r-2)})$.
+we have $\mu_\lambda M/\lambda\to0$.  Hence limited liability does not bind on $\{|s|\leq M\}$ for all
+sufficiently large $\lambda$.  Fix $y$ in this set.  Apply the mean-value
+theorem to the function $z\mapsto\ell_0(z)$ between $\lambda$ and
+$\lambda+\mu_\lambda s(y)$.  There is a point $\xi_\lambda(y)$ between these
+two arguments such that
+\[
+ \ell(\lambda+\mu_\lambda s(y))-\ell(\lambda)
+ =\ell_0'(\xi_\lambda(y))\mu_\lambda s(y).
+\]
+Because $\xi_\lambda(y)$ lies between $\lambda$ and
+$\lambda+\mu_\lambda s(y)$,
+\[
+ \sup_{\{|s|\leq M\}}
+ \left|\frac{\xi_\lambda(y)}{\lambda}-1\right|
+ \leq\frac{\mu_\lambda M}{\lambda}\longrightarrow0.
+\]
+Thus $\xi_\lambda(y)/\lambda\to1$ uniformly on $\{|s|\leq M\}$.  The explicit
+formula $\ell_0'(z)=z^{p-1}/\gamma$ therefore implies
+\[
+ \frac{\ell_0'(\xi_\lambda(y))}{\ell_0'(\lambda)}
+ =\left(\frac{\xi_\lambda(y)}{\lambda}\right)^{p-1}
+ \longrightarrow1
+\]
+uniformly on this set.  Recalling that
+$\mu_\lambda=\theta/\ell_0'(\lambda)$, we obtain
+\[
+ \bigl[\ell(\lambda+\mu_\lambda s(y))-\ell(\lambda)\bigr]s(y)
+ =\theta s(y)^2
+ \frac{\ell_0'(\xi_\lambda(y))}{\ell_0'(\lambda)}.
+\]
 
-On $\{|s|>T_\lambda\}$, polynomial growth gives
+To apply this estimate, write the local-incentive expression directly as
 \[
- |r_\lambda(s)s|
- \leq K\left[(1+\lambda^p)|s|
-       +\mu_\lambda^p|s|^{p+1}+s^2\right].
+ I(\lambda,\mu)
+ :=\int \ell(\lambda+\mu s(y))s(y)f(y\mid a_0)\,d\nu(y)
+ =\int[\ell(\lambda+\mu s(y))-\ell(\lambda)]s(y)
+ f(y\mid a_0)\,d\nu(y),
 \]
-The $r$ moment, $r>\max\{2,p+1\}$, and
-$T_\lambda\asymp\lambda^p$ imply that the integrals of all three terms vanish.
-Indeed,
+where the equality uses the fact that the score has mean zero.  The integrand
+in the last expression is nonnegative for every $y$, because $\ell$ is
+increasing.  We may therefore restrict the integral to $\{|s|\leq M\}$ and
+use the preceding uniform convergence:
 \[
- (1+\lambda^p)T_\lambda^{-(r-1)}
- +\mu_\lambda^pT_\lambda^{-(r-p-1)}
- +T_\lambda^{-(r-2)}
- =O\bigl(\lambda^{-p(r-2)}\bigr),
+ \begin{aligned}
+ I(\lambda,\mu_\lambda)
+ &\geq \theta\int_{\{|s|\leq M\}}s(y)^2
+ \frac{\ell_0'(\xi_\lambda(y))}{\ell_0'(\lambda)}
+ f(y\mid a_0)\,d\nu(y)\\
+ &=\theta\sigma_M^2[1+o(1)]>c'(a_0)
+ \end{aligned}
 \]
-using $\mu_\lambda^p=O(\lambda^{p(1-p)})$.  These estimates prove the
-asserted convergence, uniformly for $\theta$ in compact sets.  After
-multiplication by $s$ and integration, the constant term vanishes because the
-score has mean zero, so
+for all sufficiently large $\lambda$, where the final inequality follows from
+our choice of $\theta$.  Since $I(\lambda,\mu)$ is increasing
+in $\mu$ and
+$I(\lambda,\widetilde\mu(\lambda))=c'(a_0)$, it follows that
 \[
- \int \ell(\lambda+\mu_\lambda(\theta)s(y))s(y)
- f(y\mid a_0)\,d\nu(y)
- \longrightarrow\theta\sigma_s^2.
+    \widetilde\mu(\lambda)
+    \leq\frac{\theta}{\ell_0'(\lambda)}.
 \]
-Monotonicity of the left-hand side in $\mu$ brackets the unique local
-incentive compatibility multiplier
-between any two choices of $\theta$ surrounding
-$c'(a_0)/\sigma_s^2$.  This proves the first limit.  The
-second follows after division by
-$\lambda\ell_0'(\lambda)\to\infty$.
+This proves $\widetilde\mu(\lambda)\ell_0'(\lambda)=O(1)$.  Finally,
+\[
+ \frac{\widetilde\mu(\lambda)}{\lambda}
+ =\frac{\widetilde\mu(\lambda)\ell_0'(\lambda)}
+        {\lambda\ell_0'(\lambda)}
+ \longrightarrow0.
+\]
 \end{proof}
 
 \begin{lemma}[Uniform affine residual]
@@ -614,14 +632,19 @@ Under Assumptions~\ref{ass:crra-affinity} and
 \end{lemma}
 
 \begin{proof}
-Abbreviate $\widetilde\mu=\widetilde\mu(\lambda)$ and set
-$T_\lambda:=\lambda/(2\widetilde\mu)$.  Lemma~\ref{lem:affinity-multiplier} gives
-$T_\lambda\asymp\lambda^p$ and
-$\widetilde\mu\ell_0'(\lambda)=O(1)$.  On $\{|s|\leq T_\lambda\}$,
-Taylor's theorem and \eqref{eq:crra-link-affinity} bound the absolute residual,
-for a constant $K$ independent of $\lambda$ and $a$, by
+Abbreviate $\widetilde\mu=\widetilde\mu(\lambda)$.  By
+Lemma~\ref{lem:affinity-multiplier}, there is a constant $B>0$ such that
+$\widetilde\mu\leq B\lambda^{1-p}$ for all sufficiently large $\lambda$.
+Set
 \[
-    K\widetilde\mu^2|\ell_0''(\lambda/2)|s^2
+    T_\lambda:=\frac{\lambda^p}{2B},
+\]
+so that $\widetilde\mu T_\lambda\leq\lambda/2$ and
+$T_\lambda\asymp\lambda^p$.  On $\{|s|\leq T_\lambda\}$, Taylor's theorem and
+\eqref{eq:crra-link-affinity} bound the absolute residual, for a constant $K$
+independent of $\lambda$ and $a$, by
+\[
+    K\widetilde\mu^2\lambda^{p-2}s^2
     \leq K\lambda^{-p}s^2.
 \]
 Its integral against $|f_{aa}(y\mid a)|$ is therefore $O(\lambda^{-p})$
