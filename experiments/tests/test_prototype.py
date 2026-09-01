@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import json
+import tempfile
 import unittest
+from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
 
@@ -22,6 +25,7 @@ from experiments.prototype import (
     safe_region_metrics,
     summarize_transitions,
 )
+from experiments.storage import expand_manifest, run_manifest_atomic, task_hash
 from moralhazard.config_maker import make_utility_cfg
 
 
@@ -36,6 +40,18 @@ class UtilityTests(unittest.TestCase):
         for cfg in configs:
             for wage in (-1.0, 0.0, 10.0, 100.0):
                 self.assertAlmostEqual(ce_wage(cfg, reservation_utility(cfg, wage)), wage, places=8)
+
+    def test_risk_neutral_ce_round_trip(self) -> None:
+        case = {
+            "initial_wealth": 50, "target_action": 100,
+            "cost_normalization": "local_consumption_equivalent",
+            "utility": {"kind": "risk_neutral"},
+            "distribution": {"kind": "gaussian", "params": {"sigma": 20}},
+            "outcome_grid": {"distribution_type": "continuous", "y_min": -100, "y_max": 300, "n": 101},
+        }
+        _, cfg = make_problem(case)
+        for wage in (-1, 0, 10):
+            self.assertAlmostEqual(ce_wage(cfg, reservation_utility(cfg, wage)), wage)
 
     def test_classification_gray_zone(self) -> None:
         self.assertEqual(classify(0.0, 1e-4, 1e-3), "valid")
@@ -112,8 +128,12 @@ class DistributionTests(unittest.TestCase):
             {"distribution_type": "continuous", "y_min": -40, "y_max": 240, "n": 801}, 100,
         )
         mhp, _ = make_problem(case)
-        diagnostics = distribution_diagnostics(mhp, 100)
+        diagnostics = distribution_diagnostics(
+            mhp, 100, distribution={"kind": "gaussian", "params": {"sigma": 20}}
+        )
         self.assertLess(diagnostics["mass_error"], 1e-10)
+        self.assertLess(diagnostics["omitted_first_moment_error"], 1e-8)
+        self.assertLess(diagnostics["omitted_second_moment_error"], 1e-6)
         self.assertLess(abs(diagnostics["score_mean"]), 1e-10)
         self.assertLess(diagnostics["fa_relative_error"], 1e-6)
         self.assertLess(diagnostics["faa_relative_error"], 1e-5)
@@ -304,6 +324,75 @@ class MonopsonyTests(unittest.TestCase):
                 case={"action_bounds": [0, 5]}, numerics=self.numerics(), candidate_wages=[-1, -2],
             )
         self.assertEqual(result["status"], "failed_global_ic_check")
+
+
+class StorageTests(unittest.TestCase):
+    @staticmethod
+    def manifest() -> dict:
+        return {
+            "schema_version": 1,
+            "experiment_id": "storage-test",
+            "numerics": {"deviation": {"coarse_action_points": 21}},
+            "cases": [
+                {"id": "z", "suites": ["smoke"], "initial_wealth": 50},
+                {"id": "a", "suites": ["smoke", "other"], "initial_wealth": 25},
+            ],
+        }
+
+    def test_expansion_is_sorted_and_hash_ignores_labels(self) -> None:
+        manifest = self.manifest()
+        tasks = expand_manifest(manifest, "smoke")
+        self.assertEqual([task.case_id for task in tasks], ["a", "z"])
+        renamed = {**manifest["cases"][0], "id": "renamed", "suites": ["other"]}
+        self.assertEqual(
+            tasks[1].task_hash,
+            task_hash(renamed, manifest["numerics"], manifest["schema_version"]),
+        )
+
+    def test_cartesian_family_expansion_is_deterministic(self) -> None:
+        manifest = self.manifest()
+        manifest["case_families"] = [{
+            "id": "risk", "suites": ["other"],
+            "base": {"initial_wealth": 50, "utility": {"kind": "crra"}},
+            "axes": [
+                {"name": "wealth", "path": "initial_wealth", "values": [25, 100]},
+                {"name": "gamma", "path": "utility.gamma", "values": [0.5, 2]},
+            ],
+        }]
+        tasks = expand_manifest(manifest, "other")
+        self.assertEqual(len(tasks), 5)  # Existing case a plus four Cartesian cases.
+        risk = [task for task in tasks if task.case_id.startswith("risk__")]
+        self.assertEqual(len(risk), 4)
+        self.assertEqual(
+            {(task.economic_configuration["initial_wealth"], task.economic_configuration["utility"]["gamma"])
+             for task in risk},
+            {(25, 0.5), (25, 2), (100, 0.5), (100, 2)},
+        )
+
+    def test_atomic_resume_does_not_resolve_completed_task(self) -> None:
+        manifest = self.manifest()
+        manifest["cases"] = manifest["cases"][:1]
+        fake_result = {
+            "case_id": "z", "support_validation": {"status": "passed"},
+            "monopsony": {}, "exercises": {},
+        }
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            manifest_path = root / "manifest.yaml"
+            import yaml
+            manifest_path.write_text(yaml.safe_dump(manifest))
+            with patch("experiments.storage.run_case", return_value=fake_result) as solve, patch(
+                "experiments.storage.environment_provenance", return_value={"git_commit": "test"}
+            ):
+                first = run_manifest_atomic(manifest_path, root / "output", suite="smoke")
+                second = run_manifest_atomic(manifest_path, root / "output", suite="smoke", resume=True)
+            self.assertEqual(solve.call_count, 1)
+            self.assertFalse(first["task_index"][0]["cached"])
+            self.assertTrue(second["task_index"][0]["cached"])
+            atomic_path = root / "output" / second["task_index"][0]["atomic_path"]
+            record = json.loads(atomic_path.read_text())
+            self.assertEqual(record["execution_status"], "completed")
+            self.assertEqual(record["result"]["strict_numerical_status"], "passed")
 
 
 class TransitionTests(unittest.TestCase):

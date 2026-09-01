@@ -62,29 +62,56 @@ def make_problem(case: dict[str, Any]) -> tuple[MoralHazardProblem, dict[str, An
     """Construct one moral-hazard problem from a manifest case."""
     w0 = float(case["initial_wealth"])
     utility = case["utility"]
-    utility_cfg = make_utility_cfg(
-        utility["kind"],
-        w0=w0,
-        gamma=utility.get("gamma"),
-        alpha=utility.get("alpha"),
-    )
+    if utility["kind"] == "risk_neutral":
+        def linear_u(x: Any) -> Any:
+            return np.asarray(x) + w0
+
+        def linear_k(uval: Any, xp: Any = np) -> Any:
+            return uval - w0
+
+        def linear_link(z: Any) -> Any:
+            return np.maximum(np.asarray(z), w0)
+
+        utility_cfg = {"u": linear_u, "k": linear_k, "link_function": linear_link}
+    else:
+        utility_cfg = make_utility_cfg(
+            utility["kind"],
+            w0=w0,
+            gamma=utility.get("gamma"),
+            alpha=utility.get("alpha"),
+        )
     distribution = case["distribution"]
     dist_cfg = make_distribution_cfg(distribution["kind"], **distribution.get("params", {}))
 
     target_action = float(case["target_action"])
     base_theta = 1.0 / target_action / (target_action + w0)
+    h = 1e-4
+    uprime0 = _float((utility_cfg["u"](h) - utility_cfg["u"](-h)) / (2 * h))
     normalization = case.get("cost_normalization", "paper_log")
     if normalization == "paper_log":
         theta = base_theta
     elif normalization == "local_consumption_equivalent":
         # Preserve c'(target)/u'(wage=0) relative to the paper's log case.
         # Estimate u'(0) accurately without depending on utility internals.
-        h = 1e-4
-        uprime0 = _float((utility_cfg["u"](h) - utility_cfg["u"](-h)) / (2 * h))
         log_uprime0 = 1.0 / w0
         theta = base_theta * uprime0 / log_uprime0
     else:
         raise ValueError(f"Unknown cost normalization: {normalization}")
+    # Gamma and binomial parameterize action as scale/probability, so one unit
+    # of action can produce several units of expected output. This explicit
+    # factor keeps marginal effort cost comparable to marginal revenue.
+    output_slope = float(case.get("cost_output_slope", 1.0))
+    cost_scale = float(case.get("cost_scale", 1.0))
+    theta *= output_slope * cost_scale
+    cost_metadata = {
+        "primitive_theta": theta,
+        "base_paper_log_theta": base_theta,
+        "normalization": normalization,
+        "output_slope": output_slope,
+        "cost_scale": cost_scale,
+        "target_marginal_utility_cost": theta * target_action,
+        "target_marginal_ce_cost_at_zero_wage": theta * target_action / uprime0,
+    }
 
     def cost(a: Any) -> Any:
         return theta * np.asarray(a) ** 2 / 2
@@ -101,7 +128,8 @@ def make_problem(case: dict[str, Any]) -> tuple[MoralHazardProblem, dict[str, An
         },
         "computational_params": case["outcome_grid"],
     }
-    return MoralHazardProblem(cfg), utility_cfg
+    utility_result = {**utility_cfg, "cost_metadata": cost_metadata}
+    return MoralHazardProblem(cfg), utility_result
 
 
 def reservation_utility(utility_cfg: dict[str, Any], wage: float) -> float:
@@ -112,12 +140,49 @@ def ce_wage(utility_cfg: dict[str, Any], utility: float) -> float:
     return _float(utility_cfg["k"](utility))
 
 
+def _distribution_moments(
+    distribution: dict[str, Any] | None, action: float
+) -> tuple[float | None, float | None]:
+    """Return analytic raw moments when they exist for a supported family."""
+    if not distribution:
+        return None, None
+    kind = distribution["kind"]
+    params = distribution.get("params", {})
+    if kind == "gaussian":
+        variance = float(params.get("sigma", 1.0)) ** 2
+        return action, action * action + variance
+    if kind == "poisson":
+        return action, action * action + action
+    if kind == "exponential":
+        return action, 2 * action * action
+    if kind == "bernoulli":
+        return action, action
+    if kind == "geometric":
+        return action, 2 * action * action - action
+    if kind == "binomial":
+        n = float(params.get("n", 1))
+        mean = n * action
+        return mean, n * action * (1 - action) + mean * mean
+    if kind == "gamma":
+        n = float(params.get("n", 1))
+        return n * action, n * (n + 1) * action * action
+    if kind == "student_t":
+        nu = float(params.get("nu", 5))
+        mean = action if nu > 1 else None
+        if nu <= 2:
+            return mean, None
+        variance = float(params.get("sigma", 1.0)) ** 2 * nu / (nu - 2)
+        return mean, action * action + variance
+    return None, None
+
+
 def distribution_diagnostics(
     mhp: MoralHazardProblem,
     action: float,
     *,
     derivative_step: float | None = None,
-) -> dict[str, float]:
+    distribution: dict[str, Any] | None = None,
+) -> dict[str, float | None]:
     """Check support truncation, score identities, and action derivatives.
 
     These are grid diagnostics, not analytic tail certificates.  In particular,
@@ -147,10 +212,19 @@ def distribution_diagnostics(
         return float(np.max(np.abs(left - right)) / scale)
 
     mass = integral(f0)
+    grid_first = integral(y * f0)
+    grid_second = integral(y * y * f0)
+    expected_first, expected_second = _distribution_moments(distribution, action)
     return {
         "grid_mass": mass,
         "omitted_mass": max(0.0, 1.0 - mass),
         "mass_error": abs(1.0 - mass),
+        "grid_first_moment": grid_first,
+        "expected_first_moment": expected_first,
+        "omitted_first_moment_error": None if expected_first is None else abs(expected_first - grid_first),
+        "grid_second_moment": grid_second,
+        "expected_second_moment": expected_second,
+        "omitted_second_moment_error": None if expected_second is None else abs(expected_second - grid_second),
         "score_mean": integral(f0 * score),
         "fa_relative_error": relative_error(fa_identity, fa_fd),
         "faa_relative_error": relative_error(faa_identity, faa_fd),
@@ -172,7 +246,9 @@ def certify_outcome_support(case: dict[str, Any], numerics: dict[str, Any]) -> d
 
     for expansion in range(max_expansions + 1):
         mhp, _ = make_problem(working_case)
-        diagnostics = distribution_diagnostics(mhp, float(case["target_action"]))
+        diagnostics = distribution_diagnostics(
+            mhp, float(case["target_action"]), distribution=case.get("distribution")
+        )
         history.append({
             "expansion": expansion,
             "outcome_grid": copy.deepcopy(working_case["outcome_grid"]),
@@ -731,7 +807,9 @@ def support_grid_convergence_at_point(
             ),
             "deviation_ce_gain": deviation.ce_gain,
             "best_deviation": deviation.best_action,
-            "distribution_diagnostics": distribution_diagnostics(mhp, intended_action),
+            "distribution_diagnostics": distribution_diagnostics(
+                mhp, intended_action, distribution=variant_case.get("distribution")
+            ),
             "warnings": sorted({str(item.message) for item in caught}),
         })
     wage_range = max(row["expected_wage"] for row in records) - min(row["expected_wage"] for row in records)
@@ -1027,9 +1105,12 @@ def run_case(case: dict[str, Any], numerics: dict[str, Any]) -> dict[str, Any]:
         "configuration": case,
         "effective_configuration": effective_case,
         "distribution_diagnostics": {
-            str(action): distribution_diagnostics(mhp, action) for action in diagnostic_actions
+            str(action): distribution_diagnostics(
+                mhp, action, distribution=effective_case.get("distribution")
+            ) for action in diagnostic_actions
         },
         "support_validation": support_validation,
+        "cost_metadata": copy.deepcopy(utility_cfg["cost_metadata"]),
         "safe_region_metrics": safe_region_metrics(
             mhp, effective_case, numerics, support_status=support_validation["status"]
         ),
@@ -1148,6 +1229,27 @@ def run_case(case: dict[str, Any], numerics: dict[str, Any]) -> dict[str, Any]:
         result["monopsony"]["ce_gap_relaxed_minus_full"] = (
             relaxed["delivered_ce_wage"] - full["delivered_ce_wage"]
         )
+
+    action_lb, action_ub = map(float, effective_case["action_bounds"])
+    boundary_tolerance = float(numerics.get("boundary_action_tolerance", numerics["monopsony"].get("action_tolerance", 0.01)))
+    boundary_records = []
+    if full:
+        action = float(full["action"])
+        if min(abs(action - action_lb), abs(action - action_ub)) <= boundary_tolerance:
+            boundary_records.append({"scope": "full_gic_monopsony", "action": action})
+    for exercise, exercise_result in result["exercises"].items():
+        for point in exercise_result["points"]:
+            action = float(point["intended_action"])
+            if min(abs(action - action_lb), abs(action - action_ub)) <= boundary_tolerance:
+                boundary_records.append({
+                    "scope": f"{exercise}_initial_grid", "reservation_wage": point["reservation_wage"], "action": action,
+                })
+    result["boundary_diagnostics"] = {
+        "status": "boundary_contaminated" if boundary_records else "passed",
+        "action_bounds": [action_lb, action_ub],
+        "tolerance": boundary_tolerance,
+        "records": boundary_records,
+    }
     return result
 
 

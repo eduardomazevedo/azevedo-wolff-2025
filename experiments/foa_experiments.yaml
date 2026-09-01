@@ -81,9 +81,53 @@ problem_diagnostics:
     case_id: student_t_log_adverse
     kind: support
 
+# Human review is separate from strict solver provenance. These records seed
+# the internal atlas with the assessments documented in the implementation plan.
+reviews:
+  - id: gaussian-principal-invalid-side
+    case_id: gaussian_log_paper
+    scope: principal_transition_invalid_side
+    strict_numerical_status: unresolved
+    review_status: reviewed
+    economic_materiality: immaterial_gray_zone
+    review_notes: Active-set and CVXPY find the same economically relevant deviation; full-GIC residual gains and expected-wage differences are sub-dollar.
+    diagnostic_path: output/foa-problem-diagnostics/gaussian-principal-invalid-side
+  - id: poisson-principal-valid-boundary
+    case_id: poisson_log_paper
+    scope: principal_transition_valid_boundary
+    strict_numerical_status: unresolved
+    review_status: reviewed
+    economic_materiality: immaterial_tail_tolerance
+    review_notes: Active solutions coincide; CVXPY sensitivity is concentrated in extremely low-probability outcomes and costs differ by less than one cent.
+    diagnostic_path: output/foa-problem-diagnostics/poisson-principal-valid-boundary
+  - id: exponential-principal-invalid-side
+    case_id: exponential_log_baseline
+    scope: principal_transition_invalid_side
+    strict_numerical_status: unresolved
+    review_status: reviewed
+    economic_materiality: economically_stable_transition
+    review_notes: Relaxed active and full CVXPY solutions support a small genuine deviation and coherent transition despite active full-contract tail failures.
+    diagnostic_path: output/foa-problem-diagnostics/exponential-principal-invalid-side
+  - id: exponential-monopsony
+    case_id: exponential_log_baseline
+    scope: full_gic_monopsony
+    strict_numerical_status: unresolved
+    review_status: reviewed
+    economic_materiality: stable_to_few_dollars
+    review_notes: Agent-objective curves nearly coincide; retain warnings, but treat the optimum as qualitatively stable to a few dollars.
+    diagnostic_path: output/foa-problem-diagnostics/exponential-monopsony
+  - id: student-t-support
+    case_id: student_t_log_adverse
+    scope: support_and_fixed_action
+    strict_numerical_status: unresolved
+    review_status: reviewed
+    economic_materiality: robust_adverse_control
+    review_notes: Support is not formally certified, but deviation gains of 13.7k--42.0k are too large to be numerical noise.
+    diagnostic_path: output/foa-problem-diagnostics/student-t-support
+
 cases:
   - id: gaussian_log_paper
-    suites: [smoke, common_distributions, first_atlas]
+    suites: [smoke, common_distributions, first_atlas, internal_atlas]
     initial_wealth: 50
     target_action: 100
     fixed_action: 100
@@ -104,7 +148,7 @@ cases:
     exercises: [principal, fixed_action]
 
   - id: poisson_log_paper
-    suites: [smoke, common_distributions, first_atlas]
+    suites: [smoke, common_distributions, first_atlas, internal_atlas]
     initial_wealth: 50
     target_action: 7
     fixed_action: 7
@@ -124,7 +168,7 @@ cases:
     exercises: [principal, fixed_action]
 
   - id: exponential_log_baseline
-    suites: [common_distributions, first_atlas]
+    suites: [common_distributions, first_atlas, internal_atlas]
     initial_wealth: 50
     target_action: 100
     fixed_action: 100
@@ -143,10 +187,94 @@ cases:
     reservation_wages: [-1, 0, 1, 5, 15, 50, 100]
     exercises: [principal, fixed_action]
 
+  - id: gamma2_log_baseline
+    suites: [common_distributions, internal_atlas]
+    initial_wealth: 50
+    target_action: 50
+    fixed_action: 50
+    action_bounds: [5, 90]
+    cost_normalization: paper_log
+    cost_output_slope: 2
+    utility:
+      kind: log
+    distribution:
+      kind: gamma
+      params:
+        n: 2
+    outcome_grid:
+      distribution_type: continuous
+      y_min: 0.001
+      y_max: 500
+      n: 301
+    reservation_wages: [-1, 0, 0.5, 1, 5, 15, 50]
+    exercises: [principal, fixed_action]
+
+  - id: geometric_log_baseline
+    suites: [common_distributions, internal_atlas]
+    initial_wealth: 50
+    target_action: 7
+    fixed_action: 7
+    action_bounds: [1.05, 10]
+    cost_normalization: paper_log
+    utility:
+      kind: log
+    distribution:
+      kind: geometric
+      params: {}
+    outcome_grid:
+      distribution_type: discrete
+      y_min: 1
+      y_max: 100
+      step_size: 1
+    reservation_wages: [-1, -0.25, 0, 0.125, 0.5, 2, 5]
+    exercises: [principal, fixed_action]
+
+  - id: bernoulli_log_baseline
+    suites: [common_distributions, internal_atlas]
+    initial_wealth: 50
+    target_action: 0.7
+    fixed_action: 0.7
+    action_bounds: [0.05, 0.95]
+    cost_normalization: paper_log
+    utility:
+      kind: log
+    distribution:
+      kind: bernoulli
+      params: {}
+    outcome_grid:
+      distribution_type: discrete
+      y_min: 0
+      y_max: 1
+      step_size: 1
+    reservation_wages: [-1, -0.25, 0, 0.125, 0.5, 2, 5]
+    exercises: [principal, fixed_action]
+
+  - id: binomial10_log_baseline
+    suites: [common_distributions, internal_atlas]
+    initial_wealth: 50
+    target_action: 0.7
+    fixed_action: 0.7
+    action_bounds: [0.05, 0.95]
+    cost_normalization: paper_log
+    cost_output_slope: 10
+    utility:
+      kind: log
+    distribution:
+      kind: binomial
+      params:
+        n: 10
+    outcome_grid:
+      distribution_type: discrete
+      y_min: 0
+      y_max: 10
+      step_size: 1
+    reservation_wages: [-1, -0.25, 0, 0.125, 0.5, 2, 5]
+    exercises: [principal, fixed_action]
+
   # Negative smoke control: the fixed-action relaxed contract should fail
   # global IC throughout this range. Skip the expensive monopsony calculation.
   - id: student_t_log_adverse
-    suites: [smoke, adverse_controls, first_atlas]
+    suites: [smoke, adverse_controls, first_atlas, internal_atlas]
     compute_monopsony: false
     initial_wealth: 50
     target_action: 100
@@ -167,3 +295,97 @@ cases:
       n: 301
     reservation_wages: [-1, 20, 50, 100]
     exercises: [fixed_action]
+
+# Deterministic Cartesian families for the internal mechanism and risk-aversion
+# atlas. Each expanded configuration receives its own stable task hash.
+  - id: gaussian_risk_neutral_adverse
+    suites: [adverse_controls, internal_atlas]
+    compute_monopsony: false
+    initial_wealth: 50
+    target_action: 100
+    fixed_action: 100
+    action_bounds: [0, 180]
+    cost_normalization: local_consumption_equivalent
+    utility: {kind: risk_neutral}
+    distribution: {kind: gaussian, params: {sigma: 50}}
+    outcome_grid: {distribution_type: continuous, y_min: -300, y_max: 480, n: 201}
+    reservation_wages: [-1, 0, 1, 5, 15, 50]
+    exercises: [fixed_action]
+
+case_families:
+  - id: gaussian_sigma_log
+    suites: [safe_region_variation, internal_atlas]
+    base: &gaussian_log_family_base
+      initial_wealth: 50
+      target_action: 100
+      fixed_action: 100
+      action_bounds: [0, 180]
+      cost_normalization: local_consumption_equivalent
+      utility: {kind: log}
+      distribution: {kind: gaussian, params: {sigma: 50}}
+      outcome_grid: {distribution_type: continuous, y_min: -300, y_max: 480, n: 201}
+      reservation_wages: [-1, 0, 0.5, 1, 5, 15]
+      exercises: [principal, fixed_action]
+    axes:
+      - name: sigma
+        path: distribution.params.sigma
+        values: [10, 20]
+
+  - id: gaussian_action_bounds_log
+    suites: [safe_region_variation, internal_atlas]
+    base: *gaussian_log_family_base
+    axes:
+      - name: bounds
+        path: action_bounds
+        values: [[20, 180], [50, 180]]
+
+  - id: gaussian_wealth_log
+    suites: [safe_region_variation, internal_atlas]
+    base: *gaussian_log_family_base
+    axes:
+      - name: wealth
+        path: initial_wealth
+        values: [25, 100, 200]
+
+  - id: gaussian_cost_log
+    suites: [safe_region_variation, internal_atlas]
+    base: *gaussian_log_family_base
+    axes:
+      - name: cost_scale
+        path: cost_scale
+        values: [0.5, 2]
+
+  - id: gaussian_fixed_actions_log
+    suites: [fixed_action_design, internal_atlas]
+    base:
+      <<: *gaussian_log_family_base
+      compute_monopsony: false
+      exercises: [fixed_action]
+    axes:
+      - name: intended_action
+        path: fixed_action
+        values: [70, 130]
+
+  - id: gaussian_crra
+    suites: [risk_aversion, internal_atlas]
+    base:
+      <<: *gaussian_log_family_base
+      utility: {kind: crra, gamma: 0.5}
+    axes:
+      - name: gamma
+        path: utility.gamma
+        values: [0.25, 0.5, 1.5, 2, 3]
+
+  - id: gaussian_cara
+    suites: [risk_aversion, internal_atlas]
+    base:
+      <<: *gaussian_log_family_base
+      utility: {kind: cara, alpha: 0.02}
+      risk_aversion_calibration:
+        reference_total_wealth: 50
+        formula: alpha_times_reference_total_wealth
+    axes:
+      - name: alpha
+        path: utility.alpha
+        # These imply RRA 0.25, 0.5, 1, and 2 at reference wealth 50.
+        values: [0.005, 0.01, 0.02, 0.04]

@@ -6,15 +6,25 @@ Run the unit tests and small smoke suite from the repository root:
 uv run python -m unittest discover -s experiments/tests -v
 uv run python -m experiments.run_prototype --suite smoke
 uv run python -m experiments.run_prototype --suite first_atlas --output output/foa-first-atlas
+uv run python -m experiments.run_prototype --suite common_distributions --output output/foa-common-distributions --resume
+uv run python -m experiments.run_prototype --all --output output/foa-internal-atlas --resume
+uv run python -m experiments.summarize_internal --input output/foa-internal-atlas
 uv run python -m experiments.diagnose_problematic
 ```
 
-The smoke suite contains Gaussian/log and Poisson/log positive cases plus a fixed-action Student-`t`/log negative control that is expected to remain FOA-invalid throughout its reservation-wage grid.
+The smoke suite contains Gaussian/log and Poisson/log positive cases plus a fixed-action Student-`t`/log negative control that is expected to remain FOA-invalid throughout its reservation-wage grid. The common-distribution suite additionally contains exponential, gamma, geometric, Bernoulli, and binomial cases. These are internal experiments, not a paper-selected subset.
 
 Outputs are written to `output/foa-prototype/`:
 
-- `prototype_results.json`: complete benchmarks, point results, transition refinement, and warnings;
-- `prototype_points.csv`: compact initial-grid results.
+- `manifest.snapshot.yaml`, `environment.json`, and (for dirty trees) `source.diff.patch` plus `source.untracked.json`: exact run configuration and Git/package provenance;
+- `task_index.json`/`.csv`: deterministic task index and completion status;
+- `atomic/<task_hash>.json`: authoritative, crash-safe case result with complete economic and numerical configurations;
+- `arrays/`: reserved for task-keyed numerical arrays;
+- `prototype_results.json` and `prototype_points.csv`: temporary compatibility summaries.
+
+Task hashes exclude labels and suite membership but include the complete economic and numerical configuration. Explicit cases and declarative Cartesian `case_families` expand in deterministic order. `--resume` reuses completed and failed atomic records; add `--retry-failed` to rerun failures. Nonfinite values are replaced by JSON `null`, their exact paths are recorded, and strict status remains unresolved. Human review records from the manifest are attached without replacing strict numerical statuses or warnings.
+
+`experiments.summarize_internal` only reads atomic records; it never solves a model. It writes internal threshold, failure, and warning tables under `summary_tables/`. These are diagnostic atlas outputs, not paper tables.
 
 The declarative manifest is `experiments/foa_experiments.yaml`. The current implementation is intentionally a prototype. It provides CE conversion, a multistart global-deviation search, an adaptive true full-GIC slack-IR monopsony scan, separate principal/fixed-action exercises, transition refinement, reversal detection, and grid-based distribution diagnostics (mass, score mean, and action derivatives). These diagnostics are numerical truncation checks, not analytic tail certificates.
 

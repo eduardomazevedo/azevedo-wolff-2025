@@ -533,19 +533,27 @@ Completed:
 11. Selected CVXPY/Clarabel cross-checks around transitions.
 12. First small internal atlas: log utility crossed with Gaussian, Poisson, exponential, and Student-`t`.
 13. Manifest-driven diagnostic figures for all human-reviewed suspicious cells.
+14. Stable SHA-256 task hashes, atomic JSON records, task indexes, manifest/environment snapshots, resume, failure retention, and nonfinite-value path recording.
+15. Deterministic Cartesian YAML expansion for controlled case families.
+16. Separate strict numerical and human/economic review records, seeded with the five existing human assessments.
+17. Analytic-versus-grid omitted first- and second-moment diagnostics where the moments exist.
+18. Remaining common log-utility families: gamma, geometric, Bernoulli, and binomial.
+19. Controlled Gaussian variation in sigma, action bounds, wealth, and effort-cost scale.
+20. CRRA and CARA grids with local consumption-equivalent cost normalization, plus explicit cost-coefficient metadata.
+21. Multiple fixed intended actions and a Gaussian risk-neutral adverse control.
+22. First expanded internal run with 29 predeclared tasks and an internal-only saved-results summarizer.
 
-Still to do before the large atlas:
+Still to do before freezing the internal atlas:
 
-1. Replace prototype JSON/CSV output with stable hashed atomic tasks, resume, caching, and provenance snapshots.
-2. Finalize deterministic YAML expansion into economic and numerical tasks.
-3. Preserve strict numerical status separately from an economic-materiality or human-review status. A strict gray-zone flag must not be described as an economically meaningful solver failure.
-4. Add omitted-tail moment diagnostics where relevant.
-5. Expand the predeclared internal design to the remaining common distributions, controlled safe-region variation, CRRA/CARA, and the risk-neutral adverse control.
-6. Freeze and inspect the complete internal atlas before doing any paper selection or paper reporting.
+1. Review the expanded atlas's warnings, boundary-contaminated cases, and strict unresolved cells without erasing provenance.
+2. Resolve or retain as failed the two high-risk-aversion tasks (CARA `alpha=0.04` and CRRA `gamma=3`) whose agent-utility scans became nonfinite. Do not let these failures block inspection of the other tasks.
+3. Decide whether the four boundary monopsony actions in low-risk-aversion/low-cost cases require wider action ranges; explicit boundary-contamination diagnostics are now implemented for future solves and derived in the saved-results summary.
+4. Add any final predeclared gamma/binomial parameter variation only if it is needed for internal mechanism coverage.
+5. Freeze the manifest and complete internal atlas before doing any paper selection or paper reporting.
 
 ## 9. Current numerical results and human review
 
-A tracked implementation lives in `experiments/`, driven by `experiments/foa_experiments.yaml`. Eighteen unit tests pass. Generated output is ignored by Git.
+A tracked implementation lives in `experiments/`, driven by `experiments/foa_experiments.yaml`. Twenty-two unit tests pass. Generated output is ignored by Git.
 
 ### 9.1 Smoke and first-atlas results
 
@@ -573,6 +581,21 @@ The diagnostic figures under `output/foa-problem-diagnostics/` were inspected by
 
 Operational rule for the next agent: retain strict fields such as `unresolved` and all warnings, but add a separate review/materiality field. Do not erase strict provenance, and do not let sub-dollar or few-dollar numerical noise block internal atlas expansion. Do not begin broad solver debugging based on these reviewed plots.
 
+### 9.3 Expanded internal atlas run
+
+The first expanded manifest run is saved under ignored `output/foa-internal-atlas/`. It contains 29 deterministic atomic tasks: 27 completed and two retained failures. The saved-results-only internal summarizer produced 50 case-exercise threshold rows, two failure rows, and 255 warning occurrences. No reversals were detected.
+
+Preliminary internal findings include:
+
+- New common-family principal transition brackets: geometric `[-0.0781, -0.0625]`, gamma shape 2 `[-0.2969, -0.2813]`, and binomial(10) `[-0.0156, 0]`. Bernoulli is valid throughout the tested range beginning at `-1`.
+- Gaussian sigma 10 and 20 principal thresholds both bracket `[-0.0156, 0]`; the sigma-50 baseline remains `[0.625, 0.6875]`, with the existing gray-zone midpoint retained.
+- The completed moderate-risk-aversion principal cases generally have thresholds near their computed monopsony CE. Examples are CARA alpha `0.01`: monopsony `0.339`, threshold `[0.359, 0.375]`; CARA alpha `0.02`: monopsony `0.908`, threshold `[0.906, 0.922]`; and CRRA gamma `1.5`: monopsony `0.948`, threshold `[0.984, 1.000]`.
+- The added fixed Gaussian actions have brackets `[1.5625, 1.5781]` at intended action 70 and `[0.6719, 0.6875]` at intended action 130.
+- The risk-neutral Gaussian and Student-`t` adverse controls never reach persistent validity on their tested ranges.
+- CARA alpha `0.04` and CRRA gamma `3` fail with nonfinite agent-utility scans and remain explicit failures. Low-risk-aversion CARA/CRRA cases and the low-cost Gaussian case place the monopsony action at or effectively at the upper action boundary and require boundary-contamination review.
+
+These are internal diagnostic results, not a selected paper sample. Strict statuses remain unresolved in many completed cells because transition cross-checks, monopsony checks, or warnings are conservative; the internal tables preserve these separately from human review.
+
 ## 10. Handoff brief
 
 ### 10.1 Files and commands
@@ -581,6 +604,8 @@ Operational rule for the next agent: retain strict fields such as `unresolved` a
 - Manifest: `experiments/foa_experiments.yaml`
 - Library: `experiments/prototype.py`
 - Main CLI: `experiments/run_prototype.py`
+- Atomic storage/expansion: `experiments/storage.py`
+- Internal saved-results summarizer: `experiments/summarize_internal.py`
 - Problem diagnostics CLI: `experiments/diagnose_problematic.py`
 - Tests: `experiments/tests/test_prototype.py`
 - Usage: `experiments/README.md`
@@ -592,15 +617,18 @@ uv sync
 uv run python -m unittest discover -s experiments/tests -v
 uv run python -m experiments.run_prototype --suite smoke
 uv run python -m experiments.run_prototype --suite first_atlas --output output/foa-first-atlas
+uv run python -m experiments.run_prototype --suite internal_atlas --output output/foa-internal-atlas --resume
+uv run python -m experiments.summarize_internal --input output/foa-internal-atlas
 uv run python -m experiments.diagnose_problematic
 ```
 
-Expected test baseline: **18 tests pass**.
+Expected test baseline: **22 tests pass**.
 
 Generated, ignored output locations:
 
 - `output/foa-prototype/`
 - `output/foa-first-atlas/`
+- `output/foa-internal-atlas/`
 - `output/foa-problem-diagnostics/`
 
 The diagnostic root contains an index and one folder per reviewed cell, with figures, JSON metadata, and NPZ arrays. These are internal diagnostics, not paper figures.
@@ -620,24 +648,22 @@ The diagnostic root contains an index and one folder per reviewed cell, with fig
 
 ### 10.3 Known remaining implementation limitations
 
-- Results are prototype JSON/CSV files rather than hashed atomic tasks with resume and complete provenance.
-- Manifest expansion is still case-based rather than a general deterministic Cartesian task expansion.
-- Transition refinement stops at a gray-zone midpoint rather than launching an automatic precision ladder. This is acceptable for the reviewed smoke cells, but intervals and gray-zone points must remain explicit.
-- Omitted probability mass and score means are checked; relevant omitted tail moments are not yet certified.
+- Atomic tasks are case-level bundles because support certification, monopsony, and threshold scans share expensive state; they are not yet split into one file per individual reservation-wage solve.
+- Detailed solver arrays are not yet copied into task-keyed NPZ files; `arrays/` is reserved, while the complete scalar/nested result is atomic JSON.
+- Transition refinement stops at a gray-zone midpoint rather than launching an automatic precision ladder. Intervals and gray-zone points remain explicit.
+- Analytic omitted first/second moment errors are saved when moments exist, but they are diagnostics rather than family-specific rigorous tail certificates.
 - The Student-`t` support is intentionally unresolved.
 - Safe-region diagnostics are numerical grid certifications, not proofs.
-- The current atlas covers only log utility and four distributions. It does not yet include the full distribution list, risk-aversion grid, controlled safe-region variation, multiple fixed actions, or the risk-neutral control.
+- The current run has two explicit high-risk-aversion failures and several boundary-contaminated monopsony candidates requiring internal review.
+- Runs made from a dirty working tree record the commit and dirty flag but do not yet snapshot the source diff inside each atomic result.
 
 ### 10.4 Recommended sequence for the next agent
 
-1. Implement stable task hashing, atomic JSON/NPZ output, manifest snapshot, environment/Git provenance, resume, and deterministic task indexing. Do not add broad parameter sweeps before this storage layer exists.
-2. Add an explicit review schema with fields such as `strict_numerical_status`, `review_status`, `economic_materiality`, `review_notes`, and diagnostic paths. Seed it with the human assessments in Section 9.2.
-3. Add omitted-tail moment diagnostics without trying to force Student-`t` to pass the light-tail support tolerance.
-4. Expand the manifest first to the remaining common log-utility families (gamma, geometric, Bernoulli/binomial where feasible), then run and inspect.
-5. Add controlled Gaussian safe-region variation: sigma, action lower bound, initial wealth, and cost curvature.
-6. Add CRRA/CARA risk-aversion grids with the existing local consumption-equivalent cost normalization.
-7. Add multiple interior fixed actions and the risk-neutral adverse control.
-8. Run all enabled internal tasks with resume, inspect failures/warnings, and freeze the internal atlas.
-9. Stop before paper tables, paper figures, or selecting attractive cases.
+1. Inspect `summary_tables/failures.csv`, `warnings.csv`, and all boundary monopsony cells; add review/materiality records rather than weakening strict status.
+2. Add explicit automatic boundary-contamination fields and, where economically permissible, rerun only boundary cases with wider action bounds.
+3. Diagnose the two nonfinite high-risk-aversion scans narrowly. Retain failures if robust evaluation is not feasible; do not launch broad solver debugging.
+4. Decide whether the internal design needs a small additional gamma/binomial parameter grid. If not, freeze the current manifest.
+5. Snapshot source-diff provenance for dirty runs, then freeze and inspect the complete internal atlas.
+6. Stop before paper tables, paper figures, or selecting attractive cases.
 
 The reporting layer must eventually consume saved atomic results and must never rerun models implicitly.
