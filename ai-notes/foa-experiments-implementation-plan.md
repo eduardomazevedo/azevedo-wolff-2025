@@ -544,13 +544,16 @@ Completed:
 22. First expanded internal run with 29 predeclared tasks and an internal-only saved-results summarizer.
 23. Fast bounded-utility incentive-capacity checks: economically infeasible fixed actions are classified before solving, and principal intended-action searches are capped just inside the highest locally feasible action while retaining the full deviation domain.
 
-Still to do before freezing the internal atlas:
+Still to do before freezing the tracked experiment code and moving to paper assets:
 
-1. Review the expanded atlas's warnings, boundary-contaminated cases, and strict unresolved cells without erasing provenance.
-2. Review the CRRA `gamma=3` principal case: the capacity precheck removes the spurious nonfinite solves, but relaxed principal contracts remain globally invalid and the full-GIC monopsony plateau remains unverified.
-3. Decide whether the four boundary monopsony actions in low-risk-aversion/low-cost cases require wider action ranges; explicit boundary-contamination diagnostics are now implemented for future solves and derived in the saved-results summary.
-4. Add any final predeclared gamma/binomial parameter variation only if it is needed for internal mechanism coverage.
-5. Freeze the manifest and complete internal atlas before doing any paper selection or paper reporting.
+1. Correct principal revenue for parameterizations in which expected output is not `a`: gamma shape 2 requires `R(a)=2a`, and binomial(10) requires `R(a)=10a`. Fixed-action results are unaffected, but current principal results for these cases are provisional.
+2. Choose and implement a consistent zero-cost convention for the remaining positive computational lower bounds, especially geometric and the small positive lower bounds used for Poisson, Bernoulli, and binomial. The simplest convention is the same constant cost shift used for exponential/gamma, preserving `C'(a)`.
+3. Rerun every bounded-utility CARA/CRRA task after the capacity change. Resume does not invalidate completed atomic records when implementation code changes, so the existing cached moderate-risk-aversion records do not all contain the new precheck.
+4. Review the CRRA `gamma=3` principal case: the capacity precheck removes the spurious nonfinite solves, but relaxed principal contracts remain globally invalid and the full-GIC monopsony plateau remains unverified.
+5. Decide whether the four boundary monopsony actions in low-risk-aversion/low-cost cases require wider action ranges; explicit boundary-contamination diagnostics are implemented.
+6. Review economically relevant warnings and strict unresolved cells without erasing provenance. Do not launch broad solver debugging for already reviewed sub-dollar discrepancies.
+7. Freeze and commit the manifest and experiment code, then validate reproducibility with a clean from-scratch internal run. Generated atlas output remains ignored and must never be committed; the deliverable is the reproducible pipeline.
+8. After the clean run is inspected, proceed to paper tables and figures without adding broad parameter sweeps unless a specific gap appears.
 
 ## 9. Current numerical results and human review
 
@@ -596,6 +599,8 @@ Preliminary internal findings include:
 
 These are internal diagnostic results, not a selected paper sample. Strict statuses remain unresolved in many completed cells because transition cross-checks, monopsony checks, or warnings are conservative; the internal tables preserve these separately from human review.
 
+The current generated atlas is provisional rather than frozen: gamma/binomial principal revenue still needs the expected-output slope correction, and completed moderate-risk-aversion atomic records were not all invalidated when the capacity-precheck implementation changed. Use a fresh output directory for the final validation run after those code changes. Do not commit that directory.
+
 ## 10. Handoff brief
 
 ### 10.1 Files and commands
@@ -621,7 +626,13 @@ uv run python -m experiments.run_prototype --suite first_atlas --output output/f
 uv run python -m experiments.run_prototype --suite internal_atlas --output output/foa-internal-atlas --resume
 uv run python -m experiments.summarize_internal --input output/foa-internal-atlas
 uv run python -m experiments.diagnose_problematic
+
+# Final validation only, after committing the corrected code and manifest:
+uv run python -m experiments.run_prototype --suite internal_atlas --output output/foa-internal-atlas-clean
+uv run python -m experiments.summarize_internal --input output/foa-internal-atlas-clean
 ```
+
+Do not use `--resume` for the final validation run, and do not commit either output directory.
 
 Expected test baseline: **25 tests pass**.
 
@@ -641,11 +652,11 @@ The diagnostic root contains an index and one folder per reviewed cell, with fig
 3. Principal and fixed-action exercises remain separate.
 4. Reversals are searched for; monotonicity is never imposed.
 5. Strict numerical status, warnings, and human/economic review status must be stored separately.
-6. Reviewed Gaussian, Poisson, and exponential cells do not justify general solver debugging and should not block the next internal atlas stage.
+6. Reviewed Gaussian and Poisson cells do not justify general solver debugging. The earlier exponential reviews used the old cost level and are inactive; revised exponential results require fresh review only if selected for reporting.
 7. Student-`t` remains a robust adverse control despite incomplete support certification.
-8. Build and freeze a larger internal atlas before selecting any paper subset.
-9. Do not create paper figures or paper summaries yet.
-10. Generated experiment output remains ignored. The controlled benchmark files `output/machine_specs.txt` and `output/timing_results.csv` remain tracked.
+8. Freeze the tracked manifest and experiment code before selecting any paper subset; validate them by regenerating the internal atlas from scratch.
+9. Do not create paper figures or paper summaries until that clean validation run is inspected.
+10. Generated experiment output remains ignored and is never committed. The reproducible code/manifest pipeline is the deliverable. The controlled benchmark files `output/machine_specs.txt` and `output/timing_results.csv` remain tracked.
 
 ### 10.3 Known remaining implementation limitations
 
@@ -656,15 +667,18 @@ The diagnostic root contains an index and one folder per reviewed cell, with fig
 - The Student-`t` support is intentionally unresolved.
 - Safe-region diagnostics are numerical grid certifications, not proofs.
 - The current run has no hard task failures. Two high-risk-aversion fixed actions are economically infeasible by the capacity bound, and the CRRA gamma-3 principal/full-GIC result remains unresolved.
-- Runs made from a dirty working tree record the commit and dirty flag but do not yet snapshot the source diff inside each atomic result.
+- Runs made from a dirty working tree record root-level source snapshots, but the final validation should be run from a clean committed tree.
+- Task hashes currently cover economic and numerical configuration but not implementation code. Therefore `--resume` can reuse stale completed records after code changes; use a fresh output directory for the final validation run.
+- Gamma and binomial principal revenue currently uses `R(a)=a` despite expected-output slopes 2 and 10; these principal results must be rerun after correction.
 
 ### 10.4 Recommended sequence for the next agent
 
-1. Inspect `summary_tables/warnings.csv`, the CRRA gamma-3 principal case, and all boundary monopsony cells; add review/materiality records rather than weakening strict status.
-2. Add explicit automatic boundary-contamination fields and, where economically permissible, rerun only boundary cases with wider action bounds.
-3. Keep fixed-action local infeasibility separate from numerical failure; do not send actions above the computed capacity boundary to the inner solver.
-4. Decide whether the internal design needs a small additional gamma/binomial parameter grid. If not, freeze the current manifest.
-5. Snapshot source-diff provenance for dirty runs, then freeze and inspect the complete internal atlas.
-6. Stop before paper tables, paper figures, or selecting attractive cases.
+1. Add an explicit expected-output/revenue slope to each case and use it in the principal objective. Set gamma shape 2 to 2 and binomial(10) to 10; add regression tests that the principal receives the correct expected-output scale.
+2. Normalize cost to zero at the chosen lowest feasible action for the remaining positive-lower-bound distribution cases, or document and implement a different consistent convention. Preserve marginal cost exactly as for exponential/gamma.
+3. Keep fixed-action local infeasibility separate from numerical failure; do not send actions above the computed capacity boundary to the inner solver, and retain the original full action interval for deviation checks.
+4. Review or widen boundary-contaminated principal cases. Review CRRA gamma 3 narrowly; it is no longer a hard task failure but remains globally unresolved.
+5. Commit the final code and manifest. From that clean commit, run the full `internal_atlas` suite into a new empty ignored output directory without resume, then run `experiments.summarize_internal` and inspect failures, warnings, unresolved cells, and boundaries.
+6. Do **not** add generated output to Git. Reproduction must consist of the committed manifest, code, lockfile, and documented commands.
+7. Once the clean run is accepted, proceed to paper tables and figures. Reporting must consume saved generated atomic results and never rerun models implicitly.
 
 The reporting layer must eventually consume saved atomic results and must never rerun models implicitly.
