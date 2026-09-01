@@ -548,15 +548,17 @@ Completed:
 26. Figure-1-based cost calibration generalized to non-dollar action parameters using `theta = R'(a0) / [a0 (w0 + R(a0))]`, with regression tests for revenue, cost levels, and the unchanged Gaussian benchmark.
 27. Paper-example inventory and proposed harmonization recorded in `ai-notes/parametric-examples.md`; the Student-t principal exercise is included for provenance if its paper figure is retained.
 28. Harmonized common-distribution and smoke preflights completed from fresh directories: no task failures, all common-family supports passed, target effort costs matched the declared 0.33--0.34 range, and principal actions were economically reasonable. Student-t principal and fixed-action adverse exercises both completed while retaining unresolved support certification.
+29. Final internal atlas regenerated from clean commit `fa339bb` without resume: 29 of 29 tasks completed, no atomic failures occurred, and all bounded-utility cases contain the capacity precheck.
+30. Boundary and narrow adverse-case review completed. Retain the four low-risk/low-cost Gaussian boundary cases and bounded-probability binomial case as explicitly contaminated internal cells; do not widen them merely to remove warnings. CRRA gamma 3 is economically infeasible at fixed action 100 and globally invalid throughout its principal grid, so it remains unresolved and outside headline claims.
 
-Still to do before freezing the tracked experiment code and moving to paper assets:
+Still to do before generating paper assets:
 
-1. Commit the harmonized implementation and manifest, then rerun every bounded-utility CARA/CRRA task as part of a fresh full atlas. Do not use resume or the old cached atomic records.
-2. Review the CRRA `gamma=3` principal case narrowly: the capacity precheck removes the spurious nonfinite solves, but the old relaxed principal contracts were globally invalid and the old full-GIC monopsony plateau was unverified.
-3. Review the formerly boundary-contaminated low-risk-aversion/low-cost cases after the fresh run. Do not widen them solely to remove a warning. The preflight binomial monopsony at 0.95 is retained as an explicitly boundary-contaminated bounded-probability case rather than changing its economic action set.
-4. Review economically relevant warnings and strict unresolved cells without erasing provenance. Do not launch broad solver debugging for already reviewed sub-dollar discrepancies.
-5. Validate reproducibility with the clean from-scratch internal run. Generated atlas output remains ignored and must never be committed; the deliverable is the reproducible pipeline.
-6. After the clean run is inspected, proceed to paper tables and figures without adding broad parameter sweeps unless a specific gap appears. Regenerate the Poisson paper figure and captions from the harmonized saved results rather than preserving its old calibration.
+1. Obtain human plot review of the harmonized Poisson diagnostic if the Poisson figure remains in the paper. Its old review is inactive; the manifest correctly records the new review as pending.
+2. Declare the concise paper-candidate subset/report groups before writing the reporting code. Keep principal and fixed-action results separate and retain adverse cases.
+3. Implement saved-results-only paper tables and figures using `output/foa-internal-atlas-final/`; reporting must not solve models implicitly.
+4. Update the paper's Poisson caption and numerical discussion to the $15k-per-success calibration, and regenerate all retained paper examples from the harmonized pipeline.
+5. Preserve strict unresolved statuses, warnings, four failed transition cross-check records, and boundary flags in internal outputs. They do not justify broad solver debugging because the failures occur in non-headline robustness cells and independent active/support checks remain informative.
+6. Do not add broad parameter sweeps unless paper reporting exposes a specific missing comparison.
 
 ## 9. Current numerical results and human review
 
@@ -631,6 +633,52 @@ provenance for the paper counterexample did not weaken the adverse control.
 These preflight outputs are diagnostic and ignored; they are not substitutes
 for the final clean atlas.
 
+### 9.5 Final clean harmonized atlas
+
+The final ignored run is `output/foa-internal-atlas-final/`, generated without
+resume from clean commit `fa339bb32e977f9622cb5cf59ba4818bf0a161bc`. All 29
+atomic tasks completed, none were cached, and there were no task failures. The
+saved-results summarizer produced 55 exercise rows: 53 completed exercises and
+two high-risk-aversion fixed actions classified as economically infeasible.
+No reversals were detected.
+
+The conservative strict layer marks 51 rows unresolved and four passed. This
+is expected because strict status aggregates support, monopsony, transition,
+and cross-solver checks. There are 174 retained warning records. Student-t is
+the only support-uncertified case, contributing its principal and fixed-action
+rows. Five economic cases are boundary-contaminated: CARA alpha 0.005, CRRA
+gamma 0.25, CRRA gamma 0.5, the half-cost Gaussian, and binomial(10). Four
+transition cross-check records failed: two Clarabel failures for the Gaussian
+lower-bound-50 fixed-action case and two inaccurate CVXPY full solves for the
+CRRA gamma-0.5 fixed-action case. These are internal non-headline robustness
+cells; their strict failures remain recorded.
+
+Selected harmonized results are:
+
+- Gaussian/log: monopsony CE 0.553; principal threshold `[0.625, 0.6875]` and
+  fixed-action-100 threshold `[1.15625, 1.171875]`.
+- Poisson/log at $15k per success: monopsony candidate CE 0.00086 with an
+  unverified plateau flag; principal and fixed-action thresholds both
+  `[-0.015625, 0]`.
+- Gamma shape 2: monopsony CE -0.00016; principal and fixed-action thresholds
+  both `[-0.015625, 0]`.
+- CARA alpha 0.02: monopsony CE 0.908; principal threshold
+  `[0.90625, 0.921875]` and fixed-action threshold `[0.828125, 0.84375]`; this
+  case passes the aggregate strict layer.
+- CRRA gamma 1.5: monopsony candidate CE 0.948 with a global-IC strict flag;
+  principal threshold `[0.984375, 1]` and fixed-action threshold
+  `[0.953125, 0.96875]`.
+- Student-t principal and fixed-action exercises, the risk-neutral Gaussian
+  fixed-action exercise, and the CRRA gamma-3 principal exercise never reach
+  persistent validity on their tested ranges.
+
+Fresh harmonized Poisson diagnostics show coincident active relaxed and full
+solutions at reservation wage zero. CVXPY relaxed finds an endpoint CE gain of
+about $1.21, while CVXPY full removes it for less than one dollar of additional
+expected cost and is globally valid. This is likely immaterial tolerance
+sensitivity, but the manifest correctly leaves human review pending because
+the previous human assessment used the old calibration.
+
 ## 10. Handoff brief
 
 ### 10.1 Files and commands
@@ -657,9 +705,9 @@ uv run python -m experiments.run_prototype --suite internal_atlas --output outpu
 uv run python -m experiments.summarize_internal --input output/foa-internal-atlas
 uv run python -m experiments.diagnose_problematic
 
-# Final validation only, after committing the corrected code and manifest:
-uv run python -m experiments.run_prototype --suite internal_atlas --output output/foa-internal-atlas-clean
-uv run python -m experiments.summarize_internal --input output/foa-internal-atlas-clean
+# Final validation (completed from clean commit fa339bb, without resume):
+uv run python -m experiments.run_prototype --suite internal_atlas --output output/foa-internal-atlas-final
+uv run python -m experiments.summarize_internal --input output/foa-internal-atlas-final
 ```
 
 Do not use `--resume` for the final validation run, and do not commit either output directory.
@@ -703,11 +751,11 @@ The diagnostic root contains an index and one folder per reviewed cell, with fig
 
 ### 10.4 Recommended sequence for the next agent
 
-1. Run all unit tests, then run the harmonized `common_distributions` suite into a new ignored preflight directory without resume. Inspect principal actions, profits, target cost metadata, failures, and boundaries before launching the full atlas.
-2. If the preflight is economically reasonable, keep fixed-action local infeasibility separate from numerical failure; do not send actions above the computed capacity boundary to the inner solver, and retain the original full action interval for deviation checks.
-3. Review or widen boundary-contaminated principal cases only if the harmonized preflight indicates an economically truncated optimum. Review CRRA gamma 3 narrowly after the final run; it is not a reason for general solver debugging.
-4. Commit the final code and manifest. From that clean commit, run the full `internal_atlas` suite into a new empty ignored output directory without resume, then run `experiments.summarize_internal` and inspect failures, warnings, unresolved cells, actions, and boundaries.
-5. Do **not** add generated output to Git. Reproduction must consist of the committed manifest, code, lockfile, and documented commands.
-6. Once the clean run is accepted, proceed to paper tables and figures. Reporting must consume saved generated atomic results and never rerun models implicitly. The Poisson paper figure and numerical text must use the harmonized $15k-per-success calibration.
+1. Treat `output/foa-internal-atlas-final/` as the final ignored internal run associated with clean commit `fa339bb`; do not rerun it merely because documentation changes afterward.
+2. Have a human inspect `output/foa-problem-diagnostics/poisson-principal-valid-boundary/`. If accepted, add a new review record or change the harmonized pending record without erasing the inactive old-calibration review.
+3. Predeclare paper candidates and implement reporting that reads atomic records or saved summary tables only. Never call model solvers from reporting code.
+4. Keep fixed-action local infeasibility, Student-t support failure, CRRA gamma-3 invalidity, boundary contamination, and failed convex cross-checks visible in internal reporting.
+5. Do **not** add generated output to Git. Reproduction consists of the committed manifest, code, lockfile, and documented commands.
+6. Regenerate the retained Gaussian, CARA, Poisson, and Student-t paper examples from harmonized saved results. The Poisson paper figure and numerical text must use the $15k-per-success calibration.
 
 The reporting layer must eventually consume saved atomic results and must never rerun models implicitly.

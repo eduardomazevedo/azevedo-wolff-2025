@@ -7,8 +7,9 @@ uv run python -m unittest discover -s experiments/tests -v
 uv run python -m experiments.run_prototype --suite smoke
 uv run python -m experiments.run_prototype --suite first_atlas --output output/foa-first-atlas
 uv run python -m experiments.run_prototype --suite common_distributions --output output/foa-common-distributions --resume
-uv run python -m experiments.run_prototype --all --output output/foa-internal-atlas --resume
-uv run python -m experiments.summarize_internal --input output/foa-internal-atlas
+# Fresh full reproduction: use a new directory and do not pass --resume.
+uv run python -m experiments.run_prototype --suite internal_atlas --output output/foa-internal-atlas-final
+uv run python -m experiments.summarize_internal --input output/foa-internal-atlas-final
 uv run python -m experiments.diagnose_problematic
 ```
 
@@ -32,7 +33,7 @@ Selected points bracketing each transition are also checked against the discreti
 
 Outcome supports are expanded adaptively until grid mass and score-mean tolerances pass, and the final expanded grid is the effective grid used by model solves. Relaxed contracts at transition endpoints are additionally re-solved on baseline, denser, and expanded-support grids; classification or expected-wage instability is retained as unresolved.
 
-The prototype computes numerical safe-region diagnostics over the full configured action grid: cutoff supremum, safe mass, incentive capacity, curvature, score width, normalized width, cost-curvature floor, and the log curvature-width condition. Metrics are saved at the reference fixed action, the full-GIC monopsony action, and transition-endpoint actions, and are checked over action-grid and derivative-step refinements. Each result is explicitly labeled as a grid diagnostic rather than a proof.
+The implementation computes numerical safe-region diagnostics over the full configured action grid: cutoff supremum, safe mass, incentive capacity, curvature, score width, normalized width, cost-curvature floor, and the log curvature-width condition. Metrics are saved at the reference fixed action, the full-GIC monopsony action, and transition-endpoint actions, and are checked over action-grid and derivative-step refinements. Each result is explicitly labeled as a grid diagnostic rather than a proof.
 
 For utility bounded above, a fast limited-liability incentive-capacity precheck runs before optimization. Infeasible fixed actions are recorded as `infeasible_local_incentives`. The principal's intended-action search is capped just inside the highest locally feasible action, but its global-IC deviation domain remains the original configured action interval.
 
