@@ -645,8 +645,10 @@ No reversals were detected.
 The conservative strict layer marks 51 rows unresolved and four passed. This
 is expected because strict status aggregates support, monopsony, transition,
 and cross-solver checks. There are 174 retained warning records. Student-t is
-the only support-uncertified case, contributing its principal and fixed-action
-rows. Five economic cases are boundary-contaminated: CARA alpha 0.005, CRRA
+the only strictly support-uncertified case, contributing its principal and
+fixed-action rows; human review accepts the small residual truncation as
+numerically immaterial while preserving the strict flag. Five economic cases
+are boundary-contaminated: CARA alpha 0.005, CRRA
 gamma 0.25, CRRA gamma 0.5, the half-cost Gaussian, and binomial(10). Four
 transition cross-check records failed: two Clarabel failures for the Gaussian
 lower-bound-50 fixed-action case and two inaccurate CVXPY full solves for the
@@ -670,7 +672,8 @@ Selected harmonized results are:
   `[0.953125, 0.96875]`.
 - Student-t principal and fixed-action exercises, the risk-neutral Gaussian
   fixed-action exercise, and the CRRA gamma-3 principal exercise never reach
-  persistent validity on their tested ranges.
+  persistent validity on their tested ranges. Student-t is accepted as a
+  robust adverse control despite the retained strict support flag.
 
 Fresh harmonized Poisson diagnostics show coincident active relaxed and full
 solutions at reservation wage zero. CVXPY relaxed finds an endpoint CE gain of

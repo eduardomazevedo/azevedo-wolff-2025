@@ -132,11 +132,11 @@ reviews:
     diagnostic_path: output/foa-problem-diagnostics/exponential-monopsony
   - id: student-t-support
     case_id: student_t_log_adverse
-    scope: support_and_fixed_action
+    scope: support_and_principal_and_fixed_action
     strict_numerical_status: unresolved
     review_status: reviewed
-    economic_materiality: robust_adverse_control
-    review_notes: Support is not formally certified, but deviation gains of 13.7k--42.0k are too large to be numerical noise.
+    economic_materiality: accepted_immaterial_support_truncation
+    review_notes: Human review accepts the small residual support truncation as numerically immaterial. Principal and fixed-action deviation gains of 13.7k--42.0k are robustly adverse and far too large to be numerical noise.
     diagnostic_path: output/foa-problem-diagnostics/student-t-support
 
 cases:
