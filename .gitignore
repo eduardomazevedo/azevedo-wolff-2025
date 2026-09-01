@@ -53,7 +53,9 @@ tex_arXiv/
 arxiv_staging/
 arxiv_submission.zip
 
-# output tex files (but track benchmarking data)
+# Ignore generated output subdirectories and TeX reports. Controlled benchmark
+# data/provenance files at the root of output/ remain tracked.
+output/*/
 output/*.tex
 
 # Ignore generated model data for the interactive dashboard

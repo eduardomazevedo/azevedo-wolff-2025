@@ -1,0 +1,118 @@
+schema_version: 1
+experiment_id: foa-prototype-v1
+units: USD_1000
+
+# This smoke manifest is intentionally small. Larger suites will be added only
+# after the numerical primitives and benchmark definitions are validated.
+numerics:
+  full_ic_iterations: 100
+  deviation:
+    coarse_action_points: 241
+    multistart_count: 12
+    valid_tolerance_ce: 0.0001
+    invalid_tolerance_ce: 0.001
+  threshold:
+    wage_tolerance: 0.025
+    max_iterations: 12
+  validation:
+    # Selected inner-problem checks only; this is not a second atlas run.
+    crosscheck_transitions: true
+    cvxpy_action_points: 121
+    objective_tolerance: 0.02
+    foc_tolerance: 0.00001
+  support:
+    mass_tolerance: 0.000001
+    score_mean_tolerance: 0.000001
+    max_expansions: 4
+    expansion_factor: 1.5
+    check_transition_contracts: true
+    contract_variants: [baseline, dense, expanded_dense]
+    contract_expansion_factor: 1.5
+    contract_wage_tolerance: 0.02
+  safe_region:
+    action_points: 181
+    derivative_step: 0.001
+    faa_tolerance: 1.0e-12
+  monopsony:
+    # The relaxed lambda=0 benchmark is disabled after the prototype showed
+    # that it is far below true monopsony and commonly boundary-driven.
+    compute_relaxed_lambda_zero: false
+    # Descending requirements make it possible to verify a slack-IR plateau.
+    candidate_reservation_wages: [-1, -5, -10, -20, -30, -40]
+    max_downward_extensions: 4
+    downward_step: 2
+    # Keep log/CRRA consumption strictly positive at the lower search limit.
+    minimum_reservation_wage: -49
+    lambda_tolerance: 0.000001
+    ir_slack_ce_tolerance: 0.01
+    action_tolerance: 0.01
+    profit_tolerance: 0.01
+    expected_wage_tolerance: 0.01
+    ce_tolerance: 0.01
+
+cases:
+  - id: gaussian_log_paper
+    suites: [smoke, common_distributions]
+    initial_wealth: 50
+    target_action: 100
+    fixed_action: 100
+    action_bounds: [0, 180]
+    cost_normalization: paper_log
+    utility:
+      kind: log
+    distribution:
+      kind: gaussian
+      params:
+        sigma: 50
+    outcome_grid:
+      distribution_type: continuous
+      y_min: -300
+      y_max: 480
+      n: 201
+    reservation_wages: [-1, 0, 0.5, 1, 5, 15]
+    exercises: [principal, fixed_action]
+
+  - id: poisson_log_paper
+    suites: [smoke, common_distributions]
+    initial_wealth: 50
+    target_action: 7
+    fixed_action: 7
+    action_bounds: [0.05, 10]
+    cost_normalization: paper_log
+    utility:
+      kind: log
+    distribution:
+      kind: poisson
+      params: {}
+    outcome_grid:
+      distribution_type: discrete
+      y_min: 0
+      y_max: 28
+      step_size: 1
+    reservation_wages: [-1, -0.25, 0, 0.125, 0.5, 2, 5]
+    exercises: [principal, fixed_action]
+
+  # Negative smoke control: the fixed-action relaxed contract should fail
+  # global IC throughout this range. Skip the expensive monopsony calculation.
+  - id: student_t_log_adverse
+    suites: [smoke, adverse_controls]
+    compute_monopsony: false
+    initial_wealth: 50
+    target_action: 100
+    fixed_action: 100
+    action_bounds: [0, 180]
+    cost_normalization: paper_log
+    utility:
+      kind: log
+    distribution:
+      kind: student_t
+      params:
+        sigma: 20
+        nu: 1.15
+    outcome_grid:
+      distribution_type: continuous
+      y_min: -200
+      y_max: 380
+      n: 301
+    reservation_wages: [-1, 20, 50, 100]
+    exercises: [fixed_action]
