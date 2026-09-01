@@ -95,13 +95,22 @@ reviews:
     economic_materiality: immaterial_gray_zone
     review_notes: Active-set and CVXPY find the same economically relevant deviation; full-GIC residual gains and expected-wage differences are sub-dollar.
     diagnostic_path: output/foa-problem-diagnostics/gaussian-principal-invalid-side
-  - id: poisson-principal-valid-boundary
+  - id: poisson-principal-valid-boundary-old-calibration
     case_id: poisson_log_paper
-    scope: principal_transition_valid_boundary
+    active: false  # Superseded by the harmonized $15k-per-success calibration.
+    scope: principal_transition_valid_boundary_old_calibration
     strict_numerical_status: unresolved
     review_status: reviewed
     economic_materiality: immaterial_tail_tolerance
-    review_notes: Active solutions coincide; CVXPY sensitivity is concentrated in extremely low-probability outcomes and costs differ by less than one cent.
+    review_notes: Under the old calibration, active solutions coincided and CVXPY sensitivity was concentrated in extremely low-probability outcomes.
+    diagnostic_path: output/foa-problem-diagnostics/poisson-principal-valid-boundary
+  - id: poisson-harmonized-principal-valid-boundary
+    case_id: poisson_log_paper
+    scope: principal_transition_valid_boundary_harmonized
+    strict_numerical_status: unresolved
+    review_status: pending
+    economic_materiality: pending_review
+    review_notes: Harmonized diagnostics find coincident active relaxed/full solutions; CVXPY relaxed has a $1.21 endpoint CE gain while CVXPY full removes it for less than one dollar of expected cost. Human plot review remains pending before paper use.
     diagnostic_path: output/foa-problem-diagnostics/poisson-principal-valid-boundary
   - id: exponential-principal-invalid-side
     case_id: exponential_log_baseline
