@@ -46,7 +46,14 @@ def _threshold(summary: dict[str, Any], points: list[dict[str, Any]]) -> tuple[A
         return None, None, "not_reached"
     candidates = [item for item in transitions if item["direction"] == "invalid_to_valid"]
     if not candidates:
-        return None, summary.get("persistent_threshold_on_grid"), "grid_only"
+        persistent = summary.get("persistent_threshold_on_grid")
+        lower_candidates = [
+            point["reservation_wage"] for point in ordered
+            if point["reservation_wage"] < persistent and point["classification"] == "invalid"
+        ] if persistent is not None else []
+        if any(point["classification"] == "unresolved" for point in ordered):
+            return max(lower_candidates) if lower_candidates else None, persistent, "unresolved_interval"
+        return None, persistent, "grid_only"
     transition = max(candidates, key=lambda item: item["upper_wage"])
     status = "gray_zone_bracket" if transition.get("unresolved_midpoint") else "refined_bracket"
     return transition["lower_wage"], transition["upper_wage"], status
@@ -60,7 +67,14 @@ def summarize(input_dir: str | Path) -> dict[str, int]:
     failure_rows: list[dict[str, Any]] = []
     warning_rows: list[dict[str, Any]] = []
 
-    for path in sorted((root / "atomic").glob("*.json")):
+    index_path = root / "task_index.json"
+    if index_path.exists():
+        indexed = json.loads(index_path.read_text())
+        atomic_paths = [root / row["atomic_path"] for row in indexed]
+    else:  # Compatibility for early prototype output without an index.
+        atomic_paths = sorted((root / "atomic").glob("*.json"))
+
+    for path in atomic_paths:
         record = json.loads(path.read_text())
         task_hash = record["task_hash"]
         case_id = record["case_id"]

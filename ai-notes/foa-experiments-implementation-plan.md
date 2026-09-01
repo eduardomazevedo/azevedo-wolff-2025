@@ -553,7 +553,7 @@ Still to do before freezing the internal atlas:
 
 ## 9. Current numerical results and human review
 
-A tracked implementation lives in `experiments/`, driven by `experiments/foa_experiments.yaml`. Twenty-two unit tests pass. Generated output is ignored by Git.
+A tracked implementation lives in `experiments/`, driven by `experiments/foa_experiments.yaml`. Twenty-three unit tests pass. Generated output is ignored by Git.
 
 ### 9.1 Smoke and first-atlas results
 
@@ -562,12 +562,12 @@ All wages and CE gains below are in the manifest's `USD_1000` units unless a dol
 - **Gaussian/log principal:** invalid-to-valid transition bracket `[0.625, 0.688]`.
 - **Gaussian/log fixed action `a0=100`:** transition bracket `[1.156, 1.172]`.
 - **Poisson/log principal and fixed action `a0=7`:** transition bracket `[-0.0156, 0]`.
-- **Exponential/log principal:** transition bracket approximately `[-0.171875, -0.15625]`.
+- **Exponential/log principal:** after normalizing cost to `C(10)=0`, invalid at `-0.05`, unresolved at `0` with a CE gain of about `$0.22`, and valid at `0.05`; record the threshold as the unresolved interval `[-0.05, 0.05]`.
 - **Exponential/log fixed action `a0=100`:** valid at every tested reservation wage beginning at `-1`.
 - **Student-`t`/log fixed action `a0=100`:** robustly invalid at every tested wage. On the support-expanded first-atlas run, CE deviation gains range from about `$13.7k` to `$42.0k`, with best deviation `a=0` throughout.
 - No reversals have appeared in the smoke or first-atlas grids.
 
-The full-GIC slack-IR monopsony CE wages are approximately `0.553` for Gaussian and `0` for Poisson. The exponential candidate is approximately `-0.167` at action `82.97`; it retains a strict numerical gray-zone flag discussed below. The relaxed `lambda=0` benchmark remains disabled because it is economically irrelevant and boundary-driven.
+The full-GIC slack-IR monopsony CE wages are approximately `0.553` for Gaussian and `0` for Poisson. After setting `C(10)=0`, the exponential candidate is numerically zero (`-0.00033`, about `-$0.33`) at action `82.97` and retains a strict global-IC gray-zone flag. The relaxed `lambda=0` benchmark remains disabled because it is economically irrelevant and boundary-driven.
 
 ### 9.2 Reconciliation of strict numerical flags with human review
 
@@ -575,8 +575,7 @@ The diagnostic figures under `output/foa-problem-diagnostics/` were inspected by
 
 - **Gaussian principal, invalid side:** active-set and CVXPY relaxed solutions both locate the economically relevant deviation, with CE gains about `$27.58` and `$33.21`. After imposing full GIC, residual gains are only about `$0.21` for the active solver and `$0.08` for CVXPY; expected wages differ by about `$0.10`. This is harmless gray-zone noise after the deviation is corrected.
 - **Poisson valid boundary:** active relaxed/full solutions coincide. CVXPY relaxed reports a `$1.16` endpoint gain even though expected costs differ by less than one cent. Its utility contract differs at `y=0` by only about `2.8e-5` utility units, while visible pointwise irregularity is concentrated around `y>=24`, whose intended-action probability is about `7.3e-7`. This is tolerance sensitivity, not a meaningful economic disagreement.
-- **Exponential principal transition:** the active relaxed solution finds a small but genuine `$5.70` deviation gain at `a=10`; CVXPY full removes it for about `$5.42` additional expected cost. Their agent-objective curves nearly coincide. The active full-contract construction can become nonfinite on the long support, but the relaxed active and full CVXPY solutions give a coherent transition result.
-- **Exponential monopsony:** the active contract has only a `$0.50` residual CE gain and its agent-objective curve essentially coincides with CVXPY relaxed. Expected cost differs by about `$5.56`. Warnings mostly arise during outer search and extreme-tail calculations. Keep the strict numerical flag for provenance, but treat the point as human-reviewed and economically stable to a few dollars, not as a qualitatively suspect optimum.
+- **Exponential diagnostics under the old cost level:** the active relaxed solution found a small but genuine `$5.70` deviation gain at `a=10`; CVXPY full removed it for about `$5.42` additional expected cost. The old monopsony diagnostic had only a `$0.50` residual CE gain. These reviews are retained as historical provenance but are inactive because shifting cost to `C(10)=0` changes delivered utility and reservation-wage coordinates. The revised exponential cells require fresh review if used beyond the internal atlas.
 - **Student-`t`:** after five support expansions, omitted mass remains about `0.30%`. This prevents formal support certification, but the `$13.7k--$42.0k` deviations are far too large to plausibly be numerical noise. It remains a robust adverse control.
 
 Operational rule for the next agent: retain strict fields such as `unresolved` and all warnings, but add a separate review/materiality field. Do not erase strict provenance, and do not let sub-dollar or few-dollar numerical noise block internal atlas expansion. Do not begin broad solver debugging based on these reviewed plots.
@@ -587,7 +586,7 @@ The first expanded manifest run is saved under ignored `output/foa-internal-atla
 
 Preliminary internal findings include:
 
-- New common-family principal transition brackets: geometric `[-0.0781, -0.0625]`, gamma shape 2 `[-0.2969, -0.2813]`, and binomial(10) `[-0.0156, 0]`. Bernoulli is valid throughout the tested range beginning at `-1`.
+- With positive-domain effort costs normalized to zero at the lowest action, the gamma shape-2 monopsony CE is `0.0011` and its principal threshold is `[0, 0.0156]`; the exponential monopsony CE is numerically zero and its principal threshold lies in the unresolved interval `[-0.05, 0.05]`. Other common-family principal brackets include geometric `[-0.0781, -0.0625]` and binomial(10) `[-0.0156, 0]`. Bernoulli is valid throughout the tested range beginning at `-1`.
 - Gaussian sigma 10 and 20 principal thresholds both bracket `[-0.0156, 0]`; the sigma-50 baseline remains `[0.625, 0.6875]`, with the existing gray-zone midpoint retained.
 - The completed moderate-risk-aversion principal cases generally have thresholds near their computed monopsony CE. Examples are CARA alpha `0.01`: monopsony `0.339`, threshold `[0.359, 0.375]`; CARA alpha `0.02`: monopsony `0.908`, threshold `[0.906, 0.922]`; and CRRA gamma `1.5`: monopsony `0.948`, threshold `[0.984, 1.000]`.
 - The added fixed Gaussian actions have brackets `[1.5625, 1.5781]` at intended action 70 and `[0.6719, 0.6875]` at intended action 130.
@@ -601,6 +600,7 @@ These are internal diagnostic results, not a selected paper sample. Strict statu
 ### 10.1 Files and commands
 
 - Plan: `ai-notes/foa-experiments-implementation-plan.md`
+- Parametric example inventory: `ai-notes/parametric-examples.md`
 - Manifest: `experiments/foa_experiments.yaml`
 - Library: `experiments/prototype.py`
 - Main CLI: `experiments/run_prototype.py`
@@ -622,7 +622,7 @@ uv run python -m experiments.summarize_internal --input output/foa-internal-atla
 uv run python -m experiments.diagnose_problematic
 ```
 
-Expected test baseline: **22 tests pass**.
+Expected test baseline: **23 tests pass**.
 
 Generated, ignored output locations:
 

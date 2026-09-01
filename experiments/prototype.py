@@ -103,18 +103,27 @@ def make_problem(case: dict[str, Any]) -> tuple[MoralHazardProblem, dict[str, An
     output_slope = float(case.get("cost_output_slope", 1.0))
     cost_scale = float(case.get("cost_scale", 1.0))
     theta *= output_slope * cost_scale
+    cost_zero_at_action = float(case.get("cost_zero_at_action", 0.0))
+    lower_action_bound = float(case.get("action_bounds", [0.0])[0])
+    if not (0.0 <= cost_zero_at_action <= lower_action_bound):
+        raise ValueError("cost_zero_at_action must lie between zero and the lower action bound")
     cost_metadata = {
         "primitive_theta": theta,
         "base_paper_log_theta": base_theta,
         "normalization": normalization,
         "output_slope": output_slope,
         "cost_scale": cost_scale,
+        "cost_zero_at_action": cost_zero_at_action,
+        "target_effort_cost": theta * (target_action**2 - cost_zero_at_action**2) / 2,
         "target_marginal_utility_cost": theta * target_action,
         "target_marginal_ce_cost_at_zero_wage": theta * target_action / uprime0,
     }
 
     def cost(a: Any) -> Any:
-        return theta * np.asarray(a) ** 2 / 2
+        # A constant shift preserves marginal incentives and the economic scale
+        # while allowing positive-domain families to assign zero cost to their
+        # lowest feasible action.
+        return theta * (np.asarray(a) ** 2 - cost_zero_at_action**2) / 2
 
     def cost_prime(a: Any) -> Any:
         return theta * np.asarray(a)
@@ -244,19 +253,28 @@ def certify_outcome_support(case: dict[str, Any], numerics: dict[str, Any]) -> d
     working_case = copy.deepcopy(case)
     history: list[dict[str, Any]] = []
 
+    certification_actions = sorted({
+        float(case["target_action"]),
+        *([float(case["cost_zero_at_action"])] if "cost_zero_at_action" in case else []),
+    })
     for expansion in range(max_expansions + 1):
         mhp, _ = make_problem(working_case)
-        diagnostics = distribution_diagnostics(
-            mhp, float(case["target_action"]), distribution=case.get("distribution")
-        )
+        action_diagnostics = {
+            str(action): distribution_diagnostics(
+                mhp, action, distribution=case.get("distribution")
+            ) for action in certification_actions
+        }
+        diagnostics = action_diagnostics[str(float(case["target_action"]))]
         history.append({
             "expansion": expansion,
             "outcome_grid": copy.deepcopy(working_case["outcome_grid"]),
             "diagnostics": diagnostics,
+            "action_diagnostics": action_diagnostics,
         })
-        if (
-            diagnostics["mass_error"] <= mass_tolerance
-            and abs(diagnostics["score_mean"]) <= score_tolerance
+        if all(
+            row["mass_error"] <= mass_tolerance
+            and abs(row["score_mean"]) <= score_tolerance
+            for row in action_diagnostics.values()
         ):
             return {
                 "status": "passed",
@@ -1099,6 +1117,7 @@ def run_case(case: dict[str, Any], numerics: dict[str, Any]) -> dict[str, Any]:
     diagnostic_actions = sorted({
         float(effective_case["target_action"]),
         *([float(effective_case["fixed_action"])] if "fixed_action" in effective_case else []),
+        *([float(effective_case["cost_zero_at_action"])] if "cost_zero_at_action" in effective_case else []),
     })
     result: dict[str, Any] = {
         "case_id": case["id"],

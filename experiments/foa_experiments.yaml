@@ -67,12 +67,12 @@ problem_diagnostics:
     kind: contract_solve
     selection: principal_relaxed
     reservation_wage: 0
-  - id: exponential-principal-invalid-side
+  - id: exponential-shifted-principal-gray-zone
     case_id: exponential_log_baseline
     kind: contract_solve
     selection: principal_relaxed
-    reservation_wage: -0.171875
-  - id: exponential-monopsony
+    reservation_wage: 0
+  - id: exponential-shifted-monopsony
     case_id: exponential_log_baseline
     kind: contract_solve
     selection: principal_full
@@ -102,7 +102,8 @@ reviews:
     diagnostic_path: output/foa-problem-diagnostics/poisson-principal-valid-boundary
   - id: exponential-principal-invalid-side
     case_id: exponential_log_baseline
-    scope: principal_transition_invalid_side
+    active: false  # Superseded when cost was shifted to C(10)=0.
+    scope: principal_transition_invalid_side_old_cost
     strict_numerical_status: unresolved
     review_status: reviewed
     economic_materiality: economically_stable_transition
@@ -110,7 +111,8 @@ reviews:
     diagnostic_path: output/foa-problem-diagnostics/exponential-principal-invalid-side
   - id: exponential-monopsony
     case_id: exponential_log_baseline
-    scope: full_gic_monopsony
+    active: false  # Superseded when cost was shifted to C(10)=0.
+    scope: full_gic_monopsony_old_cost
     strict_numerical_status: unresolved
     review_status: reviewed
     economic_materiality: stable_to_few_dollars
@@ -173,6 +175,9 @@ cases:
     target_action: 100
     fixed_action: 100
     action_bounds: [10, 180]
+    # Exponential output is degenerate at zero scale. Treat a=10 as the
+    # zero-effort baseline while preserving the original marginal cost C'(a).
+    cost_zero_at_action: 10
     cost_normalization: paper_log
     utility:
       kind: log
@@ -184,7 +189,7 @@ cases:
       y_min: 0
       y_max: 300
       n: 301
-    reservation_wages: [-1, 0, 1, 5, 15, 50, 100]
+    reservation_wages: [-1, -0.25, -0.05, 0, 0.05, 0.25, 1, 5, 15, 50, 100]
     exercises: [principal, fixed_action]
 
   - id: gamma2_log_baseline
@@ -193,6 +198,9 @@ cases:
     target_action: 50
     fixed_action: 50
     action_bounds: [5, 90]
+    # Gamma output is degenerate at zero scale. Treat a=5 as the zero-effort
+    # baseline while preserving the original marginal cost C'(a).
+    cost_zero_at_action: 5
     cost_normalization: paper_log
     cost_output_slope: 2
     utility:
@@ -205,7 +213,8 @@ cases:
       distribution_type: continuous
       y_min: 0.001
       y_max: 500
-      n: 301
+      # Resolve both the target scale and the much tighter zero-cost scale a=5.
+      n: 1201
     reservation_wages: [-1, 0, 0.5, 1, 5, 15, 50]
     exercises: [principal, fixed_action]
 

@@ -235,6 +235,22 @@ class DistributionTests(unittest.TestCase):
         self.assertEqual(result["safe_incentive_capacity"], 0)
         self.assertFalse(result["log_curvature_width_condition_on_grid"])
 
+    def test_positive_domain_cost_is_zero_at_lower_action_without_changing_marginal_cost(self) -> None:
+        case = self.case(
+            "exponential", {},
+            {"distribution_type": "continuous", "y_min": 0, "y_max": 300, "n": 101}, 100,
+        )
+        case["action_bounds"] = [10, 180]
+        baseline, _ = make_problem(case)
+        case["cost_zero_at_action"] = 10
+        shifted, cfg = make_problem(case)
+        self.assertAlmostEqual(float(shifted.C(10)), 0.0)
+        self.assertAlmostEqual(float(shifted.Cprime(100)), float(baseline.Cprime(100)))
+        self.assertAlmostEqual(
+            float(baseline.C(100) - shifted.C(100)), float(baseline.C(10))
+        )
+        self.assertEqual(cfg["cost_metadata"]["cost_zero_at_action"], 10)
+
     def test_cost_functions_do_not_capture_later_cases(self) -> None:
         first, _ = make_problem(self.case(
             "gaussian", {"sigma": 1},

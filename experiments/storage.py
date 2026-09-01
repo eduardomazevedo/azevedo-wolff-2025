@@ -168,7 +168,7 @@ def _reviews_for_case(manifest: dict[str, Any], case_id: str) -> list[dict[str, 
     required = {"strict_numerical_status", "review_status", "economic_materiality", "review_notes"}
     reviews = []
     for review in manifest.get("reviews", []):
-        if review.get("case_id") != case_id:
+        if not review.get("active", True) or review.get("case_id") != case_id:
             continue
         missing = required - review.keys()
         if missing:
