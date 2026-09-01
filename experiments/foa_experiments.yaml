@@ -54,6 +54,33 @@ numerics:
     expected_wage_tolerance: 0.01
     ce_tolerance: 0.01
 
+# Explicitly re-solved internal diagnostics. These generate ignored output
+# figures and metadata; they are not paper figures.
+problem_diagnostics:
+  - id: gaussian-principal-invalid-side
+    case_id: gaussian_log_paper
+    kind: contract_solve
+    selection: principal_relaxed
+    reservation_wage: 0.625
+  - id: poisson-principal-valid-boundary
+    case_id: poisson_log_paper
+    kind: contract_solve
+    selection: principal_relaxed
+    reservation_wage: 0
+  - id: exponential-principal-invalid-side
+    case_id: exponential_log_baseline
+    kind: contract_solve
+    selection: principal_relaxed
+    reservation_wage: -0.171875
+  - id: exponential-monopsony
+    case_id: exponential_log_baseline
+    kind: contract_solve
+    selection: principal_full
+    reservation_wage: -5
+  - id: student-t-support
+    case_id: student_t_log_adverse
+    kind: support
+
 cases:
   - id: gaussian_log_paper
     suites: [smoke, common_distributions, first_atlas]

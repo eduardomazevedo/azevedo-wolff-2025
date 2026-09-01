@@ -666,8 +666,11 @@ at all four tested wages; no smoke case emits solver warnings.
    the full solver emits severe overflow/reparametrization warnings on the
    support-expanded grid. Student-`t` remains the adverse, support-unresolved
    case. Do not treat these unresolved cells as accepted results.
-8. Inspect all warnings and unresolved cells before adding CRRA/CARA and larger
-   parameter sweeps.
+8. A manifest-driven diagnostic runner now writes organized internal figures,
+   metadata, warnings, and arrays for the suspicious Gaussian, Poisson,
+   exponential, and Student-`t` cells under the ignored
+   `output/foa-problem-diagnostics/` directory. Inspect these artifacts before
+   adding CRRA/CARA and larger parameter sweeps.
 
 Do not begin paper figures or broad summary statistics until the validation
 steps above pass. Reporting code should consume saved experiment outputs and

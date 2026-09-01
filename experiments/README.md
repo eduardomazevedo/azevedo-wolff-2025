@@ -6,6 +6,7 @@ Run the unit tests and small smoke suite from the repository root:
 uv run python -m unittest discover -s experiments/tests -v
 uv run python -m experiments.run_prototype --suite smoke
 uv run python -m experiments.run_prototype --suite first_atlas --output output/foa-first-atlas
+uv run python -m experiments.diagnose_problematic
 ```
 
 The smoke suite contains Gaussian/log and Poisson/log positive cases plus a fixed-action Student-`t`/log negative control that is expected to remain FOA-invalid throughout its reservation-wage grid.
@@ -24,3 +25,14 @@ Outcome supports are expanded adaptively until grid mass and score-mean toleranc
 The prototype computes numerical safe-region diagnostics over the full configured action grid: cutoff supremum, safe mass, incentive capacity, curvature, score width, normalized width, cost-curvature floor, and the log curvature-width condition. Metrics are saved at the reference fixed action, the full-GIC monopsony action, and transition-endpoint actions, and are checked over action-grid and derivative-step refinements. Each result is explicitly labeled as a grid diagnostic rather than a proof.
 
 The relaxed `lambda=0` monopsony scan remains available as an optional debugging routine but is disabled in the manifest because the pilot showed it is not an economically useful benchmark.
+
+## Problem diagnostics
+
+`experiments.diagnose_problematic` re-solves only the suspicious cells declared in the manifest's `problem_diagnostics` section. It writes an organized ignored directory at `output/foa-problem-diagnostics/`, with one subdirectory per cell containing:
+
+- `contracts_and_agent_objective.png` or `support_convergence.png`;
+- `metadata.json` with configurations, warnings, statuses, and deviation diagnostics;
+- `diagnostic_arrays.npz` for contract solves;
+- a root `README.md` and `index.json` linking all diagnostics.
+
+These are internal diagnostic figures, not paper figures.
