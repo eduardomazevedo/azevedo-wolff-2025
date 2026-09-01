@@ -516,162 +516,128 @@ The numerical experiments can support statements such as:
 
 They should not be described as proving necessity, monotonicity, or universal validity. Correlations between safe-region metrics and thresholds are descriptive mechanism evidence.
 
-## 8. Immediate implementation checklist
+## 8. Implementation checklist and current state
 
-1. Create the experiment package and smoke-test manifest.
-2. Implement CE conversion and common result schemas.
-3. Implement and unit-test the global-deviation oracle.
-4. Implement and validate the full-GIC slack-IR monopsony routine.
-5. Implement adaptive transition and reversal detection.
-6. Reproduce the four qualitative regression cases.
-7. Implement safe-region diagnostics for Gaussian, Poisson, exponential, and Student-\(t\).
-8. Add independent convex-solver checks around transitions.
-9. Finalize the YAML schema and expand it deterministically into tasks.
-10. Run the smoke suite and inspect every diagnostic.
-11. Run the common-distribution and smart-variation suites.
-12. Freeze an internal atlas before selecting the smaller paper presentation.
+Completed:
 
-## 9. Prototype status (initial smoke run)
+1. Experiment package and declarative smoke manifest.
+2. CE transformations and common result schemas.
+3. Multistart global-deviation oracle with endpoint checks and synthetic tests.
+4. Adaptive full-GIC slack-IR monopsony routine with plateau checks.
+5. Adaptive transition refinement and reversal detection.
+6. Gaussian/log, Poisson/log, and Student-`t`/log regression cases.
+7. Adaptive support diagnostics and use of the certified expanded support in actual solves.
+8. Density normalization, score-mean, and action-derivative diagnostics.
+9. Safe-region cutoff, mass, capacity, curvature, width, normalized width, and theorem-condition diagnostics.
+10. Safe-metric convergence over action grids and derivative steps.
+11. Selected CVXPY/Clarabel cross-checks around transitions.
+12. First small internal atlas: log utility crossed with Gaussian, Poisson, exponential, and Student-`t`.
+13. Manifest-driven diagnostic figures for all human-reviewed suspicious cells.
 
-A tracked prototype now lives in `experiments/`, driven by
-`experiments/foa_experiments.yaml`. It implements CE transformations, a
-grid-plus-local-refinement deviation oracle, separate principal and fixed-action
-runs, a true-monopsony scan, transition refinement, and reversal detection.
-Eighteen unit tests pass. Results are written to
-`output/foa-prototype/`. The prototype now also saves grid-based mass,
-score-mean, and action-derivative diagnostics, uses multistart deviation
-refinement, extends the monopsony scan downward adaptively when needed,
-cross-checks transition brackets with the discretized CVXPY/Clarabel solver,
-performs adaptive support plus transition-contract grid convergence checks,
-computes theorem-specific safe-region diagnostics on the configured grids, and
-checks those metrics over action-grid and derivative-step refinements.
+Still to do before the large atlas:
 
-The first smoke run produced the following preliminary transition brackets (all
-wages in thousands of dollars):
+1. Replace prototype JSON/CSV output with stable hashed atomic tasks, resume, caching, and provenance snapshots.
+2. Finalize deterministic YAML expansion into economic and numerical tasks.
+3. Preserve strict numerical status separately from an economic-materiality or human-review status. A strict gray-zone flag must not be described as an economically meaningful solver failure.
+4. Add omitted-tail moment diagnostics where relevant.
+5. Expand the predeclared internal design to the remaining common distributions, controlled safe-region variation, CRRA/CARA, and the risk-neutral adverse control.
+6. Freeze and inspect the complete internal atlas before doing any paper selection or paper reporting.
 
-- Gaussian/log principal problem: FOA changes from invalid to valid around
-  `[0.625, 0.688]`; the interval is wider because a midpoint falls in the
-  predeclared numerical gray zone.
-- Gaussian/log fixed action `a0=100`: transition around `[1.156, 1.172]`.
-- Poisson/log principal problem and fixed action `a0=7`: transition around
-  `[-0.0156, 0]`.
-- Student-`t`/log fixed action `a0=100` is now a negative smoke control. FOA
-  is invalid at every tested reservation wage (`-1`, `20`, `50`, and `100`),
-  with CE deviation gains increasing from about `$12.7k` to `$37.8k`; the best
-  deviation is `a=0` throughout. There were no solver warnings.
-- No reversals appeared on these small grids.
+## 9. Current numerical results and human review
 
-The full-GIC slack-IR monopsony CE wages were approximately `0.553` for the
-Gaussian case and `0` for Poisson. Thus the preliminary principal-problem gaps
-from true monopsony are very small. The prototype also showed that the relaxed
-`lambda=0` points were far lower and selected upper-bound actions. We therefore
-dropped that benchmark from the planned atlas and retained only the true
-full-GIC slack-IR monopsony benchmark.
+A tracked implementation lives in `experiments/`, driven by `experiments/foa_experiments.yaml`. Eighteen unit tests pass. Generated output is ignored by Git.
 
-These are prototype diagnostics, not paper-ready estimates. Safe-region
-metrics, adaptive support checks, and convex-solver cross-validation remain to
-be implemented.
+### 9.1 Smoke and first-atlas results
+
+All wages and CE gains below are in the manifest's `USD_1000` units unless a dollar sign is stated explicitly.
+
+- **Gaussian/log principal:** invalid-to-valid transition bracket `[0.625, 0.688]`.
+- **Gaussian/log fixed action `a0=100`:** transition bracket `[1.156, 1.172]`.
+- **Poisson/log principal and fixed action `a0=7`:** transition bracket `[-0.0156, 0]`.
+- **Exponential/log principal:** transition bracket approximately `[-0.171875, -0.15625]`.
+- **Exponential/log fixed action `a0=100`:** valid at every tested reservation wage beginning at `-1`.
+- **Student-`t`/log fixed action `a0=100`:** robustly invalid at every tested wage. On the support-expanded first-atlas run, CE deviation gains range from about `$13.7k` to `$42.0k`, with best deviation `a=0` throughout.
+- No reversals have appeared in the smoke or first-atlas grids.
+
+The full-GIC slack-IR monopsony CE wages are approximately `0.553` for Gaussian and `0` for Poisson. The exponential candidate is approximately `-0.167` at action `82.97`; it retains a strict numerical gray-zone flag discussed below. The relaxed `lambda=0` benchmark remains disabled because it is economically irrelevant and boundary-driven.
+
+### 9.2 Reconciliation of strict numerical flags with human review
+
+The diagnostic figures under `output/foa-problem-diagnostics/` were inspected by a human. The contracts and agent-objective curves look economically stable. The remaining strict flags represent minor numerical instability in difficult or extremely low-probability regions, not evidence of economically meaningful solver failure.
+
+- **Gaussian principal, invalid side:** active-set and CVXPY relaxed solutions both locate the economically relevant deviation, with CE gains about `$27.58` and `$33.21`. After imposing full GIC, residual gains are only about `$0.21` for the active solver and `$0.08` for CVXPY; expected wages differ by about `$0.10`. This is harmless gray-zone noise after the deviation is corrected.
+- **Poisson valid boundary:** active relaxed/full solutions coincide. CVXPY relaxed reports a `$1.16` endpoint gain even though expected costs differ by less than one cent. Its utility contract differs at `y=0` by only about `2.8e-5` utility units, while visible pointwise irregularity is concentrated around `y>=24`, whose intended-action probability is about `7.3e-7`. This is tolerance sensitivity, not a meaningful economic disagreement.
+- **Exponential principal transition:** the active relaxed solution finds a small but genuine `$5.70` deviation gain at `a=10`; CVXPY full removes it for about `$5.42` additional expected cost. Their agent-objective curves nearly coincide. The active full-contract construction can become nonfinite on the long support, but the relaxed active and full CVXPY solutions give a coherent transition result.
+- **Exponential monopsony:** the active contract has only a `$0.50` residual CE gain and its agent-objective curve essentially coincides with CVXPY relaxed. Expected cost differs by about `$5.56`. Warnings mostly arise during outer search and extreme-tail calculations. Keep the strict numerical flag for provenance, but treat the point as human-reviewed and economically stable to a few dollars, not as a qualitatively suspect optimum.
+- **Student-`t`:** after five support expansions, omitted mass remains about `0.30%`. This prevents formal support certification, but the `$13.7k--$42.0k` deviations are far too large to plausibly be numerical noise. It remains a robust adverse control.
+
+Operational rule for the next agent: retain strict fields such as `unresolved` and all warnings, but add a separate review/materiality field. Do not erase strict provenance, and do not let sub-dollar or few-dollar numerical noise block internal atlas expansion. Do not begin broad solver debugging based on these reviewed plots.
 
 ## 10. Handoff brief
 
-### Current working implementation
+### 10.1 Files and commands
 
-- Main plan: `ai-notes/foa-experiments-implementation-plan.md`.
-- Declarative prototype manifest: `experiments/foa_experiments.yaml`.
-- Prototype library: `experiments/prototype.py`.
-- CLI: `experiments/run_prototype.py`.
-- Tests: `experiments/tests/test_prototype.py`.
-- Usage notes: `experiments/README.md`.
-- Latest smoke outputs: `output/foa-prototype/`.
+- Plan: `ai-notes/foa-experiments-implementation-plan.md`
+- Manifest: `experiments/foa_experiments.yaml`
+- Library: `experiments/prototype.py`
+- Main CLI: `experiments/run_prototype.py`
+- Problem diagnostics CLI: `experiments/diagnose_problematic.py`
+- Tests: `experiments/tests/test_prototype.py`
+- Usage: `experiments/README.md`
 
-Run the current baseline before making changes:
+Baseline commands:
 
 ```bash
 uv sync
 uv run python -m unittest discover -s experiments/tests -v
 uv run python -m experiments.run_prototype --suite smoke
+uv run python -m experiments.run_prototype --suite first_atlas --output output/foa-first-atlas
+uv run python -m experiments.diagnose_problematic
 ```
 
-Expected baseline: five tests pass; Gaussian/log and Poisson/log transition
-from invalid to valid at low reservation wages; Student-`t`/log remains invalid
-at all four tested wages; no smoke case emits solver warnings.
+Expected test baseline: **18 tests pass**.
 
-### Decisions already made
+Generated, ignored output locations:
 
-1. Use the true full-GIC principal optimum with slack IR as the only monopsony
-   benchmark.
-2. Do not spend atlas runtime on the relaxed `lambda=0` principal benchmark. Its
-   code may remain as a disabled debugging path.
-3. Keep principal and fixed-action experiments separate.
-4. Include both common distributions and controlled safe-region variation.
-5. Search explicitly for validity reversals rather than imposing monotonicity.
-6. Include adverse controls, especially Student-`t` and risk-neutral cases.
-7. Build a larger internal atlas than the subset eventually reported.
+- `output/foa-prototype/`
+- `output/foa-first-atlas/`
+- `output/foa-problem-diagnostics/`
 
-### Known limitations of the prototype
+The diagnostic root contains an index and one folder per reviewed cell, with figures, JSON metadata, and NPZ arrays. These are internal diagnostics, not paper figures.
 
-- Transition refinement stops and reports an interval when a midpoint falls in
-  the valid/invalid gray zone. It does not yet perform higher-precision
-  validation to resolve that interval.
-- The deviation oracle now uses a dense grid, top-value and uniform multistarts,
-  endpoint checks, and bounded refinement, with synthetic narrow/tied-maximum
-  tests. It still needs convergence comparisons across action grids and starts.
-- The true-monopsony routine now searches downward adaptively, requires two
-  slack-IR points, and checks action, profit, expected wage, delivered CE, and
-  independent GIC stability. It still needs an independent full-solver
-  cross-check and grid/support convergence tests.
-- Continuous and discrete grid mass, score means, and action derivatives are
-  now diagnosed, and supports expand adaptively against mass and score-mean
-  tolerances. Gaussian and Poisson pass on their baseline supports. Student-t
-  remains explicitly `not_converged`: four expansions reduce omitted mass from
-  about 3 percent to about 0.47 percent, still well above tolerance. Relevant
-  omitted tail moments are not yet certified.
-- Relaxed transition classifications are stable over baseline, dense, and
-  expanded-support grids in Gaussian and Poisson. The remaining unresolved
-  cells arise from the independent CVXPY comparison, not support/grid changes.
-- Safe-region cutoff, mass, capacity, curvature, width, normalized width, and
-  the log curvature-width condition are implemented as explicitly numerical
-  full-action-grid diagnostics. Gaussian and Poisson metrics pass the current
-  action-grid and derivative-step convergence checks; Student-t remains
-  unresolved because its support does not converge.
-- CVXPY/Clarabel cross-checks are integrated at transition endpoints. The
-  latest run passes both Gaussian fixed-action endpoints and the invalid-side
-  Poisson endpoints. It leaves the invalid-side Gaussian principal full solve
-  unresolved (active-set full GIC is in the CE gray zone) and the valid-side
-  Poisson relaxed solves unresolved (the active-set and CVXPY contracts have
-  nearly identical costs but disagree at the tight CE classification boundary).
-  These cells should remain unresolved pending grid/support convergence rather
-  than prompting general solver debugging.
-- Results are JSON/CSV prototype files rather than hashed atomic tasks with
-  resume and provenance.
-- The current YAML is a smoke manifest, not yet the complete atlas todo grid.
+### 10.2 Decisions that must be preserved
 
-### Next agent's recommended sequence
+1. True full-GIC slack-IR monopsony is the only economic monopsony benchmark.
+2. Relaxed `lambda=0` monopsony stays disabled except as an optional debugging routine.
+3. Principal and fixed-action exercises remain separate.
+4. Reversals are searched for; monotonicity is never imposed.
+5. Strict numerical status, warnings, and human/economic review status must be stored separately.
+6. Reviewed Gaussian, Poisson, and exponential cells do not justify general solver debugging and should not block the next internal atlas stage.
+7. Student-`t` remains a robust adverse control despite incomplete support certification.
+8. Build and freeze a larger internal atlas before selecting any paper subset.
+9. Do not create paper figures or paper summaries yet.
+10. Generated experiment output remains ignored. The controlled benchmark files `output/machine_specs.txt` and `output/timing_results.csv` remain tracked.
 
-1. Add dedicated tests for monopsony plateau selection and GIC status handling.
-2. Add outcome-support, density normalization, score-mean, and derivative tests.
-3. Strengthen the deviation oracle and test it on synthetic narrow and tied
-   maxima.
-4. Integrate selected CVXPY/Clarabel cross-checks, beginning with points around
-   the Gaussian and Poisson transition brackets.
-5. Make monopsony search adaptive and verify the Gaussian and Poisson benchmark
-   values under grid/support refinement.
-6. Implement safe-region diagnostics first for Gaussian, Poisson, exponential,
-   and Student-`t`.
-7. The first small atlas (log utility crossed with Gaussian, Poisson,
-   exponential, and Student-`t`) has now been run internally. Gaussian and
-   Poisson reproduce the smoke findings. Exponential fixed-action is valid over
-   the tested grid, while its principal problem transitions near `-0.16`; its
-   monopsony and invalid-side transition validation remain unresolved because
-   the full solver emits severe overflow/reparametrization warnings on the
-   support-expanded grid. Student-`t` remains the adverse, support-unresolved
-   case. Do not treat these unresolved cells as accepted results.
-8. A manifest-driven diagnostic runner now writes organized internal figures,
-   metadata, warnings, and arrays for the suspicious Gaussian, Poisson,
-   exponential, and Student-`t` cells under the ignored
-   `output/foa-problem-diagnostics/` directory. Inspect these artifacts before
-   adding CRRA/CARA and larger parameter sweeps.
+### 10.3 Known remaining implementation limitations
 
-Do not begin paper figures or broad summary statistics until the validation
-steps above pass. Reporting code should consume saved experiment outputs and
-must not rerun models implicitly.
+- Results are prototype JSON/CSV files rather than hashed atomic tasks with resume and complete provenance.
+- Manifest expansion is still case-based rather than a general deterministic Cartesian task expansion.
+- Transition refinement stops at a gray-zone midpoint rather than launching an automatic precision ladder. This is acceptable for the reviewed smoke cells, but intervals and gray-zone points must remain explicit.
+- Omitted probability mass and score means are checked; relevant omitted tail moments are not yet certified.
+- The Student-`t` support is intentionally unresolved.
+- Safe-region diagnostics are numerical grid certifications, not proofs.
+- The current atlas covers only log utility and four distributions. It does not yet include the full distribution list, risk-aversion grid, controlled safe-region variation, multiple fixed actions, or the risk-neutral control.
+
+### 10.4 Recommended sequence for the next agent
+
+1. Implement stable task hashing, atomic JSON/NPZ output, manifest snapshot, environment/Git provenance, resume, and deterministic task indexing. Do not add broad parameter sweeps before this storage layer exists.
+2. Add an explicit review schema with fields such as `strict_numerical_status`, `review_status`, `economic_materiality`, `review_notes`, and diagnostic paths. Seed it with the human assessments in Section 9.2.
+3. Add omitted-tail moment diagnostics without trying to force Student-`t` to pass the light-tail support tolerance.
+4. Expand the manifest first to the remaining common log-utility families (gamma, geometric, Bernoulli/binomial where feasible), then run and inspect.
+5. Add controlled Gaussian safe-region variation: sigma, action lower bound, initial wealth, and cost curvature.
+6. Add CRRA/CARA risk-aversion grids with the existing local consumption-equivalent cost normalization.
+7. Add multiple interior fixed actions and the risk-neutral adverse control.
+8. Run all enabled internal tasks with resume, inspect failures/warnings, and freeze the internal atlas.
+9. Stop before paper tables, paper figures, or selecting attractive cases.
+
+The reporting layer must eventually consume saved atomic results and must never rerun models implicitly.
