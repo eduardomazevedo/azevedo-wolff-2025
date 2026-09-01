@@ -182,7 +182,12 @@ def certify_outcome_support(case: dict[str, Any], numerics: dict[str, Any]) -> d
             diagnostics["mass_error"] <= mass_tolerance
             and abs(diagnostics["score_mean"]) <= score_tolerance
         ):
-            return {"status": "passed", "expansions": expansion, "history": history}
+            return {
+                "status": "passed",
+                "expansions": expansion,
+                "effective_outcome_grid": copy.deepcopy(working_case["outcome_grid"]),
+                "history": history,
+            }
         if expansion == max_expansions:
             break
 
@@ -192,8 +197,13 @@ def certify_outcome_support(case: dict[str, Any], numerics: dict[str, Any]) -> d
             nonnegative_support = case["distribution"]["kind"] in {"exponential", "gamma"}
             if not nonnegative_support:
                 grid["y_min"] = center - expansion_factor * (center - float(grid["y_min"]))
-            # Preserve known nonnegative support boundaries.
-            grid["y_max"] = center + expansion_factor * (float(grid["y_max"]) - center)
+            # Preserve known nonnegative support boundaries. Scale one-sided
+            # supports from zero; location-family supports expand around a0.
+            grid["y_max"] = (
+                expansion_factor * float(grid["y_max"])
+                if nonnegative_support
+                else center + expansion_factor * (float(grid["y_max"]) - center)
+            )
             old_n = int(grid["n"])
             new_n = int(math.ceil((old_n - 1) * expansion_factor)) + 1
             grid["n"] = new_n if new_n % 2 == 1 else new_n + 1
@@ -204,7 +214,12 @@ def certify_outcome_support(case: dict[str, Any], numerics: dict[str, Any]) -> d
             step = float(grid.get("step_size", 1.0))
             grid["y_max"] = lower + math.ceil((grid["y_max"] - lower) / step) * step
 
-    return {"status": "not_converged", "expansions": max_expansions, "history": history}
+    return {
+        "status": "not_converged",
+        "expansions": max_expansions,
+        "effective_outcome_grid": copy.deepcopy(working_case["outcome_grid"]),
+        "history": history,
+    }
 
 
 def safe_region_metrics(
@@ -325,6 +340,85 @@ def safe_region_metrics(
         "curvature_width_ratio_infinite": math.isinf(curvature_width_ratio),
         "log_condition_margin": None if math.isinf(curvature_width_ratio) else cost_curvature_floor - curvature_width_ratio,
         "log_curvature_width_condition_on_grid": curvature_width_ratio < cost_curvature_floor,
+    }
+
+
+def safe_region_convergence(
+    mhp: MoralHazardProblem,
+    case: dict[str, Any],
+    numerics: dict[str, Any],
+    *,
+    support_status: str,
+) -> dict[str, Any]:
+    """Check safe metrics over action-grid and derivative-step refinements."""
+    cfg = numerics.get("safe_region", {})
+    action_points = [int(value) for value in cfg.get("convergence_action_points", [91, 181, 361])]
+    derivative_steps = [float(value) for value in cfg.get("convergence_derivative_steps", [1e-2, 1e-3, 1e-4])]
+    baseline_points = int(cfg.get("action_points", action_points[-1]))
+    finest_step = derivative_steps[-1]
+    records: list[dict[str, Any]] = []
+
+    def evaluate(label: str, points: int, step: float) -> None:
+        local_numerics = copy.deepcopy(numerics)
+        local_numerics.setdefault("safe_region", {})["action_points"] = points
+        local_numerics["safe_region"]["derivative_step"] = step
+        metrics = safe_region_metrics(
+            mhp, case, local_numerics, support_status=support_status
+        )
+        records.append({
+            "dimension": label,
+            "action_points": points,
+            "derivative_step": step,
+            "safe_cutoff_supremum": metrics["safe_cutoff_supremum"],
+            "safe_mass": metrics["safe_mass"],
+            "safe_incentive_capacity": metrics["safe_incentive_capacity"],
+            "safe_curvature": metrics["safe_curvature"],
+            "grid_safe_width": metrics["grid_safe_width"],
+            "log_condition": metrics["log_curvature_width_condition_on_grid"],
+        })
+
+    for points in action_points:
+        evaluate("action_grid", points, finest_step)
+    for step in derivative_steps:
+        evaluate("derivative_step", baseline_points, step)
+
+    def relative_change(left: float, right: float) -> float:
+        return abs(right - left) / max(abs(left), abs(right), 1e-14)
+
+    action_records = [row for row in records if row["dimension"] == "action_grid"]
+    derivative_records = [row for row in records if row["dimension"] == "derivative_step"]
+    comparisons: dict[str, Any] = {}
+    stable = support_status == "passed"
+    for label, rows in (("action_grid", action_records), ("derivative_step", derivative_records)):
+        if len(rows) < 2:
+            comparisons[label] = {"stable": False, "reason": "fewer_than_two_levels"}
+            stable = False
+            continue
+        left, right = rows[-2], rows[-1]
+        cutoff_change = abs(right["safe_cutoff_supremum"] - left["safe_cutoff_supremum"])
+        capacity_change = relative_change(
+            left["safe_incentive_capacity"], right["safe_incentive_capacity"]
+        )
+        curvature_change = relative_change(left["safe_curvature"], right["safe_curvature"])
+        dimension_stable = (
+            cutoff_change <= float(cfg.get("convergence_cutoff_tolerance", 1e-6))
+            and capacity_change <= float(cfg.get("convergence_relative_tolerance", 0.01))
+            and curvature_change <= float(cfg.get("convergence_relative_tolerance", 0.01))
+            and left["log_condition"] == right["log_condition"]
+        )
+        comparisons[label] = {
+            "stable": dimension_stable,
+            "cutoff_absolute_change": cutoff_change,
+            "capacity_relative_change": capacity_change,
+            "curvature_relative_change": curvature_change,
+            "log_condition_agrees": left["log_condition"] == right["log_condition"],
+        }
+        stable = stable and dimension_stable
+    return {
+        "status": "passed" if stable else "unresolved",
+        "support_status": support_status,
+        "comparisons": comparisons,
+        "records": records,
     }
 
 
@@ -596,9 +690,14 @@ def support_grid_convergence_at_point(
             factor = float(support_cfg.get("contract_expansion_factor", 1.5))
             if grid["distribution_type"] == "continuous":
                 center = float(case["target_action"])
-                if case["distribution"]["kind"] not in {"exponential", "gamma"}:
+                nonnegative_support = case["distribution"]["kind"] in {"exponential", "gamma"}
+                if not nonnegative_support:
                     grid["y_min"] = center - factor * (center - float(grid["y_min"]))
-                grid["y_max"] = center + factor * (float(grid["y_max"]) - center)
+                grid["y_max"] = (
+                    factor * float(grid["y_max"])
+                    if nonnegative_support
+                    else center + factor * (float(grid["y_max"]) - center)
+                )
             else:
                 lower = float(grid["y_min"])
                 step = float(grid.get("step_size", 1.0))
@@ -914,53 +1013,59 @@ def refine_transitions(
 
 
 def run_case(case: dict[str, Any], numerics: dict[str, Any]) -> dict[str, Any]:
-    mhp, utility_cfg = make_problem(case)
+    support_validation = certify_outcome_support(case, numerics)
+    effective_case = copy.deepcopy(case)
+    effective_case["outcome_grid"] = copy.deepcopy(support_validation["effective_outcome_grid"])
+    mhp, utility_cfg = make_problem(effective_case)
     candidate_wages = [float(x) for x in numerics["monopsony"]["candidate_reservation_wages"]]
     diagnostic_actions = sorted({
-        float(case["target_action"]),
-        *([float(case["fixed_action"])] if "fixed_action" in case else []),
+        float(effective_case["target_action"]),
+        *([float(effective_case["fixed_action"])] if "fixed_action" in effective_case else []),
     })
-    support_validation = certify_outcome_support(case, numerics)
     result: dict[str, Any] = {
         "case_id": case["id"],
         "configuration": case,
+        "effective_configuration": effective_case,
         "distribution_diagnostics": {
             str(action): distribution_diagnostics(mhp, action) for action in diagnostic_actions
         },
         "support_validation": support_validation,
         "safe_region_metrics": safe_region_metrics(
-            mhp, case, numerics, support_status=support_validation["status"]
+            mhp, effective_case, numerics, support_status=support_validation["status"]
+        ),
+        "safe_region_convergence": safe_region_convergence(
+            mhp, effective_case, numerics, support_status=support_validation["status"]
         ),
         "monopsony": {},
         "exercises": {},
     }
-    if case.get("compute_monopsony", True):
+    if effective_case.get("compute_monopsony", True):
         full_gic = _solve_monopsony(
             relaxed=False,
             mhp=mhp,
             utility_cfg=utility_cfg,
-            case=case,
+            case=effective_case,
             numerics=numerics,
             candidate_wages=candidate_wages,
         )
         if full_gic.get("selected") is not None:
             full_gic["safe_region_metrics"] = safe_region_metrics(
-                mhp, case, numerics,
+                mhp, effective_case, numerics,
                 support_status=support_validation["status"],
                 intended_action=float(full_gic["selected"]["action"]),
             )
         result["monopsony"]["full_gic"] = full_gic
-    if case.get("compute_monopsony", True) and numerics["monopsony"].get("compute_relaxed_lambda_zero", False):
+    if effective_case.get("compute_monopsony", True) and numerics["monopsony"].get("compute_relaxed_lambda_zero", False):
         result["monopsony"]["relaxed_lambda_zero"] = _solve_monopsony(
             relaxed=True,
             mhp=mhp,
             utility_cfg=utility_cfg,
-            case=case,
+            case=effective_case,
             numerics=numerics,
             candidate_wages=candidate_wages,
         )
 
-    for exercise in case.get("exercises", ["principal", "fixed_action"]):
+    for exercise in effective_case.get("exercises", ["principal", "fixed_action"]):
         cache: dict[float, PointResult] = {}
 
         def solve(wage: float) -> PointResult:
@@ -970,13 +1075,13 @@ def run_case(case: dict[str, Any], numerics: dict[str, Any]) -> dict[str, Any]:
                     exercise=exercise,
                     mhp=mhp,
                     utility_cfg=utility_cfg,
-                    case=case,
+                    case=effective_case,
                     wage=key,
                     numerics=numerics,
                 )
             return cache[key]
 
-        points = [solve(float(wage)) for wage in case["reservation_wages"]]
+        points = [solve(float(wage)) for wage in effective_case["reservation_wages"]]
         summary = summarize_transitions(points)
         summary["refined_transitions"] = refine_transitions(
             points,
@@ -997,19 +1102,19 @@ def run_case(case: dict[str, Any], numerics: dict[str, Any]) -> dict[str, Any]:
                     crosscheck = crosscheck_fixed_action(
                         mhp=mhp,
                         utility_cfg=utility_cfg,
-                        case=case,
+                        case=effective_case,
                         numerics=numerics,
                         intended_action=point.intended_action,
                         wage=validation_wage,
                     )
                     crosscheck["safe_region_metrics"] = safe_region_metrics(
-                        mhp, case, numerics,
+                        mhp, effective_case, numerics,
                         support_status=support_validation["status"],
                         intended_action=point.intended_action,
                     )
                     if numerics.get("support", {}).get("check_transition_contracts", False):
                         crosscheck["support_grid_convergence"] = support_grid_convergence_at_point(
-                            case=case,
+                            case=effective_case,
                             numerics=numerics,
                             intended_action=point.intended_action,
                             wage=validation_wage,
@@ -1029,7 +1134,7 @@ def run_case(case: dict[str, Any], numerics: dict[str, Any]) -> dict[str, Any]:
             "points": [asdict(point) for point in points],
             "refinement_points": [
                 asdict(point) for wage, point in sorted(cache.items())
-                if wage not in {float(x) for x in case["reservation_wages"]}
+                if wage not in {float(x) for x in effective_case["reservation_wages"]}
             ],
             "summary": summary,
             "validation": validation_results,

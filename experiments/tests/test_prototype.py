@@ -18,6 +18,7 @@ from experiments.prototype import (
     make_problem,
     reservation_utility,
     refine_transitions,
+    safe_region_convergence,
     safe_region_metrics,
     summarize_transitions,
 )
@@ -172,6 +173,30 @@ class DistributionTests(unittest.TestCase):
         self.assertGreater(result["safe_mass"], 0)
         self.assertGreater(result["safe_incentive_capacity"], 0)
         self.assertTrue(result["log_curvature_width_condition_on_grid"])
+
+    def test_poisson_safe_metrics_converge_at_fine_derivative_steps(self) -> None:
+        case = self.case(
+            "poisson", {},
+            {"distribution_type": "discrete", "y_min": 0, "y_max": 28, "step_size": 1}, 7,
+        )
+        case["action_bounds"] = [0.05, 10]
+        case["fixed_action"] = 7
+        mhp, _ = make_problem(case)
+        numerics = {"safe_region": {
+            "action_points": 181, "derivative_step": 0.001, "faa_tolerance": 1e-12,
+            "convergence_action_points": [91, 181, 361],
+            "convergence_derivative_steps": [0.01, 0.001, 0.0001],
+            "convergence_cutoff_tolerance": 1e-6, "convergence_relative_tolerance": 0.01,
+        }}
+        result = safe_region_convergence(mhp, case, numerics, support_status="passed")
+        self.assertEqual(result["status"], "passed")
+        self.assertTrue(result["comparisons"]["action_grid"]["stable"])
+        self.assertTrue(result["comparisons"]["derivative_step"]["stable"])
+        derivative_curvatures = [
+            row["safe_curvature"] for row in result["records"]
+            if row["dimension"] == "derivative_step"
+        ]
+        self.assertGreater(max(derivative_curvatures) / min(derivative_curvatures), 1.2)
 
     def test_student_t_empty_safe_region_is_not_promoted(self) -> None:
         case = self.case(

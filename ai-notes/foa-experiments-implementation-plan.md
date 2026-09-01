@@ -537,13 +537,14 @@ A tracked prototype now lives in `experiments/`, driven by
 `experiments/foa_experiments.yaml`. It implements CE transformations, a
 grid-plus-local-refinement deviation oracle, separate principal and fixed-action
 runs, a true-monopsony scan, transition refinement, and reversal detection.
-Seventeen unit tests pass. Results are written to
+Eighteen unit tests pass. Results are written to
 `output/foa-prototype/`. The prototype now also saves grid-based mass,
 score-mean, and action-derivative diagnostics, uses multistart deviation
 refinement, extends the monopsony scan downward adaptively when needed,
 cross-checks transition brackets with the discretized CVXPY/Clarabel solver,
 performs adaptive support plus transition-contract grid convergence checks,
-and computes theorem-specific safe-region diagnostics on the configured grids.
+computes theorem-specific safe-region diagnostics on the configured grids, and
+checks those metrics over action-grid and derivative-step refinements.
 
 The first smoke run produced the following preliminary transition brackets (all
 wages in thousands of dollars):
@@ -630,8 +631,9 @@ at all four tested wages; no smoke case emits solver warnings.
   cells arise from the independent CVXPY comparison, not support/grid changes.
 - Safe-region cutoff, mass, capacity, curvature, width, normalized width, and
   the log curvature-width condition are implemented as explicitly numerical
-  full-action-grid diagnostics. They still need action-grid and derivative-step
-  convergence checks before atlas expansion.
+  full-action-grid diagnostics. Gaussian and Poisson metrics pass the current
+  action-grid and derivative-step convergence checks; Student-t remains
+  unresolved because its support does not converge.
 - CVXPY/Clarabel cross-checks are integrated at transition endpoints. The
   latest run passes both Gaussian fixed-action endpoints and the invalid-side
   Poisson endpoints. It leaves the invalid-side Gaussian principal full solve
@@ -656,9 +658,14 @@ at all four tested wages; no smoke case emits solver warnings.
    values under grid/support refinement.
 6. Implement safe-region diagnostics first for Gaussian, Poisson, exponential,
    and Student-`t`.
-7. Only after those checks pass, expand the YAML into the first small atlas:
-   log utility crossed with Gaussian, Poisson, exponential, and Student-`t`,
-   with principal and fixed-action tasks where appropriate.
+7. The first small atlas (log utility crossed with Gaussian, Poisson,
+   exponential, and Student-`t`) has now been run internally. Gaussian and
+   Poisson reproduce the smoke findings. Exponential fixed-action is valid over
+   the tested grid, while its principal problem transitions near `-0.16`; its
+   monopsony and invalid-side transition validation remain unresolved because
+   the full solver emits severe overflow/reparametrization warnings on the
+   support-expanded grid. Student-`t` remains the adverse, support-unresolved
+   case. Do not treat these unresolved cells as accepted results.
 8. Inspect all warnings and unresolved cells before adding CRRA/CARA and larger
    parameter sweeps.
 
