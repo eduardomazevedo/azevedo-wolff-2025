@@ -1,8 +1,6 @@
-"""Small-scale prototype for the FOA experiment plan.
+"""Numerical primitives and case runner for the FOA experiment atlas.
 
-This module deliberately keeps the result schema explicit and independent of
-plotting code. It is a prototype: the convex cross-check and safe-region
-metrics described in the full plan are not implemented yet.
+The result schema is explicit and independent of plotting and reporting code.
 """
 
 from __future__ import annotations
@@ -58,6 +56,11 @@ def _float(value: Any) -> float:
     return float(np.asarray(value).reshape(()))
 
 
+def expected_revenue(case: dict[str, Any], action: Any) -> Any:
+    """Return expected principal revenue in the manifest's monetary units."""
+    return float(case.get("revenue_slope", 1.0)) * np.asarray(action)
+
+
 def make_problem(case: dict[str, Any]) -> tuple[MoralHazardProblem, dict[str, Any]]:
     """Construct one moral-hazard problem from a manifest case."""
     w0 = float(case["initial_wealth"])
@@ -84,34 +87,38 @@ def make_problem(case: dict[str, Any]) -> tuple[MoralHazardProblem, dict[str, An
     dist_cfg = make_distribution_cfg(distribution["kind"], **distribution.get("params", {}))
 
     target_action = float(case["target_action"])
-    base_theta = 1.0 / target_action / (target_action + w0)
+    revenue_slope = float(case.get("revenue_slope", 1.0))
+    target_revenue = _float(expected_revenue(case, target_action))
+    if revenue_slope <= 0 or target_revenue <= 0:
+        raise ValueError("revenue_slope and target revenue must be positive")
+    # Generalize Figure 1's calibration without treating a count, probability,
+    # or scale parameter as dollars: C'(a0)/u_log'(w0 + R(a0)) = R'(a0).
+    base_theta = revenue_slope / target_action / (w0 + target_revenue)
     h = 1e-4
     uprime0 = _float((utility_cfg["u"](h) - utility_cfg["u"](-h)) / (2 * h))
     normalization = case.get("cost_normalization", "paper_log")
     if normalization == "paper_log":
         theta = base_theta
     elif normalization == "local_consumption_equivalent":
-        # Preserve c'(target)/u'(wage=0) relative to the paper's log case.
-        # Estimate u'(0) accurately without depending on utility internals.
+        # Preserve the log baseline's local consumption-equivalent marginal
+        # cost at zero wage across utility specifications.
         log_uprime0 = 1.0 / w0
         theta = base_theta * uprime0 / log_uprime0
     else:
         raise ValueError(f"Unknown cost normalization: {normalization}")
-    # Gamma and binomial parameterize action as scale/probability, so one unit
-    # of action can produce several units of expected output. This explicit
-    # factor keeps marginal effort cost comparable to marginal revenue.
-    output_slope = float(case.get("cost_output_slope", 1.0))
     cost_scale = float(case.get("cost_scale", 1.0))
-    theta *= output_slope * cost_scale
-    cost_zero_at_action = float(case.get("cost_zero_at_action", 0.0))
+    theta *= cost_scale
     lower_action_bound = float(case.get("action_bounds", [0.0])[0])
-    if not (0.0 <= cost_zero_at_action <= lower_action_bound):
-        raise ValueError("cost_zero_at_action must lie between zero and the lower action bound")
+    declared_cost_zero = float(case.get("cost_zero_at_action", lower_action_bound))
+    if not math.isclose(declared_cost_zero, lower_action_bound, rel_tol=0.0, abs_tol=1e-12):
+        raise ValueError("cost_zero_at_action must equal the lower action bound")
+    cost_zero_at_action = lower_action_bound
     cost_metadata = {
         "primitive_theta": theta,
         "base_paper_log_theta": base_theta,
         "normalization": normalization,
-        "output_slope": output_slope,
+        "revenue_slope": revenue_slope,
+        "target_revenue": target_revenue,
         "cost_scale": cost_scale,
         "cost_zero_at_action": cost_zero_at_action,
         "target_effort_cost": theta * (target_action**2 - cost_zero_at_action**2) / 2,
@@ -120,9 +127,8 @@ def make_problem(case: dict[str, Any]) -> tuple[MoralHazardProblem, dict[str, An
     }
 
     def cost(a: Any) -> Any:
-        # A constant shift preserves marginal incentives and the economic scale
-        # while allowing positive-domain families to assign zero cost to their
-        # lowest feasible action.
+        # A constant shift makes cost zero at the lowest action while
+        # preserving marginal incentives and relative effort costs.
         return theta * (np.asarray(a) ** 2 - cost_zero_at_action**2) / 2
 
     def cost_prime(a: Any) -> Any:
@@ -358,7 +364,7 @@ def certify_outcome_support(case: dict[str, Any], numerics: dict[str, Any]) -> d
 
     certification_actions = sorted({
         float(case["target_action"]),
-        *([float(case["cost_zero_at_action"])] if "cost_zero_at_action" in case else []),
+        float(case["action_bounds"][0]),
     })
     for expansion in range(max_expansions + 1):
         mhp, _ = make_problem(working_case)
@@ -971,7 +977,7 @@ def _solve_point(
                 float, case.get("principal_intended_action_bounds", case["action_bounds"])
             )
             solution = mhp.solve_principal_problem(
-                revenue_function=lambda a: a,
+                revenue_function=lambda a: expected_revenue(case, a),
                 reservation_utility=ru,
                 a_min=principal_lb,
                 a_max=principal_ub,
@@ -1059,7 +1065,7 @@ def _solve_monopsony(
         with warnings.catch_warnings(record=True) as caught:
             warnings.simplefilter("always")
             solution = mhp.solve_principal_problem(
-                revenue_function=lambda a: a,
+                revenue_function=lambda a: expected_revenue(case, a),
                 reservation_utility=ru,
                 a_min=principal_lb,
                 a_max=principal_ub,
@@ -1238,8 +1244,8 @@ def run_case(case: dict[str, Any], numerics: dict[str, Any]) -> dict[str, Any]:
     candidate_wages = [float(x) for x in numerics["monopsony"]["candidate_reservation_wages"]]
     diagnostic_actions = sorted({
         float(effective_case["target_action"]),
+        float(effective_case["action_bounds"][0]),
         *([float(effective_case["fixed_action"])] if "fixed_action" in effective_case else []),
-        *([float(effective_case["cost_zero_at_action"])] if "cost_zero_at_action" in effective_case else []),
     })
     result: dict[str, Any] = {
         "case_id": case["id"],

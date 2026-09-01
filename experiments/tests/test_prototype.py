@@ -8,6 +8,7 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 import numpy as np
+import yaml
 
 from experiments.prototype import (
     PointResult,
@@ -17,6 +18,7 @@ from experiments.prototype import (
     certify_outcome_support,
     classify,
     distribution_diagnostics,
+    expected_revenue,
     find_best_deviation,
     incentive_capacity_precheck,
     local_incentive_capacity,
@@ -157,6 +159,7 @@ class DistributionTests(unittest.TestCase):
         case = self.case(
             "poisson", {}, {"distribution_type": "discrete", "y_min": 0, "y_max": 8, "step_size": 1}, 7,
         )
+        case["action_bounds"] = [0.05, 10]
         result = certify_outcome_support(case, {"support": {
             "mass_tolerance": 1e-6, "score_mean_tolerance": 1e-6,
             "max_expansions": 4, "expansion_factor": 1.5,
@@ -261,21 +264,59 @@ class DistributionTests(unittest.TestCase):
         self.assertEqual(precheck["status"], "all_actions_locally_feasible")
         self.assertEqual(precheck["computational_action_upper_bound"], 180)
 
-    def test_positive_domain_cost_is_zero_at_lower_action_without_changing_marginal_cost(self) -> None:
+    def test_cost_is_always_zero_at_lower_action(self) -> None:
+        for lower in (0.0, 0.05, 1.05, 10.0, 20.0, 50.0):
+            case = self.case(
+                "gaussian", {"sigma": 20},
+                {"distribution_type": "continuous", "y_min": -100, "y_max": 300, "n": 101}, 100,
+            )
+            case["action_bounds"] = [lower, 180]
+            mhp, cfg = make_problem(case)
+            self.assertAlmostEqual(float(mhp.C(lower)), 0.0)
+            self.assertEqual(cfg["cost_metadata"]["cost_zero_at_action"], lower)
+
+    def test_declared_cost_zero_must_equal_lower_action(self) -> None:
         case = self.case(
             "exponential", {},
             {"distribution_type": "continuous", "y_min": 0, "y_max": 300, "n": 101}, 100,
         )
         case["action_bounds"] = [10, 180]
-        baseline, _ = make_problem(case)
-        case["cost_zero_at_action"] = 10
-        shifted, cfg = make_problem(case)
-        self.assertAlmostEqual(float(shifted.C(10)), 0.0)
-        self.assertAlmostEqual(float(shifted.Cprime(100)), float(baseline.Cprime(100)))
-        self.assertAlmostEqual(
-            float(baseline.C(100) - shifted.C(100)), float(baseline.C(10))
+        case["cost_zero_at_action"] = 0
+        with self.assertRaisesRegex(ValueError, "must equal the lower action bound"):
+            make_problem(case)
+
+    def test_manifest_baselines_have_harmonized_revenue_and_cost_scales(self) -> None:
+        manifest = yaml.safe_load(Path("experiments/foa_experiments.yaml").read_text())
+        tasks = {task.case_id: task for task in expand_manifest(manifest, "common_distributions")}
+        expected = {
+            "gaussian_log_paper": (1.0, 100.0),
+            "poisson_log_paper": (15.0, 105.0),
+            "exponential_log_baseline": (1.0, 100.0),
+            "gamma2_log_baseline": (2.0, 100.0),
+            "geometric_log_baseline": (15.0, 105.0),
+            "bernoulli_log_baseline": (150.0, 105.0),
+            "binomial10_log_baseline": (150.0, 105.0),
+        }
+        self.assertEqual(set(tasks), set(expected))
+        for case_id, (slope, target_revenue) in expected.items():
+            case = tasks[case_id].economic_configuration
+            self.assertEqual(case["revenue_slope"], slope)
+            self.assertAlmostEqual(float(expected_revenue(case, case["target_action"])), target_revenue)
+            mhp, cfg = make_problem(case)
+            lower = float(case["action_bounds"][0])
+            self.assertAlmostEqual(float(mhp.C(lower)), 0.0)
+            self.assertGreater(cfg["cost_metadata"]["target_effort_cost"], 0.32)
+            self.assertLess(cfg["cost_metadata"]["target_effort_cost"], 0.35)
+
+    def test_gaussian_calibration_remains_figure_one(self) -> None:
+        case = self.case(
+            "gaussian", {"sigma": 50},
+            {"distribution_type": "continuous", "y_min": -300, "y_max": 480, "n": 201}, 100,
         )
-        self.assertEqual(cfg["cost_metadata"]["cost_zero_at_action"], 10)
+        case["revenue_slope"] = 1
+        mhp, cfg = make_problem(case)
+        self.assertAlmostEqual(cfg["cost_metadata"]["primitive_theta"], 1 / 15000)
+        self.assertAlmostEqual(float(mhp.C(100)), 100**2 / 30000)
 
     def test_cost_functions_do_not_capture_later_cases(self) -> None:
         first, _ = make_problem(self.case(

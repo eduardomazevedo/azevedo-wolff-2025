@@ -543,23 +543,26 @@ Completed:
 21. Multiple fixed intended actions and a Gaussian risk-neutral adverse control.
 22. First expanded internal run with 29 predeclared tasks and an internal-only saved-results summarizer.
 23. Fast bounded-utility incentive-capacity checks: economically infeasible fixed actions are classified before solving, and principal intended-action searches are capped just inside the highest locally feasible action while retaining the full deviation domain.
+24. Harmonized economic scaling across distribution families: baseline target expected revenue is $100k or $105k, with round raw-output values, and every principal solve uses the case's declared revenue slope.
+25. Uniform zero-cost convention: quadratic effort cost is zero at the configured lower action bound in every case, including Gaussian action-bound variations.
+26. Figure-1-based cost calibration generalized to non-dollar action parameters using `theta = R'(a0) / [a0 (w0 + R(a0))]`, with regression tests for revenue, cost levels, and the unchanged Gaussian benchmark.
+27. Paper-example inventory and proposed harmonization recorded in `ai-notes/parametric-examples.md`; the Student-t principal exercise is included for provenance if its paper figure is retained.
+28. Harmonized common-distribution and smoke preflights completed from fresh directories: no task failures, all common-family supports passed, target effort costs matched the declared 0.33--0.34 range, and principal actions were economically reasonable. Student-t principal and fixed-action adverse exercises both completed while retaining unresolved support certification.
 
 Still to do before freezing the tracked experiment code and moving to paper assets:
 
-1. Correct principal revenue for parameterizations in which expected output is not `a`: gamma shape 2 requires `R(a)=2a`, and binomial(10) requires `R(a)=10a`. Fixed-action results are unaffected, but current principal results for these cases are provisional.
-2. Choose and implement a consistent zero-cost convention for the remaining positive computational lower bounds, especially geometric and the small positive lower bounds used for Poisson, Bernoulli, and binomial. The simplest convention is the same constant cost shift used for exponential/gamma, preserving `C'(a)`.
-3. Rerun every bounded-utility CARA/CRRA task after the capacity change. Resume does not invalidate completed atomic records when implementation code changes, so the existing cached moderate-risk-aversion records do not all contain the new precheck.
-4. Review the CRRA `gamma=3` principal case: the capacity precheck removes the spurious nonfinite solves, but relaxed principal contracts remain globally invalid and the full-GIC monopsony plateau remains unverified.
-5. Decide whether the four boundary monopsony actions in low-risk-aversion/low-cost cases require wider action ranges; explicit boundary-contamination diagnostics are implemented.
-6. Review economically relevant warnings and strict unresolved cells without erasing provenance. Do not launch broad solver debugging for already reviewed sub-dollar discrepancies.
-7. Freeze and commit the manifest and experiment code, then validate reproducibility with a clean from-scratch internal run. Generated atlas output remains ignored and must never be committed; the deliverable is the reproducible pipeline.
-8. After the clean run is inspected, proceed to paper tables and figures without adding broad parameter sweeps unless a specific gap appears.
+1. Commit the harmonized implementation and manifest, then rerun every bounded-utility CARA/CRRA task as part of a fresh full atlas. Do not use resume or the old cached atomic records.
+2. Review the CRRA `gamma=3` principal case narrowly: the capacity precheck removes the spurious nonfinite solves, but the old relaxed principal contracts were globally invalid and the old full-GIC monopsony plateau was unverified.
+3. Review the formerly boundary-contaminated low-risk-aversion/low-cost cases after the fresh run. Do not widen them solely to remove a warning. The preflight binomial monopsony at 0.95 is retained as an explicitly boundary-contaminated bounded-probability case rather than changing its economic action set.
+4. Review economically relevant warnings and strict unresolved cells without erasing provenance. Do not launch broad solver debugging for already reviewed sub-dollar discrepancies.
+5. Validate reproducibility with the clean from-scratch internal run. Generated atlas output remains ignored and must never be committed; the deliverable is the reproducible pipeline.
+6. After the clean run is inspected, proceed to paper tables and figures without adding broad parameter sweeps unless a specific gap appears. Regenerate the Poisson paper figure and captions from the harmonized saved results rather than preserving its old calibration.
 
 ## 9. Current numerical results and human review
 
-A tracked implementation lives in `experiments/`, driven by `experiments/foa_experiments.yaml`. Twenty-five unit tests pass. Generated output is ignored by Git.
+A tracked implementation lives in `experiments/`, driven by `experiments/foa_experiments.yaml`. Twenty-eight unit tests pass after the harmonized-calibration changes. Generated output is ignored by Git.
 
-### 9.1 Smoke and first-atlas results
+### 9.1 Historical smoke and first-atlas results (superseded where calibrations changed)
 
 All wages and CE gains below are in the manifest's `USD_1000` units unless a dollar sign is stated explicitly.
 
@@ -573,7 +576,7 @@ All wages and CE gains below are in the manifest's `USD_1000` units unless a dol
 
 The full-GIC slack-IR monopsony CE wages are approximately `0.553` for Gaussian and `0` for Poisson. After setting `C(10)=0`, the exponential candidate is numerically zero (`-0.00033`, about `-$0.33`) at action `82.97` and retains a strict global-IC gray-zone flag. The relaxed `lambda=0` benchmark remains disabled because it is economically irrelevant and boundary-driven.
 
-### 9.2 Reconciliation of strict numerical flags with human review
+### 9.2 Historical reconciliation of strict numerical flags with human review
 
 The diagnostic figures under `output/foa-problem-diagnostics/` were inspected by a human. The contracts and agent-objective curves look economically stable. The remaining strict flags represent minor numerical instability in difficult or extremely low-probability regions, not evidence of economically meaningful solver failure.
 
@@ -584,9 +587,9 @@ The diagnostic figures under `output/foa-problem-diagnostics/` were inspected by
 
 Operational rule for the next agent: retain strict fields such as `unresolved` and all warnings, but add a separate review/materiality field. Do not erase strict provenance, and do not let sub-dollar or few-dollar numerical noise block internal atlas expansion. Do not begin broad solver debugging based on these reviewed plots.
 
-### 9.3 Expanded internal atlas run
+### 9.3 Historical expanded internal atlas run (superseded calibration)
 
-The expanded manifest run is saved under ignored `output/foa-internal-atlas/`. After adding the incentive-capacity precheck, all 29 deterministic atomic tasks complete and the two formerly crashing fixed-action cells are recorded as economically infeasible rather than numerical failures. The saved-results-only internal summarizer produces 54 case-exercise rows and no task-failure rows. No reversals were detected.
+The expanded manifest run saved under ignored `output/foa-internal-atlas/` used the pre-harmonization revenue and cost calibration and is retained only as historical diagnostic provenance. It must not be used for paper quantities. In that run, all 29 deterministic atomic tasks completed and the two formerly crashing fixed-action cells were recorded as economically infeasible rather than numerical failures. The saved-results-only internal summarizer produced 54 case-exercise rows and no task-failure rows. No reversals were detected.
 
 Preliminary internal findings include:
 
@@ -599,7 +602,34 @@ Preliminary internal findings include:
 
 These are internal diagnostic results, not a selected paper sample. Strict statuses remain unresolved in many completed cells because transition cross-checks, monopsony checks, or warnings are conservative; the internal tables preserve these separately from human review.
 
-The current generated atlas is provisional rather than frozen: gamma/binomial principal revenue still needs the expected-output slope correction, and completed moderate-risk-aversion atomic records were not all invalidated when the capacity-precheck implementation changed. Use a fresh output directory for the final validation run after those code changes. Do not commit that directory.
+The current generated atlas is superseded: it predates both the harmonized revenue/cost calibration and complete capacity-precheck records. Use fresh output directories for the calibration preflight and final validation run. Do not commit either directory.
+
+### 9.4 Harmonized calibration preflight
+
+Fresh ignored runs under `output/foa-calibration-preflight/` and
+`output/foa-smoke-preflight/` verified the revised specification before the
+full atlas. All seven common-distribution tasks and all three smoke tasks
+completed without hard failures. Every common-family support check passed; the
+Student-t support remained intentionally unresolved after five expansions.
+No reversals appeared.
+
+At the slack-IR monopsony candidates, intended actions were approximately:
+Gaussian 132.95 (target 100), exponential 82.97 (target 100), gamma shape 2
+48.82 (target 50), Poisson 9.29 (target 7), geometric 5.89 (target 7),
+Bernoulli 0.578 (target 0.7), and binomial 0.95 (target 0.7). These are
+reasonable for the deliberately stylized calibration. The binomial optimum is
+at its declared maximum success probability and remains explicitly
+boundary-contaminated; it is an internal breadth case, not a reason to alter
+the economic action set. Poisson is interior, though its monopsony plateau
+retains a strict unverified flag. Gamma's corrected principal optimum is
+interior and near its target.
+
+Target effort costs are 0.330--0.339 utility units in all seven common
+families, as specified. The Student-t principal and fixed-action exercises both
+remain FOA-invalid throughout their tested grids, so adding principal
+provenance for the paper counterexample did not weaken the adverse control.
+These preflight outputs are diagnostic and ignored; they are not substitutes
+for the final clean atlas.
 
 ## 10. Handoff brief
 
@@ -634,7 +664,7 @@ uv run python -m experiments.summarize_internal --input output/foa-internal-atla
 
 Do not use `--resume` for the final validation run, and do not commit either output directory.
 
-Expected test baseline: **25 tests pass**.
+Expected test baseline: **28 tests pass**.
 
 Generated, ignored output locations:
 
@@ -669,16 +699,15 @@ The diagnostic root contains an index and one folder per reviewed cell, with fig
 - The current run has no hard task failures. Two high-risk-aversion fixed actions are economically infeasible by the capacity bound, and the CRRA gamma-3 principal/full-GIC result remains unresolved.
 - Runs made from a dirty working tree record root-level source snapshots, but the final validation should be run from a clean committed tree.
 - Task hashes currently cover economic and numerical configuration but not implementation code. Therefore `--resume` can reuse stale completed records after code changes; use a fresh output directory for the final validation run.
-- Gamma and binomial principal revenue currently uses `R(a)=a` despite expected-output slopes 2 and 10; these principal results must be rerun after correction.
+- Existing generated principal results use the superseded economic calibration and must not be reused. The implementation now applies each case's declared revenue slope consistently, but requires a fresh run.
 
 ### 10.4 Recommended sequence for the next agent
 
-1. Add an explicit expected-output/revenue slope to each case and use it in the principal objective. Set gamma shape 2 to 2 and binomial(10) to 10; add regression tests that the principal receives the correct expected-output scale.
-2. Normalize cost to zero at the chosen lowest feasible action for the remaining positive-lower-bound distribution cases, or document and implement a different consistent convention. Preserve marginal cost exactly as for exponential/gamma.
-3. Keep fixed-action local infeasibility separate from numerical failure; do not send actions above the computed capacity boundary to the inner solver, and retain the original full action interval for deviation checks.
-4. Review or widen boundary-contaminated principal cases. Review CRRA gamma 3 narrowly; it is no longer a hard task failure but remains globally unresolved.
-5. Commit the final code and manifest. From that clean commit, run the full `internal_atlas` suite into a new empty ignored output directory without resume, then run `experiments.summarize_internal` and inspect failures, warnings, unresolved cells, and boundaries.
-6. Do **not** add generated output to Git. Reproduction must consist of the committed manifest, code, lockfile, and documented commands.
-7. Once the clean run is accepted, proceed to paper tables and figures. Reporting must consume saved generated atomic results and never rerun models implicitly.
+1. Run all unit tests, then run the harmonized `common_distributions` suite into a new ignored preflight directory without resume. Inspect principal actions, profits, target cost metadata, failures, and boundaries before launching the full atlas.
+2. If the preflight is economically reasonable, keep fixed-action local infeasibility separate from numerical failure; do not send actions above the computed capacity boundary to the inner solver, and retain the original full action interval for deviation checks.
+3. Review or widen boundary-contaminated principal cases only if the harmonized preflight indicates an economically truncated optimum. Review CRRA gamma 3 narrowly after the final run; it is not a reason for general solver debugging.
+4. Commit the final code and manifest. From that clean commit, run the full `internal_atlas` suite into a new empty ignored output directory without resume, then run `experiments.summarize_internal` and inspect failures, warnings, unresolved cells, actions, and boundaries.
+5. Do **not** add generated output to Git. Reproduction must consist of the committed manifest, code, lockfile, and documented commands.
+6. Once the clean run is accepted, proceed to paper tables and figures. Reporting must consume saved generated atomic results and never rerun models implicitly. The Poisson paper figure and numerical text must use the harmonized $15k-per-success calibration.
 
 The reporting layer must eventually consume saved atomic results and must never rerun models implicitly.

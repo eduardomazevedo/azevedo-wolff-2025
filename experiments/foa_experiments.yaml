@@ -1,11 +1,14 @@
 schema_version: 1
-experiment_id: foa-prototype-v1
+experiment_id: foa-atlas-v1
 units: USD_1000
 
-# This smoke manifest is intentionally small. Larger suites will be added only
-# after the numerical primitives and benchmark definitions are validated.
+# Economic cases and numerical settings for smoke, mechanism, robustness, and
+# adverse-control suites. See ai-notes/parametric-examples.md for calibration.
 numerics:
   full_ic_iterations: 100
+  incentive_capacity:
+    grid_points: 257
+    safety_fraction: 0.001
   deviation:
     coarse_action_points: 241
     multistart_count: 12
@@ -134,6 +137,7 @@ cases:
     target_action: 100
     fixed_action: 100
     action_bounds: [0, 180]
+    revenue_slope: 1
     cost_normalization: paper_log
     utility:
       kind: log
@@ -155,6 +159,7 @@ cases:
     target_action: 7
     fixed_action: 7
     action_bounds: [0.05, 10]
+    revenue_slope: 15
     cost_normalization: paper_log
     utility:
       kind: log
@@ -175,9 +180,7 @@ cases:
     target_action: 100
     fixed_action: 100
     action_bounds: [10, 180]
-    # Exponential output is degenerate at zero scale. Treat a=10 as the
-    # zero-effort baseline while preserving the original marginal cost C'(a).
-    cost_zero_at_action: 10
+    revenue_slope: 1
     cost_normalization: paper_log
     utility:
       kind: log
@@ -198,11 +201,8 @@ cases:
     target_action: 50
     fixed_action: 50
     action_bounds: [5, 90]
-    # Gamma output is degenerate at zero scale. Treat a=5 as the zero-effort
-    # baseline while preserving the original marginal cost C'(a).
-    cost_zero_at_action: 5
+    revenue_slope: 2
     cost_normalization: paper_log
-    cost_output_slope: 2
     utility:
       kind: log
     distribution:
@@ -224,6 +224,7 @@ cases:
     target_action: 7
     fixed_action: 7
     action_bounds: [1.05, 10]
+    revenue_slope: 15
     cost_normalization: paper_log
     utility:
       kind: log
@@ -244,6 +245,7 @@ cases:
     target_action: 0.7
     fixed_action: 0.7
     action_bounds: [0.05, 0.95]
+    revenue_slope: 150
     cost_normalization: paper_log
     utility:
       kind: log
@@ -264,8 +266,8 @@ cases:
     target_action: 0.7
     fixed_action: 0.7
     action_bounds: [0.05, 0.95]
+    revenue_slope: 150
     cost_normalization: paper_log
-    cost_output_slope: 10
     utility:
       kind: log
     distribution:
@@ -289,6 +291,7 @@ cases:
     target_action: 100
     fixed_action: 100
     action_bounds: [0, 180]
+    revenue_slope: 1
     cost_normalization: paper_log
     utility:
       kind: log
@@ -303,7 +306,7 @@ cases:
       y_max: 380
       n: 301
     reservation_wages: [-1, 20, 50, 100]
-    exercises: [fixed_action]
+    exercises: [principal, fixed_action]
 
 # Deterministic Cartesian families for the internal mechanism and risk-aversion
 # atlas. Each expanded configuration receives its own stable task hash.
@@ -314,6 +317,7 @@ cases:
     target_action: 100
     fixed_action: 100
     action_bounds: [0, 180]
+    revenue_slope: 1
     cost_normalization: local_consumption_equivalent
     utility: {kind: risk_neutral}
     distribution: {kind: gaussian, params: {sigma: 50}}
@@ -329,6 +333,7 @@ case_families:
       target_action: 100
       fixed_action: 100
       action_bounds: [0, 180]
+      revenue_slope: 1
       cost_normalization: local_consumption_equivalent
       utility: {kind: log}
       distribution: {kind: gaussian, params: {sigma: 50}}

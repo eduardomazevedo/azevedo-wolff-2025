@@ -22,6 +22,7 @@ import yaml
 from experiments.prototype import (
     certify_outcome_support,
     classify,
+    expected_revenue,
     find_best_deviation,
     make_problem,
     reservation_utility,
@@ -60,7 +61,7 @@ def _select_action(mhp, utility_cfg, case, numerics, diagnostic):
     with warnings.catch_warnings(record=True) as caught:
         warnings.simplefilter("always")
         solution = mhp.solve_principal_problem(
-            revenue_function=lambda action: action,
+            revenue_function=lambda action: expected_revenue(case, action),
             reservation_utility=ru,
             a_min=lb,
             a_max=ub,

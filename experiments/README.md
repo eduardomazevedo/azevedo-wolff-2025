@@ -1,4 +1,4 @@
-# FOA Experiment Prototype
+# FOA Experiment Atlas
 
 Run the unit tests and small smoke suite from the repository root:
 
@@ -12,7 +12,7 @@ uv run python -m experiments.summarize_internal --input output/foa-internal-atla
 uv run python -m experiments.diagnose_problematic
 ```
 
-The smoke suite contains Gaussian/log and Poisson/log positive cases plus a fixed-action Student-`t`/log negative control that is expected to remain FOA-invalid throughout its reservation-wage grid. The common-distribution suite additionally contains exponential, gamma, geometric, Bernoulli, and binomial cases. These are internal experiments, not a paper-selected subset.
+The smoke suite contains Gaussian/log and Poisson/log positive cases plus principal and fixed-action Student-`t`/log negative controls. The common-distribution suite additionally contains exponential, gamma, geometric, Bernoulli, and binomial cases. Economic revenue and effort-cost calibrations are specified in `ai-notes/parametric-examples.md`. These are internal experiments, not a paper-selected subset.
 
 Outputs are written to `output/foa-prototype/`:
 
@@ -26,7 +26,7 @@ Task hashes exclude labels and suite membership but include the complete economi
 
 `experiments.summarize_internal` only reads atomic records; it never solves a model. It writes internal threshold, failure, and warning tables under `summary_tables/`. These are diagnostic atlas outputs, not paper tables.
 
-The declarative manifest is `experiments/foa_experiments.yaml`. The current implementation is intentionally a prototype. It provides CE conversion, a multistart global-deviation search, an adaptive true full-GIC slack-IR monopsony scan, separate principal/fixed-action exercises, transition refinement, reversal detection, and grid-based distribution diagnostics (mass, score mean, and action derivatives). These diagnostics are numerical truncation checks, not analytic tail certificates.
+The declarative manifest is `experiments/foa_experiments.yaml`. The implementation provides CE conversion, a multistart global-deviation search, an adaptive true full-GIC slack-IR monopsony scan, separate principal/fixed-action exercises, transition refinement, reversal detection, and grid-based distribution diagnostics (mass, score mean, and action derivatives). Principal revenue uses each case's declared `revenue_slope`. Quadratic effort cost is calibrated against target expected revenue and shifted to zero at the configured lower action bound. The distribution diagnostics are numerical truncation checks, not analytic tail certificates.
 
 Selected points bracketing each transition are also checked against the discretized CVXPY/Clarabel formulation. A cross-check compares relaxed and full objectives, constraint residuals, independent deviation classifications, and contract differences. Disagreement is retained as `unresolved`; it does not trigger general solver debugging.
 
