@@ -101,12 +101,16 @@ def summarize(input_dir: str | Path) -> dict[str, int]:
         for exercise, exercise_result in sorted(result.get("exercises", {}).items()):
             summary = exercise_result["summary"]
             points = exercise_result["points"]
+            exercise_status = exercise_result.get("status", "completed")
             lower, upper, threshold_status = _threshold(summary, points)
+            if exercise_status != "completed":
+                lower, upper, threshold_status = None, None, exercise_status
             valid_wages = [point["reservation_wage"] for point in points if point["classification"] == "valid"]
             threshold_rows.append({
                 "task_hash": task_hash,
                 "case_id": case_id,
                 "exercise": exercise,
+                "exercise_status": exercise_status,
                 "strict_numerical_status": result.get("strict_numerical_status"),
                 "review_status": result.get("review_status"),
                 "support_status": result.get("support_validation", {}).get("status"),

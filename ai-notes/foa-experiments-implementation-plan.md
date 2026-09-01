@@ -542,18 +542,19 @@ Completed:
 20. CRRA and CARA grids with local consumption-equivalent cost normalization, plus explicit cost-coefficient metadata.
 21. Multiple fixed intended actions and a Gaussian risk-neutral adverse control.
 22. First expanded internal run with 29 predeclared tasks and an internal-only saved-results summarizer.
+23. Fast bounded-utility incentive-capacity checks: economically infeasible fixed actions are classified before solving, and principal intended-action searches are capped just inside the highest locally feasible action while retaining the full deviation domain.
 
 Still to do before freezing the internal atlas:
 
 1. Review the expanded atlas's warnings, boundary-contaminated cases, and strict unresolved cells without erasing provenance.
-2. Resolve or retain as failed the two high-risk-aversion tasks (CARA `alpha=0.04` and CRRA `gamma=3`) whose agent-utility scans became nonfinite. Do not let these failures block inspection of the other tasks.
+2. Review the CRRA `gamma=3` principal case: the capacity precheck removes the spurious nonfinite solves, but relaxed principal contracts remain globally invalid and the full-GIC monopsony plateau remains unverified.
 3. Decide whether the four boundary monopsony actions in low-risk-aversion/low-cost cases require wider action ranges; explicit boundary-contamination diagnostics are now implemented for future solves and derived in the saved-results summary.
 4. Add any final predeclared gamma/binomial parameter variation only if it is needed for internal mechanism coverage.
 5. Freeze the manifest and complete internal atlas before doing any paper selection or paper reporting.
 
 ## 9. Current numerical results and human review
 
-A tracked implementation lives in `experiments/`, driven by `experiments/foa_experiments.yaml`. Twenty-three unit tests pass. Generated output is ignored by Git.
+A tracked implementation lives in `experiments/`, driven by `experiments/foa_experiments.yaml`. Twenty-five unit tests pass. Generated output is ignored by Git.
 
 ### 9.1 Smoke and first-atlas results
 
@@ -582,7 +583,7 @@ Operational rule for the next agent: retain strict fields such as `unresolved` a
 
 ### 9.3 Expanded internal atlas run
 
-The first expanded manifest run is saved under ignored `output/foa-internal-atlas/`. It contains 29 deterministic atomic tasks: 27 completed and two retained failures. The saved-results-only internal summarizer produced 50 case-exercise threshold rows, two failure rows, and 255 warning occurrences. No reversals were detected.
+The expanded manifest run is saved under ignored `output/foa-internal-atlas/`. After adding the incentive-capacity precheck, all 29 deterministic atomic tasks complete and the two formerly crashing fixed-action cells are recorded as economically infeasible rather than numerical failures. The saved-results-only internal summarizer produces 54 case-exercise rows and no task-failure rows. No reversals were detected.
 
 Preliminary internal findings include:
 
@@ -591,7 +592,7 @@ Preliminary internal findings include:
 - The completed moderate-risk-aversion principal cases generally have thresholds near their computed monopsony CE. Examples are CARA alpha `0.01`: monopsony `0.339`, threshold `[0.359, 0.375]`; CARA alpha `0.02`: monopsony `0.908`, threshold `[0.906, 0.922]`; and CRRA gamma `1.5`: monopsony `0.948`, threshold `[0.984, 1.000]`.
 - The added fixed Gaussian actions have brackets `[1.5625, 1.5781]` at intended action 70 and `[0.6719, 0.6875]` at intended action 130.
 - The risk-neutral Gaussian and Student-`t` adverse controls never reach persistent validity on their tested ranges.
-- CARA alpha `0.04` and CRRA gamma `3` fail with nonfinite agent-utility scans and remain explicit failures. Low-risk-aversion CARA/CRRA cases and the low-cost Gaussian case place the monopsony action at or effectively at the upper action boundary and require boundary-contamination review.
+- CARA alpha `0.04` and CRRA gamma `3` have bounded-utility incentive capacity sufficient only up to action about `59.86`, so fixed action 100 is economically infeasible. After clipping only the principal's intended-action search, CARA alpha `0.04` has a valid full-GIC monopsony candidate at action `48.18`, CE `4.23`, and valid relaxed principal contracts throughout the tested reservation range. CRRA gamma `3` no longer crashes, but its relaxed principal contracts remain globally invalid and its full-GIC monopsony candidate is unverified. Low-risk-aversion CARA/CRRA cases and the low-cost Gaussian case place the monopsony action at or effectively at the upper configured boundary and require boundary-contamination review.
 
 These are internal diagnostic results, not a selected paper sample. Strict statuses remain unresolved in many completed cells because transition cross-checks, monopsony checks, or warnings are conservative; the internal tables preserve these separately from human review.
 
@@ -622,7 +623,7 @@ uv run python -m experiments.summarize_internal --input output/foa-internal-atla
 uv run python -m experiments.diagnose_problematic
 ```
 
-Expected test baseline: **23 tests pass**.
+Expected test baseline: **25 tests pass**.
 
 Generated, ignored output locations:
 
@@ -654,14 +655,14 @@ The diagnostic root contains an index and one folder per reviewed cell, with fig
 - Analytic omitted first/second moment errors are saved when moments exist, but they are diagnostics rather than family-specific rigorous tail certificates.
 - The Student-`t` support is intentionally unresolved.
 - Safe-region diagnostics are numerical grid certifications, not proofs.
-- The current run has two explicit high-risk-aversion failures and several boundary-contaminated monopsony candidates requiring internal review.
+- The current run has no hard task failures. Two high-risk-aversion fixed actions are economically infeasible by the capacity bound, and the CRRA gamma-3 principal/full-GIC result remains unresolved.
 - Runs made from a dirty working tree record the commit and dirty flag but do not yet snapshot the source diff inside each atomic result.
 
 ### 10.4 Recommended sequence for the next agent
 
-1. Inspect `summary_tables/failures.csv`, `warnings.csv`, and all boundary monopsony cells; add review/materiality records rather than weakening strict status.
+1. Inspect `summary_tables/warnings.csv`, the CRRA gamma-3 principal case, and all boundary monopsony cells; add review/materiality records rather than weakening strict status.
 2. Add explicit automatic boundary-contamination fields and, where economically permissible, rerun only boundary cases with wider action bounds.
-3. Diagnose the two nonfinite high-risk-aversion scans narrowly. Retain failures if robust evaluation is not feasible; do not launch broad solver debugging.
+3. Keep fixed-action local infeasibility separate from numerical failure; do not send actions above the computed capacity boundary to the inner solver.
 4. Decide whether the internal design needs a small additional gamma/binomial parameter grid. If not, freeze the current manifest.
 5. Snapshot source-diff provenance for dirty runs, then freeze and inspect the complete internal atlas.
 6. Stop before paper tables, paper figures, or selecting attractive cases.

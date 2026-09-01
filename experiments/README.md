@@ -34,6 +34,8 @@ Outcome supports are expanded adaptively until grid mass and score-mean toleranc
 
 The prototype computes numerical safe-region diagnostics over the full configured action grid: cutoff supremum, safe mass, incentive capacity, curvature, score width, normalized width, cost-curvature floor, and the log curvature-width condition. Metrics are saved at the reference fixed action, the full-GIC monopsony action, and transition-endpoint actions, and are checked over action-grid and derivative-step refinements. Each result is explicitly labeled as a grid diagnostic rather than a proof.
 
+For utility bounded above, a fast limited-liability incentive-capacity precheck runs before optimization. Infeasible fixed actions are recorded as `infeasible_local_incentives`. The principal's intended-action search is capped just inside the highest locally feasible action, but its global-IC deviation domain remains the original configured action interval.
+
 The relaxed `lambda=0` monopsony scan remains available as an optional debugging routine but is disabled in the manifest because the pilot showed it is not an economically useful benchmark.
 
 ## Problem diagnostics

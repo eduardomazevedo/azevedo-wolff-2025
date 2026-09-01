@@ -18,6 +18,8 @@ from experiments.prototype import (
     classify,
     distribution_diagnostics,
     find_best_deviation,
+    incentive_capacity_precheck,
+    local_incentive_capacity,
     make_problem,
     reservation_utility,
     refine_transitions,
@@ -234,6 +236,30 @@ class DistributionTests(unittest.TestCase):
         self.assertEqual(result["safe_mass"], 0)
         self.assertEqual(result["safe_incentive_capacity"], 0)
         self.assertFalse(result["log_curvature_width_condition_on_grid"])
+
+    def test_bounded_utility_capacity_detects_infeasible_high_action(self) -> None:
+        case = self.case(
+            "gaussian", {"sigma": 50},
+            {"distribution_type": "continuous", "y_min": -300, "y_max": 480, "n": 201}, 100,
+        )
+        case["utility"] = {"kind": "cara", "alpha": 0.04}
+        case["cost_normalization"] = "local_consumption_equivalent"
+        mhp, utility_cfg = make_problem(case)
+        fixed = local_incentive_capacity(mhp, utility_cfg, 100)
+        precheck = incentive_capacity_precheck(mhp, utility_cfg, (0, 180))
+        self.assertFalse(fixed["feasible"])
+        self.assertAlmostEqual(precheck["highest_feasible_action"], 59.85, places=1)
+        self.assertLess(precheck["computational_action_upper_bound"], precheck["highest_feasible_action"])
+
+    def test_unbounded_utility_does_not_clip_principal_actions(self) -> None:
+        case = self.case(
+            "gaussian", {"sigma": 50},
+            {"distribution_type": "continuous", "y_min": -300, "y_max": 480, "n": 201}, 100,
+        )
+        mhp, utility_cfg = make_problem(case)
+        precheck = incentive_capacity_precheck(mhp, utility_cfg, (0, 180))
+        self.assertEqual(precheck["status"], "all_actions_locally_feasible")
+        self.assertEqual(precheck["computational_action_upper_bound"], 180)
 
     def test_positive_domain_cost_is_zero_at_lower_action_without_changing_marginal_cost(self) -> None:
         case = self.case(

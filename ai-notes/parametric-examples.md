@@ -91,9 +91,13 @@ For CARA, reference total wealth is 50, so these alpha values imply relative
 risk aversion 0.25, 0.5, 1, and 2 at the reference wealth. All non-log utility
 cases use local consumption-equivalent effort-cost normalization.
 
-The high-risk-aversion CARA `alpha=0.04` and CRRA `gamma=3` tasks are retained
-as explicit numerical failures in the current internal atlas rather than being
-silently dropped.
+For CARA `alpha=0.04` and CRRA `gamma=3`, bounded utility and limited liability
+imply a highest locally implementable Gaussian action of about 59.86. Fixed
+action 100 is therefore recorded as economically infeasible without calling
+the solver. The principal's intended-action search is capped just inside this
+boundary, while global deviations are still checked over the original full
+action interval. The CARA principal case then solves cleanly; the CRRA gamma-3
+principal/full-GIC result remains numerically unresolved rather than crashing.
 
 ## Adverse controls
 

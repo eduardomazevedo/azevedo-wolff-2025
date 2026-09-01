@@ -51,12 +51,13 @@ def main() -> None:
             )
         for exercise, result in case["exercises"].items():
             summary = result["summary"]
+            exercise_status = result.get("status", "completed")
             validation_counts = {}
             for validation in result.get("validation", []):
                 status = validation["status"]
                 validation_counts[status] = validation_counts.get(status, 0) + 1
             print(
-                f"  {exercise}: persistent grid threshold="
+                f"  {exercise} ({exercise_status}): persistent grid threshold="
                 f"{summary['persistent_threshold_on_grid']}; "
                 f"transitions={len(summary['transitions'])}; "
                 f"reversals={len(summary['reversals'])}; "

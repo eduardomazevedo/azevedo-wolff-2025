@@ -18,7 +18,7 @@ from typing import Any, Callable
 
 import numpy as np
 import yaml
-from scipy.optimize import minimize_scalar
+from scipy.optimize import brentq, minimize_scalar
 
 from moralhazard import MoralHazardProblem
 from moralhazard.config_maker import make_distribution_cfg, make_utility_cfg
@@ -137,7 +137,20 @@ def make_problem(case: dict[str, Any]) -> tuple[MoralHazardProblem, dict[str, An
         },
         "computational_params": case["outcome_grid"],
     }
-    utility_result = {**utility_cfg, "cost_metadata": cost_metadata}
+    if utility["kind"] == "cara" or (
+        utility["kind"] == "crra" and float(utility.get("gamma", 1.0)) > 1.0
+    ):
+        utility_upper_bound = 0.0
+    else:
+        utility_upper_bound = math.inf
+    utility_result = {
+        **utility_cfg,
+        "cost_metadata": cost_metadata,
+        "utility_metadata": {
+            "kind": utility["kind"],
+            "upper_bound": utility_upper_bound,
+        },
+    }
     return MoralHazardProblem(cfg), utility_result
 
 
@@ -240,6 +253,96 @@ def distribution_diagnostics(
         "derivative_step": float(h),
         "left_boundary_mass_or_density": float(f0[0]),
         "right_boundary_mass_or_density": float(f0[-1]),
+    }
+
+
+def local_incentive_capacity(
+    mhp: MoralHazardProblem,
+    utility_cfg: dict[str, Any],
+    action: float,
+) -> dict[str, float | bool]:
+    """Fast necessary local-implementability check under limited liability."""
+    upper = float(utility_cfg["utility_metadata"]["upper_bound"])
+    required = _float(mhp.Cprime(action))
+    if math.isinf(upper):
+        return {
+            "action": float(action), "bounded_utility": False,
+            "capacity": math.inf, "required_incentive": required,
+            "slack": math.inf, "feasible": True,
+        }
+    utility_at_zero_wage = reservation_utility(utility_cfg, 0.0)
+    density = np.asarray(mhp.f(mhp.y_grid, action), dtype=float)
+    score = np.asarray(mhp.score(mhp.y_grid, action), dtype=float)
+    positive_score_moment = _float(np.sum(mhp.w * density * np.maximum(score, 0.0)))
+    capacity = (upper - utility_at_zero_wage) * positive_score_moment
+    slack = capacity - required
+    return {
+        "action": float(action), "bounded_utility": True,
+        "utility_upper_bound": upper,
+        "utility_at_zero_wage": utility_at_zero_wage,
+        "positive_score_moment": positive_score_moment,
+        "capacity": capacity,
+        "required_incentive": required,
+        "slack": slack,
+        "feasible": bool(slack > 0.0),
+    }
+
+
+def incentive_capacity_precheck(
+    mhp: MoralHazardProblem,
+    utility_cfg: dict[str, Any],
+    action_bounds: tuple[float, float],
+    *,
+    grid_points: int = 257,
+    safety_fraction: float = 1e-3,
+) -> dict[str, Any]:
+    """Find the highest locally feasible intended action for bounded utility."""
+    lb, ub = map(float, action_bounds)
+    upper_check = local_incentive_capacity(mhp, utility_cfg, ub)
+    if not upper_check["bounded_utility"] or upper_check["feasible"]:
+        return {
+            "status": "all_actions_locally_feasible",
+            "configured_action_bounds": [lb, ub],
+            "highest_feasible_action": ub,
+            "computational_action_upper_bound": ub,
+            "upper_action_check": upper_check,
+        }
+
+    grid = np.linspace(lb, ub, max(3, int(grid_points)))
+    slacks = np.array([
+        float(local_incentive_capacity(mhp, utility_cfg, action)["slack"])
+        for action in grid
+    ])
+    feasible = slacks > 0.0
+    feasible_indices = np.flatnonzero(feasible)
+    if not len(feasible_indices):
+        return {
+            "status": "no_locally_feasible_action",
+            "configured_action_bounds": [lb, ub],
+            "highest_feasible_action": None,
+            "computational_action_upper_bound": None,
+            "upper_action_check": upper_check,
+        }
+    last = int(feasible_indices[-1])
+    if last == len(grid) - 1:
+        root = ub
+    else:
+        left, right = float(grid[last]), float(grid[last + 1])
+        root = float(brentq(
+            lambda action: float(local_incentive_capacity(mhp, utility_cfg, action)["slack"]),
+            left, right,
+        ))
+    computational_upper = max(lb, root - float(safety_fraction) * (ub - lb))
+    transitions = int(np.sum(feasible[1:] != feasible[:-1]))
+    return {
+        "status": "upper_action_infeasible",
+        "configured_action_bounds": [lb, ub],
+        "highest_feasible_action": root,
+        "computational_action_upper_bound": computational_upper,
+        "safety_fraction": float(safety_fraction),
+        "feasibility_transitions_on_grid": transitions,
+        "upper_action_check": upper_check,
+        "computational_upper_check": local_incentive_capacity(mhp, utility_cfg, computational_upper),
     }
 
 
@@ -864,11 +967,14 @@ def _solve_point(
     with warnings.catch_warnings(record=True) as caught:
         warnings.simplefilter("always")
         if exercise == "principal":
+            principal_lb, principal_ub = map(
+                float, case.get("principal_intended_action_bounds", case["action_bounds"])
+            )
             solution = mhp.solve_principal_problem(
                 revenue_function=lambda a: a,
                 reservation_utility=ru,
-                a_min=a_lb,
-                a_max=a_ub,
+                a_min=principal_lb,
+                a_max=principal_ub,
                 a_ic_lb=a_lb,
                 a_ic_ub=a_ub,
                 n_a_iterations=0,
@@ -935,6 +1041,9 @@ def _solve_monopsony(
 ) -> dict[str, Any]:
     """Find a slack-IR principal solution by scanning low reservation wages."""
     a_lb, a_ub = map(float, case["action_bounds"])
+    principal_lb, principal_ub = map(
+        float, case.get("principal_intended_action_bounds", case["action_bounds"])
+    )
     history: list[dict[str, Any]] = []
     selected = None
     wages_to_try = list(candidate_wages)
@@ -952,8 +1061,8 @@ def _solve_monopsony(
             solution = mhp.solve_principal_problem(
                 revenue_function=lambda a: a,
                 reservation_utility=ru,
-                a_min=a_lb,
-                a_max=a_ub,
+                a_min=principal_lb,
+                a_max=principal_ub,
                 a_ic_lb=a_lb,
                 a_ic_ub=a_ub,
                 n_a_iterations=0 if relaxed else int(numerics["full_ic_iterations"]),
@@ -1113,6 +1222,19 @@ def run_case(case: dict[str, Any], numerics: dict[str, Any]) -> dict[str, Any]:
     effective_case = copy.deepcopy(case)
     effective_case["outcome_grid"] = copy.deepcopy(support_validation["effective_outcome_grid"])
     mhp, utility_cfg = make_problem(effective_case)
+    capacity_cfg = numerics.get("incentive_capacity", {})
+    capacity_precheck = incentive_capacity_precheck(
+        mhp,
+        utility_cfg,
+        tuple(map(float, effective_case["action_bounds"])),
+        grid_points=int(capacity_cfg.get("grid_points", 257)),
+        safety_fraction=float(capacity_cfg.get("safety_fraction", 1e-3)),
+    )
+    if capacity_precheck["computational_action_upper_bound"] is not None:
+        effective_case["principal_intended_action_bounds"] = [
+            float(effective_case["action_bounds"][0]),
+            float(capacity_precheck["computational_action_upper_bound"]),
+        ]
     candidate_wages = [float(x) for x in numerics["monopsony"]["candidate_reservation_wages"]]
     diagnostic_actions = sorted({
         float(effective_case["target_action"]),
@@ -1130,6 +1252,7 @@ def run_case(case: dict[str, Any], numerics: dict[str, Any]) -> dict[str, Any]:
         },
         "support_validation": support_validation,
         "cost_metadata": copy.deepcopy(utility_cfg["cost_metadata"]),
+        "incentive_capacity_precheck": capacity_precheck,
         "safe_region_metrics": safe_region_metrics(
             mhp, effective_case, numerics, support_status=support_validation["status"]
         ),
@@ -1166,6 +1289,26 @@ def run_case(case: dict[str, Any], numerics: dict[str, Any]) -> dict[str, Any]:
         )
 
     for exercise in effective_case.get("exercises", ["principal", "fixed_action"]):
+        if exercise == "fixed_action":
+            fixed_check = local_incentive_capacity(
+                mhp, utility_cfg, float(effective_case["fixed_action"])
+            )
+            if not fixed_check["feasible"]:
+                result["exercises"][exercise] = {
+                    "status": "infeasible_local_incentives",
+                    "incentive_capacity_check": fixed_check,
+                    "points": [],
+                    "refinement_points": [],
+                    "summary": {
+                        "persistent_threshold_on_grid": None,
+                        "transitions": [],
+                        "reversals": [],
+                        "monotone_validity_on_grid": None,
+                        "refined_transitions": [],
+                    },
+                    "validation": [],
+                }
+                continue
         cache: dict[float, PointResult] = {}
 
         def solve(wage: float) -> PointResult:
@@ -1231,6 +1374,7 @@ def run_case(case: dict[str, Any], numerics: dict[str, Any]) -> dict[str, Any]:
                         "error": str(error),
                     })
         result["exercises"][exercise] = {
+            "status": "completed",
             "points": [asdict(point) for point in points],
             "refinement_points": [
                 asdict(point) for wage, point in sorted(cache.items())
