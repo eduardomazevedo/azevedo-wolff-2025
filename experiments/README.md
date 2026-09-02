@@ -8,6 +8,7 @@ uv run python -m experiments.run_prototype --suite smoke
 uv run python -m experiments.run_prototype --suite first_atlas --output output/foa-first-atlas
 uv run python -m experiments.run_prototype --suite common_distributions --output output/foa-common-distributions --resume
 uv run python -m experiments.run_prototype --suite boundary_preflight --output output/foa-boundary-preflight
+uv run python -m experiments.run_prototype --suite student_t_variation --output output/foa-student-t-preflight
 # Fresh full reproduction: use a new directory and do not pass --resume.
 uv run python -m experiments.run_prototype --suite internal_atlas --output output/foa-internal-atlas-final-v2
 uv run python -m experiments.summarize_internal --input output/foa-internal-atlas-final-v2
@@ -18,7 +19,7 @@ uv run python -m experiments.report_principal_figure --input output/foa-internal
 uv run python -m experiments.diagnose_problematic
 ```
 
-The smoke suite contains Gaussian/log and Poisson/log positive cases plus principal and fixed-action Student-`t`/log negative controls. The common-distribution suite additionally contains exponential, gamma, geometric, Bernoulli, and binomial cases. The five-case `boundary_preflight` suite checks the widened low-risk/low-cost Gaussian action sets and the steeper interior binomial calibration. Economic revenue and effort-cost calibrations are specified in `ai-notes/parametric-examples.md`. These are internal experiments, not a paper-selected subset.
+The smoke suite contains Gaussian/log and Poisson/log positive cases plus principal and fixed-action Student-`t`/log negative controls. The common-distribution suite additionally contains exponential, gamma, geometric, Bernoulli, and binomial cases. The five-case `boundary_preflight` suite checks the widened low-risk/low-cost Gaussian action sets and the steeper interior binomial calibration. The `student_t_variation` suite contains otherwise identical Student-t cases with sigma 10, 20, and 50. Economic revenue and effort-cost calibrations are specified in `ai-notes/parametric-examples.md`. These are internal experiments, not a paper-selected subset.
 
 Outputs are written to `output/foa-prototype/`:
 

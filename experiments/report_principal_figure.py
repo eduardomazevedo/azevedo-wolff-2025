@@ -43,7 +43,10 @@ ROWS = [
     ("data_bold", "Geometric", "geometric_log_baseline"),
     ("data_bold", "Bernoulli", "bernoulli_log_baseline"),
     ("data_bold", "Binomial (n = 10)", "binomial10_log_baseline"),
-    ("data_bold", "Student-t (adverse case)", "student_t_log_adverse"),
+    ("header", "Student-t (adverse cases)", None),
+    ("data", "Baseline (σ = 20)", "student_t_log_adverse"),
+    ("data", "σ = 10", "student_t_sigma_log__sigma-10"),
+    ("data", "σ = 50", "student_t_sigma_log__sigma-50"),
 ]
 
 

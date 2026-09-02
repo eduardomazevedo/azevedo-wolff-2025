@@ -551,13 +551,14 @@ Completed:
 29. Final internal atlas regenerated from clean commit `fa339bb` without resume: 29 of 29 tasks completed, no atomic failures occurred, and all bounded-utility cases contain the capacity precheck.
 30. Boundary recalibration implemented and preflighted. The four low-risk/low-cost Gaussian cases now use action bounds `[0,250]` and outcome grid `[-300,550]`; their slack-IR actions are 183.7--226.1 and all pass boundary diagnostics. Binomial(10) now uses probability bounds `[0.05,0.99]` and cost scale 1.5; its slack-IR action is 0.771 rather than the upper bound. CRRA gamma 3 remains economically infeasible at fixed action 100 and globally invalid throughout its principal grid, so it stays unresolved and outside headline claims.
 31. Targeted `boundary_preflight` suite completed from a fresh ignored directory: all five tasks completed, all support and boundary checks passed, and no reversals appeared.
-32. Final-v2 internal atlas regenerated from scratch without resume: all 29 tasks completed with no hard failures, all 55 exercise rows passed boundary diagnostics, and no reversals appeared. The saved-results summary retains 167 warnings and 51 strict unresolved rows.
+32. Final-v2 internal atlas regenerated from scratch without resume; after adding two Student-t noise variations it contains 31 tasks, all completed with no hard failures or resumed tasks. The saved-results summary has 59 exercise rows, 167 retained warnings, and no reversals.
 33. Principal-problem reporting pipeline implemented and committed in `086073a`. A solver command saves full-GIC zero-profit competitive-wage benchmarks, and a separate saved-results-only command creates the full-page figure and plotting CSV. The paper display uses a $1 CE-deviation materiality rule while preserving strict atlas statuses.
-34. Principal figure design approved as the working version. It displays 23 specifications: 16 Gaussian rows and one combined result row for each of seven non-Gaussian families. CRRA gamma 3 and the two Gaussian action-set variations are omitted. Lines are red to the left of the saved first-valid point and green from that point to the right edge; Student-t is red throughout. The green diamond marks the first-valid wage, the blue dot marks monopsony, and the open circle marks the zero-profit competitive wage. The sparse `Safe region empty?` column marks only Student-t. Figure notes are intentionally omitted and will be supplied in LaTeX.
+34. Principal figure design approved as the working version. It displays 25 specifications: 16 Gaussian rows, one combined result row for each of six other common families, and three Student-t rows. CRRA gamma 3 and the two Gaussian action-set variations are omitted. Lines are red to the left of the saved first-valid point and green from that point to the right edge. The green diamond marks the first-valid wage, the blue dot marks monopsony, and the open circle marks the zero-profit competitive wage. The sparse `Safe region empty?` column marks all three Student-t rows. Figure notes are intentionally omitted and will be supplied in LaTeX.
+35. Student-t noise variation added at sigma 10 and 50 around the sigma-20 baseline, holding degrees of freedom and all other economics fixed. Fresh 31-task atlas results show sigma 10 and 20 invalid throughout their tested ranges, while sigma 50 has an invalid-to-valid transition between the initial grid points at -$1k and $20k; the existing refined points put the paper's first-valid marker at about $9.13k. All three retain unresolved support certification and no reversals.
 
 Still to do before generating final paper assets from the harmonized reporting pipeline:
 
-1. Certify a true slack-IR Student-t monopsony plateau before finalizing its monopsony marker; the mock currently uses its lowest-requirement full-GIC solve as a provisional display value.
+1. Certify true slack-IR Student-t monopsony plateaus before finalizing the three Student-t monopsony markers; the mock currently uses each case's lowest-requirement full-GIC solve as a provisional display value.
 2. Freeze the concise label-to-manifest appendix mapping when integrating the figure into the manuscript.
 3. Implement the fixed-action companion figure after the principal figure is finalized.
 4. Update the paper's Poisson caption and numerical discussion to the $15k-per-success calibration, and replace the legacy examples with harmonized reporting assets.
@@ -566,7 +567,7 @@ Still to do before generating final paper assets from the harmonized reporting p
 
 ## 9. Current numerical results and human review
 
-A tracked implementation lives in `experiments/`, driven by `experiments/foa_experiments.yaml`. Twenty-nine unit tests pass after the harmonized-calibration changes. Generated output is ignored by Git.
+A tracked implementation lives in `experiments/`, driven by `experiments/foa_experiments.yaml`. Thirty unit tests pass after the Student-t variation. Generated output is ignored by Git.
 
 ### 9.1 Historical smoke and first-atlas results (superseded where calibrations changed)
 
@@ -708,17 +709,16 @@ This preflight was followed by the completed final-v2 clean atlas in Section 9.7
 
 ### 9.7 Final-v2 clean atlas
 
-The ignored run `output/foa-internal-atlas-final-v2/` was generated from
-scratch without `--resume` after deleting all prior FOA outputs. All 29 atomic
-tasks completed, with zero hard failures and zero resumed tasks. The
-saved-results summarizer produced 55 exercise rows: 53 completed exercises and
+The ignored run `output/foa-internal-atlas-final-v2/` was regenerated from
+scratch without `--resume` after adding the Student-t noise variations. All 31
+atomic tasks completed, with zero hard failures and zero resumed tasks. The
+saved-results summarizer produced 59 exercise rows: 57 completed exercises and
 two high-risk-aversion fixed actions classified as economically infeasible.
-All 55 rows pass the monopsony boundary diagnostic, and no reversals were
-detected.
+All rows pass the monopsony boundary diagnostic, and no reversals were detected.
 
-The conservative strict layer marks 51 rows unresolved and four passed. The
-summary retains 167 warning records. Student-t remains the only
-support-unconverged case, contributing its principal and fixed-action rows.
+The summary retains 167 warning records. The three Student-t specifications are
+the only support-unconverged cases, contributing six principal/fixed-action
+rows.
 The output is now the authoritative internal atlas for aggregate reporting;
 earlier atlas and preflight directories were deleted.
 
@@ -731,11 +731,12 @@ a substitute for the harmonized reporting assets.
 
 `experiments/compute_competitive.py` computes the reservation CE wage at which
 optimized full-GIC principal profit is zero. Its ignored saved output is
-`output/foa-internal-atlas-final-v2/competitive_benchmarks.json`. All 26 cases
+`output/foa-internal-atlas-final-v2/competitive_benchmarks.json`. All 28 cases
 with principal exercises have bracketed zero-profit roots. The strict global-IC
-check passes in 24 cases, is unresolved but below the paper's $1 materiality
-cutoff for Student-t, and fails materially for CRRA gamma 3. The latter is
-excluded from the paper figure and remains visible internally.
+check passes in 25 cases, is unresolved but below the paper's $1 materiality
+cutoff for the sigma-10 and sigma-20 Student-t cases, and fails materially for
+CRRA gamma 3. The latter is excluded from the paper figure and remains visible
+internally.
 
 `experiments/report_principal_figure.py` is saved-results-only. It reads the
 atomic final-v2 atlas and competitive benchmark file and writes:
@@ -744,33 +745,34 @@ atomic final-v2 atlas and competitive benchmark file and writes:
 - `figures/foa-principal-summary/mock.png`;
 - `figures/foa-principal-summary/mock_data.csv`.
 
-The current figure contains 23 economic specifications, not 50. The atlas has
-29 atomic specifications and 55 specification--exercise rows because most
+The current figure contains 25 economic specifications, not 50. The atlas has
+31 atomic specifications and 59 specification--exercise rows because most
 specifications contain both principal and fixed-action exercises. The principal
-figure uses 23 of the 26 principal specifications after excluding CRRA gamma 3
-and the two Gaussian action-bound variations. Non-Gaussian families each have
-one specification, so each distribution name and result share a single bold
-row.
+figure uses 25 of the 28 principal specifications after excluding CRRA gamma 3
+and the two Gaussian action-bound variations. Poisson, exponential, gamma,
+geometric, Bernoulli, and binomial each use one bold row. Student-t now has a
+bold family header followed by sigma 20 baseline, sigma 10, and sigma 50 rows.
 
 For the paper display, FOA is called valid when the saved best CE deviation
 gain is at most `$0.001` in atlas units, i.e. $1. No new threshold solve is
 performed: the report consistently selects from existing initial and refined
 atlas points. The plot intentionally assumes no reversals beyond the observed
 threshold; no reversals occurred in the atlas. Green therefore extends to the
-right edge once validity begins, while Student-t is red over the full line.
+right edge once validity begins. Student-t sigma 10 and 20 are red throughout,
+while sigma 50 turns green at its saved first-valid point of about $9.13k.
 Strict statuses and warnings remain unchanged in the atomic atlas.
 
-The `Safe region empty?` column is blank except for Student-t. This uses the
+The `Safe region empty?` column is blank except for the three Student-t rows. This uses the
 analytic nonemptiness result for Gaussian, Poisson, exponential, gamma,
 geometric, Bernoulli, and binomial rather than the cancellation-prone numerical
 finite-difference diagnostic. In particular, the saved Bernoulli numerical
 safe width of zero is an artifact: Bernoulli masses are affine in action, so
 analytically `f_aa = 0` and the weak safe-region condition holds.
 
-Student-t is the one remaining provisional display point: because its atlas
-case deliberately skipped the monopsony scan, the mock uses the delivered CE
-from the lowest-requirement full-GIC solve. A true slack-IR plateau check remains
-a TODO before manuscript integration.
+The three Student-t monopsony markers remain provisional: because these atlas
+cases deliberately skip the monopsony scan, the mock uses each case's delivered
+CE from its lowest-requirement full-GIC solve. True slack-IR plateau checks
+remain a TODO before manuscript integration.
 
 ## 10. Handoff brief
 
@@ -800,11 +802,12 @@ uv run python -m experiments.run_prototype --suite internal_atlas --output outpu
 uv run python -m experiments.summarize_internal --input output/foa-internal-atlas
 uv run python -m experiments.diagnose_problematic
 
-# Targeted boundary preflight (completed; ignored output):
+# Targeted preflights (completed; ignored output):
 uv run python -m experiments.run_prototype --suite boundary_preflight --output output/foa-boundary-preflight
 uv run python -m experiments.summarize_internal --input output/foa-boundary-preflight
+uv run python -m experiments.run_prototype --suite student_t_variation --output output/foa-student-t-preflight
 
-# Completed final validation reproduction (do not use --resume):
+# Completed 31-task final validation reproduction (do not use --resume):
 uv run python -m experiments.run_prototype --suite internal_atlas --output output/foa-internal-atlas-final-v2
 uv run python -m experiments.summarize_internal --input output/foa-internal-atlas-final-v2
 
@@ -815,7 +818,7 @@ uv run python -m experiments.report_principal_figure --input output/foa-internal
 
 Do not commit generated atlas, benchmark, or figure output.
 
-Expected test baseline: **29 tests pass**.
+Expected test baseline: **30 tests pass**.
 
 Current generated, ignored output locations:
 
@@ -837,7 +840,7 @@ The diagnostic root contains an index and one folder per reviewed cell, with fig
 6. The reviewed Gaussian and old-calibration Poisson cells do not justify general solver debugging. Harmonized Poisson human review remains pending. The earlier exponential reviews used the old cost level and are inactive; revised exponential results require fresh review only if selected for reporting.
 7. Student-`t` remains a robust adverse control; human review accepts its small support truncation as economically immaterial while strict support status remains unresolved.
 8. The principal paper figure uses the saved $1 CE-gain reporting rule and existing atlas points; do not add a new precision ladder or extrapolation checks. The green-to-the-right display assumes no reversals, consistent with the observed atlas.
-9. The principal paper subset excludes CRRA gamma 3 and Gaussian action-bound variations. Non-Gaussian families use one bold row each. Student-t remains the adverse case and the only `Yes` in the `Safe region empty?` column.
+9. The principal paper subset excludes CRRA gamma 3 and Gaussian action-bound variations. Common non-Gaussian families with one specification use one bold row each. Student-t has sigma 10, 20, and 50 rows, all marked `Yes` in the `Safe region empty?` column.
 10. Strict internal classifications and warnings are not simplified or overwritten by the paper display rule.
 11. Generated experiment output remains ignored and is never committed. The reproducible code/manifest pipeline is the deliverable. The controlled benchmark files `output/machine_specs.txt` and `output/timing_results.csv` remain tracked.
 
@@ -847,9 +850,9 @@ The diagnostic root contains an index and one folder per reviewed cell, with fig
 - Detailed solver arrays are not yet copied into task-keyed NPZ files; `arrays/` is reserved, while the complete scalar/nested result is atomic JSON.
 - Transition refinement stops at a gray-zone midpoint rather than launching an automatic precision ladder. Intervals and gray-zone points remain explicit.
 - Analytic omitted first/second moment errors are saved when moments exist, but they are diagnostics rather than family-specific rigorous tail certificates.
-- The Student-`t` support is intentionally unresolved.
+- Support is intentionally unresolved for all three Student-`t` specifications.
 - Safe-region diagnostics are numerical grid certifications, not proofs. The Bernoulli finite-difference diagnostic incorrectly reports zero safe width because of cancellation even though affine Bernoulli masses analytically satisfy `f_aa = 0`; the paper figure uses the analytic family classification.
-- The Student-t paper monopsony marker is provisional and still requires a true slack-IR plateau check.
+- The three Student-t paper monopsony markers are provisional and still require true slack-IR plateau checks.
 - Final-v2 has no hard task failures. Two high-risk-aversion fixed actions remain economically infeasible by the capacity bound, and the CRRA gamma-3 principal/full-GIC result remains unresolved and excluded from the paper figure.
 - Runs made from a dirty working tree record root-level source snapshots, but the final validation should be run from a clean committed tree.
 - Task hashes currently cover economic and numerical configuration but not implementation code. Therefore `--resume` can reuse stale completed records after code changes; use a fresh output directory for the final validation run.
@@ -857,7 +860,7 @@ The diagnostic root contains an index and one folder per reviewed cell, with fig
 
 ### 10.4 Recommended sequence for the next agent
 
-1. Run and save a true slack-IR Student-t monopsony plateau check, then replace the provisional marker used by the principal figure.
+1. Run and save true slack-IR monopsony plateau checks for Student-t sigma 10, 20, and 50, then replace their provisional principal-figure markers.
 2. Build the fixed-action companion figure with principal and fixed-action exercises kept separate.
 3. During manuscript integration, create the concise appendix mapping from display labels to full manifest specifications and write all explanatory figure notes in LaTeX.
 4. Before paper use, complete the pending human review of the harmonized Poisson diagnostic.

@@ -307,6 +307,22 @@ class DistributionTests(unittest.TestCase):
             self.assertAlmostEqual(float(mhp.C(lower)), 0.0)
             self.assertAlmostEqual(cfg["cost_metadata"]["target_effort_cost"], target_cost, places=8)
 
+    def test_student_t_variation_has_three_scaled_cases(self) -> None:
+        manifest = yaml.safe_load(Path("experiments/foa_experiments.yaml").read_text())
+        tasks = {task.case_id: task for task in expand_manifest(manifest, "student_t_variation")}
+        expected = {
+            "student_t_sigma_log__sigma-10": (10, -100, 280),
+            "student_t_log_adverse": (20, -200, 380),
+            "student_t_sigma_log__sigma-50": (50, -500, 680),
+        }
+        self.assertEqual(set(tasks), set(expected))
+        for case_id, (sigma, y_min, y_max) in expected.items():
+            case = tasks[case_id].economic_configuration
+            self.assertEqual(case["distribution"]["params"], {"sigma": sigma, "nu": 1.15})
+            self.assertEqual(case["outcome_grid"]["y_min"], y_min)
+            self.assertEqual(case["outcome_grid"]["y_max"], y_max)
+            self.assertEqual(case["exercises"], ["principal", "fixed_action"])
+
     def test_boundary_preflight_cases_are_interior_calibrations(self) -> None:
         manifest = yaml.safe_load(Path("experiments/foa_experiments.yaml").read_text())
         tasks = {task.case_id: task for task in expand_manifest(manifest, "boundary_preflight")}

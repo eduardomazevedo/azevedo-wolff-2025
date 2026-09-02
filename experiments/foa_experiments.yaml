@@ -297,7 +297,7 @@ cases:
   # Negative smoke control: the fixed-action relaxed contract should fail
   # global IC throughout this range. Skip the expensive monopsony calculation.
   - id: student_t_log_adverse
-    suites: [smoke, adverse_controls, first_atlas, internal_atlas]
+    suites: [smoke, adverse_controls, student_t_variation, first_atlas, internal_atlas]
     compute_monopsony: false
     initial_wealth: 50
     target_action: 100
@@ -316,6 +316,54 @@ cases:
       distribution_type: continuous
       y_min: -200
       y_max: 380
+      n: 301
+    reservation_wages: [-1, 20, 50, 100]
+    exercises: [principal, fixed_action]
+
+  - id: student_t_sigma_log__sigma-10
+    suites: [adverse_controls, student_t_variation, internal_atlas]
+    compute_monopsony: false
+    initial_wealth: 50
+    target_action: 100
+    fixed_action: 100
+    action_bounds: [0, 180]
+    revenue_slope: 1
+    cost_normalization: paper_log
+    utility:
+      kind: log
+    distribution:
+      kind: student_t
+      params:
+        sigma: 10
+        nu: 1.15
+    outcome_grid:
+      distribution_type: continuous
+      y_min: -100
+      y_max: 280
+      n: 301
+    reservation_wages: [-1, 20, 50, 100]
+    exercises: [principal, fixed_action]
+
+  - id: student_t_sigma_log__sigma-50
+    suites: [adverse_controls, student_t_variation, internal_atlas]
+    compute_monopsony: false
+    initial_wealth: 50
+    target_action: 100
+    fixed_action: 100
+    action_bounds: [0, 180]
+    revenue_slope: 1
+    cost_normalization: paper_log
+    utility:
+      kind: log
+    distribution:
+      kind: student_t
+      params:
+        sigma: 50
+        nu: 1.15
+    outcome_grid:
+      distribution_type: continuous
+      y_min: -500
+      y_max: 680
       n: 301
     reservation_wages: [-1, 20, 50, 100]
     exercises: [principal, fixed_action]
