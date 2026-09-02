@@ -557,12 +557,13 @@ Completed:
 35. Student-t noise variation added at sigma 10 and 50 around the sigma-20 baseline, holding degrees of freedom and all other economics fixed. Fresh 31-task atlas results show sigma 10 and 20 invalid throughout their tested ranges, while sigma 50 has an invalid-to-valid transition between the initial grid points at $0 and $20k; the existing refined points put the paper's first-valid marker at about $9.14k. All three retain unresolved support certification and no reversals.
 36. Full-GIC action-domain bug fixed and the complete pipeline rerun from scratch. The moralhazard solver's default always checked action zero even when zero lay outside the configured action set. All full active-set solves now explicitly check both economic action-set endpoints. This corrects the geometric monopsony CE from about $0.383k to numerically zero and makes its monopsony marker coincide with its FOA threshold.
 37. The reported FOA exercise now starts at a zero reservation CE wage in every specification. Negative reservation wages remain available only for the separate slack-IR monopsony plateau search. The principal figure has no negative x-range: a specification valid at zero is marked as first valid at zero, and no below-zero status is inferred or displayed. The separate FOA diamond was subsequently removed because the red-to-green transition already identifies the threshold. The monopsony and competitive-wage markers are downward triangles placed slightly above and pointing toward the validity line, leaving short red segments unobstructed.
+38. Separate saved-results-only fixed-action cost-minimization summary implemented at `experiments/report_fixed_action_figure.py`. It retains the principal figure's specification order, adds the dedicated Gaussian intended actions 70 and 130, displays intended action explicitly, and marks the CARA-RRA-2 action 100 as locally infeasible rather than treating it as a solver failure. It uses only fixed-action exercise records and writes its PDF, PNG, and CSV under `figures/foa-fixed-action-summary/`.
 
 Still to do before generating final paper assets from the harmonized reporting pipeline:
 
 1. Certify true slack-IR Student-t monopsony plateaus before finalizing the three Student-t monopsony markers; the mock currently uses each case's lowest-requirement full-GIC solve as a provisional display value.
 2. Freeze the concise label-to-manifest appendix mapping when integrating the figure into the manuscript.
-3. Implement the fixed-action companion figure after the principal figure is finalized.
+3. Review the fixed-action companion at full-page manuscript scale and finalize its caption.
 4. Update the paper's Poisson caption and numerical discussion to the $15k-per-success calibration, and replace the legacy examples with harmonized reporting assets.
 5. Complete final captioning, manuscript integration, and full-page compilation review. Explanatory notes belong in LaTeX, not inside the figure.
 6. Do not add broad parameter sweeps unless paper reporting exposes a specific missing comparison.
@@ -797,6 +798,7 @@ remain a TODO before manuscript integration.
 - Problem diagnostics CLI: `experiments/diagnose_problematic.py`
 - Competitive-wage solver CLI: `experiments/compute_competitive.py`
 - Principal saved-results report: `experiments/report_principal_figure.py`
+- Fixed-action saved-results report: `experiments/report_fixed_action_figure.py`
 - Tests: `experiments/tests/test_prototype.py`
 - Usage: `experiments/README.md`
 
@@ -823,6 +825,7 @@ uv run python -m experiments.summarize_internal --input output/foa-internal-atla
 # Compute saved zero-profit benchmarks, then render without solving:
 uv run python -m experiments.compute_competitive --input output/foa-internal-atlas-final-v2
 uv run python -m experiments.report_principal_figure --input output/foa-internal-atlas-final-v2
+uv run python -m experiments.report_fixed_action_figure --input output/foa-internal-atlas-final-v2
 ```
 
 Do not commit generated atlas, benchmark, or figure output.
@@ -833,7 +836,8 @@ Current generated, ignored output locations:
 
 - `output/foa-internal-atlas-final-v2/` (current authoritative atlas and saved competitive benchmarks)
 - `output/foa-problem-diagnostics/`
-- `figures/foa-principal-summary/` (current mock PDF, PNG, and data CSV)
+- `figures/foa-principal-summary/` (current principal PDF, PNG, and data CSV)
+- `figures/foa-fixed-action-summary/` (current fixed-action PDF, PNG, and data CSV)
 
 Older atlas, preflight, and paper-figure outputs were deleted before the clean rerun.
 
@@ -870,7 +874,7 @@ The diagnostic root contains an index and one folder per reviewed cell, with fig
 ### 10.4 Recommended sequence for the next agent
 
 1. Run and save true slack-IR monopsony plateau checks for Student-t sigma 10, 20, and 50, then replace their provisional principal-figure markers.
-2. Build the fixed-action companion figure with principal and fixed-action exercises kept separate.
+2. Review and integrate the fixed-action companion figure, keeping its exercise and interpretation separate from the principal figure.
 3. During manuscript integration, create the concise appendix mapping from display labels to full manifest specifications and write all explanatory figure notes in LaTeX.
 4. Before paper use, complete the pending human review of the harmonized Poisson diagnostic.
 5. Update the Poisson caption and numerical text to the $15k-per-success calibration, install the harmonized figure at its final manuscript path, and inspect the full-page compiled result.
