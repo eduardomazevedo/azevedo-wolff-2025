@@ -68,6 +68,7 @@ def _select_action(mhp, utility_cfg, case, numerics, diagnostic):
             a_ic_lb=lb,
             a_ic_ub=ub,
             n_a_iterations=iterations,
+            a_always_check_global_ic=np.array([lb, ub]),
         )
     return float(solution.optimal_action), solution, sorted({str(item.message) for item in caught})
 
@@ -86,6 +87,7 @@ def _solve_contracts(mhp, utility_cfg, case, numerics, action, wage):
         "active_full": lambda: mhp.solve_cost_minimization_problem(
             intended_action=action, reservation_utility=ru, a_ic_lb=lb, a_ic_ub=ub,
             n_a_iterations=int(numerics["full_ic_iterations"]),
+            a_always_check_global_ic=np.array([lb, ub]),
         ),
         "cvxpy_relaxed": lambda: mhp.solve_cost_minimization_problem_cvxpy(
             intended_action=action, reservation_utility=ru, a_hat=np.array([]),

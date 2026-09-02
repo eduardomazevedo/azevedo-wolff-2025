@@ -776,6 +776,7 @@ def crosscheck_fixed_action(
         active_full = mhp.solve_cost_minimization_problem(
             intended_action=intended_action, reservation_utility=ru,
             a_ic_lb=a_lb, a_ic_ub=a_ub, n_a_iterations=int(numerics["full_ic_iterations"]),
+            a_always_check_global_ic=np.array([a_lb, a_ub]),
         )
         cvx_relaxed = mhp.solve_cost_minimization_problem_cvxpy(
             intended_action=intended_action, reservation_utility=ru, a_hat=np.array([]),
@@ -1072,6 +1073,11 @@ def _solve_monopsony(
                 a_ic_lb=a_lb,
                 a_ic_ub=a_ub,
                 n_a_iterations=0 if relaxed else int(numerics["full_ic_iterations"]),
+                # The package default always checks action zero, which may lie
+                # outside the configured economic action set (for example,
+                # geometric output has A=[1.05, 10]).  Always check the actual
+                # domain endpoints instead.
+                a_always_check_global_ic=np.array([a_lb, a_ub]),
             )
         cmp = solution.cmp_result
         delivered_u = _float(mhp.U(cmp.optimal_contract, solution.optimal_action))

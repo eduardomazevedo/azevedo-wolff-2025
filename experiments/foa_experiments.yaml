@@ -159,7 +159,7 @@ cases:
       y_min: -300
       y_max: 480
       n: 201
-    reservation_wages: [-1, 0, 0.5, 1, 5, 15]
+    reservation_wages: [0, 0.5, 1, 5, 15]
     exercises: [principal, fixed_action]
 
   - id: poisson_log_paper
@@ -180,7 +180,7 @@ cases:
       y_min: 0
       y_max: 28
       step_size: 1
-    reservation_wages: [-1, -0.25, 0, 0.125, 0.5, 2, 5]
+    reservation_wages: [0, 0.125, 0.5, 2, 5]
     exercises: [principal, fixed_action]
 
   - id: exponential_log_baseline
@@ -201,7 +201,7 @@ cases:
       y_min: 0
       y_max: 300
       n: 301
-    reservation_wages: [-1, -0.25, -0.05, 0, 0.05, 0.25, 1, 5, 15, 50, 100]
+    reservation_wages: [0, 0.05, 0.25, 1, 5, 15, 50, 100]
     exercises: [principal, fixed_action]
 
   - id: gamma2_log_baseline
@@ -224,7 +224,7 @@ cases:
       y_max: 500
       # Resolve both the target scale and the much tighter zero-cost scale a=5.
       n: 1201
-    reservation_wages: [-1, 0, 0.5, 1, 5, 15, 50]
+    reservation_wages: [0, 0.5, 1, 5, 15, 50]
     exercises: [principal, fixed_action]
 
   - id: geometric_log_baseline
@@ -245,7 +245,7 @@ cases:
       y_min: 1
       y_max: 100
       step_size: 1
-    reservation_wages: [-1, -0.25, 0, 0.125, 0.5, 2, 5]
+    reservation_wages: [0, 0.125, 0.5, 2, 5]
     exercises: [principal, fixed_action]
 
   - id: bernoulli_log_baseline
@@ -266,7 +266,7 @@ cases:
       y_min: 0
       y_max: 1
       step_size: 1
-    reservation_wages: [-1, -0.25, 0, 0.125, 0.5, 2, 5]
+    reservation_wages: [0, 0.125, 0.5, 2, 5]
     exercises: [principal, fixed_action]
 
   - id: binomial10_log_baseline
@@ -291,7 +291,7 @@ cases:
       y_min: 0
       y_max: 10
       step_size: 1
-    reservation_wages: [-1, -0.25, 0, 0.125, 0.5, 2, 5]
+    reservation_wages: [0, 0.125, 0.5, 2, 5]
     exercises: [principal, fixed_action]
 
   # Negative smoke control: the fixed-action relaxed contract should fail
@@ -317,7 +317,7 @@ cases:
       y_min: -200
       y_max: 380
       n: 301
-    reservation_wages: [-1, 20, 50, 100]
+    reservation_wages: [0, 20, 50, 100]
     exercises: [principal, fixed_action]
 
   - id: student_t_sigma_log__sigma-10
@@ -341,7 +341,7 @@ cases:
       y_min: -100
       y_max: 280
       n: 301
-    reservation_wages: [-1, 20, 50, 100]
+    reservation_wages: [0, 20, 50, 100]
     exercises: [principal, fixed_action]
 
   - id: student_t_sigma_log__sigma-50
@@ -365,7 +365,7 @@ cases:
       y_min: -500
       y_max: 680
       n: 301
-    reservation_wages: [-1, 20, 50, 100]
+    reservation_wages: [0, 20, 50, 100]
     exercises: [principal, fixed_action]
 
 # Deterministic Cartesian families for the internal mechanism and risk-aversion
@@ -382,7 +382,7 @@ cases:
     utility: {kind: risk_neutral}
     distribution: {kind: gaussian, params: {sigma: 50}}
     outcome_grid: {distribution_type: continuous, y_min: -300, y_max: 480, n: 201}
-    reservation_wages: [-1, 0, 1, 5, 15, 50]
+    reservation_wages: [0, 1, 5, 15, 50]
     exercises: [fixed_action]
 
 case_families:
@@ -398,7 +398,7 @@ case_families:
       utility: {kind: log}
       distribution: {kind: gaussian, params: {sigma: 50}}
       outcome_grid: {distribution_type: continuous, y_min: -300, y_max: 480, n: 201}
-      reservation_wages: [-1, 0, 0.5, 1, 5, 15]
+      reservation_wages: [0, 0.5, 1, 5, 15]
       exercises: [principal, fixed_action]
     axes:
       - name: sigma

@@ -61,7 +61,11 @@ def _atomic_results(input_dir: Path) -> dict[str, dict[str, Any]]:
 
 def _report_threshold(exercise: dict[str, Any]) -> tuple[float | None, str]:
     points = exercise.get("points", []) + exercise.get("refinement_points", [])
-    ordered = sorted(points, key=lambda point: float(point["reservation_wage"]))
+    # The paper exercise is defined only for nonnegative reservation wages.
+    ordered = sorted(
+        (point for point in points if float(point["reservation_wage"]) >= 0.0),
+        key=lambda point: float(point["reservation_wage"]),
+    )
     if not ordered:
         return None, "not_reached"
     works = [
@@ -70,8 +74,7 @@ def _report_threshold(exercise: dict[str, Any]) -> tuple[float | None, str]:
     ]
     for index, (point, valid) in enumerate(zip(ordered, works)):
         if valid and all(works[index:]):
-            status = "left_censored" if index == 0 else "observed"
-            return float(point["reservation_wage"]), status
+            return max(0.0, float(point["reservation_wage"])), "observed"
     return None, "not_reached"
 
 
@@ -110,7 +113,7 @@ def build_rows(input_dir: Path) -> list[dict[str, Any]]:
                 selected = min(benchmark["history"], key=lambda item: item["reservation_wage"])
             threshold, threshold_status = _report_threshold(result["exercises"]["principal"])
             row.update({
-                "monopsony_ce_wage": None if selected is None else float(selected["delivered_ce_wage"]),
+                "monopsony_ce_wage": None if selected is None else max(0.0, float(selected["delivered_ce_wage"])),
                 "foa_threshold_ce_wage": threshold,
                 "foa_threshold_status": threshold_status,
                 "competitive_ce_wage": benchmark.get("competitive_ce_wage"),
@@ -146,7 +149,7 @@ def make_figure(rows: list[dict[str, Any]], output: Path) -> None:
 
     data_rows = [row for row in rows if row["kind"] in {"data", "data_bold"}]
     max_competitive = max(float(row["competitive_ce_wage"]) for row in data_rows if row["competitive_ce_wage"] is not None)
-    plot_ax.set_xlim(-5, max(110, 1.04 * max_competitive))
+    plot_ax.set_xlim(0, max(110, 1.04 * max_competitive))
     plot_ax.xaxis.tick_top()
     plot_ax.xaxis.set_label_position("top")
     plot_ax.set_xlabel("Reservation certainty-equivalent wage ($1,000)", labelpad=9)
@@ -195,20 +198,27 @@ def make_figure(rows: list[dict[str, Any]], output: Path) -> None:
             continue
         x_left, x_right = plot_ax.get_xlim()
         if threshold is None:
-            plot_ax.plot([x_left, x_right], [y, y], color="#c95f59", linewidth=2.3, zorder=2)
+            plot_ax.plot([x_left, x_right], [y, y], color="#c95f59", linewidth=2.3, zorder=3)
         else:
-            plot_ax.plot([x_left, threshold], [y, y], color="#c95f59", linewidth=2.3, zorder=2)
-            plot_ax.plot([threshold, x_right], [y, y], color="#41965a", linewidth=2.3, zorder=2)
-            marker = "<" if row["foa_threshold_status"] == "left_censored" else "D"
-            plot_ax.scatter(threshold, y, marker=marker, s=42, color="#41965a", edgecolor="white", linewidth=0.35, zorder=5)
-        plot_ax.scatter(monopsony, y, marker="o", s=18, color="#2967a3", edgecolor="white", linewidth=0.4, zorder=6)
-        plot_ax.scatter(competitive, y, marker="o", s=28, facecolor="white", edgecolor="#222222", linewidth=1.0, zorder=6)
+            plot_ax.plot([x_left, threshold], [y, y], color="#c95f59", linewidth=2.3, zorder=3)
+            plot_ax.plot([threshold, x_right], [y, y], color="#41965a", linewidth=2.3, zorder=3)
+        # Downward triangles sit clear of the validity line and point to the
+        # benchmark locations, leaving short red failure segments visible.
+        marker_y = y - 0.18
+        plot_ax.scatter(
+            monopsony, marker_y, marker="v", s=38, color="#2967a3",
+            edgecolor="white", linewidth=0.4, zorder=6, clip_on=False,
+        )
+        plot_ax.scatter(
+            competitive, marker_y, marker="v", s=34, facecolor="white",
+            edgecolor="#222222", linewidth=1.0, zorder=6,
+        )
 
     legend = [
-        Line2D([], [], marker="o", linestyle="none", markerfacecolor="#2967a3", markeredgecolor="white", label="Monopsony wage"),
-        Line2D([], [], marker="D", linestyle="none", markerfacecolor="#41965a", markeredgecolor="white", label="Lowest FOA-valid wage"),
-        Line2D([], [], marker="o", linestyle="none", markerfacecolor="white", markeredgecolor="#222222", label="Competitive wage"),
-        Line2D([], [], color="#41965a", linewidth=2.3, label="FOA works"),
+        Line2D([], [], marker="v", linestyle="none", markerfacecolor="#2967a3", markeredgecolor="white", label="Monopsony wage"),
+        Line2D([], [], marker="v", linestyle="none", markerfacecolor="white", markeredgecolor="#222222", label="Competitive wage"),
+        Line2D([], [], color="#c95f59", linewidth=2.3, label="FOA fails"),
+        Line2D([], [], color="#41965a", linewidth=2.3, label="FOA holds"),
     ]
     fig.legend(handles=legend, loc="lower center", bbox_to_anchor=(0.67, 0.018), frameon=False, fontsize=7.5, ncol=4)
     fig.subplots_adjust(top=0.94, bottom=0.055, left=0.045, right=0.985)

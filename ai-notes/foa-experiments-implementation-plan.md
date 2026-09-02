@@ -551,10 +551,12 @@ Completed:
 29. Final internal atlas regenerated from clean commit `fa339bb` without resume: 29 of 29 tasks completed, no atomic failures occurred, and all bounded-utility cases contain the capacity precheck.
 30. Boundary recalibration implemented and preflighted. The four low-risk/low-cost Gaussian cases now use action bounds `[0,250]` and outcome grid `[-300,550]`; their slack-IR actions are 183.7--226.1 and all pass boundary diagnostics. Binomial(10) now uses probability bounds `[0.05,0.99]` and cost scale 1.5; its slack-IR action is 0.771 rather than the upper bound. CRRA gamma 3 remains economically infeasible at fixed action 100 and globally invalid throughout its principal grid, so it stays unresolved and outside headline claims.
 31. Targeted `boundary_preflight` suite completed from a fresh ignored directory: all five tasks completed, all support and boundary checks passed, and no reversals appeared.
-32. Final-v2 internal atlas regenerated from scratch without resume; after adding two Student-t noise variations it contains 31 tasks, all completed with no hard failures or resumed tasks. The saved-results summary has 59 exercise rows, 167 retained warnings, and no reversals.
+32. Initial final-v2 internal atlas regenerated from scratch without resume; after adding two Student-t noise variations it contained 31 tasks, all completed with no hard failures or resumed tasks. Before the later action-domain correction, its saved-results summary had 59 exercise rows, 167 retained warnings, and no reversals.
 33. Principal-problem reporting pipeline implemented and committed in `086073a`. A solver command saves full-GIC zero-profit competitive-wage benchmarks, and a separate saved-results-only command creates the full-page figure and plotting CSV. The paper display uses a $1 CE-deviation materiality rule while preserving strict atlas statuses.
-34. Principal figure design approved as the working version. It displays 25 specifications: 16 Gaussian rows, one combined result row for each of six other common families, and three Student-t rows. CRRA gamma 3 and the two Gaussian action-set variations are omitted. Lines are red to the left of the saved first-valid point and green from that point to the right edge. The green diamond marks the first-valid wage, the blue dot marks monopsony, and the open circle marks the zero-profit competitive wage. The sparse `Safe region empty?` column marks all three Student-t rows. Figure notes are intentionally omitted and will be supplied in LaTeX.
-35. Student-t noise variation added at sigma 10 and 50 around the sigma-20 baseline, holding degrees of freedom and all other economics fixed. Fresh 31-task atlas results show sigma 10 and 20 invalid throughout their tested ranges, while sigma 50 has an invalid-to-valid transition between the initial grid points at -$1k and $20k; the existing refined points put the paper's first-valid marker at about $9.13k. All three retain unresolved support certification and no reversals.
+34. Principal figure design approved as the working version. It displays 25 specifications: 16 Gaussian rows, one combined result row for each of six other common families, and three Student-t rows. CRRA gamma 3 and the two Gaussian action-set variations are omitted. Lines are red to the left of an observed first-valid point and green from that point to the right edge, so the color transition itself identifies the first-valid wage. A filled blue downward triangle marks monopsony, and an open downward triangle marks the zero-profit competitive wage. The sparse `Safe region empty?` column marks all three Student-t rows. Figure notes are intentionally omitted and will be supplied in LaTeX.
+35. Student-t noise variation added at sigma 10 and 50 around the sigma-20 baseline, holding degrees of freedom and all other economics fixed. Fresh 31-task atlas results show sigma 10 and 20 invalid throughout their tested ranges, while sigma 50 has an invalid-to-valid transition between the initial grid points at $0 and $20k; the existing refined points put the paper's first-valid marker at about $9.14k. All three retain unresolved support certification and no reversals.
+36. Full-GIC action-domain bug fixed and the complete pipeline rerun from scratch. The moralhazard solver's default always checked action zero even when zero lay outside the configured action set. All full active-set solves now explicitly check both economic action-set endpoints. This corrects the geometric monopsony CE from about $0.383k to numerically zero and makes its monopsony marker coincide with its FOA threshold.
+37. The reported FOA exercise now starts at a zero reservation CE wage in every specification. Negative reservation wages remain available only for the separate slack-IR monopsony plateau search. The principal figure has no negative x-range: a specification valid at zero is marked as first valid at zero, and no below-zero status is inferred or displayed. The separate FOA diamond was subsequently removed because the red-to-green transition already identifies the threshold. The monopsony and competitive-wage markers are downward triangles placed slightly above and pointing toward the validity line, leaving short red segments unobstructed.
 
 Still to do before generating final paper assets from the harmonized reporting pipeline:
 
@@ -710,15 +712,15 @@ This preflight was followed by the completed final-v2 clean atlas in Section 9.7
 ### 9.7 Final-v2 clean atlas
 
 The ignored run `output/foa-internal-atlas-final-v2/` was regenerated from
-scratch without `--resume` after adding the Student-t noise variations. All 31
+scratch without `--resume` after correcting the full-GIC action-domain handling. All 31
 atomic tasks completed, with zero hard failures and zero resumed tasks. The
 saved-results summarizer produced 59 exercise rows: 57 completed exercises and
 two high-risk-aversion fixed actions classified as economically infeasible.
 All rows pass the monopsony boundary diagnostic, and no reversals were detected.
 
-The summary retains 167 warning records. The three Student-t specifications are
-the only support-unconverged cases, contributing six principal/fixed-action
-rows.
+After the action-domain and nonnegative-reservation corrections and clean rerun,
+the summary retains 38 warning records. The three Student-t specifications are the only
+support-unconverged cases, contributing six principal/fixed-action rows.
 The output is now the authoritative internal atlas for aggregate reporting;
 earlier atlas and preflight directories were deleted.
 
@@ -733,9 +735,8 @@ a substitute for the harmonized reporting assets.
 optimized full-GIC principal profit is zero. Its ignored saved output is
 `output/foa-internal-atlas-final-v2/competitive_benchmarks.json`. All 28 cases
 with principal exercises have bracketed zero-profit roots. The strict global-IC
-check passes in 25 cases, is unresolved but below the paper's $1 materiality
-cutoff for the sigma-10 and sigma-20 Student-t cases, and fails materially for
-CRRA gamma 3. The latter is excluded from the paper figure and remains visible
+check passes in 26 cases, is unresolved for the baseline sigma-20 Student-t
+case, and fails materially for CRRA gamma 3. The latter is excluded from the paper figure and remains visible
 internally.
 
 `experiments/report_principal_figure.py` is saved-results-only. It reads the
@@ -755,12 +756,20 @@ bold family header followed by sigma 20 baseline, sigma 10, and sigma 50 rows.
 
 For the paper display, FOA is called valid when the saved best CE deviation
 gain is at most `$0.001` in atlas units, i.e. $1. No new threshold solve is
-performed: the report consistently selects from existing initial and refined
-atlas points. The plot intentionally assumes no reversals beyond the observed
+performed: the report consistently selects from existing nonnegative initial
+and refined atlas points. When FOA is valid at zero, zero is reported as the
+first valid wage. No negative reservation-wage range is displayed. The plot
+intentionally assumes no reversals beyond the observed
 threshold; no reversals occurred in the atlas. Green therefore extends to the
 right edge once validity begins. Student-t sigma 10 and 20 are red throughout,
-while sigma 50 turns green at its saved first-valid point of about $9.13k.
+while sigma 50 turns green at its saved first-valid point of about $9.14k.
 Strict statuses and warnings remain unchanged in the atomic atlas.
+
+The corrected common-family principal monopsony CEs are numerically zero for
+Poisson, exponential, gamma, geometric, and binomial, while Bernoulli remains
+at about $13.096k with FOA valid at every tested wage. The prior geometric CE
+of about $0.383k was caused by imposing a phantom action-zero IC constraint
+outside its configured action set `[1.05,10]`.
 
 The `Safe region empty?` column is blank except for the three Student-t rows. This uses the
 analytic nonemptiness result for Gaussian, Poisson, exponential, gamma,
@@ -818,7 +827,7 @@ uv run python -m experiments.report_principal_figure --input output/foa-internal
 
 Do not commit generated atlas, benchmark, or figure output.
 
-Expected test baseline: **30 tests pass**.
+Expected test baseline: **31 tests pass**.
 
 Current generated, ignored output locations:
 

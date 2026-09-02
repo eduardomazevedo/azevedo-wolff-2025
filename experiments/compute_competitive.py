@@ -42,6 +42,7 @@ def _solve(case: dict[str, Any], numerics: dict[str, Any], wage: float) -> dict[
             a_ic_lb=action_lb,
             a_ic_ub=action_ub,
             n_a_iterations=int(numerics["full_ic_iterations"]),
+            a_always_check_global_ic=np.array([action_lb, action_ub]),
         )
     contract = solution.cmp_result.optimal_contract
     action = float(solution.optimal_action)

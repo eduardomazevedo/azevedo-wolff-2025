@@ -307,6 +307,14 @@ class DistributionTests(unittest.TestCase):
             self.assertAlmostEqual(float(mhp.C(lower)), 0.0)
             self.assertAlmostEqual(cfg["cost_metadata"]["target_effort_cost"], target_cost, places=8)
 
+    def test_internal_atlas_foa_grids_start_at_zero(self) -> None:
+        manifest = yaml.safe_load(Path("experiments/foa_experiments.yaml").read_text())
+        tasks = expand_manifest(manifest, "internal_atlas")
+        for task in tasks:
+            wages = task.economic_configuration["reservation_wages"]
+            self.assertEqual(min(wages), 0, task.case_id)
+            self.assertIn(0, wages, task.case_id)
+
     def test_student_t_variation_has_three_scaled_cases(self) -> None:
         manifest = yaml.safe_load(Path("experiments/foa_experiments.yaml").read_text())
         tasks = {task.case_id: task for task in expand_manifest(manifest, "student_t_variation")}
@@ -383,8 +391,10 @@ class MonopsonyTests(unittest.TestCase):
         class FakeProblem:
             def __init__(self):
                 self.rows = iter(rows)
+                self.solve_kwargs = []
 
-            def solve_principal_problem(self, **_kwargs):
+            def solve_principal_problem(self, **kwargs):
+                self.solve_kwargs.append(kwargs)
                 row = next(self.rows)
                 cmp = SimpleNamespace(
                     optimal_contract=np.array([row["utility"]]),
@@ -405,11 +415,15 @@ class MonopsonyTests(unittest.TestCase):
             {"lambda": 0.0, "action": 3.005, "profit": 2.005, "wage": 1.0, "utility": 0.505},
         ]
         deviation = DeviationResult(3, .5, 3, .5, 0, 0, [])
+        problem = self.fake_problem(rows)
         with patch("experiments.prototype.find_best_deviation", return_value=deviation):
             result = _solve_monopsony(
-                relaxed=False, mhp=self.fake_problem(rows), utility_cfg={"u": lambda x: x, "k": lambda x: x},
-                case={"action_bounds": [0, 5]}, numerics=self.numerics(), candidate_wages=[-1, -2],
+                relaxed=False, mhp=problem, utility_cfg={"u": lambda x: x, "k": lambda x: x},
+                case={"action_bounds": [1.05, 5]}, numerics=self.numerics(), candidate_wages=[-1, -2],
             )
+        np.testing.assert_array_equal(
+            problem.solve_kwargs[0]["a_always_check_global_ic"], np.array([1.05, 5.0])
+        )
         self.assertEqual(result["status"], "ok")
         self.assertEqual(len(result["history"]), 2)
         self.assertGreater(result["selected"]["ir_slack_ce"], 0)
