@@ -551,20 +551,21 @@ Completed:
 29. Final internal atlas regenerated from clean commit `fa339bb` without resume: 29 of 29 tasks completed, no atomic failures occurred, and all bounded-utility cases contain the capacity precheck.
 30. Boundary recalibration implemented and preflighted. The four low-risk/low-cost Gaussian cases now use action bounds `[0,250]` and outcome grid `[-300,550]`; their slack-IR actions are 183.7--226.1 and all pass boundary diagnostics. Binomial(10) now uses probability bounds `[0.05,0.99]` and cost scale 1.5; its slack-IR action is 0.771 rather than the upper bound. CRRA gamma 3 remains economically infeasible at fixed action 100 and globally invalid throughout its principal grid, so it stays unresolved and outside headline claims.
 31. Targeted `boundary_preflight` suite completed from a fresh ignored directory: all five tasks completed, all support and boundary checks passed, and no reversals appeared.
+32. Final-v2 internal atlas regenerated from scratch without resume: all 29 tasks completed with no hard failures, all 55 exercise rows passed boundary diagnostics, and no reversals appeared. The saved-results summary retains 167 warnings and 51 strict unresolved rows.
+33. Principal-problem reporting mock implemented. A solver command saves full-GIC zero-profit competitive-wage benchmarks, and a separate saved-results-only command creates the one-page specification/threshold figure and plotting CSV. The mock uses a $1 CE-deviation materiality rule while preserving strict atlas statuses.
 
-Still to do before generating paper assets:
+Still to do before generating final paper assets from the harmonized reporting pipeline:
 
-1. Regenerate the complete 29-task atlas from the clean committed boundary-fix tree into a new directory such as `output/foa-internal-atlas-final-v2/` without resume. The prior `output/foa-internal-atlas-final/` predates these five task changes and is superseded for aggregate reporting.
-2. Summarize and inspect the new full run. Preserve strict unresolved statuses, warnings, and failed transition cross-check records; do not turn non-headline convex-solver failures into broad solver debugging.
-3. Obtain human plot review of the harmonized Poisson diagnostic if the Poisson figure remains in the paper. Its old review is inactive; the manifest correctly records the new review as pending.
-4. Declare the concise paper-candidate subset/report groups before writing the reporting code. Keep principal and fixed-action results separate and retain adverse cases.
-5. Implement saved-results-only paper tables and figures using the new final-v2 atomic results; reporting must not solve models implicitly.
-6. Update the paper's Poisson caption and numerical discussion to the $15k-per-success calibration, and regenerate all retained paper examples from the harmonized pipeline.
-7. Do not add broad parameter sweeps unless paper reporting exposes a specific missing comparison.
+1. Certify a true slack-IR Student-t monopsony plateau before finalizing its monopsony marker; the mock currently uses its lowest-requirement full-GIC solve as a provisional display value.
+2. Freeze the concise label-to-manifest appendix mapping when integrating the figure into the manuscript. Keep principal and fixed-action results separate and retain the Student-t adverse case; CRRA gamma 3 is excluded from the paper figure.
+3. Implement the fixed-action companion figure after the principal figure is finalized.
+4. Update the paper's Poisson caption and numerical discussion to the $15k-per-success calibration, and replace the legacy examples with harmonized reporting assets.
+5. Complete final visual polish, captioning, manuscript integration, and full-page compilation review.
+6. Do not add broad parameter sweeps unless paper reporting exposes a specific missing comparison.
 
 ## 9. Current numerical results and human review
 
-A tracked implementation lives in `experiments/`, driven by `experiments/foa_experiments.yaml`. Twenty-eight unit tests pass after the harmonized-calibration changes. Generated output is ignored by Git.
+A tracked implementation lives in `experiments/`, driven by `experiments/foa_experiments.yaml`. Twenty-nine unit tests pass after the harmonized-calibration changes. Generated output is ignored by Git.
 
 ### 9.1 Historical smoke and first-atlas results (superseded where calibrations changed)
 
@@ -705,6 +706,28 @@ failed or unresolved, but the economic boundary problem itself is resolved.
 The next agent should run final-v2 from the clean committed boundary-fix tree
 rather than rerunning exploratory calibration checks.
 
+### 9.7 Final-v2 clean atlas
+
+The ignored run `output/foa-internal-atlas-final-v2/` was generated from
+scratch without `--resume` after deleting all prior FOA outputs. All 29 atomic
+tasks completed, with zero hard failures and zero resumed tasks. The
+saved-results summarizer produced 55 exercise rows: 53 completed exercises and
+two high-risk-aversion fixed actions classified as economically infeasible.
+All 55 rows pass the monopsony boundary diagnostic, and no reversals were
+detected.
+
+The conservative strict layer marks 51 rows unresolved and four passed. The
+summary retains 167 warning records. Student-t remains the only
+support-unconverged case, contributing its principal and fixed-action rows.
+The output is now the authoritative internal atlas for aggregate reporting;
+earlier atlas and preflight directories were deleted.
+
+The legacy current-paper figure script was also rerun from an empty `figures/`
+directory. It regenerated 132 PNG/PDF files across the ten current figure
+folders and emitted its existing solver warnings. These legacy figures are not
+a substitute for the still-unimplemented saved-results-only harmonized paper
+reporting layer.
+
 ## 10. Handoff brief
 
 ### 10.1 Files and commands
@@ -749,8 +772,7 @@ Generated, ignored output locations:
 - `output/foa-prototype/`
 - `output/foa-first-atlas/`
 - `output/foa-internal-atlas/`
-- `output/foa-internal-atlas-final/` (superseded for aggregate reporting)
-- `output/foa-boundary-preflight/`
+- `output/foa-internal-atlas-final-v2/` (current authoritative atlas)
 - `output/foa-problem-diagnostics/`
 
 The diagnostic root contains an index and one folder per reviewed cell, with figures, JSON metadata, and NPZ arrays. These are internal diagnostics, not paper figures.
@@ -776,19 +798,17 @@ The diagnostic root contains an index and one folder per reviewed cell, with fig
 - Analytic omitted first/second moment errors are saved when moments exist, but they are diagnostics rather than family-specific rigorous tail certificates.
 - The Student-`t` support is intentionally unresolved.
 - Safe-region diagnostics are numerical grid certifications, not proofs.
-- The prior full run and the boundary preflight have no hard task failures. Final-v2 is still required because five economic configurations changed. Two high-risk-aversion fixed actions remain economically infeasible by the capacity bound, and the CRRA gamma-3 principal/full-GIC result remains unresolved.
+- Final-v2 has no hard task failures. Two high-risk-aversion fixed actions remain economically infeasible by the capacity bound, and the CRRA gamma-3 principal/full-GIC result remains unresolved.
 - Runs made from a dirty working tree record root-level source snapshots, but the final validation should be run from a clean committed tree.
 - Task hashes currently cover economic and numerical configuration but not implementation code. Therefore `--resume` can reuse stale completed records after code changes; use a fresh output directory for the final validation run.
 - Existing generated principal results use the superseded economic calibration and must not be reused. The implementation now applies each case's declared revenue slope consistently, but requires a fresh run.
 
 ### 10.4 Recommended sequence for the next agent
 
-1. Run `internal_atlas` into the new ignored directory `output/foa-internal-atlas-final-v2/` from the clean committed boundary-fix tree, without resume. The old final directory is superseded for aggregate reporting because five task configurations changed.
-2. Summarize final-v2 and verify 29 completed tasks, no hard failures, no unexpected boundaries, and no reversals. Preserve conservative warning and cross-check statuses.
-3. Have a human inspect `output/foa-problem-diagnostics/poisson-principal-valid-boundary/`. If accepted, add a new review record or change the harmonized pending record without erasing the inactive old-calibration review.
-4. Predeclare paper candidates and implement reporting that reads final-v2 atomic records or saved summary tables only. Never call model solvers from reporting code.
-5. Keep fixed-action local infeasibility, accepted-but-strict Student-t support truncation, CRRA gamma-3 invalidity, and failed convex cross-checks visible in internal reporting.
-6. Do **not** add generated output to Git. Reproduction consists of the committed manifest, code, lockfile, and documented commands.
-7. Regenerate the retained Gaussian, CARA, Poisson, and Student-t paper examples from harmonized saved results. The Poisson paper figure and numerical text must use the $15k-per-success calibration.
+1. Have a human inspect `output/foa-problem-diagnostics/poisson-principal-valid-boundary/`. If accepted, add a new review record or change the harmonized pending record without erasing the inactive old-calibration review.
+2. Predeclare paper candidates and implement reporting that reads final-v2 atomic records or saved summary tables only. Never call model solvers from reporting code.
+3. Keep fixed-action local infeasibility, accepted-but-strict Student-t support truncation, CRRA gamma-3 invalidity, and failed convex cross-checks visible in internal reporting.
+4. Do **not** add generated output to Git. Reproduction consists of the committed manifest, code, lockfile, and documented commands.
+5. Regenerate the retained Gaussian, CARA, Poisson, and Student-t paper examples from harmonized saved results. The Poisson paper figure and numerical text must use the $15k-per-success calibration.
 
 The reporting layer must eventually consume saved atomic results and must never rerun models implicitly.

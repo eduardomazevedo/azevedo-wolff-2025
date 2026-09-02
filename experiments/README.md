@@ -11,6 +11,10 @@ uv run python -m experiments.run_prototype --suite boundary_preflight --output o
 # Fresh full reproduction: use a new directory and do not pass --resume.
 uv run python -m experiments.run_prototype --suite internal_atlas --output output/foa-internal-atlas-final-v2
 uv run python -m experiments.summarize_internal --input output/foa-internal-atlas-final-v2
+# Solver command: save full-GIC zero-profit competitive-wage benchmarks.
+uv run python -m experiments.compute_competitive --input output/foa-internal-atlas-final-v2
+# Saved-results-only principal-problem figure.
+uv run python -m experiments.report_principal_figure --input output/foa-internal-atlas-final-v2
 uv run python -m experiments.diagnose_problematic
 ```
 
@@ -27,6 +31,8 @@ Outputs are written to `output/foa-prototype/`:
 Task hashes exclude labels and suite membership but include the complete economic and numerical configuration. Explicit cases and declarative Cartesian `case_families` expand in deterministic order. `--resume` reuses completed and failed atomic records; add `--retry-failed` to rerun failures. Nonfinite values are replaced by JSON `null`, their exact paths are recorded, and strict status remains unresolved. Human review records from the manifest are attached without replacing strict numerical statuses or warnings.
 
 `experiments.summarize_internal` only reads atomic records; it never solves a model. It writes internal threshold, failure, and warning tables under `summary_tables/`. These are diagnostic atlas outputs, not paper tables.
+
+`experiments.compute_competitive` is a solver command that brackets the full-GIC principal problem to locate the zero-profit reservation CE wage and saves `competitive_benchmarks.json` in the atlas directory. `experiments.report_principal_figure` is strictly saved-results-only: it combines the atomic atlas records with that benchmark file and writes the principal summary figure and its plotting CSV under `figures/foa-principal-summary/`.
 
 The declarative manifest is `experiments/foa_experiments.yaml`. The implementation provides CE conversion, a multistart global-deviation search, an adaptive true full-GIC slack-IR monopsony scan, separate principal/fixed-action exercises, transition refinement, reversal detection, and grid-based distribution diagnostics (mass, score mean, and action derivatives). Principal revenue uses each case's declared `revenue_slope`. Quadratic effort cost is calibrated against target expected revenue and shifted to zero at the configured lower action bound. The distribution diagnostics are numerical truncation checks, not analytic tail certificates.
 
