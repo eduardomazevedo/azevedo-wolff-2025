@@ -12,6 +12,10 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
 REPORT_VALID_TOLERANCE_CE = 0.001  # Atlas units are $1,000, so this is $1.
+TEAL = "#3b6978"
+RED = "#c95f59"
+BLACK = "#222222"
+BENCHMARK_MARKER_SIZE = 38
 
 # Deliberate paper order and short display labels. Detailed definitions remain
 # in the manifest and can be reproduced in an appendix table.
@@ -43,7 +47,7 @@ ROWS = [
     ("data_bold", "Geometric", "geometric_log_baseline"),
     ("data_bold", "Bernoulli", "bernoulli_log_baseline"),
     ("data_bold", "Binomial (n = 10)", "binomial10_log_baseline"),
-    ("header", "Student-t (adverse cases)", None),
+    ("header", "Student-t (empty safe region)", None),
     ("data", "Baseline (σ = 20)", "student_t_log_adverse"),
     ("data", "σ = 10", "student_t_sigma_log__sigma-10"),
     ("data", "σ = 50", "student_t_sigma_log__sigma-50"),
@@ -78,22 +82,6 @@ def _report_threshold(exercise: dict[str, Any]) -> tuple[float | None, str]:
     return None, "not_reached"
 
 
-def _empty_safe_region(result: dict[str, Any]) -> bool:
-    distribution = result["effective_configuration"]["distribution"]["kind"].lower()
-    # These families have analytically nonempty safe regions under the
-    # configured interior action sets. Prefer that fact to finite-difference
-    # diagnostics, which are cancellation-prone for affine Bernoulli masses.
-    known_nonempty = {
-        "gaussian", "poisson", "exponential", "gamma", "geometric",
-        "bernoulli", "binomial",
-    }
-    if distribution in known_nonempty:
-        return False
-    full = result.get("monopsony", {}).get("full_gic", {})
-    metrics = full.get("safe_region_metrics") or result.get("safe_region_metrics", {})
-    return metrics.get("safe_outcome_region_on_grid") is None
-
-
 def build_rows(input_dir: Path) -> list[dict[str, Any]]:
     atomic = _atomic_results(input_dir)
     competitive_payload = json.loads((input_dir / "competitive_benchmarks.json").read_text())
@@ -118,7 +106,6 @@ def build_rows(input_dir: Path) -> list[dict[str, Any]]:
                 "foa_threshold_status": threshold_status,
                 "competitive_ce_wage": benchmark.get("competitive_ce_wage"),
                 "competitive_status": benchmark["status"],
-                "empty_safe_region": _empty_safe_region(result),
             })
         data.append(row)
     return data
@@ -135,17 +122,16 @@ def write_csv(rows: list[dict[str, Any]], path: Path) -> None:
 
 def make_figure(rows: list[dict[str, Any]], output: Path) -> None:
     nrows = len(rows)
-    fig, (label_ax, safe_ax, plot_ax) = plt.subplots(
+    fig, (label_ax, plot_ax) = plt.subplots(
         1,
-        3,
+        2,
         figsize=(8.35, 11.2),
-        gridspec_kw={"width_ratios": [3.15, 0.9, 5.25], "wspace": 0.03},
+        gridspec_kw={"width_ratios": [3.65, 5.35], "wspace": 0.04},
     )
-    for axis in (label_ax, safe_ax, plot_ax):
+    for axis in (label_ax, plot_ax):
         axis.set_ylim(nrows - 0.35, -1.2)
         axis.set_yticks([])
     label_ax.axis("off")
-    safe_ax.axis("off")
 
     data_rows = [row for row in rows if row["kind"] in {"data", "data_bold"}]
     max_competitive = max(float(row["competitive_ce_wage"]) for row in data_rows if row["competitive_ce_wage"] is not None)
@@ -158,13 +144,12 @@ def make_figure(rows: list[dict[str, Any]], output: Path) -> None:
     plot_ax.tick_params(axis="y", length=0)
 
     label_ax.text(0, -0.65, "Specification", weight="bold", va="bottom")
-    safe_ax.text(0.5, -0.82, "Safe region\nempty?", weight="bold", ha="center", va="bottom", fontsize=8.5, linespacing=0.9)
 
     for y, row in enumerate(rows):
         kind = row["kind"]
         if kind == "header":
             label_ax.text(0, y, row["label"], weight="bold", va="center", fontsize=9.5)
-            for axis in (label_ax, safe_ax, plot_ax):
+            for axis in (label_ax, plot_ax):
                 axis.axhline(y + 0.43, color="#eeeeee", linewidth=0.6, zorder=0)
             continue
         if kind == "subheader":
@@ -172,7 +157,7 @@ def make_figure(rows: list[dict[str, Any]], output: Path) -> None:
             continue
 
         if kind == "data_bold":
-            for axis in (label_ax, safe_ax, plot_ax):
+            for axis in (label_ax, plot_ax):
                 axis.axhline(y - 0.5, color="#eeeeee", linewidth=0.6, zorder=0)
         label_ax.text(
             0 if kind == "data_bold" else 0.12,
@@ -182,15 +167,6 @@ def make_figure(rows: list[dict[str, Any]], output: Path) -> None:
             fontsize=8.3 if kind == "data" else 9.2,
             weight="bold" if kind == "data_bold" else "normal",
         )
-        safe_ax.text(
-            0.5,
-            y,
-            "Yes" if row["empty_safe_region"] else "", 
-            ha="center",
-            va="center",
-            fontsize=8.1,
-            color="#444444",
-        )
         monopsony = row["monopsony_ce_wage"]
         threshold = row["foa_threshold_ce_wage"]
         competitive = row["competitive_ce_wage"]
@@ -198,27 +174,29 @@ def make_figure(rows: list[dict[str, Any]], output: Path) -> None:
             continue
         x_left, x_right = plot_ax.get_xlim()
         if threshold is None:
-            plot_ax.plot([x_left, x_right], [y, y], color="#c95f59", linewidth=2.3, zorder=3)
+            plot_ax.plot([x_left, x_right], [y, y], color=RED, linewidth=2.3, zorder=3)
         else:
-            plot_ax.plot([x_left, threshold], [y, y], color="#c95f59", linewidth=2.3, zorder=3)
-            plot_ax.plot([threshold, x_right], [y, y], color="#41965a", linewidth=2.3, zorder=3)
+            plot_ax.plot([x_left, threshold], [y, y], color=RED, linewidth=2.3, zorder=3)
+            plot_ax.plot([threshold, x_right], [y, y], color=TEAL, linewidth=2.3, zorder=3)
         # Downward triangles sit clear of the validity line and point to the
         # benchmark locations, leaving short red failure segments visible.
         marker_y = y - 0.18
         plot_ax.scatter(
-            monopsony, marker_y, marker="v", s=38, color="#2967a3",
-            edgecolor="white", linewidth=0.4, zorder=6, clip_on=False,
+            monopsony, marker_y, marker="v", s=BENCHMARK_MARKER_SIZE,
+            facecolor=BLACK, edgecolor=BLACK, linewidth=1.0, zorder=6,
+            clip_on=False,
         )
         plot_ax.scatter(
-            competitive, marker_y, marker="v", s=34, facecolor="white",
-            edgecolor="#222222", linewidth=1.0, zorder=6,
+            competitive, marker_y, marker="v", s=BENCHMARK_MARKER_SIZE,
+            facecolor="white", edgecolor=BLACK, linewidth=1.0, zorder=6,
         )
 
+    legend_marker_size = BENCHMARK_MARKER_SIZE ** 0.5
     legend = [
-        Line2D([], [], marker="v", linestyle="none", markerfacecolor="#2967a3", markeredgecolor="white", label="Monopsony wage"),
-        Line2D([], [], marker="v", linestyle="none", markerfacecolor="white", markeredgecolor="#222222", label="Competitive wage"),
-        Line2D([], [], color="#c95f59", linewidth=2.3, label="FOA fails"),
-        Line2D([], [], color="#41965a", linewidth=2.3, label="FOA holds"),
+        Line2D([], [], marker="v", markersize=legend_marker_size, linestyle="none", markerfacecolor=BLACK, markeredgecolor=BLACK, label="Monopsony wage"),
+        Line2D([], [], marker="v", markersize=legend_marker_size, linestyle="none", markerfacecolor="white", markeredgecolor=BLACK, label="Competitive wage"),
+        Line2D([], [], color=RED, linewidth=2.3, label="FOA fails"),
+        Line2D([], [], color=TEAL, linewidth=2.3, label="FOA holds"),
     ]
     fig.legend(handles=legend, loc="lower center", bbox_to_anchor=(0.67, 0.018), frameon=False, fontsize=7.5, ncol=4)
     fig.subplots_adjust(top=0.94, bottom=0.055, left=0.045, right=0.985)

@@ -49,7 +49,20 @@ The prototype computed the principal's relaxed optimum with the IR multiplier fi
 
 Do **not** compute this benchmark in the main internal atlas or reporting pipeline. Retain the prototype routine only as an optional debugging tool. The sole primary monopsony benchmark is the utility delivered by the true GIC principal optimum with slack IR, \(U_M^G\).
 
-### 2.3 FOA deviation diagnostic
+### 2.3 Fixed-action reporting benchmarks
+
+For a declared intended action $a_0$, define the **fixed-action monopsony
+utility** as the utility delivered by the minimum-compensation full-GIC contract
+when participation is slack. Its CE wage is a fixed-action incentive-rent
+benchmark, not the utility from the endogenous-action principal optimum in
+Section 2.1. Define the **fixed-action competitive wage** as the reservation CE
+wage at which minimum full-GIC expected compensation at $a_0$ equals declared
+expected revenue $R(a_0)$. If $a_0$ is locally infeasible, neither benchmark
+exists; if minimum compensation already exceeds revenue, no nonnegative-profit
+competitive wage exists. Keep these definitions and saved results separate from
+the principal benchmarks.
+
+### 2.4 FOA deviation diagnostic
 
 For a relaxed contract \(w^R\) and intended action \(a_0\), define
 
@@ -72,7 +85,7 @@ Classifications:
 
 Use separate valid and invalid tolerances so numerical noise is not forced into a binary result.
 
-### 2.4 FOA threshold and reversal statistics
+### 2.5 FOA threshold and reversal statistics
 
 For each specification define the **persistent FOA threshold**
 
@@ -553,11 +566,11 @@ Completed:
 31. Targeted `boundary_preflight` suite completed from a fresh ignored directory: all five tasks completed, all support and boundary checks passed, and no reversals appeared.
 32. Initial final-v2 internal atlas regenerated from scratch without resume; after adding two Student-t noise variations it contained 31 tasks, all completed with no hard failures or resumed tasks. Before the later action-domain correction, its saved-results summary had 59 exercise rows, 167 retained warnings, and no reversals.
 33. Principal-problem reporting pipeline implemented and committed in `086073a`. A solver command saves full-GIC zero-profit competitive-wage benchmarks, and a separate saved-results-only command creates the full-page figure and plotting CSV. The paper display uses a $1 CE-deviation materiality rule while preserving strict atlas statuses.
-34. Principal figure design approved as the working version. It displays 25 specifications: 16 Gaussian rows, one combined result row for each of six other common families, and three Student-t rows. CRRA gamma 3 and the two Gaussian action-set variations are omitted. Lines are red to the left of an observed first-valid point and green from that point to the right edge, so the color transition itself identifies the first-valid wage. A filled blue downward triangle marks monopsony, and an open downward triangle marks the zero-profit competitive wage. The sparse `Safe region empty?` column marks all three Student-t rows. Figure notes are intentionally omitted and will be supplied in LaTeX.
+34. Principal figure design approved as the working version. It displays 25 specifications: 16 Gaussian rows, one combined result row for each of six other common families, and three Student-t rows. CRRA gamma 3 and the two Gaussian action-set variations are omitted. Lines are red to the left of an observed first-valid point and deep teal from that point to the right edge, so the color transition itself identifies the first-valid wage. Equal-sized black filled and black-outlined hollow downward triangles mark monopsony and the zero-profit competitive wage. The redundant safe-region column is omitted, and the Student-t family heading identifies its empty safe region. Figure notes are intentionally omitted and will be supplied in LaTeX.
 35. Student-t noise variation added at sigma 10 and 50 around the sigma-20 baseline, holding degrees of freedom and all other economics fixed. Fresh 31-task atlas results show sigma 10 and 20 invalid throughout their tested ranges, while sigma 50 has an invalid-to-valid transition between the initial grid points at $0 and $20k; the existing refined points put the paper's first-valid marker at about $9.14k. All three retain unresolved support certification and no reversals.
 36. Full-GIC action-domain bug fixed and the complete pipeline rerun from scratch. The moralhazard solver's default always checked action zero even when zero lay outside the configured action set. All full active-set solves now explicitly check both economic action-set endpoints. This corrects the geometric monopsony CE from about $0.383k to numerically zero and makes its monopsony marker coincide with its FOA threshold.
-37. The reported FOA exercise now starts at a zero reservation CE wage in every specification. Negative reservation wages remain available only for the separate slack-IR monopsony plateau search. The principal figure has no negative x-range: a specification valid at zero is marked as first valid at zero, and no below-zero status is inferred or displayed. The separate FOA diamond was subsequently removed because the red-to-green transition already identifies the threshold. The monopsony and competitive-wage markers are downward triangles placed slightly above and pointing toward the validity line, leaving short red segments unobstructed.
-38. Separate saved-results-only fixed-action cost-minimization summary implemented at `experiments/report_fixed_action_figure.py`. It retains the principal figure's specification order, adds the dedicated Gaussian intended actions 70 and 130, displays intended action explicitly, and marks the CARA-RRA-2 action 100 as locally infeasible rather than treating it as a solver failure. It uses only fixed-action exercise records and writes its PDF, PNG, and CSV under `figures/foa-fixed-action-summary/`.
+37. The reported FOA exercise now starts at a zero reservation CE wage in every specification. Negative reservation wages remain available only for the separate slack-IR monopsony plateau search. The principal figure has no negative x-range: a specification valid at zero is marked as first valid at zero, and no below-zero status is inferred or displayed. The separate FOA diamond was subsequently removed because the red-to-teal transition already identifies the threshold. The monopsony and competitive-wage markers are downward triangles placed slightly above and pointing toward the validity line, leaving short red segments unobstructed.
+38. Separate fixed-action cost-minimization reporting pipeline implemented. `experiments/compute_fixed_action_benchmarks.py` saves full-GIC fixed-action monopsony and zero-profit competitive benchmarks, and the saved-results-only `experiments/report_fixed_action_figure.py` renders them. The figure retains the principal figure's specification order, adds the dedicated Gaussian intended actions 70 and 130, and marks the CARA-RRA-2 action 100 as locally infeasible rather than treating it as a solver failure. Intended actions are retained in the plotting CSV for separate specification details, not displayed as a figure column. Filled and open downward triangles are explicitly labeled fixed-action monopsony and fixed-action competitive wages. The pipeline uses only fixed-action exercise records and writes its PDF, PNG, and CSV under `figures/foa-fixed-action-summary/`.
 
 Still to do before generating final paper assets from the harmonized reporting pipeline:
 
@@ -592,7 +605,7 @@ The diagnostic figures under `output/foa-problem-diagnostics/` were inspected by
 
 - **Gaussian principal, invalid side:** active-set and CVXPY relaxed solutions both locate the economically relevant deviation, with CE gains about `$27.58` and `$33.21`. After imposing full GIC, residual gains are only about `$0.21` for the active solver and `$0.08` for CVXPY; expected wages differ by about `$0.10`. This is harmless gray-zone noise after the deviation is corrected.
 - **Poisson valid boundary:** active relaxed/full solutions coincide. CVXPY relaxed reports a `$1.16` endpoint gain even though expected costs differ by less than one cent. Its utility contract differs at `y=0` by only about `2.8e-5` utility units, while visible pointwise irregularity is concentrated around `y>=24`, whose intended-action probability is about `7.3e-7`. This is tolerance sensitivity, not a meaningful economic disagreement.
-- **Exponential diagnostics under the old cost level:** the active relaxed solution found a small but genuine `$5.70` deviation gain at `a=10`; CVXPY full removed it for about `$5.42` additional expected cost. The old monopsony diagnostic had only a `$0.50` residual CE gain. These reviews are retained as historical provenance but are inactive because shifting cost to `C(10)=0` changes delivered utility and reservation-wage coordinates. The revised exponential cells require fresh review if used beyond the internal atlas.
+- **Exponential diagnostics under the old cost level:** the active relaxed solution found a small but genuine `$5.70` deviation gain at `a=10`; CVXPY full removed it for about `$5.42` additional expected cost. The old monopsony diagnostic had only a `$0.50` residual CE gain. These reviews are retained as historical provenance but are inactive because shifting cost to `C(10)=0` changes delivered utility and reservation-wage coordinates. The revised harmonized exponential diagnostics were subsequently reviewed and accepted for reporting.
 - **Student-`t`:** after five support expansions, omitted mass remains about `0.30%`. This prevents formal support certification, but the `$13.7k--$42.0k` deviations are far too large to plausibly be numerical noise. It remains a robust adverse control.
 
 Operational rule for the next agent: retain strict fields such as `unresolved` and all warnings, but add a separate review/materiality field. Do not erase strict provenance, and do not let sub-dollar or few-dollar numerical noise block internal atlas expansion. Do not begin broad solver debugging based on these reviewed plots.
@@ -685,9 +698,9 @@ Selected harmonized results are:
 Fresh harmonized Poisson diagnostics show coincident active relaxed and full
 solutions at reservation wage zero. CVXPY relaxed finds an endpoint CE gain of
 about $1.21, while CVXPY full removes it for less than one dollar of additional
-expected cost and is globally valid. This is likely immaterial tolerance
-sensitivity, but the manifest correctly leaves human review pending because
-the previous human assessment used the old calibration.
+expected cost and is globally valid. Human review accepts this as immaterial
+tolerance sensitivity. The harmonized shifted-cost exponential diagnostics
+were also reviewed and accepted for reporting.
 
 ### 9.6 Boundary-recalibration preflight
 
@@ -761,9 +774,10 @@ performed: the report consistently selects from existing nonnegative initial
 and refined atlas points. When FOA is valid at zero, zero is reported as the
 first valid wage. No negative reservation-wage range is displayed. The plot
 intentionally assumes no reversals beyond the observed
-threshold; no reversals occurred in the atlas. Green therefore extends to the
-right edge once validity begins. Student-t sigma 10 and 20 are red throughout,
-while sigma 50 turns green at its saved first-valid point of about $9.14k.
+threshold; no reversals occurred in the atlas. Deep teal therefore extends to
+the right edge once validity begins. Student-t sigma 10 and 20 are red
+throughout, while sigma 50 turns teal at its saved first-valid point of about
+$9.14k.
 Strict statuses and warnings remain unchanged in the atomic atlas.
 
 The corrected common-family principal monopsony CEs are numerically zero for
@@ -772,17 +786,48 @@ at about $13.096k with FOA valid at every tested wage. The prior geometric CE
 of about $0.383k was caused by imposing a phantom action-zero IC constraint
 outside its configured action set `[1.05,10]`.
 
-The `Safe region empty?` column is blank except for the three Student-t rows. This uses the
-analytic nonemptiness result for Gaussian, Poisson, exponential, gamma,
-geometric, Bernoulli, and binomial rather than the cancellation-prone numerical
-finite-difference diagnostic. In particular, the saved Bernoulli numerical
-safe width of zero is an artifact: Bernoulli masses are affine in action, so
-analytically `f_aa = 0` and the weak safe-region condition holds.
+The redundant `Safe region empty?` column is omitted. Instead, the Student-t
+family heading reads `Student-t (empty safe region)`; the other displayed
+families have analytically nonempty safe regions under their configured action
+sets.
 
 The three Student-t monopsony markers remain provisional: because these atlas
 cases deliberately skip the monopsony scan, the mock uses each case's delivered
 CE from its lowest-requirement full-GIC solve. True slack-IR plateau checks
 remain a TODO before manuscript integration.
+
+### 9.9 Fixed-action paper figure status
+
+`experiments/compute_fixed_action_benchmarks.py` separately solves the full-GIC
+cost-minimization problem at each declared intended action. Its ignored output
+is `output/foa-internal-atlas-final-v2/fixed_action_benchmarks.json`.
+The fixed-action monopsony marker is delivered CE on a slack-IR minimum-cost
+plateau; the fixed-action competitive marker is the reservation CE where that
+action's minimum full-GIC compensation equals its declared expected revenue.
+These are conditional-on-action benchmarks and are not the endogenous-action
+principal benchmarks in Section 9.8.
+
+The figure has the principal figure's 25 displayed specifications plus dedicated
+Gaussian intended actions 70 and 130. The intended-action and empty-safe-region
+columns are omitted; intended actions remain in the plotting CSV for separate
+paper specification details, while the Student-t heading reads `empty safe
+region`. FOA-valid segments use the paper's deep teal secondary color. The
+filled fixed-action monopsony triangle is black, the competitive triangle is
+white with a black outline, and both markers have the same size. CARA RRA 2 at
+action 100 is locally infeasible and therefore has neither benchmark. CRRA
+gamma 2 at action 100 has minimum full-GIC compensation above expected revenue
+even with participation slack, so it has a fixed-action monopsony marker but no
+nonnegative-profit competitive marker. The omitted risk-neutral adverse control
+has no bracketed competitive wage on the searched range. Strict plateau and
+global-IC statuses remain in the benchmark JSON even when economically
+immaterial markers are shown under the paper's reporting convention.
+
+`experiments/report_fixed_action_figure.py` reads only saved fixed-action
+exercise and benchmark records and writes:
+
+- `figures/foa-fixed-action-summary/mock.pdf`;
+- `figures/foa-fixed-action-summary/mock.png`;
+- `figures/foa-fixed-action-summary/mock_data.csv`.
 
 ## 10. Handoff brief
 
@@ -797,6 +842,7 @@ remain a TODO before manuscript integration.
 - Internal saved-results summarizer: `experiments/summarize_internal.py`
 - Problem diagnostics CLI: `experiments/diagnose_problematic.py`
 - Competitive-wage solver CLI: `experiments/compute_competitive.py`
+- Fixed-action benchmark solver CLI: `experiments/compute_fixed_action_benchmarks.py`
 - Principal saved-results report: `experiments/report_principal_figure.py`
 - Fixed-action saved-results report: `experiments/report_fixed_action_figure.py`
 - Tests: `experiments/tests/test_prototype.py`
@@ -824,6 +870,7 @@ uv run python -m experiments.summarize_internal --input output/foa-internal-atla
 
 # Compute saved zero-profit benchmarks, then render without solving:
 uv run python -m experiments.compute_competitive --input output/foa-internal-atlas-final-v2
+uv run python -m experiments.compute_fixed_action_benchmarks --input output/foa-internal-atlas-final-v2
 uv run python -m experiments.report_principal_figure --input output/foa-internal-atlas-final-v2
 uv run python -m experiments.report_fixed_action_figure --input output/foa-internal-atlas-final-v2
 ```
@@ -850,10 +897,10 @@ The diagnostic root contains an index and one folder per reviewed cell, with fig
 3. Principal and fixed-action exercises remain separate.
 4. Reversals are searched for; monotonicity is never imposed.
 5. Strict numerical status, warnings, and human/economic review status must be stored separately.
-6. The reviewed Gaussian and old-calibration Poisson cells do not justify general solver debugging. Harmonized Poisson human review remains pending. The earlier exponential reviews used the old cost level and are inactive; revised exponential results require fresh review only if selected for reporting.
+6. Human review accepts the harmonized Poisson and shifted-cost exponential diagnostics for reporting. Their minor cross-solver differences do not justify general solver debugging. Earlier old-calibration reviews remain historical provenance only.
 7. Student-`t` remains a robust adverse control; human review accepts its small support truncation as economically immaterial while strict support status remains unresolved.
-8. The principal paper figure uses the saved $1 CE-gain reporting rule and existing atlas points; do not add a new precision ladder or extrapolation checks. The green-to-the-right display assumes no reversals, consistent with the observed atlas.
-9. The principal paper subset excludes CRRA gamma 3 and Gaussian action-bound variations. Common non-Gaussian families with one specification use one bold row each. Student-t has sigma 10, 20, and 50 rows, all marked `Yes` in the `Safe region empty?` column.
+8. The principal paper figure uses the saved $1 CE-gain reporting rule and existing atlas points; do not add a new precision ladder or extrapolation checks. The teal-to-the-right display assumes no reversals, consistent with the observed atlas.
+9. The principal paper subset excludes CRRA gamma 3 and Gaussian action-bound variations. Common non-Gaussian families with one specification use one bold row each. Student-t has sigma 10, 20, and 50 rows under the `Student-t (empty safe region)` heading; no separate safe-region column is displayed.
 10. Strict internal classifications and warnings are not simplified or overwritten by the paper display rule.
 11. Generated experiment output remains ignored and is never committed. The reproducible code/manifest pipeline is the deliverable. The controlled benchmark files `output/machine_specs.txt` and `output/timing_results.csv` remain tracked.
 
@@ -876,9 +923,8 @@ The diagnostic root contains an index and one folder per reviewed cell, with fig
 1. Run and save true slack-IR monopsony plateau checks for Student-t sigma 10, 20, and 50, then replace their provisional principal-figure markers.
 2. Review and integrate the fixed-action companion figure, keeping its exercise and interpretation separate from the principal figure.
 3. During manuscript integration, create the concise appendix mapping from display labels to full manifest specifications and write all explanatory figure notes in LaTeX.
-4. Before paper use, complete the pending human review of the harmonized Poisson diagnostic.
-5. Update the Poisson caption and numerical text to the $15k-per-success calibration, install the harmonized figure at its final manuscript path, and inspect the full-page compiled result.
-6. Keep fixed-action infeasibility, Student-t support truncation, CRRA gamma-3 invalidity, and failed convex cross-checks visible internally even though the main figure is deliberately simple.
-7. Do **not** add generated output to Git. Reproduction consists of the committed manifest, code, lockfile, and documented commands.
+4. Update the Poisson caption and numerical text to the $15k-per-success calibration, install the harmonized figure at its final manuscript path, and inspect the full-page compiled result.
+5. Keep fixed-action infeasibility, Student-t support truncation, CRRA gamma-3 invalidity, and failed convex cross-checks visible internally even though the main figure is deliberately simple.
+6. Do **not** add generated output to Git. Reproduction consists of the committed manifest, code, lockfile, and documented commands.
 
 Reporting code must consume saved results and must never rerun models implicitly. `experiments.compute_competitive` is an experiment/solver command; `experiments.report_principal_figure` is the solver-free reporting command.

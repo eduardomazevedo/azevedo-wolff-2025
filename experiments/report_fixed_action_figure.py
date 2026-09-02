@@ -11,20 +11,22 @@ from typing import Any
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
-from .report_principal_figure import (
-    ROWS as PRINCIPAL_ROWS,
-    _empty_safe_region,
-    _report_threshold,
-)
+from .report_principal_figure import ROWS as PRINCIPAL_ROWS, _report_threshold
+
+
+TEAL = "#3b6978"
+RED = "#c95f59"
+BLACK = "#222222"
+BENCHMARK_MARKER_SIZE = 38
 
 
 # Keep the principal figure's ordering and add the two dedicated Gaussian
 # intended-action exercises. Principal and fixed-action results are never
 # pooled: this script reads only the fixed_action exercise from each task.
 ROWS: list[tuple[str, str, str | None]] = []
-for row in PRINCIPAL_ROWS:
-    ROWS.append(row)
-    if row[2] == "gaussian_log_paper":
+for kind, label, case_id in PRINCIPAL_ROWS:
+    ROWS.append((kind, label, case_id))
+    if case_id == "gaussian_log_paper":
         ROWS.extend([
             ("subheader", "Intended action", None),
             ("data", "Low", "gaussian_fixed_actions_log__intended_action-70"),
@@ -43,6 +45,8 @@ def _atomic_results(input_dir: Path) -> dict[str, dict[str, Any]]:
 
 def build_rows(input_dir: Path) -> list[dict[str, Any]]:
     atomic = _atomic_results(input_dir)
+    benchmark_payload = json.loads((input_dir / "fixed_action_benchmarks.json").read_text())
+    benchmarks = {row["case_id"]: row for row in benchmark_payload["records"]}
     data: list[dict[str, Any]] = []
     for kind, label, case_id in ROWS:
         row: dict[str, Any] = {"kind": kind, "label": label, "case_id": case_id}
@@ -54,11 +58,20 @@ def build_rows(input_dir: Path) -> list[dict[str, Any]]:
             threshold, threshold_status = (
                 (None, "infeasible") if infeasible else _report_threshold(exercise)
             )
+            benchmark = benchmarks[case_id]
+            monopsony_selected = benchmark.get("monopsony", {}).get("selected")
+            competitive = benchmark.get("competitive", {})
             row.update({
                 "intended_action": float(result["effective_configuration"]["fixed_action"]),
                 "foa_threshold_ce_wage": threshold,
                 "foa_threshold_status": threshold_status,
-                "empty_safe_region": _empty_safe_region(result),
+                "fixed_action_monopsony_ce_wage": (
+                    None if monopsony_selected is None
+                    else max(0.0, float(monopsony_selected["delivered_ce_wage"]))
+                ),
+                "fixed_action_monopsony_status": benchmark.get("monopsony", {}).get("status"),
+                "fixed_action_competitive_ce_wage": competitive.get("competitive_ce_wage"),
+                "fixed_action_competitive_status": competitive.get("status"),
                 "infeasible": infeasible,
             })
         data.append(row)
@@ -74,36 +87,30 @@ def write_csv(rows: list[dict[str, Any]], path: Path) -> None:
         writer.writerows(records)
 
 
-def _format_action(action: float) -> str:
-    if action >= 10 or action.is_integer():
-        return f"{action:g}"
-    return f"{action:.3g}"
-
-
 def make_figure(rows: list[dict[str, Any]], output: Path) -> None:
     nrows = len(rows)
-    fig, (label_ax, action_ax, safe_ax, plot_ax) = plt.subplots(
+    fig, (label_ax, plot_ax) = plt.subplots(
         1,
-        4,
+        2,
         figsize=(8.35, 11.2),
-        gridspec_kw={"width_ratios": [2.85, 1.05, 1.05, 5.1], "wspace": 0.08},
+        gridspec_kw={"width_ratios": [3.65, 5.35], "wspace": 0.04},
     )
-    for axis in (label_ax, action_ax, safe_ax, plot_ax):
+    for axis in (label_ax, plot_ax):
         axis.set_ylim(nrows - 0.35, -1.2)
         axis.set_yticks([])
     label_ax.axis("off")
-    action_ax.axis("off")
-    safe_ax.axis("off")
 
     data_rows = [row for row in rows if row["kind"] in {"data", "data_bold"}]
-    tested_wages = []
-    atomic_thresholds = [
-        float(row["foa_threshold_ce_wage"])
+    displayed_wages = [
+        float(value)
         for row in data_rows
-        if row.get("foa_threshold_ce_wage") is not None
+        for value in (
+            row.get("foa_threshold_ce_wage"),
+            row.get("fixed_action_competitive_ce_wage"),
+        )
+        if value is not None
     ]
-    tested_wages.extend(atomic_thresholds)
-    x_right = max(110.0, max(tested_wages, default=0.0) * 1.1)
+    x_right = max(110.0, max(displayed_wages, default=0.0) * 1.04)
     plot_ax.set_xlim(0, x_right)
     plot_ax.xaxis.tick_top()
     plot_ax.xaxis.set_label_position("top")
@@ -113,20 +120,12 @@ def make_figure(rows: list[dict[str, Any]], output: Path) -> None:
     plot_ax.tick_params(axis="y", length=0)
 
     label_ax.text(0, -0.65, "Specification", weight="bold", va="bottom")
-    action_ax.text(
-        0.5, -0.82, "Intended\naction a₀", weight="bold", ha="center",
-        va="bottom", fontsize=8.2, linespacing=0.9,
-    )
-    safe_ax.text(
-        0.5, -0.82, "Safe region\nempty?", weight="bold", ha="center",
-        va="bottom", fontsize=8.2, linespacing=0.9,
-    )
 
     for y, row in enumerate(rows):
         kind = row["kind"]
         if kind == "header":
             label_ax.text(0, y, row["label"], weight="bold", va="center", fontsize=9.5)
-            for axis in (label_ax, action_ax, safe_ax, plot_ax):
+            for axis in (label_ax, plot_ax):
                 axis.axhline(y + 0.43, color="#eeeeee", linewidth=0.6, zorder=0)
             continue
         if kind == "subheader":
@@ -137,7 +136,7 @@ def make_figure(rows: list[dict[str, Any]], output: Path) -> None:
             continue
 
         if kind == "data_bold":
-            for axis in (label_ax, action_ax, safe_ax, plot_ax):
+            for axis in (label_ax, plot_ax):
                 axis.axhline(y - 0.5, color="#eeeeee", linewidth=0.6, zorder=0)
         label_ax.text(
             0 if kind == "data_bold" else 0.12,
@@ -147,15 +146,6 @@ def make_figure(rows: list[dict[str, Any]], output: Path) -> None:
             fontsize=8.3 if kind == "data" else 9.2,
             weight="bold" if kind == "data_bold" else "normal",
         )
-        action_ax.text(
-            0.5, y, _format_action(row["intended_action"]),
-            ha="center", va="center", fontsize=8.1, color="#333333",
-        )
-        safe_ax.text(
-            0.5, y, "Yes" if row["empty_safe_region"] else "",
-            ha="center", va="center", fontsize=8.1, color="#444444",
-        )
-
         if row["infeasible"]:
             plot_ax.plot([0, x_right], [y, y], color="#aaaaaa", linewidth=1.5, zorder=2)
             plot_ax.text(
@@ -166,19 +156,37 @@ def make_figure(rows: list[dict[str, Any]], output: Path) -> None:
 
         threshold = row["foa_threshold_ce_wage"]
         if threshold is None:
-            plot_ax.plot([0, x_right], [y, y], color="#c95f59", linewidth=2.3, zorder=3)
+            plot_ax.plot([0, x_right], [y, y], color=RED, linewidth=2.3, zorder=3)
         else:
-            plot_ax.plot([0, threshold], [y, y], color="#c95f59", linewidth=2.3, zorder=3)
-            plot_ax.plot([threshold, x_right], [y, y], color="#41965a", linewidth=2.3, zorder=3)
+            plot_ax.plot([0, threshold], [y, y], color=RED, linewidth=2.3, zorder=3)
+            plot_ax.plot([threshold, x_right], [y, y], color=TEAL, linewidth=2.3, zorder=3)
 
+        marker_y = y - 0.18
+        monopsony = row["fixed_action_monopsony_ce_wage"]
+        competitive = row["fixed_action_competitive_ce_wage"]
+        if monopsony is not None:
+            plot_ax.scatter(
+                monopsony, marker_y, marker="v", s=BENCHMARK_MARKER_SIZE,
+                facecolor=BLACK, edgecolor=BLACK, linewidth=1.0, zorder=6,
+                clip_on=False,
+            )
+        if competitive is not None:
+            plot_ax.scatter(
+                competitive, marker_y, marker="v", s=BENCHMARK_MARKER_SIZE,
+                facecolor="white", edgecolor=BLACK, linewidth=1.0, zorder=6,
+            )
+
+    legend_marker_size = BENCHMARK_MARKER_SIZE ** 0.5
     legend = [
-        Line2D([], [], color="#c95f59", linewidth=2.3, label="FOA fails"),
-        Line2D([], [], color="#41965a", linewidth=2.3, label="FOA holds"),
+        Line2D([], [], marker="v", markersize=legend_marker_size, linestyle="none", markerfacecolor=BLACK, markeredgecolor=BLACK, label="Fixed-action monopsony wage"),
+        Line2D([], [], marker="v", markersize=legend_marker_size, linestyle="none", markerfacecolor="white", markeredgecolor=BLACK, label="Fixed-action competitive wage"),
+        Line2D([], [], color=RED, linewidth=2.3, label="FOA fails"),
+        Line2D([], [], color=TEAL, linewidth=2.3, label="FOA holds"),
         Line2D([], [], color="#aaaaaa", linewidth=1.5, label="Locally infeasible"),
     ]
     fig.legend(
         handles=legend, loc="lower center", bbox_to_anchor=(0.69, 0.018),
-        frameon=False, fontsize=7.5, ncol=3,
+        frameon=False, fontsize=7.0, ncol=3,
     )
     fig.subplots_adjust(top=0.94, bottom=0.055, left=0.045, right=0.985)
     output.parent.mkdir(parents=True, exist_ok=True)
