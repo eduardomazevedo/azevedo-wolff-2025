@@ -1,5 +1,17 @@
 \subsection{Discussion of Assumptions, Limitations, and Counterexamples}
 \label{sec:counter-examples}
+\medskip\noindent\textit{\textbf{Numerical Experiments.}}
+Figure~\ref{fig:foa-principal-summary} summarizes the validity of the first-order approach across our numerical principal's problems.  Except for the Student-$t$ cases, the range of reservation wages over which the first-order approach fails is tiny: it either holds at the monopsony wage or becomes valid after only a small increase.  This pattern survives substantial changes in noise, initial wealth, and effort costs, and relative risk aversion as low as $0.25$.  By contrast, the Student-$t$ distribution has an empty $\mathcal Q_{\mathrm{safe}}$, and the first-order approach can fail throughout the economically relevant range.  The same conclusions hold in the fixed-action cost-minimization experiments reported in Supplementary Appendix~\ref{sec:foa-numerical-experiments}.
+
+\begin{figure}[p]
+    \centering
+    \includegraphics[width=0.90\textwidth]{figures/foa-principal-summary.pdf}
+    \captionsetup{font=footnotesize}
+    \caption{Validity of the first-order approach in the principal's problem.}
+    \label{fig:foa-principal-summary}
+    \caption*{\textit{Note:} Red and teal denote reservation wages at which the first-order approach fails and holds, respectively.  Filled and open triangles mark the monopsony and competitive wages.  Supplementary Appendix~\ref{sec:foa-numerical-experiments} gives the specifications and computational details.}
+\end{figure}
+
 \medskip\noindent\textit{\textbf{Safe Score Region.}}
 A key assumption of Theorem~\ref{thm:main} is the availability of a sufficiently large safe low-score region, encoded by $\mathcal Q_{\mathrm{safe}}$.  The region must be large enough for the required conditions on $\mathrm{Curv}_{\mathrm{safe}}$ and $\mathrm{Cap}_{\mathrm{safe}}$ to hold.
 

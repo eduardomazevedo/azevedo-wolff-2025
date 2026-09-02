@@ -40,6 +40,12 @@ def _saved_results(input_dir: Path) -> dict[str, dict[str, Any]]:
 
 
 def _report_threshold(exercise: dict[str, Any]) -> tuple[float | None, str]:
+    """Return the display boundary, not an estimated mathematical transition.
+
+    The runner contributes both declared-grid and diagnostic bisection points.
+    The report uses the first observed point meeting its $1 CE-gain criterion
+    for which every later observed point also meets that criterion.
+    """
     points = exercise.get("points", []) + exercise.get("refinement_points", [])
     # The paper exercise is defined only for nonnegative reservation wages.
     ordered = sorted(

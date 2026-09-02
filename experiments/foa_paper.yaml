@@ -13,6 +13,9 @@ numerics:
     multistart_count: 12
     valid_tolerance_ce: 0.0001
     invalid_tolerance_ce: 0.001
+  # Diagnostic bisection of intervals with strictly valid/invalid endpoints.
+  # The figures use the computed points to form a display boundary; they do
+  # not report this wage tolerance as precision for an estimated transition.
   threshold:
     wage_tolerance: 0.025
     max_iterations: 12
