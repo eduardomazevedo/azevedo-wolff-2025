@@ -11,6 +11,7 @@ from typing import Any
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
+from replication.config import foa_summary_rows
 from replication.style import (
     BENCHMARK_MARKER_SIZE,
     BLACK,
@@ -25,41 +26,8 @@ from replication.style import (
 
 REPORT_VALID_TOLERANCE_CE = 0.001  # Atlas units are $1,000, so this is $1.
 
-# Deliberate paper order and short display labels. Detailed definitions remain
-# in the manifest and can be reproduced in an appendix table.
-ROWS = [
-    ("header", "Gaussian", None),
-    ("data", "Baseline (log, σ = 50)", "gaussian_log_paper"),
-    ("subheader", "Risk aversion", None),
-    ("data", "CRRA γ = 0.25", "gaussian_crra__gamma-0.25"),
-    ("data", "CRRA γ = 0.50", "gaussian_crra__gamma-0.5"),
-    ("data", "CRRA γ = 1.50", "gaussian_crra__gamma-1.5"),
-    ("data", "CRRA γ = 2", "gaussian_crra__gamma-2"),
-    ("data", "CARA RRA = 0.25", "gaussian_cara__alpha-0.005"),
-    ("data", "CARA RRA = 0.50", "gaussian_cara__alpha-0.01"),
-    ("data", "CARA RRA = 1", "gaussian_cara__alpha-0.02"),
-    ("data", "CARA RRA = 2", "gaussian_cara__alpha-0.04"),
-    ("subheader", "Noise", None),
-    ("data", "σ = 10", "gaussian_sigma_log__sigma-10"),
-    ("data", "σ = 20", "gaussian_sigma_log__sigma-20"),
-    ("subheader", "Initial wealth", None),
-    ("data", "w₀ = 25", "gaussian_wealth_log__wealth-25"),
-    ("data", "w₀ = 100", "gaussian_wealth_log__wealth-100"),
-    ("data", "w₀ = 200", "gaussian_wealth_log__wealth-200"),
-    ("subheader", "Effort cost", None),
-    ("data", "Half cost", "gaussian_cost_log__cost_scale-0.5"),
-    ("data", "Double cost", "gaussian_cost_log__cost_scale-2"),
-    ("data_bold", "Poisson", "poisson_log_paper"),
-    ("data_bold", "Exponential", "exponential_log_baseline"),
-    ("data_bold", "Gamma (shape = 2)", "gamma2_log_baseline"),
-    ("data_bold", "Geometric", "geometric_log_baseline"),
-    ("data_bold", "Bernoulli", "bernoulli_log_baseline"),
-    ("data_bold", "Binomial (n = 10)", "binomial10_log_baseline"),
-    ("header", "Student-t (empty safe region)", None),
-    ("data", "Baseline (σ = 20)", "student_t_log_adverse"),
-    ("data", "σ = 10", "student_t_sigma_log__sigma-10"),
-    ("data", "σ = 50", "student_t_sigma_log__sigma-50"),
-]
+# Paper order and display labels come from the common asset manifest.
+ROWS = foa_summary_rows("principal")
 
 
 def _atomic_results(input_dir: Path) -> dict[str, dict[str, Any]]:

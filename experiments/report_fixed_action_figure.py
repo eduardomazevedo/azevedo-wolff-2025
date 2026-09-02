@@ -11,6 +11,7 @@ from typing import Any
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
+from replication.config import foa_summary_rows
 from replication.style import (
     BENCHMARK_MARKER_SIZE,
     BLACK,
@@ -24,21 +25,12 @@ from replication.style import (
     legend_marker_size,
 )
 
-from .report_principal_figure import ROWS as PRINCIPAL_ROWS, _report_threshold
+from .report_principal_figure import _report_threshold
 
 
-# Keep the principal figure's ordering and add the two dedicated Gaussian
-# intended-action exercises. Principal and fixed-action results are never
-# pooled: this script reads only the fixed_action exercise from each task.
-ROWS: list[tuple[str, str, str | None]] = []
-for kind, label, case_id in PRINCIPAL_ROWS:
-    ROWS.append((kind, label, case_id))
-    if case_id == "gaussian_log_paper":
-        ROWS.extend([
-            ("subheader", "Intended action", None),
-            ("data", "Low", "gaussian_fixed_actions_log__intended_action-70"),
-            ("data", "Near monopsony", "gaussian_fixed_actions_log__intended_action-130"),
-        ])
+# Principal and fixed-action results are never pooled: this script reads only
+# the fixed_action exercise from each paper specification.
+ROWS = foa_summary_rows("fixed_action")
 
 
 def _atomic_results(input_dir: Path) -> dict[str, dict[str, Any]]:

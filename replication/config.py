@@ -117,6 +117,45 @@ def _validate(payload: dict[str, Any], root: Path) -> None:
         raise ValueError(f"missing controlled benchmark inputs: {absent}")
 
 
+def foa_summary_rows(
+    exercise: str, path: str | Path = "paper.yaml"
+) -> list[tuple[str, str, str | None]]:
+    """Return the declared paper rows for one FOA summary exercise."""
+    if exercise not in {"principal", "fixed_action"}:
+        raise ValueError(f"unknown FOA summary exercise: {exercise!r}")
+    manifest = load_paper_manifest(path)
+    section = manifest.payload.get("foa_summary")
+    if not isinstance(section, dict) or not isinstance(section.get("rows"), list):
+        raise ValueError("paper.yaml must declare foa_summary.rows")
+    rows = list(section["rows"])
+    if exercise == "fixed_action":
+        insertion = section.get("fixed_action_insertions", {})
+        added = insertion.get("rows", [])
+        after = insertion.get("after")
+        positions = [index for index, row in enumerate(rows) if row.get("spec") == after]
+        if len(positions) != 1 or not isinstance(added, list):
+            raise ValueError("invalid fixed-action FOA row insertion")
+        rows[positions[0] + 1 : positions[0] + 1] = added
+
+    result = []
+    for row in rows:
+        if not isinstance(row, dict) or row.get("kind") not in {
+            "header", "subheader", "data", "data_bold"
+        }:
+            raise ValueError(f"invalid FOA summary row: {row!r}")
+        kind = row["kind"]
+        label = row.get("label")
+        spec = row.get("spec")
+        if not isinstance(label, str):
+            raise ValueError(f"FOA summary row lacks a label: {row!r}")
+        if kind in {"data", "data_bold"} and not isinstance(spec, str):
+            raise ValueError(f"FOA data row lacks a specification: {row!r}")
+        if kind in {"header", "subheader"} and spec is not None:
+            raise ValueError(f"FOA heading unexpectedly has a specification: {row!r}")
+        result.append((kind, label, spec))
+    return result
+
+
 def load_paper_manifest(path: str | Path = "paper.yaml") -> PaperManifest:
     """Load `paper.yaml`, validate its asset graph, and return it."""
     manifest_path = Path(path).resolve()
