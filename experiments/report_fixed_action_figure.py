@@ -11,13 +11,20 @@ from typing import Any
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
+from replication.style import (
+    BENCHMARK_MARKER_SIZE,
+    BLACK,
+    GRAY,
+    GRID,
+    RED,
+    SEPARATOR,
+    SUMMARY_FIGSIZE,
+    SUMMARY_LINEWIDTH,
+    TEAL,
+    legend_marker_size,
+)
+
 from .report_principal_figure import ROWS as PRINCIPAL_ROWS, _report_threshold
-
-
-TEAL = "#3b6978"
-RED = "#c95f59"
-BLACK = "#222222"
-BENCHMARK_MARKER_SIZE = 38
 
 
 # Keep the principal figure's ordering and add the two dedicated Gaussian
@@ -92,7 +99,7 @@ def make_figure(rows: list[dict[str, Any]], output: Path) -> None:
     fig, (label_ax, plot_ax) = plt.subplots(
         1,
         2,
-        figsize=(8.35, 11.2),
+        figsize=SUMMARY_FIGSIZE,
         gridspec_kw={"width_ratios": [3.65, 5.35], "wspace": 0.04},
     )
     for axis in (label_ax, plot_ax):
@@ -115,7 +122,7 @@ def make_figure(rows: list[dict[str, Any]], output: Path) -> None:
     plot_ax.xaxis.tick_top()
     plot_ax.xaxis.set_label_position("top")
     plot_ax.set_xlabel("Reservation certainty-equivalent wage ($1,000)", labelpad=9)
-    plot_ax.grid(axis="x", color="#dddddd", linewidth=0.7)
+    plot_ax.grid(axis="x", color=GRID, linewidth=0.7)
     plot_ax.spines[["left", "right", "bottom"]].set_visible(False)
     plot_ax.tick_params(axis="y", length=0)
 
@@ -126,7 +133,7 @@ def make_figure(rows: list[dict[str, Any]], output: Path) -> None:
         if kind == "header":
             label_ax.text(0, y, row["label"], weight="bold", va="center", fontsize=9.5)
             for axis in (label_ax, plot_ax):
-                axis.axhline(y + 0.43, color="#eeeeee", linewidth=0.6, zorder=0)
+                axis.axhline(y + 0.43, color=SEPARATOR, linewidth=0.6, zorder=0)
             continue
         if kind == "subheader":
             label_ax.text(
@@ -137,7 +144,7 @@ def make_figure(rows: list[dict[str, Any]], output: Path) -> None:
 
         if kind == "data_bold":
             for axis in (label_ax, plot_ax):
-                axis.axhline(y - 0.5, color="#eeeeee", linewidth=0.6, zorder=0)
+                axis.axhline(y - 0.5, color=SEPARATOR, linewidth=0.6, zorder=0)
         label_ax.text(
             0 if kind == "data_bold" else 0.12,
             y,
@@ -147,7 +154,7 @@ def make_figure(rows: list[dict[str, Any]], output: Path) -> None:
             weight="bold" if kind == "data_bold" else "normal",
         )
         if row["infeasible"]:
-            plot_ax.plot([0, x_right], [y, y], color="#aaaaaa", linewidth=1.5, zorder=2)
+            plot_ax.plot([0, x_right], [y, y], color=GRAY, linewidth=1.5, zorder=2)
             plot_ax.text(
                 2.0, y - 0.13, "Locally infeasible", color="#777777",
                 fontsize=7.0, va="bottom",
@@ -156,10 +163,10 @@ def make_figure(rows: list[dict[str, Any]], output: Path) -> None:
 
         threshold = row["foa_threshold_ce_wage"]
         if threshold is None:
-            plot_ax.plot([0, x_right], [y, y], color=RED, linewidth=2.3, zorder=3)
+            plot_ax.plot([0, x_right], [y, y], color=RED, linewidth=SUMMARY_LINEWIDTH, zorder=3)
         else:
-            plot_ax.plot([0, threshold], [y, y], color=RED, linewidth=2.3, zorder=3)
-            plot_ax.plot([threshold, x_right], [y, y], color=TEAL, linewidth=2.3, zorder=3)
+            plot_ax.plot([0, threshold], [y, y], color=RED, linewidth=SUMMARY_LINEWIDTH, zorder=3)
+            plot_ax.plot([threshold, x_right], [y, y], color=TEAL, linewidth=SUMMARY_LINEWIDTH, zorder=3)
 
         marker_y = y - 0.18
         monopsony = row["fixed_action_monopsony_ce_wage"]
@@ -176,13 +183,13 @@ def make_figure(rows: list[dict[str, Any]], output: Path) -> None:
                 facecolor="white", edgecolor=BLACK, linewidth=1.0, zorder=6,
             )
 
-    legend_marker_size = BENCHMARK_MARKER_SIZE ** 0.5
+    marker_size = legend_marker_size()
     legend = [
-        Line2D([], [], marker="v", markersize=legend_marker_size, linestyle="none", markerfacecolor=BLACK, markeredgecolor=BLACK, label="Fixed-action monopsony wage"),
-        Line2D([], [], marker="v", markersize=legend_marker_size, linestyle="none", markerfacecolor="white", markeredgecolor=BLACK, label="Fixed-action competitive wage"),
-        Line2D([], [], color=RED, linewidth=2.3, label="FOA fails"),
-        Line2D([], [], color=TEAL, linewidth=2.3, label="FOA holds"),
-        Line2D([], [], color="#aaaaaa", linewidth=1.5, label="Locally infeasible"),
+        Line2D([], [], marker="v", markersize=marker_size, linestyle="none", markerfacecolor=BLACK, markeredgecolor=BLACK, label="Fixed-action monopsony wage"),
+        Line2D([], [], marker="v", markersize=marker_size, linestyle="none", markerfacecolor="white", markeredgecolor=BLACK, label="Fixed-action competitive wage"),
+        Line2D([], [], color=RED, linewidth=SUMMARY_LINEWIDTH, label="FOA fails"),
+        Line2D([], [], color=TEAL, linewidth=SUMMARY_LINEWIDTH, label="FOA holds"),
+        Line2D([], [], color=GRAY, linewidth=1.5, label="Locally infeasible"),
     ]
     fig.legend(
         handles=legend, loc="lower center", bbox_to_anchor=(0.69, 0.018),

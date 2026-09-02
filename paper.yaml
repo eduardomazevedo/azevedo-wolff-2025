@@ -1,0 +1,89 @@
+schema_version: 1
+paper: Broad Validity of the First-Order Approach in Moral Hazard
+units: USD_1000
+
+# Timing results are deliberately refreshed only on the designated standard
+# server. They are the only generated numerical outputs committed to Git.
+controlled_benchmark_inputs:
+  - output/timing_results.csv
+  - output/machine_specs.txt
+
+# This is the authoritative inventory during migration. `current` assets are
+# already referenced by TeX. `pending` assets are approved for the paper and
+# will become current when their captions and TeX placement are added.
+assets:
+  gaussian_principal:
+    kind: figure
+    status: current
+    output: figures/log-gaussian-sigma=50.0/pp_stacked.pdf
+    tex_path: figures/log-gaussian-sigma=50.0/pp_stacked.pdf
+    tex_source: tex/introduction.tex
+  gaussian_pareto:
+    kind: figure
+    status: current
+    output: figures/log-gaussian-sigma=50.0/pareto_frontier.pdf
+    tex_path: figures/log-gaussian-sigma=50.0/pareto_frontier.pdf
+    tex_source: tex/proof-main-result.tex
+  gaussian_fixed_action:
+    kind: figure
+    status: current
+    output: figures/log-gaussian-sigma=50.0/cm_stacked.pdf
+    tex_path: figures/log-gaussian-sigma=50.0/cm_stacked.pdf
+    tex_source: tex/proof-main-result.tex
+  poisson_principal:
+    kind: figure
+    status: current
+    output: figures/log-poisson/pp_stacked.pdf
+    tex_path: figures/log-poisson/pp_stacked.pdf
+    tex_source: tex/examples.tex
+  cara_gaussian_principal:
+    kind: figure
+    status: current
+    output: figures/cara-gaussian-sigma=50.0/pp_stacked.pdf
+    tex_path: figures/cara-gaussian-sigma=50.0/pp_stacked.pdf
+    tex_source: tex/examples.tex
+  student_t_principal:
+    kind: figure
+    status: current
+    output: figures/log-t-sigma=20.0/pp_stacked.pdf
+    tex_path: figures/log-t-sigma=20.0/pp_stacked.pdf
+    tex_source: tex/counter-examples.tex
+  solver_comparison:
+    kind: figure
+    status: current
+    output: figures/solver_comparison/stacked_comparison.pdf
+    tex_path: figures/solver_comparison/stacked_comparison.pdf
+    tex_source: tex/numerical-methods.tex
+  benchmark_machine_description:
+    kind: tex
+    status: current
+    output: output/specs_description.tex
+    tex_path: ../output/specs_description.tex
+    tex_source: tex/si.tex
+    inputs: [output/machine_specs.txt]
+  benchmark_table:
+    kind: tex
+    status: current
+    output: output/benchmarks_table.tex
+    tex_path: ../output/benchmarks_table.tex
+    tex_source: tex/si.tex
+    inputs: [output/timing_results.csv]
+  foa_principal_summary:
+    kind: figure
+    status: pending
+    output: figures/foa-principal-summary.pdf
+    calculation: foa_paper_results
+  foa_fixed_action_summary:
+    kind: figure
+    status: pending
+    output: figures/foa-fixed-action-summary.pdf
+    calculation: foa_paper_results
+
+# Calculation declarations will replace the current script-level entry points.
+# The first migration target is the pair of approved FOA summaries.
+calculations:
+  foa_paper_results:
+    kind: foa_summary_bundle
+    source_manifest: experiments/foa_experiments.yaml
+    principal_asset: foa_principal_summary
+    fixed_action_asset: foa_fixed_action_summary
