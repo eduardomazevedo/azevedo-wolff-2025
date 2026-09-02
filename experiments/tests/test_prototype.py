@@ -29,6 +29,7 @@ from experiments.prototype import (
     safe_region_metrics,
     summarize_transitions,
 )
+from experiments.report_common import summary_rows
 from experiments.storage import expand_manifest, run_manifest_atomic, task_hash
 from moralhazard.config_maker import make_utility_cfg
 
@@ -557,6 +558,23 @@ class TransitionTests(unittest.TestCase):
         self.assertLessEqual(refined[0]["lower_wage"], 0.4)
         self.assertGreaterEqual(refined[0]["upper_wage"], 0.4)
         self.assertLessEqual(refined[0]["upper_wage"] - refined[0]["lower_wage"], 0.01)
+
+
+class PaperSummaryConfigTests(unittest.TestCase):
+    def test_both_summary_row_lists_come_from_manifest(self) -> None:
+        principal = summary_rows("principal")
+        fixed = summary_rows("fixed_action")
+        self.assertEqual(len(principal), 31)
+        self.assertEqual(len(fixed), 34)
+        self.assertIn(("header", "Student-t (empty safe region)", None), principal)
+        principal_specs = {row[2] for row in principal}
+        self.assertEqual(
+            [row for row in fixed if row[2] not in principal_specs],
+            [
+                ("data", "Low", "gaussian_fixed_actions_log__intended_action-70"),
+                ("data", "Near monopsony", "gaussian_fixed_actions_log__intended_action-130"),
+            ],
+        )
 
 
 if __name__ == "__main__":

@@ -57,6 +57,48 @@ numerics:
     expected_wage_tolerance: 0.01
     ce_tolerance: 0.01
 
+# Exact paper selection, ordering, and labels for both FOA summary figures.
+# Fixed-action-only rows are inserted without duplicating the common selection.
+foa_summary:
+  rows:
+    - {kind: header, label: Gaussian}
+    - {kind: data, label: "Baseline (log, σ = 50)", spec: gaussian_log_paper}
+    - {kind: subheader, label: Risk aversion}
+    - {kind: data, label: "CRRA γ = 0.25", spec: gaussian_crra__gamma-0.25}
+    - {kind: data, label: "CRRA γ = 0.50", spec: gaussian_crra__gamma-0.5}
+    - {kind: data, label: "CRRA γ = 1.50", spec: gaussian_crra__gamma-1.5}
+    - {kind: data, label: "CRRA γ = 2", spec: gaussian_crra__gamma-2}
+    - {kind: data, label: "CARA RRA = 0.25", spec: gaussian_cara__alpha-0.005}
+    - {kind: data, label: "CARA RRA = 0.50", spec: gaussian_cara__alpha-0.01}
+    - {kind: data, label: "CARA RRA = 1", spec: gaussian_cara__alpha-0.02}
+    - {kind: data, label: "CARA RRA = 2", spec: gaussian_cara__alpha-0.04}
+    - {kind: subheader, label: Noise}
+    - {kind: data, label: "σ = 10", spec: gaussian_sigma_log__sigma-10}
+    - {kind: data, label: "σ = 20", spec: gaussian_sigma_log__sigma-20}
+    - {kind: subheader, label: Initial wealth}
+    - {kind: data, label: "w₀ = 25", spec: gaussian_wealth_log__wealth-25}
+    - {kind: data, label: "w₀ = 100", spec: gaussian_wealth_log__wealth-100}
+    - {kind: data, label: "w₀ = 200", spec: gaussian_wealth_log__wealth-200}
+    - {kind: subheader, label: Effort cost}
+    - {kind: data, label: Half cost, spec: gaussian_cost_log__cost_scale-0.5}
+    - {kind: data, label: Double cost, spec: gaussian_cost_log__cost_scale-2}
+    - {kind: data_bold, label: Poisson, spec: poisson_log_paper}
+    - {kind: data_bold, label: Exponential, spec: exponential_log_baseline}
+    - {kind: data_bold, label: "Gamma (shape = 2)", spec: gamma2_log_baseline}
+    - {kind: data_bold, label: Geometric, spec: geometric_log_baseline}
+    - {kind: data_bold, label: Bernoulli, spec: bernoulli_log_baseline}
+    - {kind: data_bold, label: "Binomial (n = 10)", spec: binomial10_log_baseline}
+    - {kind: header, label: "Student-t (empty safe region)"}
+    - {kind: data, label: "Baseline (σ = 20)", spec: student_t_log_adverse}
+    - {kind: data, label: "σ = 10", spec: student_t_sigma_log__sigma-10}
+    - {kind: data, label: "σ = 50", spec: student_t_sigma_log__sigma-50}
+  fixed_action_insertions:
+    after: gaussian_log_paper
+    rows:
+      - {kind: subheader, label: Intended action}
+      - {kind: data, label: Low, spec: gaussian_fixed_actions_log__intended_action-70}
+      - {kind: data, label: Near monopsony, spec: gaussian_fixed_actions_log__intended_action-130}
+
 # Explicitly re-solved internal diagnostics. These generate ignored output
 # figures and metadata; they are not paper figures.
 problem_diagnostics:

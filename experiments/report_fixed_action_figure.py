@@ -11,8 +11,7 @@ from typing import Any
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
-from replication.config import foa_summary_rows
-from replication.style import (
+from .report_common import (
     BENCHMARK_MARKER_SIZE,
     BLACK,
     GRAY,
@@ -23,6 +22,7 @@ from replication.style import (
     SUMMARY_LINEWIDTH,
     TEAL,
     legend_marker_size,
+    summary_rows,
 )
 
 from .report_principal_figure import _report_threshold
@@ -30,7 +30,7 @@ from .report_principal_figure import _report_threshold
 
 # Principal and fixed-action results are never pooled: this script reads only
 # the fixed_action exercise from each paper specification.
-ROWS = foa_summary_rows("fixed_action")
+ROWS = summary_rows("fixed_action")
 
 
 def _atomic_results(input_dir: Path) -> dict[str, dict[str, Any]]:

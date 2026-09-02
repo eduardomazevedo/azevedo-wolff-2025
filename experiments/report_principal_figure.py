@@ -11,8 +11,7 @@ from typing import Any
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
-from replication.config import foa_summary_rows
-from replication.style import (
+from .report_common import (
     BENCHMARK_MARKER_SIZE,
     BLACK,
     GRID,
@@ -22,12 +21,13 @@ from replication.style import (
     SUMMARY_LINEWIDTH,
     TEAL,
     legend_marker_size,
+    summary_rows,
 )
 
 REPORT_VALID_TOLERANCE_CE = 0.001  # Atlas units are $1,000, so this is $1.
 
 # Paper order and display labels come from the common asset manifest.
-ROWS = foa_summary_rows("principal")
+ROWS = summary_rows("principal")
 
 
 def _atomic_results(input_dir: Path) -> dict[str, dict[str, Any]]:
