@@ -70,9 +70,11 @@ Thus, at total wealth `w0+R0`, the local consumption-equivalent marginal cost
 of raising action equals marginal revenue. In Figure 1, `R0=a0=100`, so this
 reduces exactly to `theta=1/[100(100+50)]` and `C(a)=a^2/30000`. Unlike a formula
 with `a0+w0` in every case, this calibration does not mistakenly treat a count,
-probability, or scale parameter as a dollar amount. It also keeps effort cost
-at the target near one-third of a log-utility unit in all the baseline cases,
-which makes their compensation requirements comparable.
+probability, or scale parameter as a dollar amount. Before explicit `cost_scale`
+variations, it keeps effort cost at the target near one-third of a log-utility
+unit, which makes compensation requirements comparable. The binomial case has
+a documented scale of 1.5 to prevent its unusually informative signal from
+forcing the principal to the probability boundary.
 
 The target is a scale calibration, not a claim that every constrained
 moral-hazard optimum equals `a0` exactly; endogenous principal actions may move
@@ -106,8 +108,8 @@ chosen to force exact equality.
 | `gamma2_log_baseline` | Gamma shape 2 and scale `a`, `q(a)=2a` | 1 | `2a` | `[5,90]`; 50 | 5 | Principal and fixed action |
 | `geometric_log_baseline` | Geometric count on `{1,2,...}`, `q(a)=a` | 15 | `15a` | `[1.05,10]`; 7 | 1.05 | Principal and fixed action |
 | `bernoulli_log_baseline` | Project success indicator, `q(a)=a` | 150 | `150a` | `[0.05,0.95]`; 0.7 | 0.05 | Principal and fixed action |
-| `binomial10_log_baseline` | Number of successes in 10 trials, `q(a)=10a` | 15 | `150a` | `[0.05,0.95]`; 0.7 | 0.05 | Principal and fixed action |
-| `student_t_log_adverse` | Student-t location, `q(a)=a`, sigma 20, df 1.15 | 1 | `a` | `[0,180]`; 100 | 0 | Fixed-action adverse control |
+| `binomial10_log_baseline` | Number of successes in 10 trials, `q(a)=10a` | 15 | `150a` | `[0.05,0.99]`; 0.7 | 0.05 | Principal and fixed action; cost scale 1.5 |
+| `student_t_log_adverse` | Student-t location, `q(a)=a`, sigma 20, df 1.15 | 1 | `a` | `[0,180]`; 100 | 0 | Principal and fixed-action adverse control |
 
 At the target, `R(a0)=100` for Gaussian, exponential, gamma, and Student-t,
 and `R(a0)=105` for Poisson, geometric, Bernoulli, and binomial. For the log
@@ -132,16 +134,21 @@ C_{\mathrm{geometric}}(a)
 C_{\mathrm{Bernoulli}}(a)
   &=\frac{1}{2}\frac{150}{0.7(50+105)}(a^2-0.05^2),\\
 C_{\mathrm{binomial}}(a)
-  &=\frac{1}{2}\frac{150}{0.7(50+105)}(a^2-0.05^2).
+  &=\frac{1}{2}(1.5)\frac{150}{0.7(50+105)}(a^2-0.05^2).
 \end{aligned}
 \]
 
-The Bernoulli and binomial costs coincide because both use the same action
-parameter, calibration action, and marginal revenue; their information
-structures differ. All constant cost shifts preserve `C'(a)`, local incentive
-constraints, and relative effort costs. They change delivered utility and
-therefore must be included when computing reservation-wage and monopsony CE
-benchmarks.
+The unscaled Bernoulli and binomial calibrations would have the same cost
+because they use the same action parameter, target, and marginal revenue. A
+quick widened-probability check showed that this made the binomial principal
+choose the maximum probability even at 0.99: ten output signals make incentives
+much cheaper than one Bernoulli signal. We therefore predeclare a binomial cost
+scale of 1.5. It raises target effort cost from 0.337 to 0.505 and produces an
+interior slack-IR action near 0.77 rather than manufacturing an optimum with an
+arbitrary probability ceiling. All constant cost shifts preserve `C'(a)`,
+local incentive constraints, and relative effort costs. They change delivered
+utility and therefore must be included when computing reservation-wage and
+monopsony CE benchmarks.
 
 ### Scale reasonableness check
 
@@ -155,16 +162,16 @@ The calibration gives the following target magnitudes:
 | Gamma shape 2 | 100 | 0.330 | $100,000 expected output at scale 50 |
 | Geometric | 105 | 0.331 | Mean of seven units worth $15,000 each |
 | Bernoulli | 105 | 0.337 | A project worth $150,000 with success probability 0.7 |
-| Binomial(10) | 105 | 0.337 | Seven expected successes worth $15,000 each |
+| Binomial(10) | 105 | 0.505 | Seven target successes worth $15,000 each; steeper cost keeps the information-rich principal problem interior |
 | Student-t | 100 | 0.333 | Same location and dollar scale as the Gaussian adverse comparison |
 
 These are intentionally stylized rather than industry-specific calibrations.
 They put revenue, wealth, and the utility cost of the target action on similar
 scales. They also leave room for endogenous optimal actions to differ from the
-target because of incentive and risk costs. Before freezing the atlas, a smoke
-run should verify that principal actions remain interior and economically near
-these targets; if not, we should adjust the action target or cost scale openly
-rather than silently changing the value of output.
+target because of incentive and risk costs. Common-family and targeted-boundary
+preflights verify the calibration before the final atlas; any future adjustment
+must change a declared target or cost scale openly rather than silently
+changing the value of output.
 
 ## Existing paper examples and proposed harmonization
 
@@ -216,7 +223,10 @@ All use Gaussian location output and log utility unless stated otherwise.
   effort cost shifted consistently so that `C(20)=0` and `C(50)=0`,
   respectively.
 - **Initial wealth:** 25, 100, and 200, compared with baseline 50.
-- **Effort cost:** multiplicative cost scales 0.5 and 2.
+- **Effort cost:** multiplicative cost scales 0.5 and 2. The half-cost case
+  uses action bounds `[0,250]` and outcome grid `[-300,550]`; its slack-IR
+  action stabilizes near 225 once the former 180 ceiling is removed. The
+  double-cost case retains the baseline bounds.
 - **Fixed intended actions:** 70 and 130 in the baseline environment, compared
   with the fixed action 100 in `gaussian_log_paper`.
 
@@ -236,6 +246,14 @@ The Gaussian sigma-50 environment is crossed with:
 For CARA, reference total wealth is 50, so these alpha values imply relative
 risk aversion 0.25, 0.5, 1, and 2 at the reference wealth. All non-log utility
 cases use local consumption-equivalent effort-cost normalization.
+
+The low-risk-aversion cases CARA `alpha=0.005` and CRRA `gamma=0.25,0.5` use
+Gaussian action bounds `[0,250]` and outcome grid `[-300,550]`. Quick full-GIC
+checks with bounds 240, 300, and 400 showed stable slack-IR actions near 189.8,
+226.1, and 183.7, respectively. The common bound 250 therefore removes the
+artificial 180 ceiling with meaningful slack while preserving a plausible
+employment-output scale. Other utility cases retain the Figure 1 action set
+`[0,180]`.
 
 For CARA `alpha=0.04` and CRRA `gamma=3`, bounded utility and limited liability
 imply a highest locally implementable Gaussian action of about 59.86. Fixed

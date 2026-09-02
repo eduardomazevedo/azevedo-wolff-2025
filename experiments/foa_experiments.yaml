@@ -270,13 +270,16 @@ cases:
     exercises: [principal, fixed_action]
 
   - id: binomial10_log_baseline
-    suites: [common_distributions, internal_atlas]
+    suites: [common_distributions, boundary_preflight, internal_atlas]
     initial_wealth: 50
     target_action: 0.7
     fixed_action: 0.7
-    action_bounds: [0.05, 0.95]
+    action_bounds: [0.05, 0.99]
     revenue_slope: 150
     cost_normalization: paper_log
+    # Ten output signals make incentives unusually cheap; this steeper cost
+    # keeps the endogenous success probability interior and near the 0.7 target.
+    cost_scale: 1.5
     utility:
       kind: log
     distribution:
@@ -371,12 +374,23 @@ case_families:
         values: [25, 100, 200]
 
   - id: gaussian_cost_log
+    suites: [safe_region_variation, boundary_preflight, internal_atlas]
+    base: &gaussian_wide_action_base
+      <<: *gaussian_log_family_base
+      action_bounds: [0, 250]
+      outcome_grid: {distribution_type: continuous, y_min: -300, y_max: 550, n: 219}
+    axes:
+      - name: cost_scale
+        path: cost_scale
+        values: [0.5]
+
+  - id: gaussian_cost_log
     suites: [safe_region_variation, internal_atlas]
     base: *gaussian_log_family_base
     axes:
       - name: cost_scale
         path: cost_scale
-        values: [0.5, 2]
+        values: [2]
 
   - id: gaussian_fixed_actions_log
     suites: [fixed_action_design, internal_atlas]
@@ -390,14 +404,37 @@ case_families:
         values: [70, 130]
 
   - id: gaussian_crra
-    suites: [risk_aversion, internal_atlas]
+    suites: [risk_aversion, boundary_preflight, internal_atlas]
     base:
-      <<: *gaussian_log_family_base
+      <<: *gaussian_wide_action_base
       utility: {kind: crra, gamma: 0.5}
     axes:
       - name: gamma
         path: utility.gamma
-        values: [0.25, 0.5, 1.5, 2, 3]
+        values: [0.25, 0.5]
+
+  - id: gaussian_crra
+    suites: [risk_aversion, internal_atlas]
+    base:
+      <<: *gaussian_log_family_base
+      utility: {kind: crra, gamma: 1.5}
+    axes:
+      - name: gamma
+        path: utility.gamma
+        values: [1.5, 2, 3]
+
+  - id: gaussian_cara
+    suites: [risk_aversion, boundary_preflight, internal_atlas]
+    base:
+      <<: *gaussian_wide_action_base
+      utility: {kind: cara, alpha: 0.005}
+      risk_aversion_calibration:
+        reference_total_wealth: 50
+        formula: alpha_times_reference_total_wealth
+    axes:
+      - name: alpha
+        path: utility.alpha
+        values: [0.005]
 
   - id: gaussian_cara
     suites: [risk_aversion, internal_atlas]
@@ -410,5 +447,5 @@ case_families:
     axes:
       - name: alpha
         path: utility.alpha
-        # These imply RRA 0.25, 0.5, 1, and 2 at reference wealth 50.
-        values: [0.005, 0.01, 0.02, 0.04]
+        # These imply RRA 0.5, 1, and 2 at reference wealth 50.
+        values: [0.01, 0.02, 0.04]

@@ -289,24 +289,44 @@ class DistributionTests(unittest.TestCase):
         manifest = yaml.safe_load(Path("experiments/foa_experiments.yaml").read_text())
         tasks = {task.case_id: task for task in expand_manifest(manifest, "common_distributions")}
         expected = {
-            "gaussian_log_paper": (1.0, 100.0),
-            "poisson_log_paper": (15.0, 105.0),
-            "exponential_log_baseline": (1.0, 100.0),
-            "gamma2_log_baseline": (2.0, 100.0),
-            "geometric_log_baseline": (15.0, 105.0),
-            "bernoulli_log_baseline": (150.0, 105.0),
-            "binomial10_log_baseline": (150.0, 105.0),
+            "gaussian_log_paper": (1.0, 100.0, 1 / 3),
+            "poisson_log_paper": (15.0, 105.0, 0.3386923963),
+            "exponential_log_baseline": (1.0, 100.0, 0.33),
+            "gamma2_log_baseline": (2.0, 100.0, 0.33),
+            "geometric_log_baseline": (15.0, 105.0, 0.3310887097),
+            "bernoulli_log_baseline": (150.0, 105.0, 0.3369815668),
+            "binomial10_log_baseline": (150.0, 105.0, 0.5054723502),
         }
         self.assertEqual(set(tasks), set(expected))
-        for case_id, (slope, target_revenue) in expected.items():
+        for case_id, (slope, target_revenue, target_cost) in expected.items():
             case = tasks[case_id].economic_configuration
             self.assertEqual(case["revenue_slope"], slope)
             self.assertAlmostEqual(float(expected_revenue(case, case["target_action"])), target_revenue)
             mhp, cfg = make_problem(case)
             lower = float(case["action_bounds"][0])
             self.assertAlmostEqual(float(mhp.C(lower)), 0.0)
-            self.assertGreater(cfg["cost_metadata"]["target_effort_cost"], 0.32)
-            self.assertLess(cfg["cost_metadata"]["target_effort_cost"], 0.35)
+            self.assertAlmostEqual(cfg["cost_metadata"]["target_effort_cost"], target_cost, places=8)
+
+    def test_boundary_preflight_cases_are_interior_calibrations(self) -> None:
+        manifest = yaml.safe_load(Path("experiments/foa_experiments.yaml").read_text())
+        tasks = {task.case_id: task for task in expand_manifest(manifest, "boundary_preflight")}
+        self.assertEqual(set(tasks), {
+            "binomial10_log_baseline",
+            "gaussian_cara__alpha-0.005",
+            "gaussian_cost_log__cost_scale-0.5",
+            "gaussian_crra__gamma-0.25",
+            "gaussian_crra__gamma-0.5",
+        })
+        binomial = tasks["binomial10_log_baseline"].economic_configuration
+        self.assertEqual(binomial["action_bounds"], [0.05, 0.99])
+        self.assertEqual(binomial["cost_scale"], 1.5)
+        for case_id, task in tasks.items():
+            if case_id == "binomial10_log_baseline":
+                continue
+            self.assertEqual(task.economic_configuration["action_bounds"], [0, 250])
+            self.assertEqual(task.economic_configuration["outcome_grid"], {
+                "distribution_type": "continuous", "y_min": -300, "y_max": 550, "n": 219,
+            })
 
     def test_gaussian_calibration_remains_figure_one(self) -> None:
         case = self.case(
