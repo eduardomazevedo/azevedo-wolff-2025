@@ -94,9 +94,9 @@ def build_rows(input_dir: Path) -> list[dict[str, Any]]:
             result = item["result"]
             benchmark = competitive[case_id]
             selected = result.get("monopsony", {}).get("full_gic", {}).get("selected")
-            # The Student-t adverse control deliberately skipped the atlas
-            # monopsony scan. Its competitive benchmark's lowest-requirement
-            # full-GIC solve is slack and supplies the display benchmark.
+            # Student-t skips the redundant plateau scan. Its action set begins
+            # at zero and C(0)=0, so limited liability guarantees CE >= 0 and
+            # makes the full-GIC solve at a -1 reservation CE strictly slack.
             if selected is None and benchmark.get("history"):
                 selected = min(benchmark["history"], key=lambda item: item["reservation_wage"])
             threshold, threshold_status = _report_threshold(result["exercises"]["principal"])

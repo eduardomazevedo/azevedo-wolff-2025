@@ -306,6 +306,7 @@ class DistributionTests(unittest.TestCase):
             lower = float(case["action_bounds"][0])
             self.assertAlmostEqual(float(mhp.C(lower)), 0.0)
             self.assertAlmostEqual(cfg["cost_metadata"]["target_effort_cost"], target_cost, places=8)
+        self.assertEqual(tasks["gaussian_log_paper"].economic_configuration["action_bounds"][0], 0)
 
     def test_internal_atlas_foa_grids_start_at_zero(self) -> None:
         manifest = yaml.safe_load(Path("experiments/foa_experiments.yaml").read_text())
@@ -329,6 +330,9 @@ class DistributionTests(unittest.TestCase):
             self.assertEqual(case["distribution"]["params"], {"sigma": sigma, "nu": 1.15})
             self.assertEqual(case["outcome_grid"]["y_min"], y_min)
             self.assertEqual(case["outcome_grid"]["y_max"], y_max)
+            self.assertEqual(case["action_bounds"][0], 0)
+            mhp, _ = make_problem(case)
+            self.assertAlmostEqual(float(mhp.C(0)), 0.0)
             self.assertEqual(case["exercises"], ["principal", "fixed_action"])
 
     def test_boundary_preflight_cases_are_interior_calibrations(self) -> None:

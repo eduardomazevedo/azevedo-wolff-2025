@@ -571,15 +571,15 @@ Completed:
 36. Full-GIC action-domain bug fixed and the complete pipeline rerun from scratch. The moralhazard solver's default always checked action zero even when zero lay outside the configured action set. All full active-set solves now explicitly check both economic action-set endpoints. This corrects the geometric monopsony CE from about $0.383k to numerically zero and makes its monopsony marker coincide with its FOA threshold.
 37. The reported FOA exercise now starts at a zero reservation CE wage in every specification. Negative reservation wages remain available only for the separate slack-IR monopsony plateau search. The principal figure has no negative x-range: a specification valid at zero is marked as first valid at zero, and no below-zero status is inferred or displayed. The separate FOA diamond was subsequently removed because the red-to-teal transition already identifies the threshold. The monopsony and competitive-wage markers are downward triangles placed slightly above and pointing toward the validity line, leaving short red segments unobstructed.
 38. Separate fixed-action cost-minimization reporting pipeline implemented. `experiments/compute_fixed_action_benchmarks.py` saves full-GIC fixed-action monopsony and zero-profit competitive benchmarks, and the saved-results-only `experiments/report_fixed_action_figure.py` renders them. The figure retains the principal figure's specification order, adds the dedicated Gaussian intended actions 70 and 130, and marks the CARA-RRA-2 action 100 as locally infeasible rather than treating it as a solver failure. Intended actions are retained in the plotting CSV for separate specification details, not displayed as a figure column. Filled and open downward triangles are explicitly labeled fixed-action monopsony and fixed-action competitive wages. The pipeline uses only fixed-action exercise records and writes its PDF, PNG, and CSV under `figures/foa-fixed-action-summary/`.
+39. Student-t principal monopsony markers certified from the full-GIC solve at a reservation CE wage of $-1k. Gaussian and all three Student-t specifications have action set lower bound zero, and the constructor normalizes effort cost to `C(0)=0`. With limited liability, action zero therefore guarantees the agent a nonnegative CE wage, so the $-1k participation requirement is strictly slack by construction. The single full-GIC solve is already the unconstrained monopsony solution; no lower-reservation plateau scan is needed.
 
 Still to do before generating final paper assets from the harmonized reporting pipeline:
 
-1. Certify true slack-IR Student-t monopsony plateaus before finalizing the three Student-t monopsony markers; the mock currently uses each case's lowest-requirement full-GIC solve as a provisional display value.
-2. Freeze the concise label-to-manifest appendix mapping when integrating the figure into the manuscript.
-3. Review the fixed-action companion at full-page manuscript scale and finalize its caption.
-4. Update the paper's Poisson caption and numerical discussion to the $15k-per-success calibration, and replace the legacy examples with harmonized reporting assets.
-5. Complete final captioning, manuscript integration, and full-page compilation review. Explanatory notes belong in LaTeX, not inside the figure.
-6. Do not add broad parameter sweeps unless paper reporting exposes a specific missing comparison.
+1. Freeze the concise label-to-manifest appendix mapping when integrating the figure into the manuscript.
+2. Review the fixed-action companion at full-page manuscript scale and finalize its caption.
+3. Update the paper's Poisson caption and numerical discussion to the $15k-per-success calibration, and replace the legacy examples with harmonized reporting assets.
+4. Complete final captioning, manuscript integration, and full-page compilation review. Explanatory notes belong in LaTeX, not inside the figure.
+5. Do not add broad parameter sweeps unless paper reporting exposes a specific missing comparison.
 
 ## 9. Current numerical results and human review
 
@@ -791,10 +791,12 @@ family heading reads `Student-t (empty safe region)`; the other displayed
 families have analytically nonempty safe regions under their configured action
 sets.
 
-The three Student-t monopsony markers remain provisional: because these atlas
-cases deliberately skip the monopsony scan, the mock uses each case's delivered
-CE from its lowest-requirement full-GIC solve. True slack-IR plateau checks
-remain a TODO before manuscript integration.
+The three Student-t monopsony markers use each case's full-GIC principal solve
+at a reservation CE wage of $-1k. Their action sets begin at zero and effort
+cost is normalized to `C(0)=0`; under limited liability, action zero guarantees
+a nonnegative CE wage. The $-1k participation requirement is therefore
+strictly slack by construction, so this single solve gives the unconstrained
+monopsony benchmark without a separate plateau scan.
 
 ### 9.9 Fixed-action paper figure status
 
@@ -912,7 +914,6 @@ The diagnostic root contains an index and one folder per reviewed cell, with fig
 - Analytic omitted first/second moment errors are saved when moments exist, but they are diagnostics rather than family-specific rigorous tail certificates.
 - Support is intentionally unresolved for all three Student-`t` specifications.
 - Safe-region diagnostics are numerical grid certifications, not proofs. The Bernoulli finite-difference diagnostic incorrectly reports zero safe width because of cancellation even though affine Bernoulli masses analytically satisfy `f_aa = 0`; the paper figure uses the analytic family classification.
-- The three Student-t paper monopsony markers are provisional and still require true slack-IR plateau checks.
 - Final-v2 has no hard task failures. Two high-risk-aversion fixed actions remain economically infeasible by the capacity bound, and the CRRA gamma-3 principal/full-GIC result remains unresolved and excluded from the paper figure.
 - Runs made from a dirty working tree record root-level source snapshots, but the final validation should be run from a clean committed tree.
 - Task hashes currently cover economic and numerical configuration but not implementation code. Therefore `--resume` can reuse stale completed records after code changes; use a fresh output directory for the final validation run.
@@ -920,11 +921,10 @@ The diagnostic root contains an index and one folder per reviewed cell, with fig
 
 ### 10.4 Recommended sequence for the next agent
 
-1. Run and save true slack-IR monopsony plateau checks for Student-t sigma 10, 20, and 50, then replace their provisional principal-figure markers.
-2. Review and integrate the fixed-action companion figure, keeping its exercise and interpretation separate from the principal figure.
-3. During manuscript integration, create the concise appendix mapping from display labels to full manifest specifications and write all explanatory figure notes in LaTeX.
-4. Update the Poisson caption and numerical text to the $15k-per-success calibration, install the harmonized figure at its final manuscript path, and inspect the full-page compiled result.
-5. Keep fixed-action infeasibility, Student-t support truncation, CRRA gamma-3 invalidity, and failed convex cross-checks visible internally even though the main figure is deliberately simple.
-6. Do **not** add generated output to Git. Reproduction consists of the committed manifest, code, lockfile, and documented commands.
+1. Review and integrate the fixed-action companion figure, keeping its exercise and interpretation separate from the principal figure.
+2. During manuscript integration, create the concise appendix mapping from display labels to full manifest specifications and write all explanatory figure notes in LaTeX.
+3. Update the Poisson caption and numerical text to the $15k-per-success calibration, install the harmonized figure at its final manuscript path, and inspect the full-page compiled result.
+4. Keep fixed-action infeasibility, Student-t support truncation, CRRA gamma-3 invalidity, and failed convex cross-checks visible internally even though the main figure is deliberately simple.
+5. Do **not** add generated output to Git. Reproduction consists of the committed manifest, code, lockfile, and documented commands.
 
 Reporting code must consume saved results and must never rerun models implicitly. `experiments.compute_competitive` is an experiment/solver command; `experiments.report_principal_figure` is the solver-free reporting command.
