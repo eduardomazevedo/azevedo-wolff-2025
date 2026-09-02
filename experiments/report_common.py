@@ -24,7 +24,7 @@ def legend_marker_size() -> float:
 
 def summary_rows(
     exercise: str,
-    manifest_path: str | Path = "experiments/foa_experiments.yaml",
+    manifest_path: str | Path = "experiments/foa_paper.yaml",
 ) -> list[tuple[str, str, str | None]]:
     """Read the declared paper rows for one FOA summary."""
     if exercise not in {"principal", "fixed_action"}:

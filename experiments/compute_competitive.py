@@ -16,7 +16,7 @@ from typing import Any
 
 import numpy as np
 
-from .prototype import (
+from .foa import (
     ce_wage,
     classify,
     expected_revenue,
@@ -156,7 +156,7 @@ def competitive_benchmark(
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input", default="output/foa-internal-atlas-final-v2")
+    parser.add_argument("--input", default="output/foa-paper")
     parser.add_argument("--output")
     parser.add_argument("--wage-tolerance", type=float, default=0.025)
     parser.add_argument("--profit-tolerance", type=float, default=0.025)
@@ -167,9 +167,9 @@ def main() -> None:
     input_dir = Path(args.input)
     output_path = Path(args.output) if args.output else input_dir / "competitive_benchmarks.json"
     records: list[dict[str, Any]] = []
-    for atomic_path in sorted((input_dir / "atomic").glob("*.json")):
-        atomic = json.loads(atomic_path.read_text())
-        result = atomic["result"]
+    for result_path in sorted((input_dir / "results").glob("*.json")):
+        saved = json.loads(result_path.read_text())
+        result = saved["result"]
         if "principal" not in result.get("exercises", {}):
             continue
         principal = result["exercises"]["principal"]
@@ -182,24 +182,24 @@ def main() -> None:
             continue
         benchmark = competitive_benchmark(
             result["effective_configuration"],
-            atomic["numerical_configuration"],
+            saved["numerical_configuration"],
             initial_upper=max(initial_wages),
             wage_tolerance=args.wage_tolerance,
             profit_tolerance=args.profit_tolerance,
             max_expansions=args.max_expansions,
             max_iterations=args.max_iterations,
         )
-        benchmark.update({"case_id": atomic["case_id"], "task_hash": atomic["task_hash"]})
+        benchmark.update({"case_id": saved["case_id"]})
         records.append(benchmark)
         print(
-            f"{atomic['case_id']}: {benchmark['status']}"
+            f"{saved['case_id']}: {benchmark['status']}"
             + (f"; CE={benchmark['competitive_ce_wage']:.4f}" if benchmark["status"] == "ok" else "")
         )
 
     payload = {
         "schema_version": 1,
         "created_at": datetime.now(timezone.utc).isoformat(),
-        "source_atlas": str(input_dir),
+        "source_results": str(input_dir),
         "definition": "Reservation certainty-equivalent wage at which the optimized full-GIC principal profit is zero.",
         "units": "USD_1000",
         "numerics": {

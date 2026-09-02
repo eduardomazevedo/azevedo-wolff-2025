@@ -1,7 +1,7 @@
 # Parametric Examples in the FOA Internal Atlas
 
 This document specifies the economic examples for the FOA atlas. The tracked
-manifest `experiments/foa_experiments.yaml` is the executable source of truth
+manifest `experiments/foa_paper.yaml` is the executable source of truth
 once it has been synchronized with this specification. Until then, existing
 manifest entries and generated results are provisional. All monetary
 quantities are in units of USD 1,000.

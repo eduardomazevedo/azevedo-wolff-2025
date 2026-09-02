@@ -1,9 +1,8 @@
 schema_version: 1
-experiment_id: foa-atlas-v1
+experiment_id: foa-paper-v1
 units: USD_1000
 
-# Economic cases and numerical settings for smoke, mechanism, robustness, and
-# adverse-control suites. See ai-notes/parametric-examples.md for calibration.
+# Exact economic cases and numerical settings used by the two FOA paper summaries.
 numerics:
   full_ic_iterations: 100
   incentive_capacity:
@@ -18,7 +17,7 @@ numerics:
     wage_tolerance: 0.025
     max_iterations: 12
   validation:
-    # Selected inner-problem checks only; this is not a second atlas run.
+    # Selected inner-problem checks only; these are paper-selected checks.
     crosscheck_transitions: true
     cvxpy_action_points: 121
     objective_tolerance: 0.02
@@ -41,7 +40,7 @@ numerics:
     convergence_cutoff_tolerance: 1.0e-6
     convergence_relative_tolerance: 0.01
   monopsony:
-    # The relaxed lambda=0 benchmark is disabled after the prototype showed
+    # The relaxed lambda=0 benchmark is disabled because prior checks showed
     # that it is far below true monopsony and commonly boundary-driven.
     compute_relaxed_lambda_zero: false
     # Descending requirements make it possible to verify a slack-IR plateau.
@@ -99,91 +98,8 @@ foa_summary:
       - {kind: data, label: Low, spec: gaussian_fixed_actions_log__intended_action-70}
       - {kind: data, label: Near monopsony, spec: gaussian_fixed_actions_log__intended_action-130}
 
-# Explicitly re-solved internal diagnostics. These generate ignored output
-# figures and metadata; they are not paper figures.
-problem_diagnostics:
-  - id: gaussian-principal-invalid-side
-    case_id: gaussian_log_paper
-    kind: contract_solve
-    selection: principal_relaxed
-    reservation_wage: 0.625
-  - id: poisson-principal-valid-boundary
-    case_id: poisson_log_paper
-    kind: contract_solve
-    selection: principal_relaxed
-    reservation_wage: 0
-  - id: exponential-shifted-principal-gray-zone
-    case_id: exponential_log_baseline
-    kind: contract_solve
-    selection: principal_relaxed
-    reservation_wage: 0
-  - id: exponential-shifted-monopsony
-    case_id: exponential_log_baseline
-    kind: contract_solve
-    selection: principal_full
-    reservation_wage: -5
-  - id: student-t-support
-    case_id: student_t_log_adverse
-    kind: support
-
-# Human review is separate from strict solver provenance. These records seed
-# the internal atlas with the assessments documented in the implementation plan.
-reviews:
-  - id: gaussian-principal-invalid-side
-    case_id: gaussian_log_paper
-    scope: principal_transition_invalid_side
-    strict_numerical_status: unresolved
-    review_status: reviewed
-    economic_materiality: immaterial_gray_zone
-    review_notes: Active-set and CVXPY find the same economically relevant deviation; full-GIC residual gains and expected-wage differences are sub-dollar.
-    diagnostic_path: output/foa-problem-diagnostics/gaussian-principal-invalid-side
-  - id: poisson-principal-valid-boundary-old-calibration
-    case_id: poisson_log_paper
-    active: false  # Superseded by the harmonized $15k-per-success calibration.
-    scope: principal_transition_valid_boundary_old_calibration
-    strict_numerical_status: unresolved
-    review_status: reviewed
-    economic_materiality: immaterial_tail_tolerance
-    review_notes: Under the old calibration, active solutions coincided and CVXPY sensitivity was concentrated in extremely low-probability outcomes.
-    diagnostic_path: output/foa-problem-diagnostics/poisson-principal-valid-boundary
-  - id: poisson-harmonized-principal-valid-boundary
-    case_id: poisson_log_paper
-    scope: principal_transition_valid_boundary_harmonized
-    strict_numerical_status: unresolved
-    review_status: pending
-    economic_materiality: pending_review
-    review_notes: Harmonized diagnostics find coincident active relaxed/full solutions; CVXPY relaxed has a $1.21 endpoint CE gain while CVXPY full removes it for less than one dollar of expected cost. Human plot review remains pending before paper use.
-    diagnostic_path: output/foa-problem-diagnostics/poisson-principal-valid-boundary
-  - id: exponential-principal-invalid-side
-    case_id: exponential_log_baseline
-    active: false  # Superseded when cost was shifted to C(10)=0.
-    scope: principal_transition_invalid_side_old_cost
-    strict_numerical_status: unresolved
-    review_status: reviewed
-    economic_materiality: economically_stable_transition
-    review_notes: Relaxed active and full CVXPY solutions support a small genuine deviation and coherent transition despite active full-contract tail failures.
-    diagnostic_path: output/foa-problem-diagnostics/exponential-principal-invalid-side
-  - id: exponential-monopsony
-    case_id: exponential_log_baseline
-    active: false  # Superseded when cost was shifted to C(10)=0.
-    scope: full_gic_monopsony_old_cost
-    strict_numerical_status: unresolved
-    review_status: reviewed
-    economic_materiality: stable_to_few_dollars
-    review_notes: Agent-objective curves nearly coincide; retain warnings, but treat the optimum as qualitatively stable to a few dollars.
-    diagnostic_path: output/foa-problem-diagnostics/exponential-monopsony
-  - id: student-t-support
-    case_id: student_t_log_adverse
-    scope: support_and_principal_and_fixed_action
-    strict_numerical_status: unresolved
-    review_status: reviewed
-    economic_materiality: accepted_immaterial_support_truncation
-    review_notes: Human review accepts the small residual support truncation as numerically immaterial. Principal and fixed-action deviation gains of 13.7k--42.0k are robustly adverse and far too large to be numerical noise.
-    diagnostic_path: output/foa-problem-diagnostics/student-t-support
-
 cases:
   - id: gaussian_log_paper
-    suites: [smoke, common_distributions, first_atlas, internal_atlas]
     initial_wealth: 50
     target_action: 100
     fixed_action: 100
@@ -205,7 +121,6 @@ cases:
     exercises: [principal, fixed_action]
 
   - id: poisson_log_paper
-    suites: [smoke, common_distributions, first_atlas, internal_atlas]
     initial_wealth: 50
     target_action: 7
     fixed_action: 7
@@ -226,7 +141,6 @@ cases:
     exercises: [principal, fixed_action]
 
   - id: exponential_log_baseline
-    suites: [common_distributions, first_atlas, internal_atlas]
     initial_wealth: 50
     target_action: 100
     fixed_action: 100
@@ -247,7 +161,6 @@ cases:
     exercises: [principal, fixed_action]
 
   - id: gamma2_log_baseline
-    suites: [common_distributions, internal_atlas]
     initial_wealth: 50
     target_action: 50
     fixed_action: 50
@@ -270,7 +183,6 @@ cases:
     exercises: [principal, fixed_action]
 
   - id: geometric_log_baseline
-    suites: [common_distributions, internal_atlas]
     initial_wealth: 50
     target_action: 7
     fixed_action: 7
@@ -291,7 +203,6 @@ cases:
     exercises: [principal, fixed_action]
 
   - id: bernoulli_log_baseline
-    suites: [common_distributions, internal_atlas]
     initial_wealth: 50
     target_action: 0.7
     fixed_action: 0.7
@@ -312,7 +223,6 @@ cases:
     exercises: [principal, fixed_action]
 
   - id: binomial10_log_baseline
-    suites: [common_distributions, boundary_preflight, internal_atlas]
     initial_wealth: 50
     target_action: 0.7
     fixed_action: 0.7
@@ -336,10 +246,9 @@ cases:
     reservation_wages: [0, 0.125, 0.5, 2, 5]
     exercises: [principal, fixed_action]
 
-  # Negative smoke control: the fixed-action relaxed contract should fail
-  # global IC throughout this range. Skip the expensive monopsony calculation.
+  # Student-t comparison: the fixed-action relaxed contract should fail
+  # global IC throughout this range.
   - id: student_t_log_adverse
-    suites: [smoke, adverse_controls, student_t_variation, first_atlas, internal_atlas]
     compute_monopsony: false
     initial_wealth: 50
     target_action: 100
@@ -363,7 +272,6 @@ cases:
     exercises: [principal, fixed_action]
 
   - id: student_t_sigma_log__sigma-10
-    suites: [adverse_controls, student_t_variation, internal_atlas]
     compute_monopsony: false
     initial_wealth: 50
     target_action: 100
@@ -387,7 +295,6 @@ cases:
     exercises: [principal, fixed_action]
 
   - id: student_t_sigma_log__sigma-50
-    suites: [adverse_controls, student_t_variation, internal_atlas]
     compute_monopsony: false
     initial_wealth: 50
     target_action: 100
@@ -410,26 +317,8 @@ cases:
     reservation_wages: [0, 20, 50, 100]
     exercises: [principal, fixed_action]
 
-# Deterministic Cartesian families for the internal mechanism and risk-aversion
-# atlas. Each expanded configuration receives its own stable task hash.
-  - id: gaussian_risk_neutral_adverse
-    suites: [adverse_controls, internal_atlas]
-    compute_monopsony: false
-    initial_wealth: 50
-    target_action: 100
-    fixed_action: 100
-    action_bounds: [0, 180]
-    revenue_slope: 1
-    cost_normalization: local_consumption_equivalent
-    utility: {kind: risk_neutral}
-    distribution: {kind: gaussian, params: {sigma: 50}}
-    outcome_grid: {distribution_type: continuous, y_min: -300, y_max: 480, n: 201}
-    reservation_wages: [0, 1, 5, 15, 50]
-    exercises: [fixed_action]
-
 case_families:
   - id: gaussian_sigma_log
-    suites: [safe_region_variation, internal_atlas]
     base: &gaussian_log_family_base
       initial_wealth: 50
       target_action: 100
@@ -447,16 +336,7 @@ case_families:
         path: distribution.params.sigma
         values: [10, 20]
 
-  - id: gaussian_action_bounds_log
-    suites: [safe_region_variation, internal_atlas]
-    base: *gaussian_log_family_base
-    axes:
-      - name: bounds
-        path: action_bounds
-        values: [[20, 180], [50, 180]]
-
   - id: gaussian_wealth_log
-    suites: [safe_region_variation, internal_atlas]
     base: *gaussian_log_family_base
     axes:
       - name: wealth
@@ -464,7 +344,6 @@ case_families:
         values: [25, 100, 200]
 
   - id: gaussian_cost_log
-    suites: [safe_region_variation, boundary_preflight, internal_atlas]
     base: &gaussian_wide_action_base
       <<: *gaussian_log_family_base
       action_bounds: [0, 250]
@@ -475,7 +354,6 @@ case_families:
         values: [0.5]
 
   - id: gaussian_cost_log
-    suites: [safe_region_variation, internal_atlas]
     base: *gaussian_log_family_base
     axes:
       - name: cost_scale
@@ -483,7 +361,6 @@ case_families:
         values: [2]
 
   - id: gaussian_fixed_actions_log
-    suites: [fixed_action_design, internal_atlas]
     base:
       <<: *gaussian_log_family_base
       compute_monopsony: false
@@ -494,7 +371,6 @@ case_families:
         values: [70, 130]
 
   - id: gaussian_crra
-    suites: [risk_aversion, boundary_preflight, internal_atlas]
     base:
       <<: *gaussian_wide_action_base
       utility: {kind: crra, gamma: 0.5}
@@ -504,17 +380,15 @@ case_families:
         values: [0.25, 0.5]
 
   - id: gaussian_crra
-    suites: [risk_aversion, internal_atlas]
     base:
       <<: *gaussian_log_family_base
       utility: {kind: crra, gamma: 1.5}
     axes:
       - name: gamma
         path: utility.gamma
-        values: [1.5, 2, 3]
+        values: [1.5, 2]
 
   - id: gaussian_cara
-    suites: [risk_aversion, boundary_preflight, internal_atlas]
     base:
       <<: *gaussian_wide_action_base
       utility: {kind: cara, alpha: 0.005}
@@ -527,7 +401,6 @@ case_families:
         values: [0.005]
 
   - id: gaussian_cara
-    suites: [risk_aversion, internal_atlas]
     base:
       <<: *gaussian_log_family_base
       utility: {kind: cara, alpha: 0.02}

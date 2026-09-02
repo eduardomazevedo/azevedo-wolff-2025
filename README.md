@@ -16,7 +16,7 @@ uv sync
 ./make.sh
 ```
 
-This runs only the benchmark, main-figure, and solver-comparison scripts used to generate the replication assets. It does not compile the LaTeX manuscript; the manuscript is built separately from `tex/manuscript.tex`.
+This regenerates the illustrative and Pareto figures, benchmark presentation, solver comparison, and both FOA-validity summary figures used by the paper. Timing benchmarks are not rerun: the build uses the controlled standard-server results committed under `output/`. The script does not compile LaTeX; build the manuscript separately from `tex/manuscript.tex`.
 
 ## Algorithm 1 Implementation
 

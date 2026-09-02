@@ -138,23 +138,18 @@ Final names should be semantic, for example:
 
 ## 4. Concrete migration sequence
 
-1. Put the approved common row list and fixed-action additions in the existing
-   FOA YAML. **Started.**
-2. Create a paper-only FOA manifest by copying only the 27 specifications used
-   by at least one of the two summaries.
-3. Give every retained case a single `paper` run selection and remove all suite,
-   review, and diagnostic sections.
-4. Point the current runner at that paper-only manifest and verify that it
-   reproduces the approved numbers from a fresh output directory.
-5. Merge duplicate benchmark-solving code where principal and fixed-action logic
-   genuinely shares an implementation, while keeping the exercises distinct.
-6. Remove diagnostic commands, internal summarizers, storage compatibility
-   outputs, and unselected cases once the paper-only run passes.
-7. Rename report outputs from `mock.*` to final semantic names.
-8. Add both FOA figures and captions to the manuscript.
-9. Optionally make `main_figures.py` read a short YAML list for asset types 1 and
+1. Put the approved common row list and fixed-action additions in the FOA YAML. **Done.**
+2. Create a paper-only FOA manifest containing exactly the 27 specifications
+   used by at least one summary. **Done.**
+3. Remove suite, review, diagnostic, excluded-case, and compatibility-output
+   machinery. **Done.**
+4. Rename the numerical module, runner, tests, manifest, and final figure outputs
+   to remove prototype/atlas/mock terminology. **Done.**
+5. Verify the paper-only manifest from a fresh output directory and compare all
+   values with the approved saved results. **Still requires the full expensive run.**
+6. Add both FOA figures and captions to the manuscript.
+7. Optionally make `main_figures.py` read a short YAML list for asset types 1 and
    2; otherwise leave types 1--3 alone.
-10. Update `make.sh` and the README with the simple final sequence.
 
 ## 5. Tests to retain
 

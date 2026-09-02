@@ -12,7 +12,7 @@ from typing import Any
 
 import numpy as np
 
-from .prototype import (
+from .foa import (
     ce_wage,
     classify,
     expected_revenue,
@@ -238,7 +238,7 @@ def fixed_action_benchmarks(
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input", default="output/foa-internal-atlas-final-v2")
+    parser.add_argument("--input", default="output/foa-paper")
     parser.add_argument("--output")
     parser.add_argument("--wage-tolerance", type=float, default=0.025)
     parser.add_argument("--max-expansions", type=int, default=8)
@@ -251,9 +251,9 @@ def main() -> None:
         else input_dir / "fixed_action_benchmarks.json"
     )
     records = []
-    for atomic_path in sorted((input_dir / "atomic").glob("*.json")):
-        atomic = json.loads(atomic_path.read_text())
-        result = atomic["result"]
+    for result_path in sorted((input_dir / "results").glob("*.json")):
+        saved = json.loads(result_path.read_text())
+        result = saved["result"]
         exercise = result.get("exercises", {}).get("fixed_action")
         if exercise is None:
             continue
@@ -270,17 +270,17 @@ def main() -> None:
             ]
             record = fixed_action_benchmarks(
                 result["effective_configuration"],
-                atomic["numerical_configuration"],
+                saved["numerical_configuration"],
                 initial_upper=max(initial_wages, default=100.0),
                 wage_tolerance=args.wage_tolerance,
                 max_expansions=args.max_expansions,
                 max_iterations=args.max_iterations,
             )
-        record.update({"case_id": atomic["case_id"], "task_hash": atomic["task_hash"]})
+        record.update({"case_id": saved["case_id"]})
         records.append(record)
         competitive = record.get("competitive", {})
         print(
-            f"{atomic['case_id']}: {record['status']}"
+            f"{saved['case_id']}: {record['status']}"
             + (
                 f"; monopsony={record['monopsony']['selected']['delivered_ce_wage']:.4f}"
                 if record.get("monopsony", {}).get("selected") else ""
@@ -294,7 +294,7 @@ def main() -> None:
     payload = {
         "schema_version": 1,
         "created_at": datetime.now(timezone.utc).isoformat(),
-        "source_atlas": str(input_dir),
+        "source_results": str(input_dir),
         "definition": {
             "monopsony": "Delivered CE wage in the minimum-cost full-GIC contract at the fixed action when participation is slack.",
             "competitive": "Reservation CE wage where full-GIC compensation cost at the fixed action equals declared expected revenue.",

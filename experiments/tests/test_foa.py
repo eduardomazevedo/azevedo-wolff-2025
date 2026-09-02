@@ -10,7 +10,7 @@ from unittest.mock import patch
 import numpy as np
 import yaml
 
-from experiments.prototype import (
+from experiments.foa import (
     PointResult,
     DeviationResult,
     ce_wage,
@@ -30,7 +30,7 @@ from experiments.prototype import (
     summarize_transitions,
 )
 from experiments.report_common import summary_rows
-from experiments.storage import expand_manifest, run_manifest_atomic, task_hash
+from experiments.storage import expand_manifest, run_paper
 from moralhazard.config_maker import make_utility_cfg
 
 
@@ -287,8 +287,8 @@ class DistributionTests(unittest.TestCase):
             make_problem(case)
 
     def test_manifest_baselines_have_harmonized_revenue_and_cost_scales(self) -> None:
-        manifest = yaml.safe_load(Path("experiments/foa_experiments.yaml").read_text())
-        tasks = {task.case_id: task for task in expand_manifest(manifest, "common_distributions")}
+        manifest = yaml.safe_load(Path("experiments/foa_paper.yaml").read_text())
+        paper_tasks = {task.case_id: task for task in expand_manifest(manifest)}
         expected = {
             "gaussian_log_paper": (1.0, 100.0, 1 / 3),
             "poisson_log_paper": (15.0, 105.0, 0.3386923963),
@@ -298,7 +298,7 @@ class DistributionTests(unittest.TestCase):
             "bernoulli_log_baseline": (150.0, 105.0, 0.3369815668),
             "binomial10_log_baseline": (150.0, 105.0, 0.5054723502),
         }
-        self.assertEqual(set(tasks), set(expected))
+        tasks = {case_id: paper_tasks[case_id] for case_id in expected}
         for case_id, (slope, target_revenue, target_cost) in expected.items():
             case = tasks[case_id].economic_configuration
             self.assertEqual(case["revenue_slope"], slope)
@@ -309,23 +309,24 @@ class DistributionTests(unittest.TestCase):
             self.assertAlmostEqual(cfg["cost_metadata"]["target_effort_cost"], target_cost, places=8)
         self.assertEqual(tasks["gaussian_log_paper"].economic_configuration["action_bounds"][0], 0)
 
-    def test_internal_atlas_foa_grids_start_at_zero(self) -> None:
-        manifest = yaml.safe_load(Path("experiments/foa_experiments.yaml").read_text())
-        tasks = expand_manifest(manifest, "internal_atlas")
+    def test_paper_foa_grids_start_at_zero(self) -> None:
+        manifest = yaml.safe_load(Path("experiments/foa_paper.yaml").read_text())
+        tasks = expand_manifest(manifest)
+        self.assertEqual(len(tasks), 27)
         for task in tasks:
             wages = task.economic_configuration["reservation_wages"]
             self.assertEqual(min(wages), 0, task.case_id)
             self.assertIn(0, wages, task.case_id)
 
     def test_student_t_variation_has_three_scaled_cases(self) -> None:
-        manifest = yaml.safe_load(Path("experiments/foa_experiments.yaml").read_text())
-        tasks = {task.case_id: task for task in expand_manifest(manifest, "student_t_variation")}
+        manifest = yaml.safe_load(Path("experiments/foa_paper.yaml").read_text())
+        paper_tasks = {task.case_id: task for task in expand_manifest(manifest)}
         expected = {
             "student_t_sigma_log__sigma-10": (10, -100, 280),
             "student_t_log_adverse": (20, -200, 380),
             "student_t_sigma_log__sigma-50": (50, -500, 680),
         }
-        self.assertEqual(set(tasks), set(expected))
+        tasks = {case_id: paper_tasks[case_id] for case_id in expected}
         for case_id, (sigma, y_min, y_max) in expected.items():
             case = tasks[case_id].economic_configuration
             self.assertEqual(case["distribution"]["params"], {"sigma": sigma, "nu": 1.15})
@@ -336,16 +337,17 @@ class DistributionTests(unittest.TestCase):
             self.assertAlmostEqual(float(mhp.C(0)), 0.0)
             self.assertEqual(case["exercises"], ["principal", "fixed_action"])
 
-    def test_boundary_preflight_cases_are_interior_calibrations(self) -> None:
-        manifest = yaml.safe_load(Path("experiments/foa_experiments.yaml").read_text())
-        tasks = {task.case_id: task for task in expand_manifest(manifest, "boundary_preflight")}
-        self.assertEqual(set(tasks), {
+    def test_wide_action_paper_cases_are_interior_calibrations(self) -> None:
+        manifest = yaml.safe_load(Path("experiments/foa_paper.yaml").read_text())
+        paper_tasks = {task.case_id: task for task in expand_manifest(manifest)}
+        selected = {
             "binomial10_log_baseline",
             "gaussian_cara__alpha-0.005",
             "gaussian_cost_log__cost_scale-0.5",
             "gaussian_crra__gamma-0.25",
             "gaussian_crra__gamma-0.5",
-        })
+        }
+        tasks = {case_id: paper_tasks[case_id] for case_id in selected}
         binomial = tasks["binomial10_log_baseline"].economic_configuration
         self.assertEqual(binomial["action_bounds"], [0.05, 0.99])
         self.assertEqual(binomial["cost_scale"], 1.5)
@@ -421,7 +423,7 @@ class MonopsonyTests(unittest.TestCase):
         ]
         deviation = DeviationResult(3, .5, 3, .5, 0, 0, [])
         problem = self.fake_problem(rows)
-        with patch("experiments.prototype.find_best_deviation", return_value=deviation):
+        with patch("experiments.foa.find_best_deviation", return_value=deviation):
             result = _solve_monopsony(
                 relaxed=False, mhp=problem, utility_cfg={"u": lambda x: x, "k": lambda x: x},
                 case={"action_bounds": [1.05, 5]}, numerics=self.numerics(), candidate_wages=[-1, -2],
@@ -442,7 +444,7 @@ class MonopsonyTests(unittest.TestCase):
         numerics = self.numerics()
         numerics["monopsony"].update({"max_downward_extensions": 2, "downward_step": 10})
         deviation = DeviationResult(3, .5, 3, .5, 0, 0, [])
-        with patch("experiments.prototype.find_best_deviation", return_value=deviation):
+        with patch("experiments.foa.find_best_deviation", return_value=deviation):
             result = _solve_monopsony(
                 relaxed=False, mhp=self.fake_problem(rows), utility_cfg={"u": lambda x: x, "k": lambda x: x},
                 case={"action_bounds": [0, 5]}, numerics=numerics, candidate_wages=[-1],
@@ -456,7 +458,7 @@ class MonopsonyTests(unittest.TestCase):
             {"lambda": 0.0, "action": 3.0, "profit": 2.0, "wage": 1.0, "utility": 0.5},
         ]
         deviation = DeviationResult(3, .5, 1, .6, .1, .1, [])
-        with patch("experiments.prototype.find_best_deviation", return_value=deviation):
+        with patch("experiments.foa.find_best_deviation", return_value=deviation):
             result = _solve_monopsony(
                 relaxed=False, mhp=self.fake_problem(rows), utility_cfg={"u": lambda x: x, "k": lambda x: x},
                 case={"action_bounds": [0, 5]}, numerics=self.numerics(), candidate_wages=[-1, -2],
@@ -472,33 +474,27 @@ class StorageTests(unittest.TestCase):
             "experiment_id": "storage-test",
             "numerics": {"deviation": {"coarse_action_points": 21}},
             "cases": [
-                {"id": "z", "suites": ["smoke"], "initial_wealth": 50},
-                {"id": "a", "suites": ["smoke", "other"], "initial_wealth": 25},
+                {"id": "z", "initial_wealth": 50},
+                {"id": "a", "initial_wealth": 25},
             ],
         }
 
-    def test_expansion_is_sorted_and_hash_ignores_labels(self) -> None:
-        manifest = self.manifest()
-        tasks = expand_manifest(manifest, "smoke")
+    def test_expansion_is_sorted(self) -> None:
+        tasks = expand_manifest(self.manifest())
         self.assertEqual([task.case_id for task in tasks], ["a", "z"])
-        renamed = {**manifest["cases"][0], "id": "renamed", "suites": ["other"]}
-        self.assertEqual(
-            tasks[1].task_hash,
-            task_hash(renamed, manifest["numerics"], manifest["schema_version"]),
-        )
 
     def test_cartesian_family_expansion_is_deterministic(self) -> None:
         manifest = self.manifest()
         manifest["case_families"] = [{
-            "id": "risk", "suites": ["other"],
+            "id": "risk",
             "base": {"initial_wealth": 50, "utility": {"kind": "crra"}},
             "axes": [
                 {"name": "wealth", "path": "initial_wealth", "values": [25, 100]},
                 {"name": "gamma", "path": "utility.gamma", "values": [0.5, 2]},
             ],
         }]
-        tasks = expand_manifest(manifest, "other")
-        self.assertEqual(len(tasks), 5)  # Existing case a plus four Cartesian cases.
+        tasks = expand_manifest(manifest)
+        self.assertEqual(len(tasks), 6)  # Two explicit plus four Cartesian cases.
         risk = [task for task in tasks if task.case_id.startswith("risk__")]
         self.assertEqual(len(risk), 4)
         self.assertEqual(
@@ -507,30 +503,21 @@ class StorageTests(unittest.TestCase):
             {(25, 0.5), (25, 2), (100, 0.5), (100, 2)},
         )
 
-    def test_atomic_resume_does_not_resolve_completed_task(self) -> None:
+    def test_runner_saves_one_readable_result_per_case(self) -> None:
         manifest = self.manifest()
         manifest["cases"] = manifest["cases"][:1]
-        fake_result = {
-            "case_id": "z", "support_validation": {"status": "passed"},
-            "monopsony": {}, "exercises": {},
-        }
+        fake_result = {"case_id": "z", "exercises": {}}
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             manifest_path = root / "manifest.yaml"
-            import yaml
             manifest_path.write_text(yaml.safe_dump(manifest))
-            with patch("experiments.storage.run_case", return_value=fake_result) as solve, patch(
-                "experiments.storage.environment_provenance", return_value={"git_commit": "test"}
-            ):
-                first = run_manifest_atomic(manifest_path, root / "output", suite="smoke")
-                second = run_manifest_atomic(manifest_path, root / "output", suite="smoke", resume=True)
-            self.assertEqual(solve.call_count, 1)
-            self.assertFalse(first["task_index"][0]["cached"])
-            self.assertTrue(second["task_index"][0]["cached"])
-            atomic_path = root / "output" / second["task_index"][0]["atomic_path"]
-            record = json.loads(atomic_path.read_text())
+            with patch("experiments.storage.run_case", return_value=fake_result):
+                records = run_paper(manifest_path, root / "output")
+            self.assertEqual(len(records), 1)
+            result_path = root / "output" / "results" / "z.json"
+            record = json.loads(result_path.read_text())
             self.assertEqual(record["execution_status"], "completed")
-            self.assertEqual(record["result"]["strict_numerical_status"], "passed")
+            self.assertEqual(record["result"], fake_result)
 
 
 class TransitionTests(unittest.TestCase):
@@ -575,6 +562,10 @@ class PaperSummaryConfigTests(unittest.TestCase):
                 ("data", "Near monopsony", "gaussian_fixed_actions_log__intended_action-130"),
             ],
         )
+        manifest = yaml.safe_load(Path("experiments/foa_paper.yaml").read_text())
+        configured = {task.case_id for task in expand_manifest(manifest)}
+        displayed = {row[2] for row in fixed if row[2] is not None}
+        self.assertEqual(configured, displayed)
 
 
 if __name__ == "__main__":

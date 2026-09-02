@@ -1,21 +1,15 @@
-"""Numerical primitives and case runner for the FOA experiment atlas.
-
-The result schema is explicit and independent of plotting and reporting code.
-"""
+"""Numerical primitives and case runner for the FOA paper summaries."""
 
 from __future__ import annotations
 
 import copy
-import csv
 import json
 import math
 import warnings
 from dataclasses import asdict, dataclass
-from pathlib import Path
 from typing import Any, Callable
 
 import numpy as np
-import yaml
 from scipy.optimize import brentq, minimize_scalar
 
 from moralhazard import MoralHazardProblem
@@ -1426,48 +1420,3 @@ def run_case(case: dict[str, Any], numerics: dict[str, Any]) -> dict[str, Any]:
         "records": boundary_records,
     }
     return result
-
-
-def run_manifest(path: str | Path, suite: str = "smoke") -> dict[str, Any]:
-    manifest_path = Path(path)
-    manifest = yaml.safe_load(manifest_path.read_text())
-    numerics = manifest["numerics"]
-    cases = [case for case in manifest["cases"] if suite in case.get("suites", [])]
-    results = [run_case(case, numerics) for case in cases]
-    return {
-        "schema_version": manifest["schema_version"],
-        "experiment_id": manifest["experiment_id"],
-        "suite": suite,
-        "manifest": str(manifest_path),
-        "results": results,
-    }
-
-
-def write_outputs(payload: dict[str, Any], output_dir: str | Path) -> None:
-    output = Path(output_dir)
-    output.mkdir(parents=True, exist_ok=True)
-    (output / "prototype_results.json").write_text(json.dumps(payload, indent=2, allow_nan=False))
-
-    rows = []
-    for case in payload["results"]:
-        for exercise, exercise_result in case["exercises"].items():
-            for point in exercise_result["points"]:
-                rows.append({
-                    "case_id": case["case_id"],
-                    "exercise": exercise,
-                    "reservation_wage": point["reservation_wage"],
-                    "intended_action": point["intended_action"],
-                    "delivered_ce_wage": point["delivered_ce_wage"],
-                    "expected_wage": point["expected_wage"],
-                    "profit": point["profit"],
-                    "ir_multiplier": point["ir_multiplier"],
-                    "ce_deviation_gain": point["deviation"]["ce_gain"],
-                    "best_deviation": point["deviation"]["best_action"],
-                    "classification": point["classification"],
-                    "warning_count": len(point["warnings"]),
-                })
-    if rows:
-        with (output / "prototype_points.csv").open("w", newline="") as handle:
-            writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
-            writer.writeheader()
-            writer.writerows(rows)

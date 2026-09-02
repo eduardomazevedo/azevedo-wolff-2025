@@ -33,24 +33,24 @@ from .report_principal_figure import _report_threshold
 ROWS = summary_rows("fixed_action")
 
 
-def _atomic_results(input_dir: Path) -> dict[str, dict[str, Any]]:
+def _saved_results(input_dir: Path) -> dict[str, dict[str, Any]]:
     results = {}
-    for path in (input_dir / "atomic").glob("*.json"):
-        atomic = json.loads(path.read_text())
-        if "fixed_action" in atomic["result"].get("exercises", {}):
-            results[atomic["case_id"]] = atomic
+    for path in (input_dir / "results").glob("*.json"):
+        saved = json.loads(path.read_text())
+        if "fixed_action" in saved["result"].get("exercises", {}):
+            results[saved["case_id"]] = saved
     return results
 
 
 def build_rows(input_dir: Path) -> list[dict[str, Any]]:
-    atomic = _atomic_results(input_dir)
+    saved_results = _saved_results(input_dir)
     benchmark_payload = json.loads((input_dir / "fixed_action_benchmarks.json").read_text())
     benchmarks = {row["case_id"]: row for row in benchmark_payload["records"]}
     data: list[dict[str, Any]] = []
     for kind, label, case_id in ROWS:
         row: dict[str, Any] = {"kind": kind, "label": label, "case_id": case_id}
         if kind in {"data", "data_bold"}:
-            item = atomic[case_id]
+            item = saved_results[case_id]
             result = item["result"]
             exercise = result["exercises"]["fixed_action"]
             infeasible = exercise.get("status") == "infeasible_local_incentives"
@@ -196,17 +196,17 @@ def make_figure(rows: list[dict[str, Any]], output: Path) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input", default="output/foa-internal-atlas-final-v2")
-    parser.add_argument("--output", default="figures/foa-fixed-action-summary/mock.pdf")
+    parser.add_argument("--input", default="output/foa-paper")
+    parser.add_argument("--output", default="figures/foa-fixed-action-summary.pdf")
     args = parser.parse_args()
     input_dir = Path(args.input)
     rows = build_rows(input_dir)
     output = Path(args.output)
-    write_csv(rows, output.with_name("mock_data.csv"))
+    data_output = output.with_suffix(".csv")
+    write_csv(rows, data_output)
     make_figure(rows, output)
     print(
-        f"Saved {output}, {output.with_suffix('.png')}, "
-        f"and {output.with_name('mock_data.csv')}"
+        f"Saved {output}, {output.with_suffix('.png')}, and {data_output}"
     )
 
 
