@@ -16,7 +16,7 @@ unit of output is $1,000, the reference action is `a0=100`, initial wealth is
 `w0=50`, and
 
 \[
-R(a)=a,\qquad C(a)=\frac{a^2}{30000}.
+\operatorname{Revenue}(a)=a,\qquad c(a)=\frac{a^2}{30000}.
 \]
 
 The other distributional examples use the same economic scale even when their
@@ -26,13 +26,14 @@ dollars.
 For every case, let
 
 \[
-q(a)=\mathbb E[Y\mid a],\qquad R(a)=p_Yq(a)=\rho a,
+\operatorname{Revenue}(a)=p_Y\mathbb E[Y\mid a]=\beta a,
 \]
 
 where `p_Y` is the dollar value of one unit of the distribution's raw outcome
-and `rho` is expected revenue's slope with respect to the action parameter. The
-principal's problem must use this declared `R(a)`, rather than assuming
-`R(a)=a`. The calibration target `a0` is chosen so that `R(a0)` is approximately
+and `beta` is expected revenue's slope with respect to the action parameter. The
+principal's problem must use this declared revenue function, rather than
+assuming `Revenue(a)=a`. The calibration target `a0` is chosen so that
+`Revenue(a0)` is approximately
 $100,000 in each baseline case. Thus the action parameter may be 100 units of
 output, 7 completed projects, a success probability of 0.7, or a gamma scale of
 50, while associated expected revenue is either 100 or 105 in the model's
@@ -43,32 +44,35 @@ at the smallest action in the economic action set being considered**. If that
 smallest action is `a_min`, then
 
 \[
-C(a)=\frac{\theta}{2}(a^2-a_{\min}^2),\qquad C'(a)=\theta a.
+c(a)=\frac{\kappa}{2}(a^2-a_{\min}^2),\qquad c'(a)=\kappa a.
 \]
 
 This convention applies uniformly: an action set beginning at 0.05 has
-`C(0.05)=0`, one beginning at 1.05 has `C(1.05)=0`, and Gaussian action-set
-variations beginning at 20 or 50 have `C(20)=0` or `C(50)=0`. We do not attach
+`c(0.05)=0`, one beginning at 1.05 has `c(1.05)=0`, and Gaussian action-set
+variations beginning at 20 or 50 have `c(20)=0` or `c(50)=0`. We do not attach
 a different cost normalization to a lower bound based on why that bound was
 chosen. Changing the lower endpoint changes only the level of effort cost; it
 does not change marginal cost or the relative cost of any two actions that
 remain in the set.
 
-For log utility, let `R0=R(a0)`. The Figure 1 calibration generalizes to
+For log utility, let `Revenue0=Revenue(a0)`. The Figure 1 calibration
+generalizes to
 
 \[
-\theta=\frac{\rho}{a_0(w_0+R_0)}.
+\kappa=\frac{\beta}{a_0(w_0+\operatorname{Revenue}_0)}.
 \]
 
 Equivalently,
 
 \[
-\frac{C'(a_0)}{u'(w_0+R_0)}=\rho=R'(a_0).
+\frac{c'(a_0)}{u'(w_0+\operatorname{Revenue}_0)}
+=\beta=\operatorname{Revenue}'(a_0).
 \]
 
-Thus, at total wealth `w0+R0`, the local consumption-equivalent marginal cost
-of raising action equals marginal revenue. In Figure 1, `R0=a0=100`, so this
-reduces exactly to `theta=1/[100(100+50)]` and `C(a)=a^2/30000`. Unlike a formula
+Thus, at total wealth `w0+Revenue0`, the local consumption-equivalent marginal
+cost of raising action equals marginal revenue. In Figure 1,
+`Revenue0=a0=100`, so this reduces exactly to
+`kappa=1/[100(100+50)]` and `c(a)=a^2/30000`. Unlike a formula
 with `a0+w0` in every case, this calibration does not mistakenly treat a count,
 probability, or scale parameter as a dollar amount. Before explicit `cost_scale`
 variations, it keeps effort cost at the target near one-third of a log-utility
@@ -100,40 +104,41 @@ Expected revenue at the declared target is then $105,000. This is close enough
 to the $100,000 Gaussian target while being easier to interpret than values
 chosen to force exact equality.
 
-| Case | Raw outcome and conditional mean `q(a)` | Value per raw outcome unit `p_Y` | Principal revenue `R(a)` | Action set; `a0` | Zero-cost point | Exercises |
+| Case | Raw outcome and conditional mean | Value per raw outcome unit `p_Y` | Principal revenue | Action set; `a0` | Zero-cost point | Exercises |
 |---|---|---:|---:|---:|---:|---|
-| `gaussian_log_paper` | Normal location, `q(a)=a`, sigma 50 | 1 | `a` | `[0,180]`; 100 | 0 | Principal and fixed action |
-| `poisson_log_paper` | Poisson count, `q(a)=a` | 15 | `15a` | `[0.05,10]`; 7 | 0.05 | Principal and fixed action |
-| `exponential_log_baseline` | Exponential output, `q(a)=a` | 1 | `a` | `[10,180]`; 100 | 10 | Principal and fixed action |
-| `gamma2_log_baseline` | Gamma shape 2 and scale `a`, `q(a)=2a` | 1 | `2a` | `[5,90]`; 50 | 5 | Principal and fixed action |
-| `geometric_log_baseline` | Geometric count on `{1,2,...}`, `q(a)=a` | 15 | `15a` | `[1.05,10]`; 7 | 1.05 | Principal and fixed action |
-| `bernoulli_log_baseline` | Project success indicator, `q(a)=a` | 150 | `150a` | `[0.05,0.95]`; 0.7 | 0.05 | Principal and fixed action |
-| `binomial10_log_baseline` | Number of successes in 10 trials, `q(a)=10a` | 15 | `150a` | `[0.05,0.99]`; 0.7 | 0.05 | Principal and fixed action; cost scale 1.5 |
-| `student_t_log_adverse` | Student-t location, `q(a)=a`, sigma 20, df 1.15 | 1 | `a` | `[0,180]`; 100 | 0 | Principal and fixed-action adverse control |
+| `gaussian_log_paper` | Normal location, `E[Y|a]=a`, sigma 50 | 1 | `Revenue(a)=a` | `[0,180]`; 100 | 0 | Principal and fixed action |
+| `poisson_log_paper` | Poisson count, `E[Y|a]=a` | 15 | `Revenue(a)=15a` | `[0.05,10]`; 7 | 0.05 | Principal and fixed action |
+| `exponential_log_baseline` | Exponential output, `E[Y|a]=a` | 1 | `Revenue(a)=a` | `[10,180]`; 100 | 10 | Principal and fixed action |
+| `gamma2_log_baseline` | Gamma shape 2 and scale `a`, `E[Y|a]=2a` | 1 | `Revenue(a)=2a` | `[5,90]`; 50 | 5 | Principal and fixed action |
+| `geometric_log_baseline` | Geometric count on `{1,2,...}`, `E[Y|a]=a` | 15 | `Revenue(a)=15a` | `[1.05,10]`; 7 | 1.05 | Principal and fixed action |
+| `bernoulli_log_baseline` | Project success indicator, `E[Y|a]=a` | 150 | `Revenue(a)=150a` | `[0.05,0.95]`; 0.7 | 0.05 | Principal and fixed action |
+| `binomial10_log_baseline` | Number of successes in 10 trials, `E[Y|a]=10a` | 15 | `Revenue(a)=150a` | `[0.05,0.99]`; 0.7 | 0.05 | Principal and fixed action; cost scale 1.5 |
+| `student_t_log_adverse` | Student-t location, `E[Y|a]=a`, sigma 20, df 1.15 | 1 | `Revenue(a)=a` | `[0,180]`; 100 | 0 | Principal and fixed-action adverse control |
 
-At the target, `R(a0)=100` for Gaussian, exponential, gamma, and Student-t,
-and `R(a0)=105` for Poisson, geometric, Bernoulli, and binomial. For the log
-baseline the cost coefficient is
+At the target, `Revenue(a0)=100` for Gaussian, exponential, gamma, and Student-t,
+and `Revenue(a0)=105` for Poisson, geometric, Bernoulli, and binomial. For the
+log baseline the cost coefficient is
 
 \[
-\theta=\frac{R'(a)}{a_0(50+R(a_0))},
+\kappa=\frac{\operatorname{Revenue}'(a_0)}
+{a_0(50+\operatorname{Revenue}(a_0))},
 \]
 
-and the cost level is shifted so that `C(a_min)=0`. In particular,
+and the cost level is shifted so that `c(a_min)=0`. In particular,
 
 \[
 \begin{aligned}
-C_{\mathrm{Poisson}}(a)
+c_{\mathrm{Poisson}}(a)
   &=\frac{1}{2}\frac{15}{7(50+105)}(a^2-0.05^2),\\
-C_{\mathrm{exponential}}(a)
+c_{\mathrm{exponential}}(a)
   &=\frac{1}{2}\frac{1}{100(100+50)}(a^2-10^2),\\
-C_{\mathrm{gamma}}(a)
+c_{\mathrm{gamma}}(a)
   &=\frac{1}{2}\frac{2}{50(50+100)}(a^2-5^2),\\
-C_{\mathrm{geometric}}(a)
+c_{\mathrm{geometric}}(a)
   &=\frac{1}{2}\frac{15}{7(50+105)}(a^2-1.05^2),\\
-C_{\mathrm{Bernoulli}}(a)
+c_{\mathrm{Bernoulli}}(a)
   &=\frac{1}{2}\frac{150}{0.7(50+105)}(a^2-0.05^2),\\
-C_{\mathrm{binomial}}(a)
+c_{\mathrm{binomial}}(a)
   &=\frac{1}{2}(1.5)\frac{150}{0.7(50+105)}(a^2-0.05^2).
 \end{aligned}
 \]
@@ -145,7 +150,7 @@ choose the maximum probability even at 0.99: ten output signals make incentives
 much cheaper than one Bernoulli signal. We therefore predeclare a binomial cost
 scale of 1.5. It raises target effort cost from 0.337 to 0.505 and produces an
 interior slack-IR action near 0.77 rather than manufacturing an optimum with an
-arbitrary probability ceiling. All constant cost shifts preserve `C'(a)`,
+arbitrary probability ceiling. All constant cost shifts preserve `c'(a)`,
 local incentive constraints, and relative effort costs. They change delivered
 utility and therefore must be included when computing reservation-wage and
 monopsony CE benchmarks.
@@ -154,7 +159,7 @@ monopsony CE benchmarks.
 
 The calibration gives the following target magnitudes:
 
-| Family | Target expected revenue | Effort cost `C(a0)` in utility units | Economic reading |
+| Family | Target expected revenue | Effort cost `c(a0)` in utility units | Economic reading |
 |---|---:|---:|---|
 | Gaussian | 100 | 0.333 | $100,000 expected output with $50,000 initial wealth |
 | Poisson | 105 | 0.339 | Seven projects worth $15,000 each on average |
@@ -181,12 +186,12 @@ be used when they are regenerated.
 
 | Paper use | Existing specification | Harmonized specification and decision |
 |---|---|---|
-| Main Gaussian/log principal figure (Figure 1) | `w0=50`, `Y|a ~ N(a,50^2)`, action set `[0,180]`, `R(a)=a`, and `C(a)=a^2/30000` | **Keep unchanged.** This is the reference calibration. |
+| Main Gaussian/log principal figure (Figure 1) | `w0=50`, `Y|a ~ N(a,50^2)`, action set `[0,180]`, `Revenue(a)=a`, and `c(a)=a^2/30000` | **Keep unchanged.** This is the reference calibration. |
 | Gaussian/log fixed-action and Pareto-frontier figures | Intended action 100 with the Figure 1 environment | **Keep unchanged.** The atlas baseline fixed-action exercise is the same economic case. |
 | Gaussian solver comparison | Figure 1 environment with sigma 10 and fixed action 100 | **Keep unchanged.** It corresponds to the sigma-10 mechanism variation. |
 | Gaussian/CARA principal figure | Figure 1 output environment; `alpha=1/50=0.02`, giving relative risk aversion 1 at wealth 50; the legacy script multiplies the log cost coefficient by 10 | **Retain the economic case, but regenerate it from the atlas CARA `alpha=0.02` specification using the declared local consumption-equivalent normalization.** The paper figure should not keep a separate hand-coded cost rule. |
-| Poisson/log principal figure | Mean action 7, one thousand dollars per success, an action set starting at 0 in the legacy script, and a caption reporting `C(a)=a^2/399` | **Change to the harmonized Poisson case:** $15,000 per success, `R(a)=15a`, action set `[0.05,10]`, `C(0.05)=0`, and the cost formula above. The old script actually implements `a^2/798`, so the existing caption and code already disagree; both should be replaced from the common specification. |
-| Student-t/log counterexample figure | Location action in `[0,180]`, sigma 20, df 1.15, `R(a)=a`, and `C(a)=a^2/30000` | **Keep the economic calibration.** To harmonize provenance, add the principal exercise to the atlas Student-t case if this figure remains in the paper. Continue to label support certification unresolved and do not use it for a precise threshold claim. |
+| Poisson/log principal figure | Mean action 7, one thousand dollars per success, an action set starting at 0 in the legacy script, and a caption reporting `c(a)=a^2/399` | **Change to the harmonized Poisson case:** $15,000 per success, `Revenue(a)=15a`, action set `[0.05,10]`, `c(0.05)=0`, and the cost formula above. The old script actually implements `a^2/798`, so the existing caption and code already disagree; both should be replaced from the common specification. |
+| Student-t/log counterexample figure | Location action in `[0,180]`, sigma 20, df 1.15, `Revenue(a)=a`, and `c(a)=a^2/30000` | **Keep the economic calibration.** To harmonize provenance, add the principal exercise to the atlas Student-t case if this figure remains in the paper. Continue to label support certification unresolved and do not use it for a precise threshold claim. |
 
 The supplementary appendix's analytic three-state risk-neutral counterexample
 is not a calibrated employment example and does not assign dollar values to
@@ -220,7 +225,7 @@ All use Gaussian location output and log utility unless stated otherwise.
 
 - **Noise:** sigma 10 and 20, compared with the sigma-50 baseline.
 - **Action-set lower endpoint:** action bounds `[20,180]` and `[50,180]`, with
-  effort cost shifted consistently so that `C(20)=0` and `C(50)=0`,
+  effort cost shifted consistently so that `c(20)=0` and `c(50)=0`,
   respectively.
 - **Initial wealth:** 25, 100, and 200, compared with baseline 50.
 - **Effort cost:** multiplicative cost scales 0.5 and 2. The half-cost case

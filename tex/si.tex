@@ -941,13 +941,13 @@ The monopsony wage is the certainty equivalent of the utility the agent receives
     \caption*{\textit{Note:} Red and teal denote reservation wages at which the first-order approach fails and holds, respectively.  Filled and open triangles mark the fixed-action monopsony and competitive wages.  Gray denotes that the intended action cannot satisfy local incentive compatibility under limited liability.}
 \end{figure}
 
-All monetary quantities are in thousands of dollars, wages satisfy limited liability, and baseline initial wealth is $w_0=50$.  Let $q(a)=\E[Y\mid a]$ and let expected revenue be $R(a)=\rho a$.  Baseline preferences are $u(W)=\log W$, and
+All monetary quantities are in thousands of dollars, wages satisfy limited liability, and baseline initial wealth is $w_0=50$.  Let expected revenue be $\Revenue(a)=\beta a$.  Baseline preferences are $u(W)=\log W$, and
 \[
- c(a)=\frac{\theta}{2}(a^2-a_{\min}^2),
+ c(a)=\frac{\kappa}{2}(a^2-a_{\min}^2),
  \qquad
- \theta=\frac{\rho}{a_0\{w_0+R(a_0)\}},
+ \kappa=\frac{\beta}{a_0\{w_0+\Revenue(a_0)\}},
 \]
-so that cost is zero at the lower action bound and its local marginal cost at $a_0$, measured in consumption, equals $R'(a_0)$.  Table~\ref{tab:foa-baseline-specs} gives the remaining baseline primitives.
+so that cost is zero at the lower action bound and its local marginal cost at $a_0$, measured in consumption, equals $\Revenue'(a_0)$.  Table~\ref{tab:foa-baseline-specs} gives the remaining baseline primitives.
 
 \begin{table}[ht]
 \centering
@@ -958,23 +958,23 @@ so that cost is zero at the lower action bound and its local marginal cost at $a
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}lllll@{}}
 \toprule
-Output law & Parameters and mean $q(a)$ & $\rho$ & $\mathcal A$ & $a_0$ \\
+Output law & Parameters and conditional mean & $\beta$ & $\mathcal A$ & $a_0$ \\
 \midrule
-Gaussian    & $\sigma=50$; $q(a)=a$             & $1$   & $[0,180]$       & $100$ \\
-Poisson     & $q(a)=a$                            & $15$  & $[0.05,10]$     & $7$ \\
-Exponential & mean $q(a)=a$                       & $1$   & $[10,180]$      & $100$ \\
-Gamma       & shape $2$; $q(a)=2a$                & $2$   & $[5,90]$        & $50$ \\
-Geometric   & support $\{1,2,\ldots\}$; $q(a)=a$ & $15$  & $[1.05,10]$     & $7$ \\
-Bernoulli   & success probability $a$             & $150$ & $[0.05,0.95]$  & $0.7$ \\
-Binomial    & $n=10$; $q(a)=10a$                  & $150$ & $[0.05,0.99]$  & $0.7$ \\
-Student-$t$ & $\sigma\in\{10,20,50\}$, $d=1.15$; $q(a)=a$ & $1$ & $[0,180]$ & $100$ \\
+Gaussian    & $\sigma=50$; $\E[Y\mid a]=a$             & $1$   & $[0,180]$       & $100$ \\
+Poisson     & $\E[Y\mid a]=a$                          & $15$  & $[0.05,10]$     & $7$ \\
+Exponential & $\E[Y\mid a]=a$                          & $1$   & $[10,180]$      & $100$ \\
+Gamma       & shape $2$; $\E[Y\mid a]=2a$              & $2$   & $[5,90]$        & $50$ \\
+Geometric   & support $\{1,2,\ldots\}$; $\E[Y\mid a]=a$ & $15$  & $[1.05,10]$     & $7$ \\
+Bernoulli   & success probability $a$                   & $150$ & $[0.05,0.95]$  & $0.7$ \\
+Binomial    & $n=10$; $\E[Y\mid a]=10a$                & $150$ & $[0.05,0.99]$  & $0.7$ \\
+Student-$t$ & $\sigma\in\{10,20,50\}$, $d=1.15$; $\E[Y\mid a]=a$ & $1$ & $[0,180]$ & $100$ \\
 \bottomrule
 \end{tabular}%
 }
-\caption*{\textit{Note:} The Student-$t$ baseline has $\sigma=20$.  The binomial cost coefficient is multiplied by $1.5$; all other baseline cost scales equal one.  For count outcomes, $\rho$ incorporates the value of each count: $15$ for Poisson and geometric, $15$ per trial for binomial, and $150$ per Bernoulli success.}
+\caption*{\textit{Note:} The Student-$t$ baseline has $\sigma=20$.  The binomial cost coefficient is multiplied by $1.5$; all other baseline cost scales equal one.  For count outcomes, $\beta$ incorporates the value of each count: $15$ for Poisson and geometric, $15$ per trial for binomial, and $150$ per Bernoulli success.}
 \end{table}
 
-The Gaussian exercises vary one primitive at a time as shown in Table~\ref{tab:foa-gaussian-variations}.  For non-log utility, $\theta$ is multiplied by $w_0u'(w_0)$, preserving the baseline local consumption-equivalent marginal cost at zero wages.  CARA coefficients $\alpha\in\{0.005,0.01,0.02,0.04\}$ correspond to relative risk aversion $\alpha w_0\in\{0.25,0.5,1,2\}$ at the reference wealth.  The low-risk-aversion cases (CRRA $\gamma=0.25,0.5$ and CARA $\alpha=0.005$) and the half-cost case use the enlarged action set $[0,250]$; the remaining Gaussian cases use $[0,180]$.
+The Gaussian exercises vary one primitive at a time as shown in Table~\ref{tab:foa-gaussian-variations}.  For non-log utility, $\kappa$ is multiplied by $w_0u'(w_0)$, preserving the baseline local consumption-equivalent marginal cost at zero wages.  CARA coefficients $\alpha\in\{0.005,0.01,0.02,0.04\}$ correspond to relative risk aversion $\alpha w_0\in\{0.25,0.5,1,2\}$ at the reference wealth.  The low-risk-aversion cases (CRRA $\gamma=0.25,0.5$ and CARA $\alpha=0.005$) and the half-cost case use the enlarged action set $[0,250]$; the remaining Gaussian cases use $[0,180]$.
 
 \begin{table}[ht]
 \centering

@@ -6,6 +6,7 @@
 
 \newcommand{\E}{\mathbb E}
 \newcommand{\R}{\mathbb R}
+\newcommand{\Revenue}{\operatorname{Revenue}}
 
 \title{Notation List and Consistency Guide}
 \author{Azevedo--Wolff (working document)}
@@ -36,6 +37,8 @@ appendix, and online supplementary appendix.  The guiding rules are:
     \item A vertical bar is reserved for conditioning, as in $f(y\mid a)$.
     Parameters of contracts are therefore subscripts, as in
     $w_{\lambda,\mu}$.
+    \item The semantic command $\Revenue(a)$ denotes the principal's expected
+    revenue.  The single letter $R$ is not used for this primitive.
 \end{enumerate}
 
 The notation $u(W)$ in the closed-form table is intentional and consistent:
@@ -63,6 +66,10 @@ action.  It is strictly positive on the common support. \\
 f_a,\ f_{aa} & First and second derivatives of $f(y\mid a)$ with respect to
 action. \\
 c(a) & Agent's action cost. \\
+\Revenue(a) & Principal's expected revenue when action $a$ is taken. \\
+\beta & Revenue slope in the linear numerical specification
+$\Revenue(a)=\beta a$. \\
+\kappa & Effort-cost coefficient used in the numerical experiments. \\
 \underline c'' & Uniform lower curvature of cost,
 $\inf_{a\in\mathcal A}c''(a)$. \\
 w_0 & Agent's initial wealth. \\
@@ -204,8 +211,8 @@ means ``lower'' and is not a use of the standalone wage-link-function symbol $L$
 U_R & Supremum feasible reservation utility for the relaxed problem. \\
 U^* & Reservation-utility threshold above which the main theorem validates
 the first-order approach. \\
-C^*(\bar U) & Optimal expected compensation cost at reservation utility
-$\bar U$. \\
+C^*(\bar U) & Optimal expected compensation cost in the relaxed problem at
+reservation utility $\bar U$, with the fixed intended action $a_0$ suppressed. \\
 \Lambda(\bar U) & Set of IR multipliers associated with reservation utility
 $\bar U$. \\
 \bottomrule
@@ -291,7 +298,10 @@ The current review made the following consistency changes in the manuscript:
     \item changed the exponential-family log normalizer from $A(a)$ to
     $\psi(a)$, leaving $A(W)$ for absolute risk aversion;
     \item changed the supplementary moment order from $m$ to $r$, avoiding
-    proximity to the threshold $m_0$; and
+    proximity to the threshold $m_0$;
+    \item reserved $\rho$, $\theta$, and $q$ for their proof roles by using
+    $\beta$, $\kappa$, and explicit conditional means in the numerical
+    specification; and
     \item removed the introductory example's old payment-domain notation
     $u(x)=\log(w_0+x)$ in favor of utility over final wealth, $u(W)=\log W$.
 \end{itemize}
@@ -303,8 +313,9 @@ state or scalar.  Calligraphic $\mathcal L$ remains the conventional
 Lagrangian and is visually distinct from the wage link function $L$.
 
 When adding material, do not use standalone $L$ for a state, limit, loss, or
-likelihood; do not use $\ell$ for anything other than the utility link function; and do
-not revert to $u(w)$ or $u(x)$ when utility is over final wealth.
+likelihood; do not use $\ell$ for anything other than the utility link function;
+do not use $R$ in place of $\Revenue$; and do not revert to $u(w)$ or $u(x)$
+when utility is over final wealth.
 
 \section{Cross-reference style}
 
