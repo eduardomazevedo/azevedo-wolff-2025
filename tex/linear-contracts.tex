@@ -1,12 +1,7 @@
 \subsection{Linear Contracts}
 \label{sec:linear-contracts}
 The formulae imply piecewise linear contracts in many examples.  With log
-utility, $L(z)=z\vee w_0$, so the canonical wage is
-\[
-    w_{\lambda,\mu}(y)
-    =\bigl[\lambda+\mu s(y)-w_0\bigr]^+.
-\]
-Thus, the key additional ingredient is a score that is affine in output.  This
+utility, $L(z)=z\vee w_0$. So, if the score is affine in output, the canonical wage is piecewise linear. This
 includes an exponential family with a linear sufficient statistic.  That is,
 suppose $f(y\mid a)$ is of the form
 \begin{equation}
@@ -18,14 +13,13 @@ Its score at the intended action is
 \[
     s(y)=\eta'(a_0)y-\psi'(a_0),
 \]
-which is affine in $y$.  If $\eta'(a_0)>0$, the canonical wage is zero below a
-strike point and increases linearly above it.
+which is affine in $y$.
 
 We note this as follows:
 
 \begin{remark}[Piecewise Linear Option Contracts]
     \label{rem:linear-contracts}
-    Assume that utility is log ($u(W)=\log W$ with $w_0>0$), that the distribution of outcomes is in an exponential family with a linear sufficient statistic as in equation~\eqref{eq:linear-exponential-family}, and that $\eta'(a_0)>0$. Then the canonical contract wage function is a piecewise linear option contract. This includes the Gaussian, exponential, Poisson, geometric, binomial, and gamma distributions.
+    Assume that utility is log ($u(W)=\log W$ with $w_0>0$), that the distribution of outcomes is in an exponential family with a linear sufficient statistic as in equation~\eqref{eq:linear-exponential-family}. Then the canonical contract wage function is a piecewise linear option contract. This includes the Gaussian, exponential, Poisson, geometric, binomial, and gamma distributions.
 \end{remark}
 
-Our piecewise linear contracts are option contracts. The contracts pay zero for low outcomes and increase linearly past a ``strike price.'' In some examples with a lower bound on the support, the optimal contract is globally linear (e.g., some of the Poisson examples in Figure~\ref{fig:poisson-log-pp}). Finally, note that optimal contracts are only piecewise linear when the first-order approach is valid. This is illustrated in the Gaussian-log utility example in Figure~\ref{fig:gaussian-log-pp}, where the contract with negative reservation wage is clearly nonlinear.
+Our piecewise linear contracts are option contracts. With increasing score, the contracts pay zero for low outcomes and increase linearly past a ``strike price.'' In some examples with a lower bound on the support, the optimal contract is globally linear (e.g., some of the Poisson examples in Figure~\ref{fig:poisson-log-pp}). Finally, note that optimal contracts are only piecewise linear when the first-order approach is valid. This is illustrated in the Gaussian-log utility example in Figure~\ref{fig:gaussian-log-pp}, where the contract with negative reservation wage is clearly nonlinear.

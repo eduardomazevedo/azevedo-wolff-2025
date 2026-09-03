@@ -31,6 +31,17 @@ The first-order approach fails with a reservation wage of $-\$1,000$, but is val
     \caption*{\textit{Note:} Top panel: optimal wage function $w(y)$. Bottom panel: agent's expected utility $U(w^*_{\bar U},a)$ under the displayed contract. For each reservation utility, the displayed contract and recommended action solve the principal's problem. Colors represent reservation utility. Dashed curves indicate that the first-order approach is invalid for the corresponding recommended action and reservation utility. Dots in the bottom panel indicate the recommended action. The thin horizontal line indicates indifference between local maxima. Parameters are as in Figure~\ref{fig:gaussian-log-pp}, but with the CARA coefficient set to yield relative risk aversion of $1$ at the initial wealth.}
 \end{figure}
 
+
+% Principal's problem summary figure
+\begin{figure}[p]
+    \centering
+    \includegraphics[width=\textwidth]{figures/foa-principal-summary.pdf}
+    \captionsetup{font=footnotesize}
+    \caption{Validity of the first-order approach in the principal's problem.}
+    \label{fig:foa-principal-summary}
+    \caption*{\textit{Note:} Red and teal denote reservation wages at which the first-order approach fails and holds, respectively.  Filled and open triangles mark the monopsony and competitive wages.  Supplementary Appendix~\ref{sec:foa-numerical-experiments} gives the specifications and computational details.}
+\end{figure}
+
 Theorem~\ref{thm:main} shows that the first-order approach is valid for sufficiently high reservation utility under commonly satisfied conditions. The examples illustrate the theorem idea in simple terms. For very low reservation utility, the first-order approach often fails. The reason is that the principal offers tough contracts, with zero pay for low output. Optimal contracts have a kink, and only start paying a positive wage relatively close to the intended action. Thus, the agent has a global deviation to basically give up and exert no effort. Thus, the first-order approach fails with very low reservation utility.
 
 However, as \emph{reservation utility increases, the first-order approach becomes valid}. The reason is that the principal is forced to offer contracts with higher utility at the recommended action. This constraint moves the rightmost local maximum up. The rightmost maximum goes up faster than the leftmost local maximum. Thus, the rightmost maximum becomes the unique global maximum. In the examples, the first-order approach is valid for any positive reservation wage. The proof of Theorem~\ref{thm:main} works with a somewhat different logic. The key observation is that the kink in the relaxed optimal contract moves to the left. This then implies that the agent's problem becomes more concave, and the first-order approach becomes valid.

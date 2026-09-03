@@ -42,25 +42,15 @@ compatibility with the weaker local incentive compatibility condition
     U_a(w,a_0)=0. \tag{LIC}\label{LIC_relaxed}
 \end{equation}
 
-Let $\Revenue(a)$ denote the principal's expected revenue when action $a$ is
-taken.  The \textbf{principal's problem} is the outer problem
-\[
-    \max_{a_0\in\operatorname{int}\mathcal A}
-    \left[
-        \Revenue(a_0)
-        -\min_{\substack{w\in\mathcal W:\\
-                         U(w,a_0)\geq\bar U,\\
-                         U(w,a_0)\geq U(w,a)\ \forall a\in\mathcal A}}
-         C(w,a_0)
-    \right].
-\]
-The \textbf{relaxed principal's problem} instead uses the relaxed
-cost-minimization problem inside the brackets, imposing \eqref{LIC_relaxed}
-instead of \eqref{GIC}.
-
 We say that the \textbf{first-order approach is valid} for $(a_0,\bar U)$ if
 every solution of the relaxed problem also solves the original
 cost-minimization problem.
+
+Throughout the paper, we always fix the intended action and focus on cost minimization unless otherwise specified. For some examples and discussion we consider the \textbf{principal's problem} to choose both the intended action and contract to maximize
+\[
+    \Revenue(a_0)-C(w,a_0),
+\]
+for a given \textbf{revenue} function $\Revenue(a)$, subject to the same constraints as the cost-minimization problem. The \textbf{relaxed principal's problem} replaces the global incentive compatibility constraint with the local incentive compatibility constraint.
 
 \subsection{Assumptions and notation}
 \textbf{Maintained assumptions.}
