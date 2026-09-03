@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import math
 from pathlib import Path
 from typing import Any
 
@@ -28,6 +29,12 @@ REPORT_VALID_TOLERANCE_CE = 0.001  # Atlas units are $1,000, so this is $1.
 
 # Paper order and display labels come from the common asset manifest.
 ROWS = summary_rows("principal")
+
+
+def _format_dollars(value_in_thousands: float) -> str:
+    """Format an atlas monetary value, measured in $1,000, to the nearest dollar."""
+    dollars = math.floor(1000.0 * value_in_thousands + 0.5)
+    return f"${dollars:,}"
 
 
 def _saved_results(input_dir: Path) -> dict[str, dict[str, Any]]:
@@ -126,6 +133,16 @@ def make_figure(rows: list[dict[str, Any]], output: Path) -> None:
     plot_ax.tick_params(axis="y", length=0)
 
     label_ax.text(0, -0.65, "Specification", weight="bold", va="bottom")
+    label_ax.text(
+        0.98,
+        -0.65,
+        "FOA valid\nstarting at",
+        weight="bold",
+        ha="right",
+        va="bottom",
+        fontsize=8.3,
+        linespacing=0.9,
+    )
 
     for y, row in enumerate(rows):
         kind = row["kind"]
@@ -152,6 +169,16 @@ def make_figure(rows: list[dict[str, Any]], output: Path) -> None:
         monopsony = row["monopsony_ce_wage"]
         threshold = row["foa_threshold_ce_wage"]
         competitive = row["competitive_ce_wage"]
+        if threshold is not None:
+            label_ax.text(
+                0.98,
+                y,
+                _format_dollars(threshold),
+                ha="right",
+                va="center",
+                fontsize=7.2,
+                weight="bold" if kind == "data_bold" else "normal",
+            )
         if monopsony is None or competitive is None:
             continue
         x_left, x_right = plot_ax.get_xlim()
@@ -172,6 +199,20 @@ def make_figure(rows: list[dict[str, Any]], output: Path) -> None:
             competitive, marker_y, marker="v", s=BENCHMARK_MARKER_SIZE,
             facecolor="white", edgecolor=BLACK, linewidth=1.0, zorder=6,
         )
+        for value in (monopsony, competitive):
+            near_edge = value < 1.0
+            plot_ax.annotate(
+                _format_dollars(value),
+                xy=(value, marker_y),
+                xytext=(2 if near_edge else 0, 3),
+                textcoords="offset points",
+                ha="left" if near_edge else "center",
+                va="bottom",
+                fontsize=5.8,
+                color=BLACK,
+                zorder=7,
+                clip_on=False,
+            )
 
     marker_size = legend_marker_size()
     legend = [

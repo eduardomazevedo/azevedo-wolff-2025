@@ -25,7 +25,7 @@ from .report_common import (
     summary_rows,
 )
 
-from .report_principal_figure import _report_threshold
+from .report_principal_figure import _format_dollars, _report_threshold
 
 
 # Principal and fixed-action results are never pooled: this script reads only
@@ -119,6 +119,16 @@ def make_figure(rows: list[dict[str, Any]], output: Path) -> None:
     plot_ax.tick_params(axis="y", length=0)
 
     label_ax.text(0, -0.65, "Specification", weight="bold", va="bottom")
+    label_ax.text(
+        0.98,
+        -0.65,
+        "FOA valid\nstarting at",
+        weight="bold",
+        ha="right",
+        va="bottom",
+        fontsize=8.3,
+        linespacing=0.9,
+    )
 
     for y, row in enumerate(rows):
         kind = row["kind"]
@@ -145,6 +155,17 @@ def make_figure(rows: list[dict[str, Any]], output: Path) -> None:
             fontsize=8.3 if kind == "data" else 9.2,
             weight="bold" if kind == "data_bold" else "normal",
         )
+        threshold = row["foa_threshold_ce_wage"]
+        if threshold is not None:
+            label_ax.text(
+                0.98,
+                y,
+                _format_dollars(threshold),
+                ha="right",
+                va="center",
+                fontsize=7.2,
+                weight="bold" if kind == "data_bold" else "normal",
+            )
         if row["infeasible"]:
             plot_ax.plot([0, x_right], [y, y], color=GRAY, linewidth=1.5, zorder=2)
             plot_ax.text(
@@ -153,7 +174,6 @@ def make_figure(rows: list[dict[str, Any]], output: Path) -> None:
             )
             continue
 
-        threshold = row["foa_threshold_ce_wage"]
         if threshold is None:
             plot_ax.plot([0, x_right], [y, y], color=RED, linewidth=SUMMARY_LINEWIDTH, zorder=3)
         else:
@@ -163,16 +183,47 @@ def make_figure(rows: list[dict[str, Any]], output: Path) -> None:
         marker_y = y - 0.18
         monopsony = row["fixed_action_monopsony_ce_wage"]
         competitive = row["fixed_action_competitive_ce_wage"]
+        benchmarks_close = (
+            monopsony is not None
+            and competitive is not None
+            and abs(competitive - monopsony) < 0.1 * x_right
+        )
         if monopsony is not None:
             plot_ax.scatter(
                 monopsony, marker_y, marker="v", s=BENCHMARK_MARKER_SIZE,
                 facecolor=BLACK, edgecolor=BLACK, linewidth=1.0, zorder=6,
                 clip_on=False,
             )
+            near_edge = monopsony < 1.0
+            plot_ax.annotate(
+                _format_dollars(monopsony),
+                xy=(monopsony, marker_y),
+                xytext=(-2 if benchmarks_close else (2 if near_edge else 0), 3),
+                textcoords="offset points",
+                ha="right" if benchmarks_close else ("left" if near_edge else "center"),
+                va="bottom",
+                fontsize=5.8,
+                color=BLACK,
+                zorder=7,
+                clip_on=False,
+            )
         if competitive is not None:
             plot_ax.scatter(
                 competitive, marker_y, marker="v", s=BENCHMARK_MARKER_SIZE,
                 facecolor="white", edgecolor=BLACK, linewidth=1.0, zorder=6,
+            )
+            near_edge = competitive < 1.0
+            plot_ax.annotate(
+                _format_dollars(competitive),
+                xy=(competitive, marker_y),
+                xytext=(2 if benchmarks_close or near_edge else 0, 3),
+                textcoords="offset points",
+                ha="left" if benchmarks_close or near_edge else "center",
+                va="bottom",
+                fontsize=5.8,
+                color=BLACK,
+                zorder=7,
+                clip_on=False,
             )
 
     marker_size = legend_marker_size()

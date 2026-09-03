@@ -13,7 +13,9 @@ BLACK = "#222222"
 GRAY = "#aaaaaa"
 GRID = "#dddddd"
 SEPARATOR = "#eeeeee"
-SUMMARY_FIGSIZE = (8.35, 11.2)
+# US Letter with one-inch manuscript margins leaves a 6.5-inch text block and
+# roughly eight inches for a full-page graphic above its caption.
+SUMMARY_FIGSIZE = (6.5, 7.98)
 SUMMARY_LINEWIDTH = 2.3
 BENCHMARK_MARKER_SIZE = 38
 
