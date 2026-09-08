@@ -1,9 +1,21 @@
-\subsection{Discussion of Assumptions, Limitations, and Counterexamples}
-\label{sec:counter-examples}
-\medskip\noindent\textit{\textbf{Numerical Experiments.}}
-We performed numerical experiments to explore the validity of the first-order approach.
-Figure~\ref{fig:foa-principal-summary} summarizes results for the principal's problem.  Except for the Student-$t$ cases, the range of reservation wages over which the first-order approach fails is small, with all failures close to the monopsony wage.  This pattern survives substantial changes in noise, initial wealth, and effort costs, and relative risk aversion as low as $0.25$.  By contrast, the Student-$t$ distribution has an empty $\mathcal Q_{\mathrm{safe}}$, and the first-order approach can fail throughout the economically relevant range.  The same conclusions hold in the fixed-action cost-minimization experiments reported in Supplementary Appendix~\ref{sec:foa-numerical-experiments}.
+\subsection{Numerical Experiments}
+\label{sec:numerical-experiments}
+Theorem \ref{thm:main} has two main shortcomings. First, it requires quantitative bounds on the safe region. Thus, even if a parametric class of examples satisfies these conditions for some parameter values, the theorem is not guaranteed to hold for all parameter values.%
+\footnote{%
+This shortcoming appears in Corollary~\ref{cor:common-utilities}. The high-risk-aversion case in part (i) requires sufficiently low initial wealth. The log case in part (ii) requires that the score is unbounded below. This raises the question of whether the theorem commonly holds for reasonable levels of initial wealth in part (i), and whether it holds for common distributions with score bounded below in part (ii).}
+Second, the theorem depends on ``sufficiently high'' reservation utility. Thus, the results are not guaranteed to work in economically meaningful examples. This limitation is similar to results like the central limit theorem, which is only useful because the ``large enough'' requirement tends to be reasonable in practical examples.
 
+To understand how often the first-order approach holds or fails, we perform numerical experiments with 25 specifications. We consider outcome distributions Gaussian, Poisson, exponential, gamma, geometric, Bernoulli, binomial, and Student $t$. The $t$ distribution is included as an adversarial case, as in all $t$ distribution examples we consider the safe score region is empty, thus not satisfying the theorem's assumptions. In the Gaussian case, we vary some key parameters. For risk aversion we try CRRA and CARA with relative risk aversion from $0.25$ to $2.0$. We vary the amount of noise, initial wealth, and the cost of effort. Parameters are chosen to represent a task that produces revenue to the principal of the order of \$100,000, but with meaningful effort cost and uncertainty so that agency is costly. Effort cost is quadratic. Appendix \ref{sec:foa-numerical-experiments} gives the exact specifications.
+
+Figure~\ref{fig:foa-principal-summary} summarizes results for the principal's problem and Supplementary Appendix~\ref{sec:foa-numerical-experiments} gives the qualitatively similar results for the cost-minimization problem. The results are as follows, setting aside for now the adversarial $t$ distribution. The first-order approach holds for almost all reservation wages. We plot as reference points the monopsony wage and the competitive wage. These correspond to the reservation utilities agents receive when the principal has no individual rationality constraint (monopsony), or when the principal has zero profits (competitive). In the worst cases, the first-order approach holds for every reservation wage above a threshold that is only slightly higher than the monopsony wage. In many cases, the red region where the first-order approach fails is so small it is difficult to perceive visually.
+
+Naturally, this represents only a finite set of examples. To make the analysis transparent, we encourage readers to investigate their own examples in the provided \href{https://colab.research.google.com/github/eduardomazevedo/moralhazard/blob/main/examples/colab_demo.ipynb}{Google Colab notebook} and the \href{https://eduardomazevedo.github.io/azevedo-wolff-2025-site/}{interactive demonstration}.
+
+\subsection{Principal's Problem versus Cost Minimization}
+\label{sec:principal-versus-cost-minimization}
+
+\subsection{Counterexamples}
+\label{sec:counter-examples}
 \medskip\noindent\textit{\textbf{Safe Score Region.}}
 A key assumption of Theorem~\ref{thm:main} is the availability of a sufficiently large safe low-score region, encoded by $\mathcal Q_{\mathrm{safe}}$.  The region must be large enough for the required conditions on $\mathrm{Curv}_{\mathrm{safe}}$ and $\mathrm{Cap}_{\mathrm{safe}}$ to hold.
 
@@ -38,7 +50,3 @@ For practical purposes, the first-order approach can be valid with considerably 
 
 \medskip\noindent\textit{\textbf{Limited liability.}}
 Limited liability makes it more difficult to guarantee validity of the first-order approach, due to the kink in optimal contracts. We impose limited liability because it is crucial for existence of an optimal contract. The intuition is clear from the Lagrangian's first-order condition in equation~\eqref{eq:foc}. When the right-hand side is negative, it is optimal to give the agent the lowest possible $w(y)$. For a solution to exist, we often need limited liability and $u(w_0) > - \infty$. When the score is unbounded below, the right-hand side is negative for any $\mu >0$; thus, existence problems are extremely common without limited liability. These existence issues have been well known since \textcite{mirrlees1999}.
-
-
-\medskip\noindent\textit{\textbf{Cost Minimization versus the Principal's Problem.}}
-TODO
