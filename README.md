@@ -16,7 +16,13 @@ uv sync
 ./make.sh
 ```
 
-This regenerates the illustrative and Pareto figures, benchmark presentation, solver comparison, and both FOA-validity summary figures used by the paper. Timing benchmarks are not rerun: the build uses the controlled standard-server results committed under `output/`. The script does not compile LaTeX; build the manuscript separately from `tex/manuscript.tex`.
+This regenerates the illustrative and Pareto figures, benchmark presentation, solver comparison, and both FOA-validity summary figures used by the paper. Timing benchmarks are not rerun: the build uses the controlled standard-server results committed under `output/`. The script does not compile LaTeX. To build the manuscript and supplementary information separately from the numerical results, run:
+
+```bash
+./build-tex.sh
+```
+
+This uses XeLaTeX and writes both PDFs and all auxiliary files to `tex/pdf/`.
 
 ## Algorithm 1 Implementation
 

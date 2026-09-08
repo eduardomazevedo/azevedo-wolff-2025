@@ -18,6 +18,7 @@ This repository contains the reproduction code for the academic paper "Azevedo-W
     - `solver_comparison.py`: Scripts for comparing different numerical solvers.
 - `tex/`: Contains the LaTeX source code for the paper manuscript, including chapters, appendices, and figures/tables subdirectories.
 - `make.sh`: A shell script that regenerates the benchmark outputs and figure assets. It does not compile LaTeX.
+- `build-tex.sh`: Compiles both the manuscript and supplementary information with XeLaTeX, writing all build output to `tex/pdf/`.
 - `pyproject.toml`: Project configuration file for Python, including dependencies managed by `uv`.
 - `readme.md`: This file.
 - `uv.lock`: Lock file for Python dependencies, ensuring reproducible environments.
@@ -52,6 +53,16 @@ To reproduce the numerical results and figure assets, follow these steps:
     This script executes the benchmark, main-figure, and solver-comparison scripts to generate numerical results, figures, and tables. It does not compile the LaTeX manuscript.
 
     All generated figures will adhere to the consistent style defined in `py/figure_maker.py`.
+
+## Building LaTeX
+
+From the repository root, run:
+
+```bash
+./build-tex.sh
+```
+
+Do not invoke `xelatex` or `latexmk` directly from the repository root. The script preserves the VS Code build convention, places all artifacts in `tex/pdf/`, and builds the manuscript and supplementary information in the order needed for their cross-references.
 
 ## Key Technologies
 
