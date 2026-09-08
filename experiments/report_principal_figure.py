@@ -129,7 +129,8 @@ def make_figure(rows: list[dict[str, Any]], output: Path) -> None:
     plot_ax.xaxis.set_label_position("top")
     plot_ax.set_xlabel("Reservation certainty-equivalent wage ($1,000)", labelpad=9)
     plot_ax.grid(axis="x", color=GRID, linewidth=0.7)
-    plot_ax.spines[["left", "right", "bottom"]].set_visible(False)
+    plot_ax.spines[["left", "right", "bottom", "top"]].set_visible(False)
+    plot_ax.tick_params(axis="x", top=False, labeltop=True)
     plot_ax.tick_params(axis="y", length=0)
 
     label_ax.text(0, -0.65, "Specification", weight="bold", va="bottom")
