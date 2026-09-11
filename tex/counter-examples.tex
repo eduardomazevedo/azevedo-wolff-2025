@@ -35,16 +35,19 @@ Convexity of $c$ and of $u^{-1}$ therefore gives
 
 Because $u'(W_R)\to0$ as $W_R\to\infty$, this additional compensation cost exceeds $\bar\beta a$ for sufficiently high $\bar U$. At $a_0=0$, the constant contract $w(y)=W_R-w_0$ satisfies individual rationality, globally implements $0$, satisfies the boundary local incentive constraint, and attains the lower bound. Hence, for sufficiently high $\bar U$, it solves the cost-minimization problem with intended action $0$, the principal's problem, and the boundary-relaxed principal's problem. The conclusion is driven entirely by the boundary action, rather than by any substantive first-order-approach argument.}
 
-There are two main reasons why our results are stated in terms of the cost-minimization problem. First, fixing the intended action avoids results driven trivially by the principal's optimal action being pushed to the boundary, as in the footnote above. Such results can make the original and relaxed principal's problems coincide, but they do not clarify the mechanism behind Theorem~\ref{thm:main}, which makes the first-order approach valid even in the cost-minimization problem. Second, we do not have to make assumptions on $\Revenue$ and the assumptions on $y$ are only relevant as a statistical signal, and thus invariant to relabelings. Third, analysis of the cost-minimization problem is simpler \textcite{grossman1983}.
+There are two main reasons why our results are stated in terms of the cost-minimization problem. First, fixing the intended action avoids results driven trivially by the principal's optimal action being pushed to the boundary, as in the footnote above. Such results can make the original and relaxed principal's problems coincide, but they do not clarify the mechanism behind Theorem~\ref{thm:main}, which makes the first-order approach valid even in the cost-minimization problem. Second, we do not have to make assumptions on the $\Revenue()$ function, and the assumptions on $y$ are only relevant as a statistical signal, and thus invariant to relabelings. Third, analysis of the cost-minimization problem is simpler \textcite{grossman1983}.
 
 We see two promising directions for extending our results to the principal's problem. First, the large-$\lambda$ concavity argument in Proposition~\ref{prop:concave} appears capable of being made uniform in $a_0$. Uniform versions of the theorem's bounds and implementability conditions could therefore yield validity simultaneously for every relevant interior intended action. Second, one could combine such an argument with a result localizing the principal's candidate optimal intended actions near the lowest possible action, using logic similar to the footnote above while allowing the optimum to remain interior. It might then suffice for the conditions of Theorem~\ref{thm:main} to hold uniformly only on a small range of intended actions near the lower boundary, rather than on all of $\mathcal A$. In the interest of space, we leave these extensions to future work.
 
 
 
 \subsection{Importance of Assumptions and Counterexamples}
+
+We now consider the importance of the main assumptions.
+
 \label{sec:counter-examples}
 \medskip\noindent\textit{\textbf{Safe Score Region.}}
-A key assumption of Theorem~\ref{thm:main} is the availability of a sufficiently large safe low-score region, encoded by $\mathcal Q_{\mathrm{safe}}$.  The region must be large enough for the required conditions on $\mathrm{Curv}_{\mathrm{safe}}$ and $\mathrm{Cap}_{\mathrm{safe}}$ to hold.
+A key assumption of Theorem~\ref{thm:main} is the existence of a sufficiently large safe low-score region $\mathcal Q_{\mathrm{safe}}$.  The region must be large enough for the required conditions on $\mathrm{Curv}_{\mathrm{safe}}$ and $\mathrm{Cap}_{\mathrm{safe}}$ to hold.
 
 To see the importance of this region, consider the Student-$t$ distribution.  The $t$ distribution resembles a Gaussian but has fatter tails.  Consequently, its score resembles the Gaussian score near the mean but approaches zero in both tails (Table~\ref{tab:dists}).  The score is not monotone and there may be no nonempty safe low-score region.%
 \footnote{Let $y^*:=a_0-\sigma\sqrt{d}$, where the intended-action score attains its minimum; every nonempty score sublevel set contains $y^*$.  Moreover,
@@ -56,7 +59,7 @@ To see the importance of this region, consider the Student-$t$ distribution.  Th
 If $y^*\in\mathcal A$, evaluating at $a=y^*$ gives
 $f_{aa}(y^*\mid y^*)/f(y^*\mid y^*)=-(d+1)/(d\sigma^2)<0$, independently of the parameter values.}
 
-This results in common failures of the first-order approach (figures \ref{fig:t-log-pp} and \ref{fig:foa-principal-summary}). We stress however that our conditions are sufficient and far from being tight. In the experiments in figure \ref{fig:foa-principal-summary}, the first-order approach is valid for high reservation utility even in examples that do not satisfy the safe score region conditions. For example, the noisier $t$-distribution specification has empty safe region, but the first-order approach is valid for high reservation utility.
+This results in common failures of the first-order approach (figures \ref{fig:t-log-pp} and \ref{fig:foa-principal-summary}). We stress however that our conditions are sufficient but far from being tight. In the experiments in figure \ref{fig:foa-principal-summary}, all the non $t$ distribution examples have non-empty safe score regions, but not all of them satisfy the quantitative capacity or curvature conditions. Nevertheless, we obseve that the first-order approach is valid for most reservation utilities in these examples.
 
 % Student-t - log utility figure
 \begin{figure}[p]
