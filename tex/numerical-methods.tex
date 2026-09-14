@@ -96,7 +96,7 @@ This suggests Algorithm~\ref{alg:cost-minimization}:
     \label{alg:cost-minimization}
 \end{algorithm}
 
-Algorithm~\ref{alg:cost-minimization} solves all the examples in the paper. In our benchmarks, each run takes on the order of 3 to 14 milliseconds (see supplementary material). Performance seems to be due to three factors. First, the algorithm often ends in the first iteration because of Theorem~\ref{thm:main}. Second, dual calls are fast because of the analytic formulas and caching. Third, dual maximization is fast because of low dimensionality, analytic gradients, global concavity of $\mathcal{D}$, and warm starts.
+Algorithm~\ref{alg:cost-minimization} solves all the examples in the paper. In our benchmarks, each cost-minimization run takes on the order of 3 to 14 milliseconds (see supplementary material). Performance seems to be due to three factors. First, the algorithm often ends in the first iteration because of Theorem~\ref{thm:main}. Second, dual calls are fast because of the analytic formulas and caching. Third, dual maximization is fast because of low dimensionality, analytic gradients, global concavity of $\mathcal{D}$, and warm starts.
 
 Algorithm~\ref{alg:cost-minimization} has one main limitation. For fixed $\boldsymbol{\hat a}$, the dual problem is concave. But in our implementation we search for global deviations over a continuous action space. Therefore, the active-set iterations are not guaranteed to terminate within a finite number of steps. We obtained good results both with the heuristic above and with the alternative of restricting attention to a finite grid of actions.
 
