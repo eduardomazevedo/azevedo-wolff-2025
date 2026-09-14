@@ -7,8 +7,8 @@ Scans tex/ for:
   - \\input{...} to find which .tex files are needed
 
 Creates a staging directory with:
-  - All needed .tex files (manuscript, si, and everything they \\input)
-  - custom.sty, bibliography.bib (and .bbl if present)
+  - manuscript.tex and every .tex file it \\input
+  - custom.sty, bibliography.bib, and supplementary cross-reference data
   - tex/tables/ contents
   - Only the figure files that appear in the paper (copies real files, not symlinks)
 
@@ -22,6 +22,12 @@ Usage (from project root):
 Figures are read from tex/figures/ (symlinks are followed; only referenced
 figures are copied). \\input paths outside tex/ (e.g. ../output/...) are
 not copied; a note is printed at the end if any are found.
+
+Two arXiv-specific choices are intentional:
+  - manuscript.bbl is omitted so arXiv generates the bibliography from
+    bibliography.bib with Biber.
+  - pdf/si.aux is included because manuscript.tex imports labels from the
+    separately posted online appendix with \\externaldocument{pdf/si}.
 """
 
 from __future__ import annotations
@@ -59,12 +65,11 @@ def main() -> None:
     if not tex_dir.is_dir():
         raise SystemExit(f"tex directory not found: {tex_dir}")
 
-    # 1) Find all .tex and .sty files under tex/
-    tex_files = list(tex_dir.rglob("*.tex")) + list(tex_dir.glob("*.sty"))
-    # 2) Parse \input{path} and \includegraphics[...]{path} / \includegraphics{path}
+    # Parse \input{path} and \includegraphics[...]{path} / \includegraphics{path}
     input_re = re.compile(r"\\input\s*\{([^}]+)\}")
     # Optional [width=...] then {path}; path may omit extension
     graphics_re = re.compile(r"\\includegraphics\s*(?:\[[^\]]*\])?\s*\{([^}]+)\}")
+    external_document_re = re.compile(r"\\externaldocument\s*\{([^}]+)\}")
 
     def normalize_input(path: str) -> Path:
         p = path.strip()
@@ -78,6 +83,10 @@ def main() -> None:
         except OSError:
             return ""
 
+    def parseable_text(path: Path) -> str:
+        """Return TeX source with comments removed for dependency scanning."""
+        return re.sub(r"(?<!\\)%.*", "", read_file(path))
+
     # Collect all \input targets reachable from manuscript.tex only (si.tex not included in arxiv bundle)
     roots = [tex_dir / "manuscript.tex"]
     needed_tex: set[Path] = set()
@@ -90,7 +99,7 @@ def main() -> None:
         full = tex_dir / rel
         if not full.exists():
             continue
-        text = read_file(full)
+        text = parseable_text(full)
         for m in input_re.finditer(text):
             inp = normalize_input(m.group(1))
             # Resolve relative to current file's directory (under tex/)
@@ -103,10 +112,10 @@ def main() -> None:
             if resolved not in needed_tex:
                 to_visit.append(resolved)
 
-    # Collect all figure paths from every .tex and .sty in tex/
+    # Collect figure paths from the TeX files reachable from manuscript.tex.
     figure_paths: set[str] = set()
-    for f in tex_files:
-        text = read_file(f)
+    for rel in needed_tex:
+        text = parseable_text(tex_dir / rel)
         for m in graphics_re.finditer(text):
             path = m.group(1).strip()
             if path.startswith("figures/") or "figures/" in path:
@@ -114,6 +123,7 @@ def main() -> None:
 
     # Normalize figure paths: ensure we store as relative path under tex/
     figures_to_copy: list[Path] = []
+    missing_figures: list[str] = []
     for fp in sorted(figure_paths):
         # Paths are relative to tex/ (e.g. figures/log-poisson/pp_stacked.pdf)
         if not fp.startswith("figures/"):
@@ -127,6 +137,12 @@ def main() -> None:
                 src = tex_dir / (fp + ".pdf")
                 if src.exists():
                     figures_to_copy.append(Path(fp + ".pdf"))
+                    continue
+            missing_figures.append(fp)
+
+    if missing_figures:
+        missing = "\n".join(f"  - {path}" for path in missing_figures)
+        raise SystemExit(f"Referenced figures not found:\n{missing}")
 
     # Staging directory
     stage = root / "arxiv_staging"
@@ -144,14 +160,28 @@ def main() -> None:
             dst.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(src, dst)
 
-    # Copy custom.sty and bibliography.bib
+    # Intentionally omit manuscript.bbl: arXiv should generate it from the
+    # bibliography database with Biber.
     for name in ("custom.sty", "bibliography.bib"):
         src = tex_dir / name
         if src.exists():
             shutil.copy2(src, stage_tex / name)
-    bbl = tex_dir / "bibliography.bbl"
-    if bbl.exists():
-        shutil.copy2(bbl, stage_tex / "bibliography.bbl")
+
+    # Intentionally include pdf/si.aux (found through \externaldocument). The SI
+    # is posted separately, but the manuscript needs its auxiliary file to resolve
+    # Supplementary Appendix labels on arXiv.
+    for rel in needed_tex:
+        for match in external_document_re.finditer(parseable_text(tex_dir / rel)):
+            aux_rel = Path(match.group(1).strip() + ".aux")
+            src = tex_dir / aux_rel
+            if not src.exists():
+                raise SystemExit(
+                    f"External-document auxiliary file not found: {src}\n"
+                    "Run ./build-tex.sh before packing the arXiv bundle."
+                )
+            dst = stage_tex / aux_rel
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(src, dst)
 
     # Copy tables/
     tables_src = tex_dir / "tables"
@@ -187,7 +217,7 @@ def main() -> None:
     # Warn about external inputs (../output/ etc.) that are not copied
     all_tex_text = ""
     for rel in needed_tex:
-        all_tex_text += read_file(tex_dir / rel)
+        all_tex_text += parseable_text(tex_dir / rel)
     external_inputs = input_re.findall(all_tex_text)
     external = [x.strip() for x in external_inputs if x.strip().startswith("../") or "/output/" in x]
     if external:
