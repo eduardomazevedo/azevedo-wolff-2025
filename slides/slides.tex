@@ -89,58 +89,35 @@
 \end{frame}
 
 \begin{frame}{Model}
-  Agent has initial wealth $w_0$, utility $u(w_0+w)-c(a)$ from payment $w\geq 0$ and action $a\in\mathcal A$. Reservation utility $\bar U$.
-
-  Output $y$ has density $f(y\mid a)$.
-
-  Parametrize contracts in utility units: $v(y):=u(w_0+w(y))$, equivalently $w(y)=k(v(y))-w_0$ with $k:=u^{-1}$. Feasible contracts: $\mathcal V$.
-
-  \begin{align}
-    U(v, a) &= \int v(y) \cdot f(y\mid a)\,\mathrm{d}y - c(a) \\
-    C(v, a) &= \int \bigl[k(v(y))-w_0\bigr] \cdot f(y\mid a)\,\mathrm{d}y
-  \end{align}
+  \begin{itemize}
+    \item Agent chooses action $a\in\mathcal A$; output has density $f(y\mid a)$.
+    \item A contract specifies a payment $w(y)\geq0$ (limited liability).
+    \item Agent has initial wealth $w_0$, reservation utility $\bar U$, and payoff
+    \[
+      U(w,a)=\int u\bigl(w_0+w(y)\bigr)f(y\mid a)\,dy-c(a).
+    \]
+    \item For a fixed intended action $a_0$, the principal minimizes expected compensation
+    \[
+      C(w,a_0)=\int w(y)f(y\mid a_0)\,dy.
+    \]
+  \end{itemize}
 \end{frame}
 
 \begin{frame}{Definitions: FOA}
   \textbf{GIC} (global incentive compatibility): choosing $a_0$ is optimal for the agent.
 
-  \textbf{LIC} (local incentive compatibility): $U_a(v, a_0) = 0$.
+  \textbf{LIC} (local incentive compatibility): $U_a(w, a_0) = 0$.
 
   \textbf{Cost minimization problem:} minimize expected wage subject to IR and GIC.
 
   \textbf{Relaxed cost minimization problem:} minimize expected wage subject to IR and LIC.
 
   \textbf{FOA holds for $(a_0, \bar{U})$} if the solution to the relaxed cmp solves the cmp.
-\end{frame}
 
-\begin{frame}{Definitions}
-  \begin{itemize}
-    \item Score $s(y) := f_a(y\mid a_0)/f(y\mid a_0)$.
-    \item Sufficient risk aversion: with absolute risk aversion $A$ and absolute prudence $P$,
-    \[
-      \frac{A(W)}{P(W)}\geq\frac{1}{3}
-      \qquad\text{and}\qquad
-      \lim_{W\to\infty}\frac{A(W)}{u'(W)}=\infty.
-    \]
-    Includes CARA and CRRA with $\gamma>1$.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Safe capacity and curvature}
-  A cutoff $q\leq 0$ is \textbf{safe} if $f_{aa}\geq 0$ on $\{s\leq q\}$ for every $a$.
-  Let $\mathcal Q_{\mathrm{safe}}$ be the set of safe cutoffs, and $\bar q_{\mathrm{safe}}:=\sup\mathcal Q_{\mathrm{safe}}$.
+  \medskip
+  The \textbf{score} at the intended action is
   \[
-    \mathrm{Cap}_{\mathrm{safe}}
-    :=-
-    \int_{\{s(y)<\bar q_{\mathrm{safe}}\}}
-    s(y)f(y\mid a_0)\,d\nu(y).
-  \]
-  \[
-    \mathrm{Curv}_{\mathrm{safe}}
-    :=\inf_{q\in\mathcal Q_{\mathrm{safe}}}
-      \sup_{a\in\mathcal A}
-      \int_{\{s(y)>q\}}
-      \bigl[s(y)f_{aa}(y\mid a)\bigr]_+\,d\nu(y).
+    s(y):=\frac{f_a(y\mid a_0)}{f(y\mid a_0)}.
   \]
 \end{frame}
 
@@ -152,100 +129,76 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Theorem 1}
-  Suppose either:
-  \begin{enumerate}
-    \item[(i)] sufficient risk aversion, $\underline c''>0$, $\mathrm{Curv}_{\mathrm{safe}}<\infty$, and
-    \[
-      \bigl[\lim_{W\to\infty}u(W)-u(w_0)\bigr]\mathrm{Cap}_{\mathrm{safe}}>c'(a_0);
-    \]
-    \item[(ii)] log utility and $\mathrm{Curv}_{\mathrm{safe}}/\mathrm{Width}_{\mathrm{safe}}<\underline c''$.
-  \end{enumerate}
-  Then there exists $U^*<U_R$ such that, for every $\bar U\in[U^*,U_R)$, the first-order approach is valid.
-\end{frame}
+\begin{frame}{Corollary 1: Common cases}
+  Assume $w_0>0$ and output is Gaussian, Poisson, exponential, gamma, geometric, Bernoulli, or binomial.
 
-\begin{frame}{Corollary 1}
-  For standard utilities and distributions, FOA is valid at high reservation utility:
+  \medskip
+  The FOA is valid at all sufficiently high feasible reservation utilities for:
   \begin{itemize}
-    \item CARA, or CRRA with $\gamma>1$: if initial wealth is sufficiently low.
-    \item Log utility: if the score is unbounded below.
+    \item CARA, or CRRA with $\gamma>1$, if initial wealth is sufficiently low;
+    \item log utility, if the score is unbounded below;
     \item CRRA with $\gamma\in(0,1)$.
   \end{itemize}
-  Applies to Gaussian, Poisson, exponential, gamma, geometric, Bernoulli, and binomial output.
 \end{frame}
 
-\begin{frame}{Proof part 1: Relaxed problem}
-  Write Lagrangian:
+\begin{frame}{Proof: log utility and an unbounded score}
+  We prove the most transparent case directly:
+  \begin{itemize}
+    \item $u(W)=\log W$;
+    \item the score is increasing and unbounded below;
+    \item $f_{aa}(y\mid a)>0$ for sufficiently low scores;
+    \item $\inf_a c''(a)>0$.
+  \end{itemize}
+  \medskip
+  The proof has two steps: solve the relaxed problem, then show that its solution eventually makes the agent's objective concave in action.
+\end{frame}
+
+\begin{frame}{Proof setup: contracts in utility units}
+  Parametrize contracts by
   \[
-    \mathcal{L}(v, \lambda, \mu) = C(v,a_0) + \lambda (\bar{U} - U(v,a_0)) - \mu U_a(v,a_0)
+    v(y):=u\bigl(w_0+w(y)\bigr).
   \]
-  \begin{align}
-    C(v,a_0)   &= \int \bigl[k(v(y))-w_0\bigr] \cdot f\phantom{_a}(y\mid a_0)\,\mathrm{d}y \\
-    U(v,a_0)   &= \int v(y) \cdot f\phantom{_a}(y\mid a_0)\,\mathrm{d}y - c(a_0) \\
-    U_a(v,a_0) &= \int v(y) \cdot f_a(y\mid a_0)\,\mathrm{d}y - c'(a_0)
-  \end{align}
+  Define
+  \[
+    k:=u^{-1}.
+  \]
+  Then
+  \begin{align*}
+    U(v,a)&=\mathbb E_a[v(Y)]-c(a),\\
+    C(v,a)&=\mathbb E_a[k(v(Y))-w_0].
+  \end{align*}
 \end{frame}
 
 \begin{frame}{Proof part 1: Relaxed problem}
+  Lagrangian:
+  \[
+    \mathcal{L}(v,\lambda,\mu)
+    =C(v,a_0)+\lambda\bigl(\bar U-U(v,a_0)\bigr)-\mu U_a(v,a_0).
+  \]
+
   FOC:
   \[
-    k'\bigl(v(y)\bigr) = \lambda + \mu s(y)
+    k'\bigl(v(y)\bigr)=\lambda+\mu s(y).
   \]
-  Solve for $v(y)$:
+
+  Therefore, using the utility link function $\ell$, the a.e.-unique optimal contract is
   \[
-    v(y) = \ell\bigl(\lambda + \mu s(y)\bigr),
-  \]
-  where $m_0:=1/u'(w_0)$, $\ell_0(z):=(k')^{-1}(z)$, and
-  \[
-    \ell(z) := \ell_0(z\vee m_0).
+    v_{\lambda,\mu}(y)=\ell\bigl(\lambda+\mu s(y)\bigr).
   \]
 \end{frame}
 
-\begin{frame}{Proposition 1 ($\approx$ Holmstrom 78)}
-  The relaxed problem has an almost everywhere unique solution $v^*_{\bar U}$. There exist $\lambda$, $\mu$ such that
-  \[
-    v^*_{\bar U}(y) = \ell\bigl(\lambda + \mu s(y)\bigr).
-  \]
-\end{frame}
-
-\begin{frame}{Proof part 2: concavity}
-  \textbf{Proposition 2:}
-
-  Under either set of conditions in Theorem~1, there exists $\lambda_0<\infty$ such that every locally incentive-compatible canonical contract with $\lambda\geq\lambda_0$ obeys
-  \[
-    U_{aa}\bigl(v_{\lambda,\mu}, a\bigr) \leq 0
-    \qquad\text{for every }a\in\mathcal A.
-  \]
-\end{frame}
-
-\begin{frame}
+\begin{frame}{Proof part 2: eventual concavity}
   \begin{columns}[T,onlytextwidth]
     \column{0.40\textwidth}
-    \textbf{Key idea:} kink moves to the left when $\bar{U}$ goes up.
+    \begin{itemize}
+      \item Key step is to prove that $U(v_{\lambda,\mu},a)$ is concave for large $\lambda$.
+      \item Idea: kink moves to the left when $\lambda$ goes up.
+    \end{itemize}
 
     \column{0.56\textwidth}
     \centering
     \includegraphics[height=0.95\textheight]{../figures/log-gaussian-sigma=50.0/cm_stacked.pdf}
   \end{columns}
-\end{frame}
-
-\begin{frame}{Proof idea}
-  \vspace{0.4cm}
-
-  \begin{itemize}
-    \item Easiest case: log utility and score unbounded below.
-
-    \item The utility link is
-      \[
-        \ell(z)=\log(z\vee w_0).
-      \]
-
-    \item Limited liability creates a kink at
-      \[
-        q^{\mathrm{kink}}
-        :=\frac{w_0-\lambda}{\mu}.
-      \]
-  \end{itemize}
 \end{frame}
 
 \begin{frame}{Step 1: The kink moves far into the left tail}
@@ -269,6 +222,7 @@
 \end{frame}
 
 \begin{frame}{Step 2: Split the curvature integral}
+  Fix a safe cutoff $\bar q<0$: $f_{aa}(y\mid a)\geq0$ whenever $s(y)\leq\bar q$.
   \[
   \begin{aligned}
     U_{aa}(a)
@@ -328,6 +282,74 @@
   \end{tikzpicture}
 \end{frame}
 
+\begin{frame}{Utility condition}
+  With absolute risk aversion $A$ and absolute prudence $P$, define \textbf{sufficient risk aversion} by
+  \[
+    \frac{A(W)}{P(W)}\geq\frac{1}{3}
+    \qquad\text{and}\qquad
+    \lim_{W\to\infty}\frac{A(W)}{u'(W)}=\infty.
+  \]
+  \begin{itemize}
+    \item Includes CARA and CRRA with $\gamma>1$.
+    \item Log utility is handled by a separate branch of the theorem.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Safe low-score regions}
+  A cutoff $q\leq0$ is \textbf{safe} if
+  \[
+    f_{aa}(y\mid a)\geq0
+    \quad\text{for all }a\text{ whenever }s(y)\leq q.
+  \]
+  Let $\mathcal Q_{\mathrm{safe}}$ be the safe cutoffs and
+  $\bar q_{\mathrm{safe}}:=\sup\mathcal Q_{\mathrm{safe}}$.
+
+  \medskip
+  The \textbf{safe capacity} measures incentive power in this region:
+  \[
+    \mathrm{Cap}_{\mathrm{safe}}
+    :=-\int_{\{s<\bar q_{\mathrm{safe}}\}}s(y)f(y\mid a_0)\,d\nu(y).
+  \]
+
+  The \textbf{safe width} measures how far it extends toward the lowest score:
+  \[
+    \mathrm{Width}_{\mathrm{safe}}
+    :=\sup\!\left(\{0\}\cup
+    \{q-\operatorname*{ess\,inf}s:q\in\mathcal Q_{\mathrm{safe}}\}\right).
+  \]
+\end{frame}
+
+\begin{frame}{Curvature outside the safe region}
+  Define
+  \[
+    \mathrm{Curv}_{\mathrm{safe}}
+    :=\inf_{q\in\mathcal Q_{\mathrm{safe}}}
+      \sup_{a\in\mathcal A}
+      \int_{\{s(y)>q\}}
+      \bigl[s(y)f_{aa}(y\mid a)\bigr]_+\,d\nu(y).
+  \]
+  \begin{itemize}
+    \item Safe capacity: how much local incentive provision comes from the helpful left tail.
+    \item Safe curvature: how much positive curvature remains outside it.
+    \item Safe width is infinite when the score is unbounded below and a safe cutoff exists.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Theorem 1}
+  Suppose either:
+  \begin{enumerate}
+    \item[(i)] sufficient risk aversion, $\underline c''>0$, $\mathrm{Curv}_{\mathrm{safe}}<\infty$, and
+    \[
+      \bigl[\lim_{W\to\infty}u(W)-u(w_0)\bigr]\mathrm{Cap}_{\mathrm{safe}}>c'(a_0);
+    \]
+    \item[(ii)] log utility and
+    \[
+      \frac{\mathrm{Curv}_{\mathrm{safe}}}{\mathrm{Width}_{\mathrm{safe}}}<\underline c''.
+    \]
+  \end{enumerate}
+  Then there exists $U^*<U_R$ such that, for every $\bar U\in[U^*,U_R)$, the first-order approach is valid.
+\end{frame}
+
 \begin{frame}{Outline}
   \begin{itemize}
     \item Model
@@ -354,7 +376,7 @@
     \begingroup
     \let\small\scriptsize
     \let\footnotesize\tiny
-    \input{../tex/tables/distributions}
+    \input{distributions}
     \endgroup
   \end{minipage}
 \end{frame}
